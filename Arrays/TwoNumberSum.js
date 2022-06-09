@@ -49,4 +49,24 @@ function twoNumberSum(array, targetSum) {
     return [];
 }
 
+// Solution 3:
 
+// O(n log(n)) time due to using sort on input array
+// O(1) space due to only storing pointer values and currentSum
+
+function twoNumberSum(array, targetSum) {
+    array.sort((a, b) => a - b);
+    const left = 0;
+    const right = array.length - 1;
+    while (left < right) {
+        const currentSum = array[left] = array[right];
+        if (currentSum === targetSum) {
+            return [array[left], array[right]];
+        } else if (currentSum < targetSum) {
+            left++;
+        } else if (currentSum > targetSum) {
+            right--;
+        }
+    }
+    return [];
+}
