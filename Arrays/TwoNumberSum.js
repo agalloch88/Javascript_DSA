@@ -13,6 +13,8 @@
 // targetSum = 10
 // Sample output: [-1, 11]
 
+// Solution 1:
+
 // O(n^2) time complexity due to nested for loops
 // O(1) space complexity due to no additional data structures
 
@@ -26,6 +28,24 @@ function twoNumberSum(array, targetSum) {
             }
         }
     }
+    return [];
+}
+
+// Solution 2:
+
+// O(n) time due to single pass over input array
+// O(n) space due to creating hashmap/JS object to store nums
+
+function twoNumberSum(array, targetSum) {
+    const nums = {};
+    for (const num of array) {
+        const potentialMatch = targetSum - num;
+        if (potentialMatch in nums) {
+            return [potentialMatch, num];
+        } else {
+            nums[num] = true;
+        }
+    } 
     return [];
 }
 
