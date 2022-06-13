@@ -27,3 +27,21 @@ function isValidSubsequence(array, sequence) {
     }
     return seqIdx === sequence.length;
 }
+
+// Solution 2:
+
+// O(n) time due to single pass over input array
+// O(1) space due to storing single value for sequence position
+
+function isValidSubsequence(array, sequence) {
+    let seqIdx = 0;
+    for (const value of array) {
+        if (seqIdx === sequence.length) {
+            break;
+        }
+        if (sequence[seqIdx] === value) {
+            seqIdx++;
+        }
+    }
+    return seqIdx === sequence.length;
+}
