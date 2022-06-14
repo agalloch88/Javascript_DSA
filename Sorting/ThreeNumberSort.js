@@ -20,8 +20,12 @@
 // Sample output:
 // [0, 0, 0, 1, 1, 1, -1, -1]
 
+// All solutions have same Big O:
+// O(n) time due to looping over inputs at least once
+// O(1) space, per requirements, as no additional data structures are used and sorted in place
+
 // Solution 1:
-// this solution takes a bucket approach, essentially counting how many values are present in the array for
+// This solution takes a bucket approach, essentially counting how many values are present in the array for
 // each value in the order.
 
 function threeNumberSort(array, order) {
@@ -42,5 +46,39 @@ function threeNumberSort(array, order) {
             array[currentIdx] = value;
         }
     }
+
     return array;
+}
+
+// Solution 2:
+// This solution employs a forward and backward pass to bring all first-position instances to front,
+// and push all last-position instances to end of array.
+
+function threeNumberSort(array, order) {
+    const firstValue = order[0];
+    const thirdValue = order[2];
+
+    let firstIdx = 0;
+    for (let idx = 0; idx < array.length; idx++) {
+        if (array[idx] === firstValue) {
+            swap(firstIdx, idx, array);
+            firstIdx++;
+        }
+    }
+
+    let thirdIdx = array.length - 1;
+    for (let idx = array.length - 1; idx > -1; idx--) {
+        if (array[idx] === thirdValue) {
+            swap(thirdIdx, idx, array);
+            thirdIdx--;
+        }
+    }
+
+    return array;
+}
+
+function swap(i, j, array) {
+    const temp = array[j];
+    array[j] = array[i];
+    array[i] = temp;
 }
