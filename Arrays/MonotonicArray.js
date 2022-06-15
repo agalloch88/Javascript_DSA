@@ -11,6 +11,10 @@
 // Sample output:
 // true
 
+// Both solutions below have the same Big O complexity:
+// O(n) time due to single for loop, constant time checks
+// O(1) space due to only storing a couple variables, no additional data structure used
+
 // Solution 1:
 
 function isMonotonic(array) {
