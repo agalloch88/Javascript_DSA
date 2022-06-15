@@ -45,3 +45,23 @@ function breaksDirection(direction, previousInt, currentInt) {
     }
     return difference > 0;
 }
+
+// Solution 2:
+
+function isMonotonic(array) {
+    // set initial values, of which only one can be true
+    let isNonDecreasing = true;
+    let isNonIncreasing = true;
+
+    // iterate through array and check trend to establish trend
+    for (let i = 1; i < array.length; i++) {
+        if (array[i] < array[i - 1]) {
+            isNonDecreasing = false;
+        }
+        if (array[i] > array[i - 1]) {
+            isNonIncreasing = false;
+        }
+    }
+    // return either value, whichever is true
+    return isNonDecreasing || isNonIncreasing;
+}
