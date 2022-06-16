@@ -24,3 +24,39 @@
 
 // Sample output:
 // "Python"
+
+// Solution 1:
+
+// set variable to use for results
+const HOME_TEAM_WON = 1
+
+function tournamentWinner(competitions, results) {
+    // initialize and set variable for lead team, starting with empty string as placeholder
+    let currentBestTeam = '';
+    const scores = {[currentBestTeam]: 0};
+    // loop over competitions array
+    for (let idx = 0; idx < competitions.length; idx++) {
+        // grab our result value for the specific competition from results array 
+        const result = results[idx];
+        // grab our competing teams for specific competition from competitions array
+        const [homeTeam, awayTeam] = competitions[idx];
+        // determine, using our HOME_TEAM_WON variable, who won competition via ternary operator
+        const winningTeam = result === HOME_TEAM_WON ? homeTeam : awayTeam;
+
+        updateScores(winningTeam, 3, scores);
+
+        if (scores[winningTeam] > scores[currentBestTeam]) {
+            currentBestTeam = winningTeam;
+        }
+    }
+    return currentBestTeam;
+}
+// helper function to interact with scores object
+function updateScores(team, points, array) {
+    // if the team was not encountered yet, create new entry in scores object
+    if (!(team in scores)) {
+        scores[team] = 0;
+    }
+    // update the team entry in scores object with points from competition
+    scores[team] += points;
+}
