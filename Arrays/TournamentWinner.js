@@ -42,9 +42,9 @@ function tournamentWinner(competitions, results) {
         const [homeTeam, awayTeam] = competitions[idx];
         // determine, using our HOME_TEAM_WON variable, who won competition via ternary operator
         const winningTeam = result === HOME_TEAM_WON ? homeTeam : awayTeam;
-
+        // update scores object to reflect who won and add points
         updateScores(winningTeam, 3, scores);
-
+        // check to see if new point additions changes who is currently leading, and if so, update team in the lead
         if (scores[winningTeam] > scores[currentBestTeam]) {
             currentBestTeam = winningTeam;
         }
@@ -52,7 +52,7 @@ function tournamentWinner(competitions, results) {
     return currentBestTeam;
 }
 // helper function to interact with scores object
-function updateScores(team, points, array) {
+function updateScores(team, points, scores) {
     // if the team was not encountered yet, create new entry in scores object
     if (!(team in scores)) {
         scores[team] = 0;
