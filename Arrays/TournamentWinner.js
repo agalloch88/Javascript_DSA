@@ -27,6 +27,9 @@
 
 // Solution 1:
 
+// O(n) time where n is the number of competitions
+// O(k) space where k is the number of teams
+
 // set variable to use for results
 const HOME_TEAM_WON = 1
 
