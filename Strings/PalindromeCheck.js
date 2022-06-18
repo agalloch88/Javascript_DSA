@@ -47,3 +47,32 @@ function isPalindrome(string) {
     // check whether input and joined values from array are equal
     return string === reversedChars.join('');
 }
+
+// Solution 3:
+
+// O(n) time because looping over every value (except exact middle)
+// O(1) space because only storing two pointer values
+
+// This solution uses pointers, starting at the beginning and end of the input string, and compares their values. Since
+// we are trying to check if the given string is a palindrome, every values the pointers compare should be exactly equal
+// if the string is a palindrome. If, at any point before the pointers overlap, the values are not equal, the string is not a palindrome, and therefore
+// the function returns false.
+
+function isPalindrome(string) {
+    // initialize two variables for the pointers
+    let firstIdx = 0;
+    let lastIdx = string.length - 1;
+    // set up while condition; once pointers overlap, we've checked every value and can break out
+    while (firstIdx < lastIdx) {
+        // check to see if values match, values within a palindrome should be a mirror of each other
+        if (string[firstIdx] === string[lastIdx]) {
+            firstIdx++;
+            lastIdx--;
+        // if they do not match at any point within our while condition, return false
+        } else {
+            return false;
+        }
+    }
+    // once the pointers overlap, we've checked every value, and would be dealing with a palindrome, so return true
+    return true;
+}
