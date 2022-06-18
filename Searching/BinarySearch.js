@@ -40,3 +40,34 @@ function binarySearchHelper(array, target, left, right) {
         return binarySearchHelper(array, target, middle + 1, right);
     }
 }
+
+// Solution 2:
+
+// O(log(n)) time due to efficient binary search method
+// O(1) space due to iterative reassigning of right/left rather than recursive
+
+function binarySearch(array, target) {
+    // use helper function to abstract logic
+    return binarySearchHelper(array, target, 0, array.length -1);
+}
+
+function binarySearchHelper(array, target, left, right) {
+    // continue searching until left and right overlap, then return base case of -1
+    while (left <= right) {
+        // grab our array middle
+        const middle = Math.floor((left + right) / 2);
+        // assign our potential match to the array middle
+        const potentialMatch = array[middle];
+        // if our middle is the target, we are done
+        if (target === potentialMatch) {
+            return middle;
+        // if target is smaller than middle, discard all values larger than middle and move right inside current middle range
+        } else if (target < potentialMatch) {
+            right = middle - 1;
+        // if target is larger than middle, discard all values smaller than middle and move left inside current middle range
+        } else {
+            left = middle + 1;
+        }
+    }
+    return -1;
+}
