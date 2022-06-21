@@ -14,3 +14,36 @@
 
 // Solution 1:
 
+// O(n^2) time due to sorting, plus iterating over array values
+// O(n) space due to storing triplets in new array
+
+function threeNumberSum(array, targetSum) {
+    // since values randomized, need to sort input array to optimally solve
+    array.sort((a, b) => a - b);
+    // initialize holder array, return this array at the end as it will either be empty or hold triplets
+    const triplets = [];
+    // loop over the array
+    for (let i = 0; i < array.length - 2; i++) {
+        // initialize two pointer values, one right next to i, and one at the end of sorted input array
+        let left = i + 1;
+        let right = array.length - 1;
+        // while the pointers do not overlap, keep checking vales
+        while (left < right) {
+            // declare current sum variable, adding all potential triple values together
+            const currentSum = array[i] + array[left] + array[right];
+            // triplet value found, so push array containing these values to triplets. since we sorted, can confidently push values so
+            // output is in ascending order, too.
+            if (currentSum === targetSum) {
+                triplets.push([array[i], array[left], array[right]]);
+            // if currentSum is too small, we need larger value from left side and must decrement right
+            } else if (currentSum < targetSum) {
+                left++;
+                right--;
+            // if currentSum is too large, must decrement right to get closer to targetSum
+            } else if (currentSum > targetSum) {
+                right--;
+            }
+        }
+    }
+    return triplets;
+}
