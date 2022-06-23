@@ -38,3 +38,45 @@ function reverseWordsInString(string) {
     }
     return reverse + currentWord;
 }
+
+// Solution 2:
+
+// Another variation on previous solution using a reverse helper method, but a bit more cumbersome and verbose.
+
+// O(n) time, even though it's technically two passes, so it simplifies to n
+// O(n) space due to storing n words in array prior to joining
+
+function reverseWordsInString(string) {
+    const words = [];
+    let startOfWord = 0;
+
+    for (let idx = 0; idx < string.length; i++) {
+        const char = string[idx];
+
+        if (char === ' ') {
+            words.push(string.slice(startOfWord, idx));
+            startOfWord = idx;
+        } else if (string[startOfWord] === ' ') {
+            words.push(' ');
+            startOfWord = idx;
+        }
+    }
+
+    words.push(string.slice(startOfWord));
+
+    reverseList(words);
+    return words.join('');
+}
+
+function reverseList(list) {
+    let start = 0;
+    let end = list.length -1;
+
+    while (start < end) {
+        const temp = list[start];
+        list[start] = list[end];
+        list[end] = temp;
+        start++;
+        end--;
+    }
+}
