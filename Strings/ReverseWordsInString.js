@@ -80,3 +80,38 @@ function reverseList(list) {
         end--;
     }
 }
+
+// Solution 3:
+
+// O(n) time due to iterating once over string
+// O(n) space due to storing n characters from nput string
+
+function reverseWordsInString(string) {
+    const characters = [];
+    for (const char of string) {
+        characters.push(char);
+    }
+    reverseListRange(characters, 0, string.length - 1);
+
+    let startOfWord = 0;
+    while (startOfWord < characters.length) {
+        let endOfWord = startOfWord;
+        while (endOfWord < characters.length && characters[endOfWord] !== ' ') {
+            endOfWord++;
+        }
+
+        reverseListRange(characters, startOfWord, endOfWord - 1);
+        startOfWord = endOfWord + 1;
+    }
+    return characters.join('');
+}
+
+function reverseListRange(list, start, end) {
+    while (start < end) {
+        const temp = list[start];
+        list[start] = list[end];
+        list[end] = temp;
+        start++;
+        end--;
+    }
+}
