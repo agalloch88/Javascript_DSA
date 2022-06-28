@@ -43,3 +43,29 @@ function getNthFib(n, memoize = {1: 0, 2: 1}) {
         return memoize[n];
     }
 }
+
+// Solution 3:
+
+// optimal solution using tuple for fib sequence
+
+// O(n) time due to checking n values
+// O(1) space due to only storing three variables
+
+function getNthFib(n) {
+    // we know what the first two values are, and can use a tuple to replace and track position in Fibonacci sequence
+    const lastTwo = [0, 1];
+    // already know first two values, about to calculate value # 3
+    let counter = 3;
+    while (counter <= n) {
+        // the next Fib sequence value is sum of the lastTwo values
+        const nextFib = lastTwo[0] + lastTwo[1];
+        // replacing smallest value in tuple
+        lastTwo[0] = lastTwo[1];
+        // cycling in newest value in tuple
+        lastTwo[1] = nextFib;
+        // incrementing counter until hitting n for last calculation
+        counter++;
+    }
+    // checking base case to ensure not given 1 as n, and if so, return 0
+    return n > 1 ? lastTwo[1] : lastTwo[0];
+}
