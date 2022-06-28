@@ -13,6 +13,8 @@
 
 // Solution 1:
 
+// naive solution checking for base cases
+
 // O(2^n) time due to 2 operations per n value
 // O(n) space due to storing n values on the call stack
 
@@ -23,5 +25,21 @@ function getNthFib(n) {
         return 0;
     } else {
         return getNthFib(n - 1) + getNthFib(n - 2);
+    }
+}
+
+// Solution 2:
+
+// memoized/cached solution using JS object store
+
+// O(n) time due to n recursive calls
+// O(n) space due to storing n memoized values in cache
+
+function getNthFib(n, memoize = {1: 0, 2: 1}) {
+    if (n in memoize) {
+        return memoize[n];
+    } else {
+        memoize[n] = getNthFib(n - 1, memoize) + getNthFib(n - 2, memoize);
+        return memoize[n];
     }
 }
