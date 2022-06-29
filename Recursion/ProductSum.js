@@ -28,3 +28,22 @@ function productSum(array, multiplier = 1) {
 
     return sum * multiplier;
 }
+
+// Solution 2:
+
+// this solution uses the reduce function, which may or may not be allowed
+
+// O(n) time where n is the total number of elements in the array, including sub-elements
+// O(d) space where d is the greatest depth of "special" arrays in the input array
+
+function productSum(array, depth = 1) {
+    const sum = array.reduce((array, element) => {
+        if (Array.isArray(element)) {
+            return array + productSum(element, depth + 1);
+        } else {
+            return array + element;
+        }
+    }, 0);
+
+    return sum * depth;
+}
