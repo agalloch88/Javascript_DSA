@@ -60,3 +60,43 @@ function spiralTraverse(array) {
 
     return results;
 }
+
+// Solution 2:
+
+// recursive solution functioning in much the same way by tracing the outer edges
+
+function spiralTraverse(array) {
+    const results = [];
+    spiralFill(array, 0, array.length - 1, 0, array[0].length - 1, results);
+    return results;
+}
+
+function spiralFill(array, startRow, endRow, startCol, endCol, results) {
+    if (startRow > endRow || startCol > endCol) {
+        return;
+    }
+
+    for (let col = startCol; col <= endCol; col++) {
+        results.push(array[startRow][col]);
+    }
+
+    for (let row = startRow + 1; row <= endRow; row++) {
+        results.push(array[row][endCol]);
+    }
+
+    for (let col = endCol - 1; col >= startCol; col--) {
+        if (startRow === endRow) {
+            break;
+        }
+        results.push(array[endRow][col]);
+    }
+
+    for (let row = endRow - 1; row >= startRow + 1; row--) {
+        if (startCol === endCol) {
+            break;
+        }
+        results.push(array[row][startCol]);
+    }
+
+    spiralFill(array, startRow + 1, endRow - 1, startCol + 1, endCol - 1, results);
+}
