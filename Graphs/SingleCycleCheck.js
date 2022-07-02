@@ -19,21 +19,28 @@
 // O(1) space due to only storing a few variables
 
 function hasSingleCycle(array) {
+    // keep track of how many elements visited. if more than array.length, should be done.
     let numElementsVisited = 0;
     let currentIdx = 0;
-
+    // this is condition for breaking out of loop
     while (numElementsVisited < array.length) {
+        // if hit index 0 after the first visit, not a single cycle, so return false
         if (numElementsVisited > 0 && currentIdx === 0) {
             return false;
         }
+        // increment variable for each jump
         numElementsVisited++;
+        // reset currentIdx using helper function
         currentIdx = getNextIdx(currentIdx, array);
     }
     return currentIdx === 0;
 }
 
 function getNextIdx(currentIdx, array) {
+    // calculate jump based on value of integer currently at
     const jump = array[currentIdx];
+    // account for the wrap-around by using modulo of array.length
     const nextIdx = (currentIdx + jump) % array.length;
+    // account for potentially negative numbers by adding nextIdx to array.length value
     return nextIdx >= 0 ? nextIdx : nextIdx + array.length;
 }
