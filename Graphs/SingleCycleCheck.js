@@ -44,3 +44,25 @@ function getNextIdx(currentIdx, array) {
     // account for potentially negative numbers by adding nextIdx to array.length value
     return nextIdx >= 0 ? nextIdx : nextIdx + array.length;
 }
+
+// Solution 2:
+
+// O(n) time due to single pass over all array items
+// O(1) space due to only storing a few variables
+
+function hasSingleCycle(array) {
+    let position = 0;
+
+    while (array[position] !== null) {
+        const index = position;
+        position = nextPosition(index, array);
+        array[index] = null;
+    }
+
+    return position === 0 && !array.some(n => n !== null);
+}
+
+function nextPosition(position, array) {
+    const nextIdx = (position + array[position]) % array.length;
+    return nextIdx >= 0 ? nextIdx : nextIdx + array.length;
+}
