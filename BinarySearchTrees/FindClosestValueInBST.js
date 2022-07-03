@@ -65,7 +65,7 @@ class BST {
 
 // Solution 2:
 
-// interative solution
+// iterative solution
 
 // O(log(n)) time on average due to eliminating half of remaining values, O(n) at worst if single-branch tree
 // O(1) space due to iterative solution and no extra data stored
