@@ -62,3 +62,43 @@ class BST {
         this.left = null;
     }
 }
+
+// Solution 2:
+
+// interative solution
+
+// O(log(n)) time on average due to eliminating half of remaining values, O(n) at worst if single-branch tree
+// O(1) space due to iterative solution and no extra data stored
+
+function findClosestValueInBST(tree, target) {
+    return findClosestValueInBSTHelper(tree, target, tree.value);
+}
+
+function findClosestValueInBSTHelper(tree, target, closest) {
+    let currentNode = tree;
+
+    while (currentNode !== null) {
+        if (Math.abs(target - closest) > Math.abs(target - currentNode.value)) {
+            closest = currentNode.value;
+        }
+
+        if (target < currentNode.value) {
+            currentNode = currentNode.left;
+        } else if (target > currentNode.value) {
+            currentNode = currentNode.right;
+        } else {
+            break;
+        }
+    }
+    return closest;
+}
+
+// class of the input tree
+
+class BST {
+    constructor(value) {
+        this.value = value;
+        this.right = null;
+        this.left = null;
+    }
+}
