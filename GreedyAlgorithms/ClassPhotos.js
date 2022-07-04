@@ -22,21 +22,26 @@
 // Solution 1:
 
 function classPhotos(redShirtHeights, blueShirtHeights) {
+    // sort both arrays with larger values at beginning
     redShirtHeights.sort((a, b) => b - a);
     blueShirtHeights.sort((a, b) => b - a);
-
+    // since all taller students must be at back, establish which shirt color must be in front row
     let shirtInFrontRow = redShirtHeights[0] < blueShirtHeights[0] ? 'RED' : 'BLUE';
     for (let idx = 0; idx < redShirtHeights.length; idx++) {
+        // grab heights for each student by shirt color to establish if picture is doable based on parameters
         let redShirtHeight = redShirtHeights[idx];
         let blueShirtHeight = blueShirtHeights[idx];
-
+        // assuming red is in front...
         if (shirtInFrontRow === 'RED') {
+            // if a red shirt student is taller or equal in height to their corresponding blue shirt partner, picture is not doable in given parameters
             if (redShirtHeight >= blueShirtHeight) {
                 return false;
             }
+        // if red is not in front, then blue must be...
         } else if (blueShirtHeight >= redShirtHeight) {
             return false;
         }
     }
+    // if we make it all the way through the students, then the picture is doable!
     return true;
 }
