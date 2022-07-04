@@ -19,3 +19,17 @@
 
 // Solution 1:
 
+// O(nlog(n)) time due to sorting input array and iterating through input
+// O(1) space due to mutating input array, no extra data structure used
+
+function minimumWaitingTime(queries) {
+    queries.sort((a, b) => a - b);
+
+    let totalWaitingTime = 0;
+    for (let idx = 0; idx < queries.length; idx++) {
+        let duration = queries[idx];
+        let queriesLeft = queries.length - (idx + 1);
+        totalWaitingTime += duration * queriesLeft;
+    }
+    return totalWaitingTime;
+}
