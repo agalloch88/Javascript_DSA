@@ -21,6 +21,9 @@
 
 // Solution 1:
 
+// O(nlog(n)) time due to sorting input arrays and comparing each input value
+// O(1) space due to mutating input arrays, not using additional data structures
+
 function classPhotos(redShirtHeights, blueShirtHeights) {
     // sort both arrays with larger values at beginning
     redShirtHeights.sort((a, b) => b - a);
