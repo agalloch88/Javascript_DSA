@@ -40,7 +40,7 @@ function nodeDepths(root) {
         // pop top layer off stack
         const {node, depth} = stack.pop();
         // if node is null, keep going
-        if (node !== null) {
+        if (node === null) {
             continue;
         }
         // increment depth 
