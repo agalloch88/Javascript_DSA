@@ -140,3 +140,51 @@ class BST {
         }
     }
 }
+
+// Solution 3:
+
+// cleaner recursive solution
+
+// O(n) time due to manual insert of n nodes
+// O(n) space due to constructing new BST of n nodes, at most n calls on call stack at a time
+
+function minHeightBst(array) {
+    return constructMinHeightBst(array, 0, array.length - 1);
+}
+
+function constructMinHeightBst(array, startIdx, endIdx) {
+    if (endIdx < startIdx) {
+        return null;
+    }
+
+    let midIdx = Math.floor((startIdx + endIdx) / 2);
+    let bst = new BST(array[midIdx]);
+
+    bst.left = constructMinHeightBst(array, startIdx, midIdx - 1);
+    bst.right = constructMinHeightBst(array, midIdx + 1, endIdx);
+    return bst;
+}
+
+class BST {
+    constructor(value) {
+        this.value = value;
+        this.left = null;
+        this.right = null;''
+    }
+
+    insert(value) {
+        if (value < this.value) {
+            if (this.left === null) {
+                this.left = new BST(value);
+            } else {
+                this.left.insert(value);
+            }
+        } else {
+            if (this.right === null) {
+                this.right = new BST(value);
+            } else {
+                this.right.insert(value);
+            }
+        }
+    }
+}
