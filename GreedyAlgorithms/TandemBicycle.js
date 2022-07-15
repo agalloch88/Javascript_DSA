@@ -57,3 +57,23 @@ function reverseArrayInPlace(array) {
         end--;
     }
 }
+
+// Solution 2:
+
+// does the same thing, but uses ternary operator to determine how to iterate through one of the sets depending on "fastest" variable
+
+// O(nlog(n)) due to sorting both arrays and simplifying other n time operations to nlog(n), where n equals the number of tandem bicycles
+// O(1) space due to using provided arrays, sorting in place
+
+function tandemBicycle(redShirtSpeeds, blueShirtSpeeds, fastest) {
+    redShirtSpeeds.sort((a, b) => a - b);
+    blueShirtSpeeds.sort((a, b) => a - b);
+
+    let totalSpeed = 0;
+    for (let idx = 0; idx < redShirtSpeeds.length; idx++) {
+        let rider1 = redShirtSpeeds[idx];
+        let rider2 = blueShirtSpeeds[fastest ? blueShirtSpeeds.length - idx - 1 : idx];
+        totalSpeed += Math.max(rider1, rider2);
+    }
+    return totalSpeed;
+}
