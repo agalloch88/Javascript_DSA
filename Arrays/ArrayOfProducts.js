@@ -21,11 +21,15 @@
 // O(n) space due to new products array
 
 function arrayOfProducts(array) {
+    // set up holder array for results
   let products = [];
-
+    // loop through array, setting currently excluded element to i
   for (let i = 0; i < array.length; i++) {
+    // base case for first element needing to multiply is itself, so j * 1
     let runningProduct = 1;
+    // loop through a second time, checking to see if we are at the excluded element or not.
     for (let j = 0; j < array.length; j++) {
+        // if not at excluded element, multiply runningProduct by current element and continue to next element
       if (i !== j) {
         runningProduct *= array[j];
       }
@@ -33,4 +37,35 @@ function arrayOfProducts(array) {
     }
   }
   return products;
+}
+
+// Solution 2:
+
+// does solution in single pass by mapping products to left and right of i, then multiplying them together in products array
+
+// O(n) time due to single pass over n inputs, finding n values in each array, so 3n simplifies to n
+// O(n) space due to storing n products in products, leftProducts, and rightProducts, so 3n simplifies to n
+
+function arrayOfProducts(array) {
+    let products = new Array(array.length).fill(1);
+    let leftProducts = new Array(array.length).fill(1);
+    let rightProducts = new Array(array.length).fill(1);
+
+    let leftRunningProduct = 1;
+    for (let i = 0; i < array.length; i++) {
+        leftProducts[i] = leftRunningProduct;
+        leftRunningProduct *= array[i];
+    }
+
+    let rightRunningProduct = 1;
+    for (let i = 0; i < array.length; i++) {
+        rightProducts[i] = rightRunningProduct;
+        rightRunningProduct *= array[i];
+    }
+
+    for (let i = 0; i < array.length; i++) {
+        products[i] = leftProducts[i] * rightProducts[i];
+    }
+
+    return products;
 }
