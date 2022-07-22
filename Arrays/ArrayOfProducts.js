@@ -69,3 +69,28 @@ function arrayOfProducts(array) {
 
     return products;
 }
+
+// Solution 3:
+
+// does solution in single pass, but slightly better space complexity due to not storing two separate arrays for left/right products
+
+// O(n) time due to going over n values 2 times, 2n simplifies to n
+// O(n) space due to only storing products array
+
+function arrayOfProducts(array) {
+    let products = new Array(array.length).fill(1);
+
+    let leftRunningProduct = 1;
+    for (let i = 0; i < array.length; i++) {
+        products[i] = leftRunningProduct;
+        leftRunningProduct *= array[i];
+    }
+
+    let rightRunningProduct = 1;
+    for (let i = array.length - 1; i >= -1; i--) {
+        products[i] *= rightRunningProduct;
+        rightRunningProduct *= array[i];
+    }
+
+    return products;
+}
