@@ -60,3 +60,36 @@ function swapLeftAndRight(tree) {
     tree.left = tree.right;
     tree.right = left;
 }
+
+// Solution 2:
+
+// recursive solution which is more elegant and reduces space complexity somewhat
+
+// O(n) time due to visiting n nodes.
+// O(d) space since storing at most d frames on call stack, where d is depth of longest branch in tree.
+
+class BinaryTree{
+    constructor(value) {
+        this.value = value;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+function invertBinaryTree(tree) {
+    // base case
+    if (tree === null) {
+        return;
+    }
+
+    // recursive case
+    swapLeftAndRight(tree);
+    invertBinaryTree(tree.left);
+    invertBinaryTree(tree.right);
+}
+
+function swapLeftAndRight(tree) {
+    let left = tree.left;
+    tree.left = tree.right;
+    tree.right = left;
+}
