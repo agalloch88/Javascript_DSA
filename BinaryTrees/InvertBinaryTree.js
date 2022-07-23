@@ -23,3 +23,40 @@
 
 // Solution 1:
 
+// iterative approach employing a Breadth First Search type of method, using a queue.
+
+// O(n) time due to going over n nodes in tree.
+// O(n) space due to storing at max n/2 leaf nodes in queue, which simplifies to n.
+
+class BinaryTree{
+    constructor(value) {
+        this.value = value;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+function invertBinaryTree(tree) {
+    // initialize queue with root node of tree
+    let queue = [tree];
+    // while queue is not empty, keep going
+    while (queue.length > 0) {
+        // pop out next value via FIFO
+        let current = queue.shift();
+        // will hit these cases once we start reaching leaf nodes, so simply continue
+        if (current === null) {
+            continue;
+        }
+        // call helper function to perform the swap
+        swapLeftAndRight(current);
+        // push left and right values into queue to continue onward
+        queue.push(current.left);
+        queue.push(current.right)
+    }
+}
+
+function swapLeftAndRight(tree) {
+    let left = tree.left;
+    tree.left = tree.right;
+    tree.right = left;
+}
