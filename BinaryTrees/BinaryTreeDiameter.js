@@ -21,3 +21,44 @@
 // 6, for the path [9, 8, 7, 3, 4, 5, 6]
 
 // Solution 1:
+
+class BinaryTree {
+    constructor(value) {
+        this.value = value;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+// set up new class to parse diameter and height of tree
+class TreeInfo {
+    constructor(diameter, height) {
+        this.diameter = diameter;
+        this.height = height;
+    }
+}
+
+function binaryTreeDiameter(tree) {
+    return getTreeInfo(tree).diameter;
+}
+
+function getTreeInfo(tree) {
+    // base case
+    if (tree === null) {
+        return new TreeInfo(0, 0);
+    }
+
+    // recursive case
+    let leftTreeInfo = getTreeInfo(tree.left);
+    let rightTreeInfo = getTreeInfo(tree.right);
+    // calculate longest path through root node by adding left + right
+    let longestPathThroughRoot = leftTreeInfo.height + rightTreeInfo.height;
+    // take the max of the diameters
+    let maxDiameterSoFar = Math.max(leftTreeInfo.diameter, rightTreeInfo.diameter);
+    // determine which of previous two is greater
+    let currentDiameter = Math.max(longestPathThroughRoot, maxDiameterSoFar);
+    let currentHeight = 1 + Math.max(leftTreeInfo.height, rightTreeInfo.height);
+
+    return new TreeInfo(currentDiameter, currentHeight);
+}
+
