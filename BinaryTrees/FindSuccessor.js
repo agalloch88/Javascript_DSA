@@ -25,6 +25,11 @@
 
 // Solution 1:
 
+// solution using recursion to find successor of node by looping over n values, storing, and finding idx + 1 in order array
+
+// O(n) time due to potentially going over n nodes
+// O(n) space for storing n values in the order array
+
 class BinaryTree{
     constructor(value) {
         this.value = value;
@@ -38,27 +43,31 @@ function findSuccessor(tree, node) {
     const inOrderTraversalOrder = getInOrderTraversalOrder(tree);
 
     for (let idx = 0; idx < inOrderTraversalOrder.length; idx++) {
+        // grab current position
         let currentNode = inOrderTraversalOrder[idx];
-
+        // if not at given node, continue on
         if (currentNode !== node) {
             continue;
         }
-
+        // if reach end and node has no successor, return null
         if (idx === inOrderTraversalOrder.length - 1) {
             return null;
         }
-
+        // once found, return the value next to node in the order
         return inOrderTraversalOrder[idx + 1];
     }
 }
 
 function getInOrderTraversalOrder(node, order = []) {
+    // if at a leaf, simply return order
     if (node === null) {
         return order;
     }
-
+    // get the in order traversal for left branch items
     getInOrderTraversalOrder(node.left, order);
+    // push into order array
     order.push(node);
+    // get the in order traversal for right branch items
     getInOrderTraversalOrder(node.right, order);
 
     return order;
