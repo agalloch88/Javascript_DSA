@@ -23,3 +23,37 @@
 // 17, third largest value after 22 and 20.
 
 // Solution 1:
+
+// recursive solution using in-order traversal to sort all nodes, then return the value k units from the end
+
+// O(n) time due to finding and pushing n node values
+// O(n) space due to storing n values in array
+
+// base BST class
+class BST {
+    constructor(value) {
+        this.value = value;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+function findKthLargestValueInBST(tree, k) {
+    // set up holder array for node values
+    let sortedNodeValues = [];
+    // call inOrderTraverse helper function, passing in tree and array to hold values
+    inOrderTraverse(tree, sortedNodeValues);
+    // return the value in sortedNodeValues k units from the end of the array
+    return sortedNodeValues[sortedNodeValues.length - k];
+}
+
+function inOrderTraverse(node, sortedNodeValues) {
+    // base case for leaf nodes
+    if (node === null) {
+        return;
+    }
+    // recursively call inorderTraverse on left, push values in to array, then do the same on right
+    inOrderTraverse(node.left, sortedNodeValues);
+    sortedNodeValues.push(node.value);
+    inOrderTraverse(node.right, sortedNodeValues);
+}
