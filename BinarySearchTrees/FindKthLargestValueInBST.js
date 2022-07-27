@@ -57,3 +57,53 @@ function inOrderTraverse(node, sortedNodeValues) {
     sortedNodeValues.push(node.value);
     inOrderTraverse(node.right, sortedNodeValues);
 }
+
+// Solution 2:
+
+// recursive solution which does a reverse In Order Traverse to limit number of nodes needed to visit, and reduce space complexity
+
+// O(h + k) time, where h is the height of the longest branch traversed to reach kth value
+// O(h) space due to recursively moving down up to the longest branch, and that h number of calls on call stack
+
+class BST {
+    constructor(value) {
+        this.value = value;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+// set up new class to keep track of how many nodes visited thus far, and last visited node value
+class TreeInfo {
+    constructor(numberOfNodesVisited, latestVisitedNodeValue) {
+        this.numberOfNodesVisited = numberOfNodesVisited;
+        this.latestVisitedNodeValue = latestVisitedNodeValue;
+    }
+}
+
+function findKthLargestValueInBST(tree, k) {
+    // set up new TreeInfo with base values
+    let treeInfo = new TreeInfo(0, -1);
+    // recursively reverse In Order Traverse over tree to look for k
+    reverseInOrderTraverse(tree, k, treeInfo);
+    // return last visited node value after visiting k nodes
+    return treeInfo.latestVisitedNodeValue;
+}
+
+function reverseInOrderTraverse(node, k, treeInfo) {
+    // base case for a leaf and when done with k values
+    if (node === null || treeInfo.numberOfNodesVisited >= k) {
+        return;
+    }
+    // recursive case, starting on right side of tree
+    reverseInOrderTraverse(node.right, k, treeInfo);
+    // if visited less than k nodes, still need to move on
+    if (treeInfo.numberOfNodesVisited < k) {
+        // increment for each node visited
+        treeInfo.numberOfNodesVisited++;
+        // update for latest node's value
+        treeInfo.latestVisitedNodeValue = node.value;
+        // once done with right, check left
+        reverseInOrderTraverse(node.left, k, treeInfo);
+    }
+}
