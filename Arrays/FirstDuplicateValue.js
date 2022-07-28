@@ -71,3 +71,21 @@ function firstDuplicateValue(array) {
     // if reached end of input with no return, return base case of -1 since no duplicate values
     return -1;
 }
+
+// Solution 3:
+
+// novel solution which only works because of ability to manipulate input array, and parameters of values between 1 and n, where n is length of input array
+
+// O(n) time due to potentially going over every value in input array
+// O(1) space because only storing variable
+
+function firstDuplicateValue(array) {
+    for (let value of array) {
+        let absValue = Math.abs(value);
+        if (array[absValue - 1] < 0) {
+            return absValue;
+        }
+        array[absValue - 1] *= -1;
+    }
+    return -1;
+}
