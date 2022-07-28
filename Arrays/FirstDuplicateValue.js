@@ -21,7 +21,7 @@
 
 // Solution 1:
 
-// interative solution using two for loops to compare values
+// iterative solution using two for loops to compare values
 
 // O(n^2) time due to nested for loops and iterating over every value in array
 // O(1) space due to only storing a couple variables
@@ -47,4 +47,22 @@ function firstDuplicateValue(array) {
     }
 
     return minimumSecondIndex;
+}
+
+// Solution 2:
+
+// simple solution using a set to store values, and return the first value found to exist already in the set
+
+// O(n) time due to going over potentially n values in array
+// O(n) space due to storing potentially n value from array in set
+
+function firstDuplicateValue(array) {
+    let seen = new Set();
+    for (let value of array) {
+        if (seen.has(value)) {
+            return value;
+        }
+        seen.add(value);
+    }
+    return -1;
 }
