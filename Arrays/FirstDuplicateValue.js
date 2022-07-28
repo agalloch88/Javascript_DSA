@@ -57,12 +57,17 @@ function firstDuplicateValue(array) {
 // O(n) space due to storing potentially n value from array in set
 
 function firstDuplicateValue(array) {
+    // create empty set
     let seen = new Set();
+    // start looping over array values
     for (let value of array) {
+        // if the set contains value already, it was previously seen and is a duplicate, so return it
         if (seen.has(value)) {
             return value;
         }
+        // if value not in set, add it to seen
         seen.add(value);
     }
+    // if reached end of input with no return, return base case of -1 since no duplicate values
     return -1;
 }
