@@ -80,11 +80,15 @@ function firstDuplicateValue(array) {
 // O(1) space because only storing variable
 
 function firstDuplicateValue(array) {
+    // iterate over values in input array
     for (let value of array) {
+        // set up variable for current position
         let absValue = Math.abs(value);
+        // if the position's value is negative, it's a duplicate so return it
         if (array[absValue - 1] < 0) {
             return absValue;
         }
+        // set value of number at (index - 1) to be negative, indicating it was already seen
         array[absValue - 1] *= -1;
     }
     return -1;
