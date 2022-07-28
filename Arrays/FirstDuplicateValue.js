@@ -27,19 +27,21 @@
 // O(1) space due to only storing a couple variables
 
 function firstDuplicateValue(array) {
+    // set min index all the way to end to check base case for no duplicates, and to then return -1
     let minimumSecondIndex = array.length;
-
+    // start iterating over input array, grabbing value for position in array at i
     for (let i = 0; i < array.length; i++) {
         let value = array[i];
+        // set up comparison variable and iterate over array
         for (let j = i + 1; j < array.length; j++) {
             let valueToCompare = array[j];
-
+            // if variables match, there is a duplicate, so update min index to be the lesser of min index or j
             if (value === valueToCompare) {
                 minimumSecondIndex = Math.min(minimumSecondIndex, j);
             }
         }
     }
-
+    // if iterated over entire input and min index still is array.length, there were no matches, so return -1
     if (minimumSecondIndex === array.length) {
         return -1;
     }
