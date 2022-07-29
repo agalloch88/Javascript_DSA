@@ -18,13 +18,16 @@
 // O(n * 2^n) space due to storing all 2^n subsets inside new array
 
 function powerset(array) {
+    // initialize new holder array with empty set inside.
     let subsets = [[]];
-    
+    // iterate over every item in array
     for (let element of array) {
+        // set up variable for length of items in subsets
         let length = subsets.length;
-
+        // start iterating over subsets
         for (let i = 0; i < length; i++) {
             let currentSubset = subsets[i];
+            // push new subset containing current element to subsets array
             subsets.push(currentSubset.concat(element));
         }
     }
