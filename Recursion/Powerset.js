@@ -12,6 +12,22 @@
 
 // Solution 1:
 
+// iterative solution which is pretty simple
+
+// O(n * 2^n) due to iterating over n items and mathematical 2^n possibilities for subsets of n
+// O(n * 2^n) space due to storing all 2^n subsets inside new array
+
 function powerset(array) {
+    let subsets = [[]];
     
+    for (let element of array) {
+        let length = subsets.length;
+
+        for (let i = 0; i < length; i++) {
+            let currentSubset = subsets[i];
+            subsets.push(currentSubset.concat(element));
+        }
+    }
+
+    return subsets;
 }
