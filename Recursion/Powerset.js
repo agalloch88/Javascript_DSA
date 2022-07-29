@@ -34,3 +34,33 @@ function powerset(array) {
 
     return subsets;
 }
+
+// Solution 2:
+
+// recursive solution 
+
+// O(n * 2^n) due to recursing over n items and mathematical 2^n possibilities for subsets of n
+// O(n * 2^n) space due to storing all 2^n subsets inside new array
+
+function powerset(array, idx = null) {
+    // base case
+    if (idx === null) {
+        idx = array.length;
+    }
+    // if array ends up being empty, return this base case
+    if (idx < 0) {
+        return [[]];
+    }
+    // grab element at current index in array
+    let element = array[idx];
+    // recursively build subsets
+    let subsets = powerset(array, idx - 1);
+    let length = subsets.length;
+    
+    for (let i = 0; i < length; i++) {
+        let currentSubset = subsets[i];
+        subsets.push(currentSubset.concat(element));
+    }
+
+    return subsets;
+}
