@@ -74,3 +74,27 @@ function getTaskDurationToIndices(tasks) {
     // return this helper object
     return taskDurationToIndices;
 }
+
+// Solution 2:
+
+// iterative solution simplifying task of building task duration/ind valueex object with map, then using two pointers to grab and push pairs to results
+
+// O(nlog(n)) time due to sort, map is O(n) so simplifies to nlog(n)
+// O(n) space due to map and new results array, 2n simplifies to n
+
+function taskAssignment(k, tasks) {
+    let formattedTasks = tasks.map((value, index) => ({value, index}));
+    formattedTasks.sort((a, b) => a.value - b.value);
+
+    let results = [];
+    let start = 0;
+    let end = formattedTasks.length - 1;
+
+    while (start <= end) {
+        results.push([formattedTasks[start].index, formattedTasks[end].index]);
+        start++;
+        end--;
+    }
+
+    return results;
+}
