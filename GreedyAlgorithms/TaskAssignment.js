@@ -25,38 +25,47 @@
 // Solution 1:
 
 function taskAssignment(k, tasks) {
+    // set up empty holder array for results
     let pairedTasks = [];
+    // map task indices so can keep track of those, using helper function
     let taskDurationToIndices = getTaskDurationToIndices(tasks);
-
+    // once indices are mapped, can sort the tasks to facilitate easier pairing
     let sortedTasks = [...tasks].sort((a, b) => a - b);
-
+    // start iterating over the workers to assign optimal task pairs
     for (let idx = 0; idx < k; idx++) {
+        // grab task duration at beginning of sortedTasks
         let task1Duration = sortedTasks[idx];
+        // grab what index that should be from the mapping
         let indicesWithTask1Duration = taskDurationToIndices[task1Duration];
+        // remove this index listing from list so it's not used again
         let task1Index = indicesWithTask1Duration.pop();
-
+        // grab optimal pairing of task length from the end, do the same procedure for task 2
         let task2SortedIndex = tasks.length - 1 - idx;
         let task2Duration = sortedTasks[task2SortedIndex];
         let indicesWithTask2Duration = taskDurationToIndices[task2Duration];
         let task2Index = indicesWithTask2Duration.pop();
-
+        // push this task pairing into holder array
         pairedTasks.push([task1Index, task2Index]);
     }
-
+    // return the array of pairings
     return pairedTasks;
 }
 
 function getTaskDurationToIndices(tasks) {
+    // set up empty JS object to hold task values: [indices, here]
     let taskDurationToIndices = {};
-
+    // iterate over tasks
     for (let idx = 0; idx < tasks.length; idx++) {
+        // grab value at given index for task duration
         let taskDuration = tasks[idx];
+        // if this duration already exists in holder JS object, push this newest index to that key
         if (taskDuration in taskDurationToIndices) {
             taskDurationToIndices[taskDuration].push(idx);
+            // otherwise, create this new key:value with duration: [found index, here]
         } else {
             taskDurationToIndices[taskDuration] = [idx];
         }
     }
-
+    // return this helper object
     return taskDurationToIndices;
 }
