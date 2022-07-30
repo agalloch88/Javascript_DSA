@@ -24,6 +24,11 @@
 
 // Solution 1:
 
+// iterative solution using JS object to store index locations, sorting input to optimize pairings
+
+// O(nlog(n)) time due to sorting input and iterating
+// O(n) space due to storing task pairs, sorted input, 2n simplifies to n
+
 function taskAssignment(k, tasks) {
     // set up empty holder array for results
     let pairedTasks = [];
