@@ -67,21 +67,28 @@ function validStartingCity(distances, fuel, mpg) {
 // O(1) space duue to only storing a few variables
 
 function validStartingCity(distances, fuel, mpg) {
+    // grab how many cities from distances
     let numberOfCities = distances.length;
+    // car always starts with empty tank
     let milesRemaining = 0;
-
+    // set value for potential starting city, beginning with first one at index 0
     let indexOfStartingCityCandidate = 0;
+    // set value for how many miles remain in gas tank
     let milesRemainingAtStartingCityCandidate = 0;
-
+    // start iterating over cities in distances, beginning at index 1 so can reference previous value without index error
     for (let cityIdx = 1; cityIdx < numberOfCities; cityIdx++) {
+        // grab value for the distance traveled from previous city
         let distanceFromPreviousCity = distances[cityIdx - 1];
+        // grab value for how many gallons of fuel available in previous city
         let fuelFromPreviousCity = fuel[cityIdx - 1];
+        // figure out how many milesRemaining after traveling to current city
         milesRemaining += fuelFromPreviousCity * mpg - distanceFromPreviousCity;
-
+        // if found value less than zero, potentially found starting city
         if (milesRemaining < milesRemainingAtStartingCityCandidate) {
             milesRemainingAtStartingCityCandidate = milesRemaining;
             indexOfStartingCityCandidate = cityIdx;
         }
     }
+    // after checking all cities, will return city with most negative milesRemaining value, as mathmatically that's the starting point
     return indexOfStartingCityCandidate;
 }
