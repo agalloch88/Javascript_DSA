@@ -58,3 +58,30 @@ function validStartingCity(distances, fuel, mpg) {
     // should never hit this assuming correct inputs, but for safety
     return -1;
 }
+
+// Solution 2:
+
+// iterative solution leveraging knowledge that in circular loop, the city with most negative milesRemaining value when visited must be the starting city
+
+// O(n) time due to single pass over cities
+// O(1) space duue to only storing a few variables
+
+function validStartingCity(distances, fuel, mpg) {
+    let numberOfCities = distances.length;
+    let milesRemaining = 0;
+
+    let indexOfStartingCityCandidate = 0;
+    let milesRemainingAtStartingCityCandidate = 0;
+
+    for (let cityIdx = 1; cityIdx < numberOfCities; cityIdx++) {
+        let distanceFromPreviousCity = distances[cityIdx - 1];
+        let fuelFromPreviousCity = fuel[cityIdx - 1];
+        milesRemaining += fuelFromPreviousCity * mpg - distanceFromPreviousCity;
+
+        if (milesRemaining < milesRemainingAtStartingCityCandidate) {
+            milesRemainingAtStartingCityCandidate = milesRemaining;
+            indexOfStartingCityCandidate = cityIdx;
+        }
+    }
+    return indexOfStartingCityCandidate;
+}
