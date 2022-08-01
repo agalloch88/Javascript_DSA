@@ -92,3 +92,24 @@ function validStartingCity(distances, fuel, mpg) {
     // after checking all cities, will return city with most negative milesRemaining value, as mathmatically that's the starting point
     return indexOfStartingCityCandidate;
 }
+
+// Solution 3:
+
+// simplified solution in same vein as Solution 2
+
+// O(n) time due to single pass over cities in distances
+// O(1) space due to only storing variables
+
+function validStartingCity(distances, fuel, mpg) {
+    let milesRemaining = 0;
+    let candidateStartingCity = 0;
+
+    for (let i = 1; i < distances.length; i++) {
+        milesRemaining += (fuel[i - 1] * mpg) - distances[i - 1];
+        if (milesRemaining < 0) {
+            candidateStartingCity = i;
+            milesRemaining = 0;
+        }
+    }
+    return candidateStartingCity;
+}
