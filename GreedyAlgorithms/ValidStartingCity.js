@@ -31,27 +31,30 @@
 // O(1) space due to only storing a few variables
 
 function validStartingCity(distances, fuel, mpg) {
+    // determine how many cities in loop
     let numberOfCities = distances.length;
-
+    // iterate over each input city
     for (let startCityIdx = 0; startCityIdx < numberOfCities; startCityIdx++) {
+        // the car always starts empty
         let milesRemaining = 0;
-
+        // set the current city being checked
         for (let currentCityIdx = startCityIdx; currentCityIdx < startCityIdx + numberOfCities; currentCityIdx++) {
+            // if gas tank is more than empty, continue on
             if (milesRemaining < 0) {
                 continue;
             }
-
+            // handle case of last distances input wrapping around to first distances input
             let currentCityIdxWrapAround = currentCityIdx % numberOfCities;
-
+            // grab available fuel count from current city, and the distance to next city, then update milesRemaining to new value
             let fuelFromCurrentCity = fuel[currentCityIdxWrapAround];
             let distanceToNextCity = distances[currentCityIdxWrapAround];
             milesRemaining += fuelFromCurrentCity * mpg - distanceToNextCity;
         }
-
+        // if at a point where found a city where can start and end trip with enough gas, found answer so return index
         if (milesRemaining >= 0) {
             return startCityIdx;
         }
     }
-
+    // should never hit this assuming correct inputs, but for safety
     return -1;
 }
