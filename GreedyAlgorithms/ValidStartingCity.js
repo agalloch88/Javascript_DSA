@@ -25,3 +25,33 @@
 
 // Solution 1:
 
+// brute force, iterative solution traveling the loop from each city to find correct answer
+
+// O(n^2) time due to nested for loops
+// O(1) space due to only storing a few variables
+
+function validStartingCity(distances, fuel, mpg) {
+    let numberOfCities = distances.length;
+
+    for (let startCityIdx = 0; startCityIdx < numberOfCities; startCityIdx++) {
+        let milesRemaining = 0;
+
+        for (let currentCityIdx = startCityIdx; currentCityIdx < startCityIdx + numberOfCities; currentCityIdx++) {
+            if (milesRemaining < 0) {
+                continue;
+            }
+
+            let currentCityIdxWrapAround = currentCityIdx % numberOfCities;
+
+            let fuelFromCurrentCity = fuel[currentCityIdxWrapAround];
+            let distanceToNextCity = distances[currentCityIdxWrapAround];
+            milesRemaining += fuelFromCurrentCity * mpg - distanceToNextCity;
+        }
+
+        if (milesRemaining >= 0) {
+            return startCityIdx;
+        }
+    }
+
+    return -1;
+}
