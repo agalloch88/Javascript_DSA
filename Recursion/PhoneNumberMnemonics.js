@@ -38,6 +38,11 @@
 
 // Solution 1:
 
+// recursive solution building out all possible mnemonic combinations via provided phoneNumber, referencing JS object number:letters key:value pairings.
+
+// O(4^n * n) time due to at most 4 operations per n digit in phone number, and where n is length of given phoneNumber
+// O(4^n * n) space due to storing at most 4 operations per n digit in phone number within new array, and where n is length of given phoneNumber
+
 const DIGIT_LETTERS = {
     0: ['0'],
     1: ['1'],
