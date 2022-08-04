@@ -84,18 +84,27 @@ function numberOfWaysToTop(height, maxSteps, memoize) {
 
 // Solution 3:
 
+// iterative solution keeping track of height, and calculating possibilities based on previous results
+
+// O(n * k) time due to traversing n steps with k max steps
+// O(n) space due to storing n waysToTop in new holder array
+
 function staircaseTraversal(height, maxSteps) {
+    // set up holder array for tracking # of ways to get to top, initially filled with zero
     let waysToTop = new Array(height + 1).fill(0);
+    // take care of base cases, initialize them to 1
     waysToTop[0] = 1;
     waysToTop[1] = 1;
-
+    // starting at height 2, loop through options, populate # of possible waysToTop, and increment accordingly
     for (let currentHeight = 2; currentHeight < height + 1; currentHeight++) {
         let step = 1;
+        // given potential step amounts between 1 and maxSteps, populate potential values
         while (step <= maxSteps && step <= currentHeight) {
-            waysToTop[currentHeight] = waysToTp[currentHeight] + waysToTop[currentHeight - step];
+            // for the currentHeight, calculate the possiblities for current step size, then increment step
+            waysToTop[currentHeight] = waysToTop[currentHeight] + waysToTop[currentHeight - step];
             step++;
         }
     }
-
+    // once done with calculating currentHeight, return value for height provided
     return waysToTop[height];
 }
