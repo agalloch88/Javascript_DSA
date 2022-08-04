@@ -27,18 +27,24 @@
 // O(n) space due to storing at most n calls on call stack at a time
 
 function staicaseTraversal(height, maxSteps) {
+    // pass off to better-named start function
     return numberOfWaysToTop(height, maxSteps);
 }
 
 function numberOfWaysToTop(height, maxSteps) {
+    // base case
+    // if encountering 0 or 1, return 1 for both
     if (height <= 1) {
         return 1;
     }
-
+    // set up variable to track different combos
     let numberOfWays = 0;
+    // recursive case
+    // start at 1, where the step is less than maxSteps or the height, whichever is lower, and increment accordingly
     for (let step = 1; step < Math.min(maxSteps, height) + 1; step++) {
+        // add to variable
         numberOfWays += numberOfWaysToTop(height - step, maxSteps);
     }
-
+    // return number of ways found
     return numberOfWays;
 }
