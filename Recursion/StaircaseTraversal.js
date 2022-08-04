@@ -48,3 +48,36 @@ function numberOfWaysToTop(height, maxSteps) {
     // return number of ways found
     return numberOfWays;
 }
+
+// Solution 2:
+
+// recursive solution using memoize to reduce computations for base cases of 0 and 1, plus adding additional values as recursion progresses.
+// takes advantage of mathematical calculation to implicitly know how many possibilities there are
+
+// O(n * k) time due to traversing n steps with k max steps
+// O(n) space due to at most n calls on call stack due to recursion
+
+function staicaseTraversal(height, maxSteps) {
+    // pass off to better-named start function, initialize memoize values to base cases of 0 and 1 to start
+    return numberOfWaysToTop(height, maxSteps, {0: 1, 1: 1});
+}
+
+function numberOfWaysToTop(height, maxSteps, memoize) {
+    // base case
+    // if encountering 0 or 1, return 1 for both using memoized values
+    if (height in memoize) {
+        return memoize[height];
+    }
+    // set up variable to track different combos
+    let numberOfWays = 0;
+    // recursive case
+    // start at 1, where the step is less than maxSteps or the height, whichever is lower, and increment accordingly
+    for (let step = 1; step < Math.min(maxSteps, height) + 1; step++) {
+        // add to variable
+        numberOfWays += numberOfWaysToTop(height - step, maxSteps, memoize);
+    }
+    // update memoize with current value
+    memoize[height] = numberOfWays
+    // return number of ways found
+    return numberOfWays;
+}
