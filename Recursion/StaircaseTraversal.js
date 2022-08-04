@@ -21,3 +21,24 @@
 
 // Solution 1:
 
+// recursive solution handling base cases of 0 and 1, but requires recursive calls for those cases each time, relatively inefficient
+
+// O(k^n) time due to k number of allowed steps per n height of staircase
+// O(n) space due to storing at most n calls on call stack at a time
+
+function staicaseTraversal(height, maxSteps) {
+    return numberOfWaysToTop(height, maxSteps);
+}
+
+function numberOfWaysToTop(height, maxSteps) {
+    if (height <= 1) {
+        return 1;
+    }
+
+    let numberOfWays = 0;
+    for (let step = 1; step < Math.min(maxSteps, height) + 1; step++) {
+        numberOfWays += numberOfWaysToTop(height - step, maxSteps);
+    }
+
+    return numberOfWays;
+}
