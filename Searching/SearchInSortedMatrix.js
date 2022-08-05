@@ -19,3 +19,23 @@
 
 // Solution 1:
 
+// solution employing binary search-esque technique to discard values higher or lower than target
+
+// O(n + m) time due to at most working through n columns and m rows of values to get target or return [-1, -1]
+// O(1) space due to only storing a few variables, no auxiliary data structures
+
+function searchInSortedMatrix(matrix, target) {
+    let row = 0;
+    let col = matrix[0].length - 1;
+
+    while (row < matrix.length && col >= 0) {
+        if (matrix[row][col] > target) {
+            col--;
+        } else if (matrix[row][col] < target) {
+            row++;
+        } else {
+            return [row, col];
+        }
+    }
+    return [-1, -1];
+}
