@@ -24,70 +24,80 @@
 // O(wh) space due to iterating and storing all values, where w is width of matrix and h is height of matrix. can also be simplified to O(n) since w * h = n
 
 function riverSizes(matrix) {
+    // set up holder array for river results
     let sizes = [];
+    // set up separate mapping of matrix to track visited vs unvisited nodes, initialize all as false/unvisited
     let visited = matrix.map(row => row.map(value => false));
-
+    // set up loop to keep track of where at in matrix with [i, j] coordinates
     for (let i = 0; i < matrix.length; i++) {
         for (let j = 0; j < matrix[i].length; j++) {
+            // if a node is marked as visited, don't do anything but move on
             if (visited[i][j]) {
                 continue;
             }
+            // if not visited, traverse the node
             traverseNode(i, j, matrix, visited, sizes);
         }
     }
+    // return found river sizes at the end
     return sizes;
 }
-
+// helper function which abstracts node traversal steps
 function traverseNode(i, j, matrix, visited, sizes) {
+    // set variable to keep track of current river size, when found
     let currentRiverSize = 0;
+    // keep track od nodes surrounding a river (up, down, left, right) which need to be explored
     let nodesToExplore = [[i, j]];
-
+    // while there are nodes to explore, keep going
     while (nodesToExplore.length) {
+        // pop off last element to explore
         let currentNode = nodesToExplore.pop();
         i = currentNode[0];
         j = currentNode[1];
-
+        // if visited, do nothing and continue on
         if (visited[i][j]) {
             continue;
         }
-
+        // if not visited, mark node as true/visited in visited copy of matrix
         visited[i][j] = true;
-
+        // if node is 0/land, don't care, so move on
         if (matrix[i][j] === 0) {
             continue;
         }
-
+        // if not a 0/land, must be 1/river, so add to current river size count
         currentRiverSize++;
-
+        // grab any unvisited nodes which are neighbors to present river/1, using helper function getUnvisitedNeighbors
         let unvisitedNeighbors = getUnvisitedNeighbors(i, j, matrix, visited);
         for (let neighbor of unvisitedNeighbors) {
+            // set these neighbors as nodesToExplore
             nodesToExplore.push(neighbor);
         }
     }
-
+    // if have a river, increment it's size in holder array
     if (currentRiverSize > 0) {
         sizes.push(currentRiverSize);
     }
 }
-
+// helper function for determining what, if any and if they exist, neighbors to river/1 need to be explored
 function getUnvisitedNeighbors(i, j, matrix, visited) {
+    // holder array for unvisited nodes around river/1
     let unvisitedNeighbors = [];
-
+    // if within bounds of a row to the left, and node to left of river not yet visited, set this as an unvisitedNeighbor to explore
     if (i > 0 && !visited[i - 1][j]) {
         unvisitedNeighbors.push([i - 1, j]);
     }
-
+    // if within bounds of a row to the right, and node to right of river not yet visited, set this as an unvisitedNeighbor to explore
     if (i < matrix.length - 1 && !visited[i + 1][j]) {
         unvisitedNeighbors.push([i + 1, j]);
     }
-
+    // if within bounds of a row to the top, and node on top of river not yet visited, set this as an unvisitedNeighbor to explore
     if (j > 0 && !visited[i][j - 1]) {
         unvisitedNeighbors.push([i, j - 1]);
     }
-
+    // if within bounds of a row to the bottom, and node on bottom of river not yet visited, set this as an unvistedNeighbor to explore
     if (j < matrix[0].length - 1 && !visited[i][j + 1]) {
         unvisitedNeighbors.push([i, j + 1]);
     }
-
+    // return these unvisitedNeighbors for use in traverseNode, if any
     return unvisitedNeighbors;
 }
