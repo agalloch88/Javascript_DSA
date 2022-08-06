@@ -18,3 +18,30 @@
 // intervals [3, 5], [4, 7], [6, 8] were merged
 
 // Solution 1:
+
+// iterative solution checking for overlaps in ending and start values of each interval
+
+// O(nlog(n)) time due to sorting intervals and iterating over n intervals
+// O(n) space due to storing merged intervals in new array
+
+function mergeOverlappingIntervals(intervals) {
+    let sortedIntervals = intervals.sort((a, b) => a[0] - b[0]);
+
+    let mergedIntervals = [];
+    let currentInterval = sortedIntervals[0];
+    mergedIntervals.push(currentInterval);
+
+    for (let nextInterval of sortedIntervals) {
+        let [_, currentIntervalEnd] = currentInterval;
+        let [nextIntervalStart, nextIntervalEnd] = nextInterval;
+
+        if (currentIntervalEnd >= nextIntervalStart) {
+            currentInterval[1] = Math.max(currentIntervalEnd, nextIntervalEnd);
+        } else {
+            currentInterval = nextInterval;
+            mergedIntervals.push(currentInterval);
+        }
+    }
+
+    return mergedIntervals;
+}
