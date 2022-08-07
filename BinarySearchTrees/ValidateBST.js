@@ -29,6 +29,7 @@
 // O(d) space, where d is the max depth of the tree, as there are at most d recursive calls
 // on the call stack at any given time
 
+// setup class for BST
 class BST {
     constructor(value) {
         this.value = value;
@@ -36,20 +37,25 @@ class BST {
         this.right = null;
     }
 }
-
+// main provided function passes off checks to helper
 function validateBST(tree) {
+    // pass in given tree, minValue, and maxValue, set to infinity so will work with any input
     return validateBSTHelper(tree, -Infinity, Infinity);
 }
 
 function validateBSTHelper(tree, minValue, maxValue) {
+    // base cases
+    // if tree is empty, return true
     if (tree === null) {
         return true;
     }
-
+    // as recursing through, if value is less than min or greater than/equal to
+    // maxValue, not a valid BST, so return false
     if (tree.value < minValue || tree.value >= maxValue) {
         return false;
     }
-
+    // check the left value recursively
     let isLeftValid = validateBSTHelper(tree.left, minValue, tree.value);
+    // if left is true, then recursively check the right value
     return isLeftValid && validateBSTHelper(tree.right, tree.value, maxValue);
 }
