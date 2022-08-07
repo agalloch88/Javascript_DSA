@@ -22,3 +22,34 @@
 // true
 
 // Solution 1:
+
+// recursive solution checking left value then right, bubbling up to root
+
+// O(n) time due to checking n nodes from input tree
+// O(d) space, where d is the max depth of the tree, as there are at most d recursive calls
+// on the call stack at any given time
+
+class BST {
+    constructor(value) {
+        this.value = value;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+function validateBST(tree) {
+    return validateBSTHelper(tree, -Infinity, Infinity);
+}
+
+function validateBSTHelper(tree, minValue, maxValue) {
+    if (tree === null) {
+        return true;
+    }
+
+    if (tree.value < minValue || tree.value >= maxValue) {
+        return false;
+    }
+
+    let isLeftValid = validateBSTHelper(tree.left, minValue, tree.value);
+    return isLeftValid && validateBSTHelper(tree.right, tree.value, maxValue);
+}
