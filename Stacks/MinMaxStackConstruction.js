@@ -29,6 +29,12 @@
 
 // Solution 1:
 
+// construct stack using array, and utilize additional minMaxStack to track those values
+
+// O(1) time for all operations within the class as they are constant-time lookups/comparisons
+// O(1) space for all operations within the class as the operations themselves do not utilize any
+// additional space
+
 class MinMaxStack {
     constructor() {
         this.minMaxStack = [];
