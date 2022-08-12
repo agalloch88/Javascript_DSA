@@ -27,3 +27,44 @@
 // node B
 
 // Solution 1:
+
+class AncestralTree {
+    constructor(name) {
+        this.name = name;
+        this.ancestor = null;
+    }
+}
+
+function youngestCommonAncestor(topAncestor, descendantOne, descendantTwo) {
+    let depthOne = getDescendantDepth(descendantOne, topAncestor);
+    let depthTwo = getDescendantDepth(descendantTwo, topAncestor);
+
+    if (depthOne > depthTwo) {
+        return backtrackAncestralTree(descendantOne, descendantTwo, depthOne - depthTwo);
+    } else {
+        return backtrackAncestralTree(descendantTwo, descendantOne, depthTwo - depthOne);
+    }
+}
+
+function getDescendantDepth(descendant, topAncestor) {
+    let depth = 0;
+
+    while (descendant !== topAncestor) {
+        depth++;
+        descendant = descendant.ancestor;
+    }
+    return depth;
+}
+
+function backtrackAncestralTree(lowerDescendant, higherDescendant, diff) {
+    while (diff > 0) {
+        lowerDescendant = lowerDescendant.ancestor;
+        diff--;
+    }
+
+    while (lowerDescendant !== higherDescendant) {
+        lowerDescendant = lowerDescendant.ancestor;
+        higherDescendant = higherDescendant.ancestor;
+    }
+    return lowerDescendant;
+}
