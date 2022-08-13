@@ -6,11 +6,12 @@ Broken up by problem type/data structure.
 
 Topics include:
 - [Arrays](./Arrays)
+- [Binary Search Trees](./BinarySearchTrees)
 - [Binary Trees](./BinaryTrees)
+- [Famous Algorithms](./FamousAlgorithms)
 - [Linked Lists](./LinkedLists)
 - [Stacks](./Stacks)
 - [Queues](./Queues)
-- [Trees](./Trees)
 - [Graphs](./Graphs)
 - [Heaps](./Heaps)
 - [Hash Tables](./HashTables)
