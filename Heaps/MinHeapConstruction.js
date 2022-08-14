@@ -28,7 +28,8 @@ class MinHeap {
     constructor(array) {
         this.heap = this.buildHeap(array);
     }
-
+    // O(n) time
+    // O(1) space
     buildHeap(array) {
         let firstParentIdx = Math.floor((array.length - 2) / 2);
         for (let currentIdx = firstParentIdx; currentIdx >= 0; currentIdx--) {
@@ -36,7 +37,8 @@ class MinHeap {
         }
         return array;
     }
-
+    // O(log(n)) time
+    // O(1) space
     siftDown(currentIdx, endIdx, heap) {
         let childOneIdx = currentIdx * 2 + 1;
         while (childOneIdx <= endIdx) {
@@ -56,7 +58,8 @@ class MinHeap {
             }
         }
     }
-
+    // O(log(n)) time
+    // O(1) space
     siftUp(currentIdx, heap) {
         let parentIdx = Math.floor((currentIdx - 1) / 2);
         while (currentIdx > 0 && heap[currentIdx] < heap[parentIdx]) {
@@ -65,18 +68,21 @@ class MinHeap {
             parentIdx = Math.floor((currentIdx - 1) / 2);
         }
     }
-
+    // O(1) time
+    // O(1) space
     peek() {
         return this.heap[0];
     }
-
+    // O(log(n)) time
+    // O(1) space
     remove () {
         this.swap(0, this.heap.length - 1, this.heap);
         let valueToRemove = this.heap.pop();
         this.siftDown(0, this.heap.length - 1, this.heap);
         return valueToRemove;
     }
-
+    // O(log(n)) time
+    // O(1) space
     insert(value) {
         this.heap.push(value);
         this.siftUp(this.heap.length - 1, this.heap);
