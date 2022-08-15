@@ -35,7 +35,8 @@ class SuffixTrie {
         this.endSymbol = '*';
         this.populateSuffixTreeFrom(string);
     }
-
+    // O(n^2) time
+    // O(n^2) space
     populateSuffixTreeFrom(string) {
         for (let i = 0; i < string.length; i++) {
             this.insertSubstringStartingAt(i, string);
@@ -57,7 +58,8 @@ class SuffixTrie {
 
         node[this.endSymbol] = true;
     }
-
+    // O(m) time 
+    // O(1) space
     contains(string) {
         let node = this.node;
         
