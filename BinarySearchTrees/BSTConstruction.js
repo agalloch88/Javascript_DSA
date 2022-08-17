@@ -142,7 +142,8 @@ class BST {
         this.left = null;
         this.right = null;
     }
-
+    // Average: O(log(n)) time due to eliminating half of remaining nodes at each step, Worst: O(n) time if BST were a straight line
+    // Average: O(1) space due to no frames on call stack, Worst: O(1) due to no frames on call stack
     insert(value) {
         let currentNode = this;
         while (true) {
@@ -164,7 +165,8 @@ class BST {
         }
         return this;
     }
-
+    // Average: O(log(n)) time due to eliminating half of remaining nodes at each step, Worst: O(n) time if BST were a straight line
+    // Average: O(1) space due to no frames on call stack, Worst: O(1) due to no frames on call stack
     contains(value) {
         let currentNode = this;
         while (currentNode !== null) {
@@ -178,7 +180,8 @@ class BST {
         }
         return false;
     }
-
+    // Average: O(log(n)) time due to eliminating half of remaining nodes at each step, Worst: O(n) time if BST were a straight line
+    // Average: O(1) space due to no frames on call stack, Worst: O(1) due to no frames on call stack
     remove(value, parentNode = null) {
         let currentNode = this;
         while (currentNode !== null) {
