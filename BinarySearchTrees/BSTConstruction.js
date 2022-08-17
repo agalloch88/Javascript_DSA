@@ -42,13 +42,16 @@
 
 // Solution 1:
 
+// recursive implementations which have slightly worse space complexity due to call stack frames
+
 class BST {
     constructor(value) {
         this.value = value;
         this.left = null;
         this.right = null;
     }
-
+    // Average: O(log(n)) time due to eliminating half of remaining nodes at each step, Worst: O(n) time
+    // Average: O(log(n)) space due to frames on call stack, Worst: O(n) space due to at most n frames on stack at a time if BST were straight line
     insert(value) {
         if (value < this.value) {
             if (this.left === null) {
@@ -65,7 +68,8 @@ class BST {
         }
         return this;
     }
-
+    // Average: O(log(n)) time due to eliminating half of remaining nodes at each step, Worst: O(n) time
+    // Average: O(log(n)) space due to frames on call stack, Worst: O(n) space due to at most n frames on stack at a time if BST were straight line
     contains(value) {
         if (value < this.value) {
             if (this.left === null) {
@@ -83,7 +87,8 @@ class BST {
             return true;
         }
     }
-
+    // Average: O(log(n)) time due to eliminating half of remaining nodes at each step, Worst: O(n) time
+    // Average: O(log(n)) space due to frames on call stack, Worst: O(n) space due to at most n frames on stack at a time if BST were straight line
     remove(value, parent = null) {
         if (value < this.value) {
             if (this.left !== null) {
