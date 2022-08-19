@@ -26,3 +26,34 @@
 //    1          18
 
 // Solution 1:
+
+class BST {
+    constructor(value, left = null, right = null) {
+        this.value = value;
+        this.left = left;
+        this.right = right;
+    }
+}
+
+function reconstructBST(preOrderTraversalValues) {
+    if (preOrderTraversalValues.length === 0) {
+        return null;
+    }
+
+    let currentValue = preOrderTraversalValues[0];
+    let rightSubtreeRootIdx = preOrderTraversalValues.length;
+
+    for (let idx = 1; idx < preOrderTraversalValues.length; idx++) {
+        let value = preOrderTraversalValues[idx];
+
+        if (value >= currentValue) {
+            rightSubtreeRootIdx = idx;
+            break;
+        }
+    }
+
+    let leftSubtree = reconstructBST(preOrderTraversalValues.slice(1, rightSubtreeRootIdx));
+    let rightSubtree = reconstructBST(preOrderTraversalValues.slice(rightSubtreeRootIdx));
+
+    return new BST(currentValue, leftSubtree, rightSubtree);
+}
