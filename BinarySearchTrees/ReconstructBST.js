@@ -27,6 +27,13 @@
 
 // Solution 1:
 
+// recursive solution finding right subtree root first, then recursively creating new BST nodes by whittling down those subtree values
+
+// O(n^2) time due to constructing n nodes and performing n checks
+// O(h) space on call stack at a given time, where h is max height of tree, but technically O(n) space for solution overall as the buildout of n nodes
+// must factor in
+
+// main class for creating a BST node
 class BST {
     constructor(value, left = null, right = null) {
         this.value = value;
@@ -36,24 +43,29 @@ class BST {
 }
 
 function reconstructBST(preOrderTraversalValues) {
+    // if provided an empty tree, do nothing
     if (preOrderTraversalValues.length === 0) {
         return null;
     }
-
+    // find the root of the BST, which is first node/first value in given array
     let currentValue = preOrderTraversalValues[0];
+    // don't know position of right subtree root yet, so could be all the way at the end
     let rightSubtreeRootIdx = preOrderTraversalValues.length;
-
+    // starting from second value, so first value after tree root, check to see if value is right subtree root node
     for (let idx = 1; idx < preOrderTraversalValues.length; idx++) {
+        // grab given value at index
         let value = preOrderTraversalValues[idx];
-
+        // if the given value is greater than the tree root, or equal, this would be the first value seen as such and therefore the right subtree root
         if (value >= currentValue) {
+            // set right subtree root to start at this value, then break from this check as do not need to look further
             rightSubtreeRootIdx = idx;
             break;
         }
     }
-
+    // recursively call reconstructBST function, passing in remaining values for left subtree from second value/index 1 up to the right subtree root found above
     let leftSubtree = reconstructBST(preOrderTraversalValues.slice(1, rightSubtreeRootIdx));
+    // recursively call reconstructBST function, passing in remaining values for right subtree from right subtree root found above to end of array
     let rightSubtree = reconstructBST(preOrderTraversalValues.slice(rightSubtreeRootIdx));
-
+    // return newly created BST node with left and right values, recursively continue this process until done
     return new BST(currentValue, leftSubtree, rightSubtree);
 }
