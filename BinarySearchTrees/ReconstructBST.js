@@ -69,3 +69,42 @@ function reconstructBST(preOrderTraversalValues) {
     // return newly created BST node with left and right values, recursively continue this process until done
     return new BST(currentValue, leftSubtree, rightSubtree);
 }
+
+// Solution 2:
+
+// recursive solution improving time complexity by keeping track of root index at each step and checking if current value is valid based on upper/lower bound params
+
+class BST {
+    constructor(value) {
+        this.value = value;
+        this.left = left;
+        this.right = right;
+    }
+}
+
+class TreeInfo {
+    constructor(rootIdx) {
+        this.rootIdx = rootIdx;
+    }
+}
+
+function reconstructBST(preOrderTraversalValues) {
+    let treeInfo = new TreeInfo(0);
+    return reconstructBstFromRange(-Infinity, Infinity, preOrderTraversalValues, treeInfo);
+}
+
+function reconstructBstFromRange(lowerBound, upperBound, preOrderTraversalValues, currentSubtreeInfo) {
+    if (currentSubtreeInfo.rootIdx === preOrderTraversalValues.length) {
+        return null;
+    }
+    
+    let rootValue = preOrderTraversalValues[currentSubtreeInfo.rootIdx];
+    if (rootValue < lowerBound || rootValue >= upperBound) {
+        return null;
+    }
+
+    currentSubtreeInfo++;
+    let leftSubtree = reconstructBstFromRange(lowerBound, rootValue, preOrderTraversalValues, currentSubtreeInfo);
+    let rightSubtree = reconstructBstFromRange(rootValue, upperBound, preOrderTraversalValues, currentSubtreeInfo);
+    return new BST(rootValue, leftSubtree, rightSubtree);
+}
