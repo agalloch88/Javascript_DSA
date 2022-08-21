@@ -8,6 +8,7 @@ Topics include:
 - [Arrays](./Arrays)
 - [Binary Search Trees](./BinarySearchTrees)
 - [Binary Trees](./BinaryTrees)
+- [Dynamic Programming](./DynamicProgramming)
 - [Famous Algorithms](./FamousAlgorithms)
 - [Linked Lists](./LinkedLists)
 - [Stacks](./Stacks)
