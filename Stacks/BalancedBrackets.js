@@ -49,3 +49,33 @@ function balancedBrackets(string) {
     // last boolean check, and if any remaining items in the stack which were not handled above, will return false, otherwise true
     return stack.length === 0;
 }
+
+// Solution 2:
+
+function balancedBrackets(string) {
+    let matchingBrackets = {
+        ')': '(',
+        ']': '[',
+        '}': '{',
+    }
+
+    let openingBrackets = '([{';
+
+    let stack = [];
+
+    for (let char of string) {
+        if (openingBrackets.includes[char]) {
+            stack.push(char);
+        }
+
+        if (char in matchingBrackets) {
+            let matchingBracket = stack.pop();
+
+            if (matchingBracket !== matchingBrackets[char]) {
+                return false;
+            }
+        }
+    }
+    return stack.length === 0;
+    
+}
