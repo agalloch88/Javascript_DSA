@@ -31,29 +31,33 @@
 // O(n) space due to storing at max n items from input in new array
 
 function sunsetViews(buildings, direction) {
+    // create holder array for buildings to return
     let buildingsWithSunsetViews = [];
-
+    // determine where to start iterating depending on direction provided, and how iterating will proceed
     let startIdx = direction === 'WEST' ? 0 : buildings.length - 1;
     let step = direction === 'WEST' ? 1 : -1;
-
+    // set idx to the startIdx determined by direction
     let idx = startIdx;
+    // keep track of current tallest building to check if buildings' views may be blocked
     let runningMaxHeight = 0;
-
+    // start iterating from startIdx determined by direction, and continue doing so while in the confines of the input values
     while (idx >= 0 && idx < buildings.length) {
+        // grab current building height
         let buildingHeight = buildings[idx];
-
+        // check to see if current building is taller than any others thus far, indicating it will have a view
         if (buildingHeight > runningMaxHeight) {
+            // if taller, push into holder array
             buildingsWithSunsetViews.push(idx);
         }
-
+        // after check, set the max height to the max value between current building and current max height
         runningMaxHeight = Math.max(buildingHeight, runningMaxHeight);
-
+        // move on to next building
         idx = idx + step;
     }
-
+    // if direction was EAST, started from the end, so have to reverse the values in holder array, which is fine as it's O(n) operation
     if (direction === 'EAST') {
         buildingsWithSunsetViews.reverse();
     }
-
+    // return final array of results
     return buildingsWithSunsetViews;
 }
