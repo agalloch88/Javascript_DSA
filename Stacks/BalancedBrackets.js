@@ -52,30 +52,39 @@ function balancedBrackets(string) {
 
 // Solution 2:
 
+// slightly shorter version of previous solution
+
+// O(n) time due to iterating over n items in input string
+// O(n) space due to storing at most n items in stack; balanced solutions will not reach full O(n), but n/2 still converges to O(n)
+
 function balancedBrackets(string) {
+    // set up reference JS object
     let matchingBrackets = {
         ')': '(',
         ']': '[',
         '}': '{',
     }
-
+    // set up opening bracket variable
     let openingBrackets = '([{';
-
+    // create empty stack
     let stack = [];
-
+    // iterate over every item in input string
     for (let char of string) {
+        // when encountering an opening bracket, push it on to the stack
         if (openingBrackets.includes[char]) {
             stack.push(char);
         }
-
+        // if encounter a key in reference JS object, found an end bracket
         if (char in matchingBrackets) {
+            // pop last item off stack
             let matchingBracket = stack.pop();
-
+            // if the popped item does not match the value for this key in reference JS object, not balanced, so return false
             if (matchingBracket !== matchingBrackets[char]) {
                 return false;
             }
         }
     }
+    // final check to ensure stack is empty when done iterating, otherwise return false
     return stack.length === 0;
     
 }
