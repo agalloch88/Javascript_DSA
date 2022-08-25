@@ -24,3 +24,36 @@
 // Same input as Sample 1, but the direction is reversed
 
 // Solution 1:
+
+// iterative solution with a single pass over input
+
+// O(n) time due to single pass over buildings input
+// O(n) space due to storing at max n items from input in new array
+
+function sunsetViews(buildings, direction) {
+    let buildingsWithSunsetViews = [];
+
+    let startIdx = direction === 'WEST' ? 0 : buildings.length - 1;
+    let step = direction === 'WEST' ? 1 : -1;
+
+    let idx = startIdx;
+    let runningMaxHeight = 0;
+
+    while (idx >= 0 && idx < buildings.length) {
+        let buildingHeight = buildings[idx];
+
+        if (buildingHeight > runningMaxHeight) {
+            buildingsWithSunsetViews.push(idx);
+        }
+
+        runningMaxHeight = Math.max(buildingHeight, runningMaxHeight);
+
+        idx = idx + step;
+    }
+
+    if (direction === 'EAST') {
+        buildingsWithSunsetViews.reverse();
+    }
+
+    return buildingsWithSunsetViews;
+}
