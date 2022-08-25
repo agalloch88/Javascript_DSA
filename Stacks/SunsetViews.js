@@ -61,3 +61,34 @@ function sunsetViews(buildings, direction) {
     // return final array of results
     return buildingsWithSunsetViews;
 }
+
+// Solution 2:
+
+// iterative solution using a stack
+
+function sunsetViews(buildings, direction) {
+    let candidateBuildings = [];
+
+    let startIdx = direction === 'EAST' ? 0 : buildings.length - 1;
+    let step = direction === 'EAST' ? 1 : -1;
+
+    let idx = startIdx;
+
+    while (idx >= 0 && idx < buildings.length) {
+        let buildingHeight = buildings[idx];
+
+        while (candidateBuildings.length > 0 && buildings[candidateBuildings[candidateBuildings.length - 1]] <= buildingHeight) {
+            candidateBuildings.pop();
+        }
+
+        candidateBuildings.push(idx);
+
+        idx = idx + step;
+    }
+
+    if (direction === 'WEST') {
+        candidateBuildings.reversse();
+    }
+
+    return candidateBuildings;
+}
