@@ -66,29 +66,35 @@ function sunsetViews(buildings, direction) {
 
 // iterative solution using a stack
 
-function sunsetViews(buildings, direction) {
-    let candidateBuildings = [];
+// O(n) time due to single pass over buildings input
+// O(n) space due to storing at max n items from input in stack
 
+function sunsetViews(buildings, direction) {
+    // create empty stack
+    let candidateBuildings = [];
+    // determine where to start iterating depending on direction provided, and how iterating will proceed
     let startIdx = direction === 'EAST' ? 0 : buildings.length - 1;
     let step = direction === 'EAST' ? 1 : -1;
-
+    // set idx to the startIdx determined by direction
     let idx = startIdx;
-
+    // start iterating from startIdx determined by direction, and continue doing so while in the confines of the input values
     while (idx >= 0 && idx < buildings.length) {
+        // grab current building height
         let buildingHeight = buildings[idx];
-
+        // perform check such that while stack has items, check continually done to see if building has sunset view
         while (candidateBuildings.length > 0 && buildings[candidateBuildings[candidateBuildings.length - 1]] <= buildingHeight) {
+            // remove top item from stack if not taller, successively until condition met
             candidateBuildings.pop();
         }
-
+        // push current item onto stack 
         candidateBuildings.push(idx);
-
+        // move on to next
         idx = idx + step;
     }
-
+    // if direction was WEST, started from end so items in backwards order, so need to use reverse which is O(n) operation
     if (direction === 'WEST') {
         candidateBuildings.reversse();
     }
-
+    // return the stack
     return candidateBuildings;
 }
