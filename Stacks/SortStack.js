@@ -17,3 +17,35 @@
 // [-5, -2, 1, 2, 3, 4]
 
 // Solution 1:
+
+// recursive solution utilizing helper function to insert in sorted order, keep track of top value when popped with each recursive call
+
+// O(n^2) time due to potentially performing operations on n values n times
+// O(n) space due to potentially having at most n calls on call stack at a given time
+
+function sortStack(stack) {
+    if (stack.length === 0) {
+        return stack;
+    }
+
+    let top = stack.pop();
+
+    sortStack(stack);
+
+    insertInSortedOrder(stack, top);
+
+    return stack;
+}
+
+function insertInSortedOrder(stack, value) {
+    if (stack.length === 0 || stack[stack.length - 1] <= value) {
+        stack.push(value);
+        return;
+    }
+
+    let top = stack.pop();
+
+    insertInSortedOrder(stack, value);
+
+    stack.push(top);
+}
