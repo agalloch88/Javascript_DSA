@@ -24,28 +24,33 @@
 // O(n) space due to potentially having at most n calls on call stack at a given time
 
 function sortStack(stack) {
+    // base case
+    // if nothing in stack, return stack
     if (stack.length === 0) {
         return stack;
     }
-
+    // recursive case
+    // grab the value on top, and pop it off
     let top = stack.pop();
-
+    // recursively call this sortStack function
     sortStack(stack);
-
+    // reassemble stack by calling insertInSortedOrder helper and passing in value for top
     insertInSortedOrder(stack, top);
-
+    // return the stack for next recursive call
     return stack;
 }
-
+// recursive helper responsible for recursively sorting items into stack
 function insertInSortedOrder(stack, value) {
+    // base case
+    // if nothing in stack or the top item is less than/equal to the current value, the current value can be the new top
     if (stack.length === 0 || stack[stack.length - 1] <= value) {
         stack.push(value);
         return;
     }
-
+    // grab value on top of stack and pop it off
     let top = stack.pop();
-
+    // recursively call helper to continue performing checks
     insertInSortedOrder(stack, value);
-
+    // push the top onto the stack
     stack.push(top);
 }
