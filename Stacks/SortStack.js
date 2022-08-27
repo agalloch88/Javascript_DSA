@@ -54,3 +54,32 @@ function insertInSortedOrder(stack, value) {
     // push the top onto the stack
     stack.push(top);
 }
+
+// Solution 2:
+
+// recursive solution only using a single function
+
+function sortStack(stack) {
+    if (stack.length === 0) {
+        return stack;
+    }
+
+    let top = stack.pop();
+
+    if (stack.length !== 1) {
+        stack = sortStack(stack);
+    }
+
+    let currentElement = stack[stack.length - 1];
+
+    if (currentElement > top) {
+        currentElement = stack.pop();
+        stack.push(top);
+        stack.push(currentElement);
+        stack = sortStack(stack);
+    } else {
+        stack.push(top);
+    }
+
+    return stack;
+}
