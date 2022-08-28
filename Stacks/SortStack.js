@@ -59,27 +59,36 @@ function insertInSortedOrder(stack, value) {
 
 // recursive solution only using a single function
 
+// O(n^2) time due to potentially performing operations on n values n times
+// O(n) space due to potentially having at most n calls on call stack at a given time
+
 function sortStack(stack) {
+    // base case
+    // if stack empty, return the stack
     if (stack.length === 0) {
         return stack;
     }
-
+    // grab top of stack and pop it off
     let top = stack.pop();
-
+    // if more than one item in stack, recursively call sortStack
     if (stack.length !== 1) {
         stack = sortStack(stack);
     }
-
+    // grab value of top item on stack
     let currentElement = stack[stack.length - 1];
-
+    // check to see which value is larger, and if currentElement, proceed...
     if (currentElement > top) {
+        // pop off currentElement
         currentElement = stack.pop();
+        // push top back on, then currentElement
         stack.push(top);
         stack.push(currentElement);
+        // recursively call sortStack again
         stack = sortStack(stack);
     } else {
+        // if top was greater than currentElement, push top back on
         stack.push(top);
     }
-
+    // return the stack
     return stack;
 }
