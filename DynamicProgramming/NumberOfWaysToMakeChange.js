@@ -35,3 +35,36 @@ function numberOfWaysToMakeChange(n, denoms) {
     // after looping, should have final number of ways at value for n in ways array, so return it
     return ways[n];
 }
+
+// Solution 2:
+
+// recursive solution employing memoization
+
+function numberOfWaysToMakeChange(amount, coins) {
+    // top-down approach
+    function recursion(index, amount, coins, memo) {
+        // base cases
+        if (amount === 0) {
+            return 1;
+        }
+
+        if (amount < 0 || index < 0) {
+            return 0;
+        }
+
+        if (memo[index][amount] !== -1) {
+            return memo[index][amount];
+        }
+        // recursive case
+        if (coins[index] > amount) {
+            return recursion(index - 1, amount, coins, memo);
+        }
+
+        memo[index][amount] = recursion(index, amount - coins[index], coins, memo) + recursion(index - 1, amount, coins, memo);
+
+        return memo[index][amount];
+    }
+
+    let memo = new Array(coins.length).fill([]).map((el) => new Array(amount + 1).fill(-1));
+    return recursion(coins.length - 1, amount, coins, memo);
+}
