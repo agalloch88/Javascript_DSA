@@ -13,7 +13,7 @@
 
 // Solution 1:
 
-// O(n * d) time, where is the number of denoms given as have to iterate over n potential values using d denoms
+// O(n * d) time, where d is the number of denoms given as have to iterate over n potential values using d denoms
 // O(n) space due to creating new placeholder array to trackt he number of ways
 
 function numberOfWaysToMakeChange(n, denoms) {
@@ -40,31 +40,37 @@ function numberOfWaysToMakeChange(n, denoms) {
 
 // recursive solution employing memoization
 
+// O(n * c) time, where c is the number of coins given and have to iterate over n items in amount from 0 to amount
+// O(n) space due to new array, plus call stack space, 2n coverges to n
+
 function numberOfWaysToMakeChange(amount, coins) {
     // top-down approach
     function recursion(index, amount, coins, memo) {
         // base cases
+        // set value for zero as a base case
         if (amount === 0) {
             return 1;
         }
-
+        // handle negative values for initialization of array below, or out of bounds
         if (amount < 0 || index < 0) {
             return 0;
         }
-
+        // checks for any -1's
         if (memo[index][amount] !== -1) {
             return memo[index][amount];
         }
         // recursive case
+        // if value in coins at given index is greater than amount, recursively call recursion
         if (coins[index] > amount) {
             return recursion(index - 1, amount, coins, memo);
         }
-
+        // update values in memo adding return values from recursive calls to recursion
         memo[index][amount] = recursion(index, amount - coins[index], coins, memo) + recursion(index - 1, amount, coins, memo);
-
+        // return memo value
         return memo[index][amount];
     }
-
+    // set up memo as new holder array then map over and fill with -1
     let memo = new Array(coins.length).fill([]).map((el) => new Array(amount + 1).fill(-1));
+    // return value recursive call to recursion
     return recursion(coins.length - 1, amount, coins, memo);
 }
