@@ -16,3 +16,24 @@
 // [5, 6, 6, 6, 7, -1, 5]
 
 // Solution 1:
+
+// iterative solution using a stack and looping through the input on two passes
+
+// O(n) time due to looping over n items twice with additional n checks, so 3n converges to n
+// O(n) space due to storing n additional items in new result array and new stack, so 2n converges to n
+
+function nextGreaterElement(array) {
+    let result = new Array(array.length).fill(-1);
+    let stack = [];
+
+    for (let idx = 0; idx < 2 * array.length; idx++) {
+        let circularIdx = idx % array.length;
+
+        while (stack.length > 0 && array[stack[stack.length - 1]] < array[circularIdx]) {
+            let top = stack.pop();
+            result[top] = array[circularIdx];
+        }
+        stack.push(circularIdx);
+    }
+    return result;
+}
