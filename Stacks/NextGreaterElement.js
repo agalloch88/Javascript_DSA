@@ -44,3 +44,30 @@ function nextGreaterElement(array) {
     // return the final result array
     return result;
 }
+
+// Solution 2:
+
+// another iterative solution, still using stack, but starting from right/end of the array and moving left
+
+// O(n) time due to looping over n items twice with additional n checks, so 3n converges to n
+// O(n) space due to storing n additional items in new result array and new stack, so 2n converges to n
+
+function nextGreaterElement(array) {
+    let result = new Array(array.length).fill(-1);
+    let stack = [];
+
+    for (let idx = 2*array.length -1; idx > -1; idx--) {
+        let circularIdx = idx % array.length;
+
+        while (stack.length > 0) {
+            if (stack[stack.length - 1] <= array[circularIdx]) {
+                stack.pop();
+            } else {
+                result[circularIdx] = stack[stack.length - 1];
+                break;
+            }
+        }
+        stack.push(array[circularIdx]);
+    }
+    return result;
+}
