@@ -53,21 +53,28 @@ function nextGreaterElement(array) {
 // O(n) space due to storing n additional items in new result array and new stack, so 2n converges to n
 
 function nextGreaterElement(array) {
+    // initialize new array of input length, fill with -1's to start
     let result = new Array(array.length).fill(-1);
+    // will keep track of largest value and values which need to be replaced with said value via a stack
     let stack = [];
-
-    for (let idx = 2*array.length -1; idx > -1; idx--) {
+    // iterate through the array twice to ensure everything is correct after second pass, account for largest element
+    for (let idx = 2 * array.length - 1; idx > -1; idx--) {
+        // to allow circular traversal, use modulo operator to provide a circularIdx value
         let circularIdx = idx % array.length;
-
+        // while items in the stack, do stuff
         while (stack.length > 0) {
+            // if top item on the stack is less than or equal to value in the array at circularIdx, pop it off
             if (stack[stack.length - 1] <= array[circularIdx]) {
                 stack.pop();
             } else {
+                // in result array, make value at circularIdx equal to top item in stack, break out
                 result[circularIdx] = stack[stack.length - 1];
                 break;
             }
         }
+        // push value in array at circularIdx to top of stack
         stack.push(array[circularIdx]);
     }
+    // return the result array and finish
     return result;
 }
