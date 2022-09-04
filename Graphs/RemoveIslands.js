@@ -35,3 +35,91 @@
 // ]
 
 // Solution 1:
+
+function removeIslands(matrix) {
+    let onesConnectedToBorder = [];
+
+    for (let row = 0; row < matrix.length; row++) {
+        onesConnectedToBorder.push([]);
+        for (let col = 0; col < matrix[0].length; col++) {
+            onesConnectedToBorder[row].push(false);
+        }
+    }
+
+    for (let row = 0; row < matrix.length; row++) {
+        for (let col = 0; col < matrix[row].length; col++) {
+            let rowIsBorder = row === 0 || row === matrix.length - 1;
+            let colIsBorder = col === 0 || col === matrix[row].length - 1;
+            let isBorder = rowIsBorder || colIsBorder;
+
+            if (!isBorder) {
+                continue;
+            }
+
+            if (matrix[row][col] !== 1) {
+                continue;
+            }
+
+            findOnesConnectedToBorder(matrix, row, col, onesConnectedToBorder);
+        }
+    }
+
+    for (let row = 1; row < matrix.length - 1; row++) {
+        for (let col = 1; col < matrix[row].length - 1; col++) {
+            if (onesConnectedToBorder[row][col]) {
+                continue;
+            }
+            matrix[row][col] = 0;
+        }
+    }
+    return matrix;
+}
+
+function findOnesConnectedToBorder(matrix, startRow, startCol, onesConnectedToBorder) {
+    let stack = [[startRow, startCol]];
+
+    while (stack.length > 0) {
+        let currentPosition = stack.pop();
+        let [currentRow, currentCol] = currentPosition;
+
+        let alreadyVisited = onesConnectedToBorder[currentRow][currentCol];
+        if (alreadyVisited) {
+            continue;
+        }
+
+        onesConnectedToBorder[currentRow][currentCol] = true;
+
+        let neighbors = getNeighbors(matrix, currentRow, currentCol);
+        for (let neighbor of neighbors) {
+            let [row, col] = neighbor;
+
+            if (matrix[row][col] !== 1) {
+                continue;
+            }
+
+            stack.push(neighbor);
+        }
+    }
+}
+
+function getNeighbors(matrix, row, col) {
+    let neighbors = [];
+
+    let numRows = matrix.length;
+    let numCols = matrix[row].length;
+
+    if (row - 1 >= 0) {
+        neighbors.push([row - 1, col]);
+    }
+    if (row + 1 < numRows) {
+        neighbors.push([row + 1, col]);
+    }
+    if (col - 1 >= 0) {
+        neighbors.push([row, col - 1]);
+    }
+    if (col + 1 < numCols) {
+        neighbors.push([row, col + 1]);
+    }
+
+    return neighbors;
+}
