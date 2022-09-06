@@ -147,3 +147,83 @@ function getNeighbors(matrix, row, col) {
     // return all the valid neighbors for this item
     return neighbors;
 }
+
+// Solution 2:
+
+// another iterative solution, but in this case, changes all 1's connected to border to 2's then swaps them back after removing all other 1's, does not use secondary matrix
+
+function removeIslands(matrix) {
+    for (let row = 0; row < matrix.length; row++) {
+        for (let col = 0; col < matrix[row].length; col++) {
+            let rowIsBorder = row === 0 || row === matrix.length - 1;
+            let colIsBorder = col === 0 || col === matrix[row].length - 1;
+            let isBorder = rowIsBorder || colIsBorder;
+
+            if (!isBorder) {
+                continue;
+            }
+
+            if (matrix[row][col] !== 1) {
+                continue;
+            }
+
+            changeOnesConnectedToBorderToTwos(matrix, row, col);
+        }
+    }
+    for (let row = 0; row < matrix.length; row++) {
+        for (let col = 0; col < matrix[row].length; col++) {
+            let color = matrix[row][col];
+
+            if (color === 1) {
+                matrix[row][col] = 0;
+            } else if (color === 2) {
+                matrix[row][col] = 1;
+            }
+        }
+    }
+    return matrix;
+}
+
+function changeOnesConnectedToBorderToTwos(matrix, startRow, startCol) {
+    let stack = [[startRow, startCol]];
+
+    while (stack.length > 0) {
+        let currentPosition = stack.pop();
+        let [currentRow, currentCol] = currentPosition;
+
+        matrix[currentRow][currentCol] = 2;
+
+        let neighbors = getNeighbors(matrix, currentRow, currentCol);
+        for (let neighbor of neighbors) {
+            let [row, col] = neighbor;
+
+            if (matrix[row][col] !== 1) {
+                continue;
+            }
+
+            stack.push(neighbor);
+        }
+    }
+}
+
+function getNeighbors(matrix, row, col) {
+    let neighbors = [];
+
+    let numRows = matrix.length;
+    let numCols = matrix[row].length;
+
+    if (row - 1 >= 0) {
+        neighbors.push([row - 1, col]); // UP
+    }
+    if (row + 1 < numRows) {
+        neighbors.push([row + 1, col]); // DOWN
+    }
+    if (col - 1 >= 0) {
+        neighbors.push([row, col - 1]); // LEFT
+    }
+    if (col + 1 < numCols) {
+        neighbors.push([row, col + 1]); // RIGHT
+    }
+
+    return neighbors;
+}
