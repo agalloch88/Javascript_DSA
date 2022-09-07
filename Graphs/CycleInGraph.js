@@ -30,3 +30,46 @@
 // 1 -> 2 -> 0 -> 1
 
 // Solution 1:
+
+// recurisve solution using DFS and tracking which nodes are visited and currently in the stack to determine cycles
+
+// O(v + e) time for traversing at most v vertices and e edges between vertices to determine whether at least one cycle exists
+// O(v) space for storing visited and currentlyInStack vertices, where 2v converges to v
+
+function cycleInGraph(edges) {
+    let numberOfNodes = edges.length;
+    let visited = new Array(numberOfNodes).fill(false);
+    let currentlyInStack = new Array(numberOfNodes).fill(false);
+
+    for (let node = 0; node < numberOfNodes; node++) {
+        if (visited[node]) {
+            continue;
+        }
+
+        let containsCycle = isNodeInCycle(node, edges, visited, currentlyInStack);
+        if (containsCycle) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function isNodeInCycle(node, edges, visited, currentlyInStack) {
+    visited[node] = true;
+    currentlyInStack[node] = true;
+
+    let neighbors = edges[node];
+    for (let neighbor of neighbors) {
+        if (!visited[neighbor]) {
+            let containsCycle = isNodeInCycle(neighbor, edges, visited, currentlyInStack);
+            if (containsCycle) {
+                return true;
+            }
+        } else if (currentlyInStack[neighbor]) {
+            return true;
+        }
+    }
+
+    currentlyInStack[node] = false;
+    return false;
+}
