@@ -37,39 +37,50 @@
 // O(v) space for storing visited and currentlyInStack vertices, where 2v converges to v
 
 function cycleInGraph(edges) {
+    // establish how many individual nodes there are
     let numberOfNodes = edges.length;
+    // track which nodes visited by settng up new visited stack for the node indexes, initialized with all values as false
     let visited = new Array(numberOfNodes).fill(false);
+    // set up stack for items currently in the stack, initialized with all values as false
     let currentlyInStack = new Array(numberOfNodes).fill(false);
-
+    // iterate over all the nodes
     for (let node = 0; node < numberOfNodes; node++) {
+        // if this node has been viosited, do nothing and continue
         if (visited[node]) {
             continue;
         }
-
+        // set up variable containsCycle to hold return value from helper function checking to see if this node is in a cycle
         let containsCycle = isNodeInCycle(node, edges, visited, currentlyInStack);
+        // if the return value from isNodeInCycle is true, then return true
         if (containsCycle) {
             return true;
         }
     }
+    // if no nodes were part of a cycle, then return false as there are no cycles
     return false;
 }
 
 function isNodeInCycle(node, edges, visited, currentlyInStack) {
+    // set this specific node in both stacks to true
     visited[node] = true;
     currentlyInStack[node] = true;
-
+    // find the neighbors by tapping into the edges input at position of this node
     let neighbors = edges[node];
+    // iterate over every neighbor the node has
     for (let neighbor of neighbors) {
+        // if this neighbor is not yet visited aka false, then recursively check if the neighbor contains a cycle
         if (!visited[neighbor]) {
             let containsCycle = isNodeInCycle(neighbor, edges, visited, currentlyInStack);
+            // if the neighbor contains a cycle, return true
             if (containsCycle) {
                 return true;
             }
+        // if the neighbor is currently in the stack, then it also means its a cycle, so also return true then
         } else if (currentlyInStack[neighbor]) {
             return true;
         }
     }
-
+    // if neither of those conditions hit, that node moves out of the stack, so set it to false, and also return false for this node being in a cycle
     currentlyInStack[node] = false;
     return false;
 }
