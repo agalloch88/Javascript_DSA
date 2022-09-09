@@ -84,3 +84,54 @@ function isNodeInCycle(node, edges, visited, currentlyInStack) {
     currentlyInStack[node] = false;
     return false;
 }
+
+// Solution 2:
+
+// slightly different recursive solution utilizing "coloring" of nodes to track their status, and replace two additional stacks
+
+// O(v + e) time for traversing at most v vertices and e edges between vertices to determine whether at least one cycle exists
+// O(v) space for storing colors vertices, where 2v converges to v
+
+let [WHITE, GREY, BLACK] = [0, 1, 2];
+
+function cycleInGraph(edges) {
+    let numberOfNodes = edges.length;
+    let colors = new Array(numberOfNodes).fill(WHITE);
+
+    for (let node = 0; node < numberOfNodes; node++) {
+        if (colors[node] !== WHITE) {
+            continue;
+        }
+
+        let containsCycle = traverseAndColorNodes(node, edges, colors);
+        if (containsCycle) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function traverseAndColorNodes(node, edges, colors) {
+    colors[node] = GREY;
+
+    let neighbors = edges[node];
+    for (let neighbor of neighbors) {
+        let neighborColor = colors[neighbor];
+
+        if (neighborColor === GREY) {
+            return true;
+        }
+
+        if (neighborColor === BLACK) {
+            continue;
+        }
+
+        let containsCycle = traverseAndColorNodes(neighbor, edges, colors);
+        if (containsCycle) {
+            return true;
+        }
+    }
+
+    colors[node] = BLACK;
+    return false;
+}
