@@ -92,46 +92,57 @@ function isNodeInCycle(node, edges, visited, currentlyInStack) {
 // O(v + e) time for traversing at most v vertices and e edges between vertices to determine whether at least one cycle exists
 // O(v) space for storing colors vertices, where 2v converges to v
 
+// set up variables for coloring nodes: White = unvisited, grey = currently traversing, black = traversed
 let [WHITE, GREY, BLACK] = [0, 1, 2];
 
 function cycleInGraph(edges) {
+    // grab total number of nodes
     let numberOfNodes = edges.length;
+    // set up new colors array for length of numberOfNodes, color all nodes white at start
     let colors = new Array(numberOfNodes).fill(WHITE);
-
+    // start iterating over all the nodes
     for (let node = 0; node < numberOfNodes; node++) {
+        // if node is note white, meaning its currently being traversed or already traversed, do nothing
         if (colors[node] !== WHITE) {
             continue;
         }
-
+        // set up variable to check if theres a cycle by calling helper function
         let containsCycle = traverseAndColorNodes(node, edges, colors);
+        // if there's a cycle, meaning the helper returns true, then return true
         if (containsCycle) {
             return true;
         }
     }
+    // if no cycle after checking all nodes, return false
     return false;
 }
 
 function traverseAndColorNodes(node, edges, colors) {
+    // at start of traversal, set node color to grey as it's in progress
     colors[node] = GREY;
-
+    // grab all neighbors for given node in edges input
     let neighbors = edges[node];
+    // for each neighbor, check the colors
     for (let neighbor of neighbors) {
+        // for each neighbor, check the color
         let neighborColor = colors[neighbor];
-
+        // if neighbor is grey, it's in progress and there's a cycle
         if (neighborColor === GREY) {
             return true;
         }
-
+        // if neighbor is black, the node was already checked, so continue
         if (neighborColor === BLACK) {
             continue;
         }
-
+        // check if this neighbor contains a cycle by recursively calling helper
         let containsCycle = traverseAndColorNodes(neighbor, edges, colors);
+        // if return from helper is true, then there's a cycle so return true
         if (containsCycle) {
             return true;
         }
     }
-
+    // set node to black as it's already checked
     colors[node] = BLACK;
+    // return false if no neighbors contain a cycle
     return false;
 }
