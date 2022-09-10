@@ -72,3 +72,79 @@
 // ]
 
 // Solution 1:
+
+function minimumPassesOfMatrix(matrix) {
+    let passes = convertNegatives(matrix);
+    return !containsNegative(matrix) ? passes - 1 : -1;
+}
+
+function convertNegatives(matrix) {
+    let nextPassStack = getAllPositivePositions(matrix);
+
+    let passes = 0;
+
+    while (nextPassStack.length > 0) {
+        let currentPassStack = nextPassStack;
+        nextPassStack = [];
+
+        while (currentPassStack.length > 0) {
+            let [currentRow, currentCol] = currentPassStack.pop();
+
+            let adjacentPositions = getAdjacentPositions(currentRow, currentCol, matrix);
+            for (let position of adjacentPositions) {
+                let [row, col] = position;
+
+                let value = matrix[row][col];
+                if (value < 0) {
+                    matrix[row][col] *= -1;
+                    nextPassStack.push([row, col]);
+                }
+            }
+        }
+        passes++;
+    }
+    return passes;
+}
+
+function getAllPositivePositions(matrix) {
+    let positivePositions = [];
+    for (let row = 0; row < matrix.length; row++) {
+        for (let col = 0; col < matrix[row].length; col++) {
+            let value = matrix[row][col];
+            if (value > 0) {
+                positivePositions.push([row, col]);
+            }
+        }
+    }
+    return positivePositions;
+}
+
+function getAdjacentPositions(row, col, matrix) {
+    let adjacentPositions = [];
+
+    if (row > 0) {
+        adjacentPositions.push([row - 1, col]);
+    }
+    if (row < matrix.length - 1) {
+        adjacentPositions.push([row + 1, col]);
+    }
+    if (col > 0) {
+        adjacentPositions.push([row, col - 1]);
+    }
+    if (col < matrix[row].length - 1) {
+        adjacentPositions.push([row, col + 1]);
+    }
+
+    return adjacentPositions;
+}
+
+function containsNegative(matrix) {
+    for (let row of matrix) {
+        for (let value of row) {
+            if (value < 0) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
