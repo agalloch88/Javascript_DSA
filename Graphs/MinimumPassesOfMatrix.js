@@ -73,6 +73,11 @@
 
 // Solution 1:
 
+// recursive solution finding negatives, converting them, and tracking number of passes
+
+// O(w * h) time complexity where w is width and h is height of matrix, converges to O(n)
+// O(w * h) space complexity due to using a couple stacks, additional arrays etc
+
 function minimumPassesOfMatrix(matrix) {
     let passes = convertNegatives(matrix);
     return !containsNegative(matrix) ? passes - 1 : -1;
