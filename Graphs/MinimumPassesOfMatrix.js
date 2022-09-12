@@ -178,3 +178,82 @@ function containsNegative(matrix) {
     // if no hits, all negatives were handled, so return false as no negatives
     return false;
 }
+
+// Solution 2:
+
+function minimumPassesOfMatrix(matrix) {
+    let passes = convertNegatives(matrix);
+    return !containsNegative(matrix) ? passes - 1 : -1;
+}
+
+function convertNegatives(matrix) {
+    let stack = getAllPositivePositions(matrix);
+
+    let passes = 0;
+
+    while (stack.length > 0) {
+        let currentSize = stack.length;
+
+        while (currentSize > 0) {
+            let [currentRow, currentCol] = stack.pop();
+
+            let adjacentPositions = getAdjacentPositions(currentRow, currentCol, matrix);
+            for (let position of adjacentPositions) {
+                let [row, col] = position;
+
+                let value = matrix[row][col];
+                if (value < 0) {
+                    matrix[row][col] *= -1;
+                    stack.push([row, col]);
+                }
+            }
+            currentSize--;
+        }
+        passes++;
+    }
+    return passes;
+}
+
+function getAllPositivePositions(matrix) {
+    let positivePositions = [];
+
+    for (let row = 0; row < matrix.length; row++) {
+        for (let col = 0; col < matrix[row].length; col++) {
+            let value = matrix[row][col];
+            if (value > 0) {
+                positivePositions.push([row, col]);
+            }
+        }
+    }
+    return positivePositions;
+}
+
+function getAdjacentPositions(row, col, matrix) {
+    let adjacentPositions = [];
+
+    if (row > 0) {
+        adjacentPositions.push([row - 1, col]); // UP
+    }
+    if (row < matrix.length - 1) {
+        adjacentPositions.push([row + 1, col]); // DOWN
+    }
+    if (col > 0) {
+        adjacentPositions.push([row, col - 1]); // LEFT
+    }
+    if (col < matrix[row].length - 1) {
+        adjacentPositions.push([row, col + 1]); // RIGHT
+    }
+
+    return adjacentPositions;
+}
+
+function containsNegative(matrix) {
+    for (let row of matrix) {
+        for (let value of row) {
+            if (value < 0) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
