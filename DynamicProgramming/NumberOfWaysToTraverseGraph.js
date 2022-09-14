@@ -39,3 +39,30 @@ function numberOfWaysToTraverseGraph(width, height) {
     // for every position, return the sum to the left and above current position
     return numberOfWaysToTraverseGraph(width - 1, height) + numberOfWaysToTraverseGraph(width, height - 1);
 }
+
+// Solution 2:
+
+// Solution utilizing dynamic programming
+
+function numberOfWaysToTraverseGraph(width, height) {
+    let numberOfWays = [];
+    for (let i = 0; i < height + 1; i ++) {
+        numberOfWays.push([]);
+        for (let j = 0; j < width + 1; j ++) {
+            numberOfWays[i].push(0);
+        }
+    }
+
+    for (let widthIdx = 1; widthIdx < width + 1; widthIdx++) {
+        for (let heightIdx = 1; heightIdx < height + 1; heightIdx++) {
+            if (widthIdx === 1 || heightIdx === 1) {
+                numberOfWays[heightIdx][widthIdx] = 1;
+            } else {
+                let waysLeft = numberOfWays[heightIdx][widthIdx - 1];
+                let waysUp = numberOfWays[heightIdx - 1][widthIdx];
+                numberOfWays[heightIdx][widthIdx] = waysLeft + waysUp;
+            }
+        }
+    }
+    return numberOfWays[height][width];
+}
