@@ -24,10 +24,18 @@
 
 // Solution 1:
 
+// recursive solution but has a poor time complexity
+
+// O(2^(w + h)) time due to looking at 2 options for every node in graph, where w is the width and h is the height of the graph
+// O(w + h) space due to potentially w + h total recursive calls on stack
+
 function numberOfWaysToTraverseGraph(width, height) {
+    // base case
+    // on an edge in either case, so return 1
     if (width === 1 || height === 1) {
         return 1;
     }
-
+    // recursive case
+    // for every position, return the sum to the left and above current position
     return numberOfWaysToTraverseGraph(width - 1, height) + numberOfWaysToTraverseGraph(width, height - 1);
 }
