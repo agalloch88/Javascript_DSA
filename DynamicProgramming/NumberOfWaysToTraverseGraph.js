@@ -44,8 +44,8 @@ function numberOfWaysToTraverseGraph(width, height) {
 
 // Solution utilizing dynamic programming
 
-// O(w + h) time due to looking at every node, where w is the width and h is the height of the graph
-// O(w + h) space due to constructing new 2D array with numberOfWays
+// O(w * h) time due to looking at every node, where w is the width and h is the height of the graph
+// O(w * h) space due to constructing new 2D array with numberOfWays
 
 function numberOfWaysToTraverseGraph(width, height) {
     // create new 2D array, fill with 0's initially
@@ -77,23 +77,30 @@ function numberOfWaysToTraverseGraph(width, height) {
 
 // Solution 3:
 
-// Mathematical solution utitlizing factorial and permutation knowledge
+// Mathematical solution utitlizing factorial and permutation knowledge, (x + y) ! / x! * y!
+
+// O(w + h) time due to calculating value for bottom right corner
+// O(1) space due to only calculating, storing a few variables
 
 function numberOfWaysToTraverseGraph(width, height) {
+    // find the x and y for bottom right corner
     let xDistanceToCorner = width - 1;
     let yDistanceToCorner = height - 1;
-
+    // handle the top portion of the equation using helper function for factorial operations
     let numerator = factorial(xDistanceToCorner + yDistanceToCorner);
+    // handle the bottom portion of the equation using helper function for factorial operations
     let denominator = factorial(xDistanceToCorner) * factorial(yDistanceToCorner);
+    // may end up with decimals depending on input, so floor this value and return result of the function
     return Math.floor(numerator / denominator);
 }
 
 function factorial(num) {
+    // start with value of 1
     let result = 1;
-
+    // perform factorial operation up to n
     for (let n = 2; n < num + 1; n++) {
         result *= n;
     }
-
+    // return the result for this num
     return result;
 }
