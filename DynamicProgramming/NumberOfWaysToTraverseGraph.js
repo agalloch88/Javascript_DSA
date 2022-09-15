@@ -44,7 +44,11 @@ function numberOfWaysToTraverseGraph(width, height) {
 
 // Solution utilizing dynamic programming
 
+// O(w * h) time due to looking at every node, where w is the width and h is the height of the graph
+// O(w * h) space due to constructing new 2D array with numberOfWays
+
 function numberOfWaysToTraverseGraph(width, height) {
+    // create new 2D array, fill with 0's initially
     let numberOfWays = [];
     for (let i = 0; i < height + 1; i ++) {
         numberOfWays.push([]);
@@ -52,17 +56,21 @@ function numberOfWaysToTraverseGraph(width, height) {
             numberOfWays[i].push(0);
         }
     }
-
+    // start iterating through to calculate numberOfWays
     for (let widthIdx = 1; widthIdx < width + 1; widthIdx++) {
         for (let heightIdx = 1; heightIdx < height + 1; heightIdx++) {
+            // if on the horizontal or vertical edge, only 1 way to get there, so push that value into these slots
             if (widthIdx === 1 || heightIdx === 1) {
                 numberOfWays[heightIdx][widthIdx] = 1;
             } else {
+                // since only allowed to go down or right, we want to look at how many ways there are to the left and above a given position to determine numberOfWays
                 let waysLeft = numberOfWays[heightIdx][widthIdx - 1];
                 let waysUp = numberOfWays[heightIdx - 1][widthIdx];
+                // the numberOfWays for a given position is set to the value of left + up
                 numberOfWays[heightIdx][widthIdx] = waysLeft + waysUp;
             }
         }
     }
+    // after filling out entire 2D array, we are ending at bottom right position, so return the numberOfWays at this position
     return numberOfWays[height][width];
 }
