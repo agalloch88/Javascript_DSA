@@ -104,3 +104,33 @@ function factorial(num) {
     // return the result for this num
     return result;
 }
+
+// Solution 4:
+
+// Simple graph traversal using DFS
+
+function numberOfWaysToTraverseGraph(width, height, x = 0, y = 0) {
+    let stack = [];
+
+    stack.push({x, y});
+
+    let count = 0;
+
+    while (stack.length > 0) {
+        let currentPosition = stack.pop();
+
+        if (currentPosition.x === width - 1 && currentPosition.y === height - 1) {
+            count++;
+        }
+
+        if (currentPosition.x < width - 1) {
+            stack.push({x: currentPosition.x + 1, y: currentPosition.y});
+        }
+
+        if (currentPosition.y < height - 1) {
+            stack.push({x: currentPosition.x, y: currentPosition.y + 1});
+        }
+    }
+
+    return count;
+}
