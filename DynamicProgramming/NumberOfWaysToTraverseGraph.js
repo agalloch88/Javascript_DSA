@@ -109,28 +109,34 @@ function factorial(num) {
 
 // Simple graph traversal using DFS
 
+// O(w * h) time due to iterating over w * h items in graph to nav to bottom right node
+// O(w * h) space due to potentially up to w * h items in stack at a given time
+
+// add two new parameters to func, x and y, to keep track of coordinates and replace need for 2D matrix
 function numberOfWaysToTraverseGraph(width, height, x = 0, y = 0) {
+    // initialize empty stack as solution uses DFS
     let stack = [];
-
+    // push coordinates for starting position, top left, into stack
     stack.push({x, y});
-
+    // set count to 0, currently found no ways
     let count = 0;
-
+    // while items in the stack, do stuff
     while (stack.length > 0) {
+        // pop top item off stack and store coordinates in variable currentPosition
         let currentPosition = stack.pop();
-
+        // if reach bottom right, found one route, so increment count by 1
         if (currentPosition.x === width - 1 && currentPosition.y === height - 1) {
             count++;
         }
-
+        // if not currently at end of graph horizontally, push x coordinate + 1 onto stack
         if (currentPosition.x < width - 1) {
             stack.push({x: currentPosition.x + 1, y: currentPosition.y});
         }
-
+        // if not currently at bottom of graph veritcally, push x coordinate + 1 onto stack
         if (currentPosition.y < height - 1) {
             stack.push({x: currentPosition.x, y: currentPosition.y + 1});
         }
     }
-
+    // once the stack is empty, while loop breaks, and should return count of ways found
     return count;
 }
