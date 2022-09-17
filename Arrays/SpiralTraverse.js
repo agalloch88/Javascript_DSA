@@ -15,49 +15,57 @@
 
 // Solution 1:
 
-// iterative solution tracing the edges and working inward
+// iterative solution tracing the edges going clockwise and working inward
 
 // O(n) time due to traversing n elements in two-dimensional arrays
 // O(n) space due to storing n elements in new array
 
 function spiralTraverse(array) {
+    // create empty results aray
     let results = [];
-
+    // establish variables for startRow, endRow, startCol, endCol
     let startRow = 0;
     let endRow = array.length - 1;
     let startCol = 0;
     let endCol = array[0].length - 1;
-
+    // while these values are less than eachother or overlap, keep traversing
     while (startRow <= endRow && startCol <= endCol) {
-
+        // set current column to start col, and start traversing col values in startRow
         for (let col = startCol; col <= endCol; col++) {
+            // push these values into results array
             results.push(array[startRow][col]);
         }
-
+        // set current row to startRow + 1, since already looked at the first item in endCol
         for (let row = startRow + 1; row <= endRow; row++) {
+            // push the values row each row in endCol to results array
             results.push(array[row][endCol]);
         }
-
+        // set current column to endCol - 1, since alreacy looked at endCol value
         for (let col = endCol - 1; col >= startCol; col--) {
+            // once overlapping with endRow after successive iterations, break out of loop
             if (startRow === endRow) {
                 break;
             }
+            // push col results in row for each column to results array
             results.push(array[endRow][col]);
         }
-
-        for (let row = endRow -1; row > startRow; row--) {
+        // set current row to endRow - 1, since already looked at value here
+        for (let row = endRow - 1; row > startRow; row--) {
+            // once overlapping with endCol after successive iterations, break out of loop
             if (startCol === endCol) {
                 break;
             }
+            // push row results in col for each row to results array
             results.push(array[row][startCol]);
         }
-
+        // increment start row and startCol, decrement endRow and endCol
+        // this completes one clockwise pass, so now looking at next interior clockwise values
         startRow++;
         endRow--;
         startCol++;
         endCol--;
     }
-
+    // once while loop breaks, should be done, so return results array
     return results;
 }
 
