@@ -73,6 +73,9 @@ function spiralTraverse(array) {
 
 // recursive solution functioning in much the same way by tracing the outer edges
 
+// O(n) time due to traversing n elements in two-dimensional arrays
+// O(n) space due to storing n elements in new array
+
 function spiralTraverse(array) {
     const results = [];
     spiralFill(array, 0, array.length - 1, 0, array[0].length - 1, results);
