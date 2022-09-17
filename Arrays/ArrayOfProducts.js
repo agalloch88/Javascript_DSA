@@ -17,6 +17,8 @@
 
 // Solution 1:
 
+// iterative solution using two pointers to determine whether at the element to omit
+
 // O(n^2) time due ot nested for loops
 // O(n) space due to new products array
 
@@ -33,9 +35,11 @@ function arrayOfProducts(array) {
       if (i !== j) {
         runningProduct *= array[j];
       }
+      // position i in procuts holder array is equal to this running product
       products[i] = runningProduct;
     }
   }
+  // return final products array when done looping
   return products;
 }
 
