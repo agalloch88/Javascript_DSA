@@ -51,26 +51,33 @@ function arrayOfProducts(array) {
 // O(n) space due to storing n products in products, leftProducts, and rightProducts, so 3n simplifies to n
 
 function arrayOfProducts(array) {
+    // set up products, left, and rightProducts holder arrays with length set to input length, filled with 1's
     let products = new Array(array.length).fill(1);
     let leftProducts = new Array(array.length).fill(1);
     let rightProducts = new Array(array.length).fill(1);
-
+    // start figuring out products to left of i, using variable to hold running product amount
     let leftRunningProduct = 1;
+    // iterate over every item in array
     for (let i = 0; i < array.length; i++) {
+        // set value in leftProducts at i to be equal to the running product
         leftProducts[i] = leftRunningProduct;
+        // multiply the running product by value in array at i
         leftRunningProduct *= array[i];
     }
-
+    // start figuring out products to the right of i, using variable to hold running product amount
     let rightRunningProduct = 1;
+    // iterate over every item in array
     for (let i = 0; i < array.length; i++) {
+        // set value in rightProducts at i to be equal to the running product
         rightProducts[i] = rightRunningProduct;
+        // multiply the running product by value in array at i
         rightRunningProduct *= array[i];
     }
-
+    // for every item in array, the value in products output at i is leftProducts * rightProducts at same i
     for (let i = 0; i < array.length; i++) {
         products[i] = leftProducts[i] * rightProducts[i];
     }
-
+    // return the final products output
     return products;
 }
 
