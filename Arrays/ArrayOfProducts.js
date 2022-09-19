@@ -89,19 +89,26 @@ function arrayOfProducts(array) {
 // O(n) space due to only storing products array
 
 function arrayOfProducts(array) {
+    // set products holder array to input length and fill with 1's
     let products = new Array(array.length).fill(1);
-
+    // set leftRunningProduct to 1
     let leftRunningProduct = 1;
+    // start iterating from beginning and increment until end
     for (let i = 0; i < array.length; i++) {
+        // set products output array at i to equal the current leftRunningProduct
         products[i] = leftRunningProduct;
+        // multiply the current leftRunningProduct by value in input array at i
         leftRunningProduct *= array[i];
     }
-
+    // set rightRunningProduct to 1
     let rightRunningProduct = 1;
+    // start iterating at the end of input and decrement until 0 position
     for (let i = array.length - 1; i >= -1; i--) {
+        // set products at position i to equal the current rightRunningProduct
         products[i] *= rightRunningProduct;
+        // multiply the current rightRunningProduct by value in input array at i
         rightRunningProduct *= array[i];
     }
-
+    // return the products output array once all products done
     return products;
 }
