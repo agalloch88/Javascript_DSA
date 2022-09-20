@@ -21,7 +21,7 @@
 // O(n) space due to storing n elements in new array
 
 function spiralTraverse(array) {
-    // create empty results aray
+    // create empty results array
     let results = [];
     // establish variables for startRow, endRow, startCol, endCol
     let startRow = 0;
@@ -77,37 +77,48 @@ function spiralTraverse(array) {
 // O(n) space due to storing n elements in new array
 
 function spiralTraverse(array) {
+    // create empty results array
     const results = [];
+    // call helper, passining input array, startRow position, endRow position, startCol position,
+    // endCol position, and the results array to hold the traversed values
     spiralFill(array, 0, array.length - 1, 0, array[0].length - 1, results);
+    // return the filled-out results array with spiral traversal
     return results;
 }
 
 function spiralFill(array, startRow, endRow, startCol, endCol, results) {
+    // base case
+    // it outside the bounds of the row or column, return
     if (startRow > endRow || startCol > endCol) {
         return;
     }
-
+    // starting at top left, push in the values of the startCol, so horizontally to the right
     for (let col = startCol; col <= endCol; col++) {
         results.push(array[startRow][col]);
     }
-
+    // starting at value directly below the top right value, push in values of the endCol, so vertically downward
     for (let row = startRow + 1; row <= endRow; row++) {
         results.push(array[row][endCol]);
     }
-
+    // starting at value directly to the left of bottom right value, push in values of the endRow, so horizontally
+    // to the left
     for (let col = endCol - 1; col >= startCol; col--) {
+        // once reaching the end, where startRow and endRow are the same, break out
         if (startRow === endRow) {
             break;
         }
         results.push(array[endRow][col]);
     }
-
+    // starting at value directly above the bottom left, push in the values of the start col, not repeating the values,
+    // so vertically toward the top
     for (let row = endRow - 1; row >= startRow + 1; row--) {
+        // once reaching the end, where startCol and endCol are the same, break out
         if (startCol === endCol) {
             break;
         }
         results.push(array[row][startCol]);
     }
-
+    // completed one entire spiral of the outermost edge, so now move inward by one value
+    // and recursively keep doing so until the break positions trigger, and base case returns
     spiralFill(array, startRow + 1, endRow - 1, startCol + 1, endCol - 1, results);
 }
