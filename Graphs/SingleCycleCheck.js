@@ -33,6 +33,7 @@ function hasSingleCycle(array) {
         // reset currentIdx using helper function
         currentIdx = getNextIdx(currentIdx, array);
     }
+    // return whether back at start, and therefore if theres a single cycle or not
     return currentIdx === 0;
 }
 
@@ -51,18 +52,24 @@ function getNextIdx(currentIdx, array) {
 // O(1) space due to only storing a few variables
 
 function hasSingleCycle(array) {
+    // set current position to beginning of array
     let position = 0;
-
+    // while within the bounds of the array, keep going
     while (array[position] !== null) {
+        // figure out what index at from position
         const index = position;
+        // set position equal to output of helper function to handle the wrapping around the array
         position = nextPosition(index, array);
+        // use this to break out of the loop, setting item in array at index to null
         array[index] = null;
     }
-
+    // return whether back at start and whether any values in the array have not been set to null
     return position === 0 && !array.some(n => n !== null);
 }
 
 function nextPosition(position, array) {
+    // figure out next position to jump to, handling the wrap-around via the modulo on array.length
     const nextIdx = (position + array[position]) % array.length;
+    // return position based on whether greater or equal to 0 vs less than zero, in which case need to wrap around the array.
     return nextIdx >= 0 ? nextIdx : nextIdx + array.length;
 }
