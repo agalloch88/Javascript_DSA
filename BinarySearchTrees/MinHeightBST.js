@@ -174,43 +174,53 @@ function constructMinHeightBst(array, bst, startIdx, endIdx) {
 // O(n) time due to manual insert of n nodes
 // O(n) space due to constructing new BST of n nodes, at most n calls on call stack at a time
 
-function minHeightBst(array) {
-    return constructMinHeightBst(array, 0, array.length - 1);
-}
-
-function constructMinHeightBst(array, startIdx, endIdx) {
-    if (endIdx < startIdx) {
-        return null;
-    }
-
-    let midIdx = Math.floor((startIdx + endIdx) / 2);
-    let bst = new BST(array[midIdx]);
-
-    bst.left = constructMinHeightBst(array, startIdx, midIdx - 1);
-    bst.right = constructMinHeightBst(array, midIdx + 1, endIdx);
-    return bst;
-}
-
 class BST {
     constructor(value) {
         this.value = value;
         this.left = null;
         this.right = null;''
     }
-
+    // provided insert method, which takes in a value
     insert(value) {
+        // if provided value is less than the current value, then do additional checks
         if (value < this.value) {
+            // if not already a node for current node's left, then insert a new BST node using provided value
             if (this.left === null) {
                 this.left = new BST(value);
+            // if already a node there, replace value with provided value
             } else {
                 this.left.insert(value);
             }
+        // if provided value is greater than the current value, do additional checks
         } else {
+            // if not already a node for current node's right, then insert a new BST node using the provided value
             if (this.right === null) {
                 this.right = new BST(value);
+            // if already a node there, replace value with the provided value
             } else {
                 this.right.insert(value);
             }
         }
     }
+}
+
+function minHeightBst(array) {
+    // return result of helper function which takes in the input array, the startIdx, and endIdx as params
+    return constructMinHeightBst(array, 0, array.length - 1);
+}
+
+function constructMinHeightBst(array, startIdx, endIdx) {
+    // base case
+    // when start and end overlap, return null
+    if (endIdx < startIdx) {
+        return null;
+    }
+    // find the middle of the inputs
+    let midIdx = Math.floor((startIdx + endIdx) / 2);
+    // set BST to the middle value in input as root
+    let bst = new BST(array[midIdx]);
+    // recursively set the left and right subtrees, then return the final BST
+    bst.left = constructMinHeightBst(array, startIdx, midIdx - 1);
+    bst.right = constructMinHeightBst(array, midIdx + 1, endIdx);
+    return bst;
 }
