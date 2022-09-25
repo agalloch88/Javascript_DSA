@@ -57,10 +57,12 @@ function sumOfLinkedLists(linkedListOne, linkedListTwo) {
         currentNode.next = newNode;
         // set currentNode equal to the newNode value
         currentNode = newNode;
-        // 
+        // assign carry variable to the floored result 
         carry = Math.floor(sumOfValues / 10);
+        // assign nodeOne and nodeTwo to ternary results
         nodeOne = nodeOne !== null ? nodeOne.next : null;
         nodeTwo = nodeTwo !== null ? nodeTwo.next : null;
     }
+    // once while loop exits, move on to next value
     return newLinkedListHeadPointer.next;
 }
