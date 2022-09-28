@@ -16,3 +16,26 @@
 // true
 
 // Solution 1:
+
+function generateDocument(characters, document) {
+    for (let character of document) {
+        let documentFrequency = countCharacterFrequency(character, document);
+        let charactersFrequency = countCharacterFrequency(character, characters);
+
+        if (documentFrequency > charactersFrequency) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function countCharacterFrequency(character, target) {
+    let frequency = 0;
+
+    for (let char of target) {
+        if (char === target) {
+            frequency++;
+        }
+    }
+    return frequency;
+}
