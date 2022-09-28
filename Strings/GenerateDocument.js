@@ -52,3 +52,41 @@ function countCharacterFrequency(character, target) {
     // return the frequency of this char so it can be compared across the characters and document in above function
     return frequency;
 }
+
+// Solution 2:
+
+// iterative solution similar to the above, but using JS Set to track characters seen
+
+// O(c * (n + m)) time due to iterating on c unique characters n number of characters times for a document of m length
+// O(c) space due to storing c number of unique character records in the JS Set
+
+function generateDocument(characters, document) {
+    let alreadyCounted = new Set();
+
+    for (let character of document) {
+        if (character in alreadyCounted) {
+            continue;
+        }
+
+        let documentFrequency = countCharacterFrequency(character, document);
+        let charactersFrequency = countCharacterFrequency(character, characters);
+
+        if (documentFrequency > charactersFrequency) {
+            return false;
+        }
+
+        alreadyCounted.add(character);
+    }
+    return true;
+}
+
+function countCharacterFrequency(character, target) {
+    let frequency = 0;
+
+    for (let char of target) {
+        if (char === character) {
+            frequency++;
+        }
+    }
+    return frequency;
+}
