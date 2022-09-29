@@ -96,3 +96,25 @@ function countCharacterFrequency(character, target) {
     // return the frequency for this character in the target
     return frequency;
 }
+
+// Solution 3:
+
+function generateDocument(characters, document) {
+    let characterCounts = {};
+
+    for (let character of characters) {
+        if (!(character in characterCounts)) {
+            characterCounts[character] = 0;
+        }
+        characterCounts[character]++;
+    }
+
+    for (let character of document) {
+        if (!(character in characterCounts) || characterCounts[character] === 0) {
+            return false;
+        }
+        characterCounts[character]--;
+    }
+
+    return true;
+}
