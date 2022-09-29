@@ -61,32 +61,38 @@ function countCharacterFrequency(character, target) {
 // O(c) space due to storing c number of unique character records in the JS Set
 
 function generateDocument(characters, document) {
+    // create variable to store a new Set, which will contain the already-counted characters
     let alreadyCounted = new Set();
-
+    // for every character in the document, do some checks
     for (let character of document) {
+        // if this character is in the alreadyCounted set already, just continue
         if (character in alreadyCounted) {
             continue;
         }
-
+        // store results of countCharacterFreqeuncy in variable for documentFrequency of this character
         let documentFrequency = countCharacterFrequency(character, document);
+        // store results of countCharacterFreqeuncy in variable for charactersFrequency of this character
         let charactersFrequency = countCharacterFrequency(character, characters);
-
+        // if higher count for the character in document than the characters input, cannot generate the document so return false
         if (documentFrequency > charactersFrequency) {
             return false;
         }
-
+        // add this character to the alreadyCounted Set, and go on to the next
         alreadyCounted.add(character);
     }
+    // if made it all the way through without returning false, then can generate the document from provided characters, so return true
     return true;
 }
-
+// helper function solely responsible for targeting a specific character and counting the frequency of the specific character
 function countCharacterFrequency(character, target) {
+    // set variable frequency to 0
     let frequency = 0;
-
+    // for every char in the target, check to see if the char matches the character, and if so, increment the frequency
     for (let char of target) {
         if (char === character) {
             frequency++;
         }
     }
+    // return the frequency for this character in the target
     return frequency;
 }
