@@ -99,22 +99,32 @@ function countCharacterFrequency(character, target) {
 
 // Solution 3:
 
-function generateDocument(characters, document) {
-    let characterCounts = {};
+// iterative solution building JS object of characters and respective counts, then whittling them down by checking document and decrementing
 
+// O(n + m) time due to iterating over n items in characters and m items in document
+// O(c) space due to storing c unique characters from the characters string
+
+function generateDocument(characters, document) {
+    // set up empty JS object to hold key/value pairs for character and the respective counts
+    let characterCounts = {};
+    // check each character in characters input string first
     for (let character of characters) {
+        // if that character does not exist already in characterCounts, initialize it and set count to 0
         if (!(character in characterCounts)) {
             characterCounts[character] = 0;
         }
+        // increment the count of this character
         characterCounts[character]++;
     }
-
+    // check each character in the desired document next
     for (let character of document) {
+        // if the current character is not in the characterCounts JS object, or if the count of this character is 0, the document cannot be generated, so return false
         if (!(character in characterCounts) || characterCounts[character] === 0) {
             return false;
         }
+        // if the character is found in document, decrement the count by 1
         characterCounts[character]--;
     }
-
+    // if made it all the way through the two for loops, the document can be generated, so return true
     return true;
 }
