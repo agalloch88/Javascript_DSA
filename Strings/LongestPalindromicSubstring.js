@@ -61,6 +61,8 @@ function isPalindrome(string) {
 
 // Solution 2:
 
+// another iterative solution which slightly improves time complexity
+
 // O(n^2) time due to for loop with nested recursive calls
 // O(n) space due to storing vars, longest lengths
 
@@ -96,4 +98,45 @@ function getLongestPalindromeFrom(string, leftIdx, rightIdx) {
     // return new values to then set to odd/even vars, and eventually to longest for comparison against
     // the currentLongest values
     return [leftIdx + 1, rightIdx];
+}
+
+// Solution 3:
+
+// iterative solution implementing Manacher's Algorithm
+// Reference: https://www.educative.io/answers/longest-palindromic-substring-in-on-with-manachers-algorithm
+
+function longestPalindromicSubstring(string) {
+    let newString = "#" + string.split("").join("#") + "#";
+    let center = 0, radius = 0, lpsCenter = 0, lpsRadius = 0;
+    let dp = Array(newString.length);
+
+    for (let i = 0; i < newString.length; i++) {
+        if (center + radius > i) {
+            let iMirror = center - (i - center);
+            dp[i] = Math.min(dp[iMirror], (center + radius) - i);
+        } else {
+            dp[i] = 1;
+        }
+
+        while (i + dp[i] < newString.length &&
+                i - dp[i] >= 0 &&
+                newString[i + dp[i]] === newString[i - dp[i]]) {
+                    dp[i]++;
+                }
+        
+        if (center + radius < i + dp[i]) {
+            center = i;
+            radius = dp[i];
+        }
+
+        if (lpsRadius < dp[i]) {
+            lpsRadius = dp[i];
+            lpsCenter = i;
+        }
+    }
+
+    let start = (lpsCenter - lpsRadius + 1) / 2;
+    let end = (lpsCenter + lpsRadius - 1) / 2;
+
+    return string.substring(start, end);
 }
