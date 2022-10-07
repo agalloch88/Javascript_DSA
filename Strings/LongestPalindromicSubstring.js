@@ -59,29 +59,41 @@ function isPalindrome(string) {
     return true;
 }
 
-// Solution 2 
+// Solution 2:
+
+// O(n^2) time due to for loop with nested recursive calls
+// O(n) space due to storing vars, longest lengths
 
 function longestPalindromicSubstring(string) {
+    // initialize currentLongest variable, set to first two positions and then will update
     let currentLongest = [0, 1];
-
+    // starting looping over string starting from positions i/1 until end
     for (let i = 1; i < string.length; i++) {
+        // account for odd vs even input lengths, which will change how a palindrome looks (x vs xx center value)
+        // via helper function recursive calls
         let odd = getLongestPalindromeFrom(string, i - 1, i + 1);
         let even = getLongestPalindromeFrom(string, i - 1, i);
+        // calculate the longest to determine whether odd or even
         let longest = odd[1] - odd[0] > even[1] - even [0] ? odd : even;
-
+        // update current longest if longest is longer, otherwise stick with currentLongest values
         currentLongest = currentLongest[1] - currentLongest[0] > longest[1] - longest[0] ? currentLongest : longest;
     }
-
+    // return slice of string from first position to last position of currentLongest pair
     return string.slice(currentLongest[0], currentLongest[1]);
 }
-
+// helper function to determine length of palindrome, taking in input, leftIdx/start and rightIdx/end
 function getLongestPalindromeFrom(string, leftIdx, rightIdx) {
+    // while leftIdx and rightIdx are in bounds, keep checking
     while (leftIdx >= 0 && rightIdx < string.length) {
+        // if values at these indexes do not match, break out of while loop
         if (string[leftIdx] !== string[rightIdx]) {
             break;
         }
+        // increment leftIdx, decrement rightIdx until while loop breaks
         leftIdx++;
         rightIdx--;
     }
+    // return new values to then set to odd/even vars, and eventually to longest for comparison against
+    // the currentLongest values
     return [leftIdx + 1, rightIdx];
 }
