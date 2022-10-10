@@ -70,17 +70,26 @@ function groupAnagrams(words) {
 
 // Solution 2:
 
+// another iterative solution but using JS object to store key/value pairs of sortedWord and word
+
+// O(w * n * log(n)) time due to still sorting w words and iterating over all inputs of max length n
+// O(wn) space due to storing new JS object
+
 function groupAnagrams(words) {
+    // set up empty JS object for holding sortedWord and words
     let anagrams = {};
-
+    // iterate over every value in input words
     for (let word of words) {
+        // grab the current sortedWord by splitting, sorting, then joing input words, storing in variable
         let sortedWord = words.split('').sort().join('');
-
+        // if the current sortedWord is already in anagrams JS object, push new value into that key
         if (sortedWord in anagrams) {
             anagrams[sortedWord].push(word);
+        // if sortedWord not already in anagrams JS object, create new sortedWord value with key of [word]
         } else {
             anagrams[sortedWord] = [word];
         }
     }
+    // return anagrams JS object in correct format of 2D array
     return Object.values(anagrams);
 }
