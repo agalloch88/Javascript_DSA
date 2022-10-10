@@ -67,3 +67,20 @@ function groupAnagrams(words) {
     // once done, return the full result array
     return result;
 }
+
+// Solution 2:
+
+function groupAnagrams(words) {
+    let anagrams = {};
+
+    for (let word of words) {
+        let sortedWord = words.split('').sort().join('');
+
+        if (sortedWord in anagrams) {
+            anagrams[sortedWord].push(word);
+        } else {
+            anagrams[sortedWord] = [word];
+        }
+    }
+    return Object.values(anagrams);
+}
