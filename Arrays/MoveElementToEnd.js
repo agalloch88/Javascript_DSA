@@ -49,23 +49,36 @@ function swap(i, j, array) {
 
 // Solution 2:
 
-function moveElementToEnd(array, toMove) {
-    let left = 0;
-    let right = array.length - 1;
+// iterative solution that cuts down to only one while loop
 
+// O(n) time due to two pointers and one loop over every array element
+// O(1) space due to only two variables stored
+
+function moveElementToEnd(array, toMove) {
+    // set up variable for value at first index
+    let left = 0;
+    // set up variable for value at last index
+    let right = array.length - 1;
+    // while the index values do not overlap, keep looping
     while (left < right) {
+        // if the value at the right pointer does not equal the toMove value, then do further check
         if (array[right] !== toMove) {
+            // if the value at the left pointer matches the toMove value, then perform the swap
+            // via the helper function
             if (array[left] === toMove) {
                 swap(left, right, array);
             }
+            // increment the left pointer by one
             left++;
+        // when the if block above is not triggered, decrement the right pointer by 1
         } else {
             right--;
         }
     }
+    // return the array which now has all toMove values at the end
     return array;
 }
-
+// helper function to perform swap in place, necessary in JS
 function swap(left, right, array) {
     let temp = array[left];
     array[left] = array[right];
