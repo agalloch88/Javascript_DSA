@@ -45,4 +45,29 @@ function swap(i, j, array) {
     array[j] = array[i];
     // set position i in input array to equal the temp variable, which is equal to value at position j
     array[i] = temp;
-} 
+}
+
+// Solution 2:
+
+function moveElementToEnd(array, toMove) {
+    let left = 0;
+    let right = array.length - 1;
+
+    while (left < right) {
+        if (array[right] !== toMove) {
+            if (array[left] === toMove) {
+                swap(left, right, array);
+            }
+            left++;
+        } else {
+            right--;
+        }
+    }
+    return array;
+}
+
+function swap(left, right, array) {
+    let temp = array[left];
+    array[left] = array[right];
+    array[right] = temp;
+}
