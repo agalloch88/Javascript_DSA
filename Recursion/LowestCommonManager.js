@@ -22,3 +22,35 @@
 // Node B
 
 // Solution 1:
+
+class OrgChart {
+    constructor(name) {
+        this.name = name;
+        this.directReports = [];
+    }
+}
+
+function lowestCommonManager(topManager, reportOne, reportTwo) {
+    return getOrgInfo(topManager, reportOne, reportTwo).lowestCommonManager;
+}
+
+function getOrgInfo(manager, reportOne, reportTwo) {
+    let numImportantReports = 0;
+
+    for (let directReport of manager.directReports) {
+        let orgInfo = getOrgInfo(directReport, reportOne, reportTwo);
+
+        if (!!orgInfo.lowestCommonManager) {
+            return orgInfo;
+        }
+
+        numImportantReports += orgInfo.numImportantReports;
+    }
+
+    if (manager === reportOne || manager === reportTwo) {
+        numImportantReports++;
+    }
+
+    let lowestCommonManager = numImportantReports === 2 ? manager : null;
+    return {lowestCommonManager, numImportantReports};
+}
