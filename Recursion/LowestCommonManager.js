@@ -65,3 +65,42 @@ function getOrgInfo(manager, reportOne, reportTwo) {
     // return this function with both the lowestCommonManager and the current numImportantReports found
     return {lowestCommonManager, numImportantReports};
 }
+
+// Solution 2:
+
+class OrgChart {
+    constructor(name) {
+        this.name = name;
+        this.directReports = [];
+    }
+}
+
+function lowestCommonManager(topManager, reportOne, reportTwo) {
+    let lowestCommonManager = null;
+
+    let managerHelper = (manager, reportOne, reportTwo) => {
+        if (lowestCommonManager) {
+            return 0;
+        }
+
+        let count = 0;
+
+        if (manager === reportOne || manager === reportTwo) {
+            count++;
+        }
+
+        for (let report of manager.directReports) {
+            count += managerHelper(report, reportOne, reportTwo);
+
+            if (count >= 2) {
+                if (!lowestCommonManager) {
+                    lowestCommonManager = manager;
+                }
+                return count;
+            }
+        }
+        return count;
+    }
+    managerHelper(topManager, reportOne, reportTwo);
+    return lowestCommonManager;
+}
