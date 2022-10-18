@@ -26,7 +26,7 @@
 // recursive solution using DFS and going as deep as possible into org chart, then returning when any reports found
 
 // O(n) time, where n is total number of people in org chart, due to recursively checking every node in org
-// O(d) space, where d is the depth of the org chart, due to at most d calls on the call stackc at any given time
+// O(d) space, where d is the depth of the org chart, due to at most d calls on the call stack at any given time
 
 // class for the OrgChart, where every node has a name and an array of direct reports underneath itself
 class OrgChart {
@@ -68,6 +68,12 @@ function getOrgInfo(manager, reportOne, reportTwo) {
 
 // Solution 2:
 
+// solution utilizing a closure, which will stop searching as soon as the two reports are found
+
+// O(n) time in worst case, where n is total number of people in org chart, due to potentially checking every node in org
+// O(d) space, where d is the depth of the org chart, due to at most d calls on the call stack at any given time
+
+// class for the OrgChart, where every node has a name and an array of direct reports underneath itself
 class OrgChart {
     constructor(name) {
         this.name = name;
@@ -76,31 +82,39 @@ class OrgChart {
 }
 
 function lowestCommonManager(topManager, reportOne, reportTwo) {
+    // set variable to equal null for now, will update once the LCM is found
     let lowestCommonManager = null;
-
+    // set up closure here, which takes in the manager in question and the two reports
     let managerHelper = (manager, reportOne, reportTwo) => {
+        // if the lowestCommonManager is found, return and exit the closure
         if (lowestCommonManager) {
             return 0;
         }
-
+        // set the number of reports found to 0 and store in variable count
         let count = 0;
-
+        // if the manager in question matches either of the reports, increment count by 1
         if (manager === reportOne || manager === reportTwo) {
             count++;
         }
-
+        // for every report of the manager's directReports array, do stuff
         for (let report of manager.directReports) {
+            // recursively increment count depending on the return result of the closure
             count += managerHelper(report, reportOne, reportTwo);
-
+            // when count is 2 or greater, check for the LCM
             if (count >= 2) {
+                // when count is at 2 or more, a LCM is found, so if it doesn't already have association, set LCM to equal the current manager
                 if (!lowestCommonManager) {
                     lowestCommonManager = manager;
                 }
+                // return the count now
                 return count;
             }
         }
+        // if made it through the for loop above, return the count
         return count;
     }
+    // call the function here and execute the closure
     managerHelper(topManager, reportOne, reportTwo);
+    // once the closure finishes, should now have the LCM, so return it
     return lowestCommonManager;
 }
