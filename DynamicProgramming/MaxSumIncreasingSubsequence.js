@@ -16,3 +16,38 @@
 // The subsequence listed above is strictly-increasing and yields the largest sum of all strictly-increasing subsequences found in the input array
 
 // Solution 1:
+
+function maxSumIncreasingSubsequence(array) {
+    let sequences = new Array(array.length);
+    let sums = array.map(num => num);
+    let maxSumIdx = 0;
+
+    for (let i = 0; i < array.length; i++) {
+        let currentNum = array[i];
+
+        for (let j = 0; j < i; j++) {
+            let otherNum = array[j];
+
+            if (otherNum <currentNum && sums[j] + currentNum >= sum[i]) {
+                sums[i] = sums[j] + currentNum;
+                sequences[i] = j;
+            }
+        }
+
+        if (sums[i] >= sums[maxSumIdx]) {
+            maxSumIdx = i;
+        }
+    }
+    return [sums[maxSumIdx], buildSequence(array, sequences, maxSumIdx)];
+}
+
+function buildSequence(array, sequences, currentIdx) {
+    let sequence = [];
+
+    while (currentIdx !== undefined) {
+        sequence.unshift(array[currentIdx]);
+        currentIdx = sequences[currentIdx];
+    }
+
+    return sequence;
+}
