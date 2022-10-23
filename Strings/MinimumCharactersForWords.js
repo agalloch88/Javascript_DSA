@@ -12,3 +12,52 @@
 // ["t", "t", "h", "i", "s", "a", "d", "d", "e", "e", "m", "!"]
 
 // Solution 1:
+
+function minimumCharactersForWords(words) {
+    let maximumCharacterFrequencies = {};
+
+    for (let word of words) {
+        let characterFrequencies = countCharacterFrequencies(word);
+        updateMaximumFrequencies(characterFrequencies, maximumCharacterFrequencies);
+    }
+
+    return makeArrayFromCharacterFrequencies(maximumCharacterFrequencies);
+}
+
+function countCharacterFrequencies(string) {
+    let characterFrequencies = {};
+
+    for (let character of string) {
+        if (!(character in characterFrequencies)) {
+            characterFrequencies[character] = 0;
+        }
+        characterFrequencies[character] += 1;
+    }
+    return characterFrequencies;
+}
+
+function updateMaximumFrequencies(frequencies, maximumFrequencies) {
+    for (let character in frequencies) {
+        let frequency = frequencies[character];
+
+        if (character in maximumFrequencies) {
+            maximumFrequencies[character] = Math.max(frequency, maximumFrequencies[character]);
+        } else {
+            maximumFrequencies[character] = frequency;
+        }
+    }
+}
+
+function makeArrayFromCharacterFrequencies(characterFrequencies) {
+    let characters = [];
+
+    for (let character in characterFrequencies) {
+        let frequency = characterFrequencies[character];
+
+        for (let idx = 0; idx < frequency; idx++) {
+            characters.push(character);
+        }
+    }
+
+    return characters;
+}
