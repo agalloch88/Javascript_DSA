@@ -82,3 +82,22 @@ function makeArrayFromCharacterFrequencies(characterFrequencies) {
     // return filled array for use in main function above
     return characters;
 }
+
+// Solution 2:
+
+function minimumCharactersForWords(words) {
+    let minimumCharacters = [];
+
+    for (let word of words) {
+        let storage = [...minimumCharacters];
+
+        for (let letter of word) {
+            if (!storage.includes(letter)) {
+                minimumCharacters.push(letter);
+            } else {
+                storage.splice(storage.indexOf(letter), 1);
+            }
+        }
+    }
+    return minimumCharacters;
+}
