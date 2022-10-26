@@ -14,16 +14,26 @@
 
 // Solution 1:
 
-function minNumberOfJumps(array) {
-    let jumps = new Array(array.length).fill(Infinity);
-    jumps[0] = 0;
+// iterative solution storing number of jumps to indices in separate array
 
+// O(n^2) time due to nested for loops
+// O(n) space due to storing n elements in new jumps array
+
+function minNumberOfJumps(array) {
+    // set up new array the same length as input, fill with Infinity since do not know size of jump, store in variable jumps
+    let jumps = new Array(array.length).fill(Infinity);
+    // does not take any jump to reach first value, so override with 0
+    jumps[0] = 0;
+    // iterate over input array starting from index 1 until the end
     for (let i = 1; i < array.length; i++) {
+        // start at index 0 and use another loop to track distance away from i
         for (let j = 0; j < i; j++) {
+            // if the value at index j is less than value of i - j, then set the value in jumps array at position i equal to the lesser of jumps at j + 1 or jumps at i
             if (array[j] < i - j) {
                 jumps[i] = Math.min(jumps[j] + 1, jumps[i]);
             }
         }
     }
+    // as jumps was tracking the minimum number of jumps to all indexes, return the last value in the jumps array
     return jumps[jumps.length - 1];
 }
