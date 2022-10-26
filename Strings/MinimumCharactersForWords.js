@@ -85,19 +85,30 @@ function makeArrayFromCharacterFrequencies(characterFrequencies) {
 
 // Solution 2:
 
+// iterative solution using temporary storage array for results, removal via splice
+
+// O(n * l * c) time due to n words, l possible longest length of words, and c unique characters across words
+// O(c * l) space due to c unique characters to store and temporary array holding up to l characters from longest word 
+
 function minimumCharactersForWords(words) {
+    // initialize empty array to hold results and store inside variable minimumCharacters
     let minimumCharacters = [];
-
+    // for every word in word inputs, do stuff
     for (let word of words) {
+        // use spread operator on variable minimumCharacters array, store inside variable storage
+        // will be empty on first pass, but populated on successive passes
         let storage = [...minimumCharacters];
-
+        // for every letter of the given word, do the following checks
         for (let letter of word) {
+            // if the current letter does not existing in the temporary storage array, push the letter to minimumCharacters results array
             if (!storage.includes(letter)) {
                 minimumCharacters.push(letter);
+            // if the character does exist in storage array, remove the letter using splice via the indexOf method to remove the first occurence encountered in storage
             } else {
                 storage.splice(storage.indexOf(letter), 1);
             }
         }
     }
+    // once finished with every word from input array, return the result array minimumCharacters
     return minimumCharacters;
 }
