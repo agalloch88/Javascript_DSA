@@ -21,6 +21,11 @@
 
 // Solution 1:
 
+// iterative solution keeping track of max to left and right and using new array to track the maxes
+
+// O(n) time due to iterating for left and right max plus reduce, 3n converges to n
+// O(n) space due to using extra maxes array to store max values
+
 function waterArea(heights) {
     // set up new array the length of input and fill with 0's, store in variable maxes to keep track of the maximum heights in either direction
     let maxes = new Array(heights.length).fill(0);
