@@ -72,26 +72,36 @@ function waterArea(heights) {
 // O(1) space due to only storing 5 variables rather than array of n inputs from heights
 
 function waterArea(heights) {
+    // handle edge case of empty input, in which case should return 0
     if (heights.length === 0) {
         return 0;
     }
-
+    // initialize variables to track the extreme left/right pointers via index, the left/right maxes encountered, and the running surfaceArea total
     let leftIdx = 0;
     let rightIdx = heights.length - 1;
     let leftMax = heights[leftIdx];
     let rightMax = heights[rightIdx];
     let surfaceArea = 0;
-
+    // while the pointers do not overlap, keep looping as still more inputs to check
     while (leftIdx < rightIdx) {
+        // if the column at leftIdx in heights is shorter than column at rightIdx in heights, execute block below 
         if (heights[leftIdx] < heights[rightIdx]) {
+            // increment the leftIdx by 1
             leftIdx++;
+            // set the leftMax equal to the maximum value between leftMax and value at leftIdx in heights input
             leftMax = Math.max(leftMax, heights[leftIdx]);
+            // find the difference between leftMax and value at leftIdx, and add it to running surfaceArea total
             surfaceArea += leftMax - heights[leftIdx];
+        // if the column at rightIdx in heights is shorter than the column at leftIdx in heights, execute block below
         } else {
+            // decrement the rightIdx by 1
             rightIdx--;
+            // set rightMax equal to the maximum value between rightMax and value at rightIdx in heights input
             rightMax = Math.max(rightMax, heights[rightIdx]);
+            // find the difference between the rightMax and value at rightIdx, and add it to the running surfaceArea total
             surfaceArea += rightMax - heights[rightIdx];
         }
     }
+    // once the pointers overlap, while loop breaks and can return surfaceArea value since looked at all inputs already
     return surfaceArea;
 }
