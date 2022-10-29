@@ -63,3 +63,35 @@ function waterArea(heights) {
     // return the reduced maxes array
     return maxes.reduce((a, b) => a + b, 0);
 }
+
+// Solution 2:
+
+// iterative solution using constant space by employing pointers to track maxes and current indexes, plus surface area
+
+// O(n) time due to making one pass over all inputs, starting from start and end of input and working inward
+// O(1) space due to only storing 5 variables rather than array of n inputs from heights
+
+function waterArea(heights) {
+    if (heights.length === 0) {
+        return 0;
+    }
+
+    let leftIdx = 0;
+    let rightIdx = heights.length - 1;
+    let leftMax = heights[leftIdx];
+    let rightMax = heights[rightIdx];
+    let surfaceArea = 0;
+
+    while (leftIdx < rightIdx) {
+        if (heights[leftIdx] < heights[rightIdx]) {
+            leftIdx++;
+            leftMax = Math.max(leftMax, heights[leftIdx]);
+            surfaceArea += leftMax - heights[leftIdx];
+        } else {
+            rightIdx--;
+            rightMax = Math.max(rightMax, heights[rightIdx]);
+            surfaceArea += rightMax - heights[rightIdx];
+        }
+    }
+    return surfaceArea;
+}
