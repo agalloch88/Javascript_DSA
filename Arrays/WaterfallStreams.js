@@ -41,3 +41,61 @@
 // ]
 
 // Solution 1:
+
+function waterfallStreams(array, source) {
+    let rowAbove = [...array[0]];
+    rowAbove[source] = -1;
+
+    for (let row = 1; row < array.length; row++) {
+        let currentRow = [...array[row]];
+
+        for (let idx = 0; idx < rowAbove.length; idx++) {
+            let valueAbove = rowAbove[idx];
+
+            let hasWaterAbove = valueAbove < 0;
+            let hasBlock = currentRow[idx] === 1;
+
+            if (!hasWaterAbove) {
+                continue;
+            }
+
+            if (!hasBlock) {
+                currentRow[idx] += valueAbove;
+                continue;
+            }
+
+            let splitWater = valueAbove / 2;
+
+            let rightIdx = idx;
+            while (rightIdx + 1 < rowAbove.length) {
+                rightIdx++;
+
+                if (rowAbove[rightIdx] === 1) {
+                    break;
+                }
+
+                if (rowAbove[rightIdx] !== 1) {
+                    currentRow[rightIdx] += splitWater;
+                    break;
+                }
+            }
+
+            let leftIdx = idx;
+            while (leftIdx - 1 >= 0) {
+                leftIdx--;
+
+                if (rowAbove[leftIdx] === 1) {
+                    break;
+                }
+
+                if (rowAbove[leftIdx] !== 1) {
+                    currentRow[leftIdx] += splitWater;
+                    break;
+                }
+            }
+        }
+        rowAbove = currentRow;
+    }
+    let finalPercentages = rowAbove.map(num => (num < 0 ? num * -100 : num));
+    return finalPercentages;
+}
