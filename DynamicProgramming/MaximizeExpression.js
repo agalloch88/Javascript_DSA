@@ -13,3 +13,35 @@
 // 6 - (-3) + 2 - 7 = 4
 
 // Solution 1:
+
+function maximizeExpression(array) {
+    if (array.length < 4) {
+        return 0;
+    }
+
+    let maximumValueFound = -Infinity;
+
+    for (let a = 0; a < array.length; a++) {
+        let aValue = array[a];
+
+        for (let b = a + 1; b < array.length; b++) {
+            let bValue = array[b];
+
+            for (let c = b + 1; c < array.length; c++) {
+                let cValue = array[c];
+
+                for (let d = c + 1; d < array.length; d++) {
+                    let dValue = array[d];
+
+                    let expressionValue = evaluateExpression(aValue, bValue, cValue, dValue);
+                    maximumValueFound = Math.max(expressionValue, maximumValueFound);
+                }
+            }
+        }
+    }
+    return maximumValueFound;
+}
+
+function evaluateExpression(a, b, c, d) {
+    return a - b + c - d;
+}
