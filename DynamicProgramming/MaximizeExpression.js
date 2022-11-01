@@ -58,3 +58,38 @@ function maximizeExpression(array) {
 function evaluateExpression(a, b, c, d) {
     return a - b + c - d;
 }
+
+// Solution 2:
+
+function maximizeExpression(array) {
+    if (array.length < 4) {
+        return 0;
+    }
+
+    let maxOfA = new Array(1).fill(array[0]);
+    let maxOfAMinusB = new Array(1).fill(-Infinity);
+    let maxOfAMinusBPlusC = new Array(2).fill(-Infinity);
+    let maxOfAMinusBPlusCMinusD = new Array(3).fill(-Infinity);
+
+    for (let idx = 1; idx < array.length; idx++) {
+        let currentMax = Math.max(maxOfA[idx - 1], array[idx]);
+        maxOfA.push(currentMax);
+    }
+
+    for (let idx = 1; idx < array.length; idx++) {
+        let currentMax = Math.max(maxOfAMinusB[idx - 1], maxOfA[idx - 1] - array[idx]);
+        maxOfAMinusB.push(currentMax);
+    }
+
+    for (let idx = 2; idx < array.length; idx++) {
+        let currentMax = Math.max(maxOfAMinusBPlusC[idx - 1], maxOfAMinusB[idx - 1] + array[idx]);
+        maxOfAMinusBPlusC.push(currentMax);
+    }
+
+    for (let idx = 3; idx < array.length; idx++) {
+        let currentMax = Math.max(maxOfAMinusBPlusCMinusD[idx - 1], maxOfAMinusBPlusC[idx - 1] - array[idx]);
+        maxOfAMinusBPlusCMinusD.push(currentMax);
+    }
+
+    return maxOfAMinusBPlusCMinusD[maxOfAMinusBPlusCMinusD.length - 1];
+}
