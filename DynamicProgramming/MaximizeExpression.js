@@ -61,35 +61,52 @@ function evaluateExpression(a, b, c, d) {
 
 // Solution 2:
 
+// iterative solution improving time complexity at expense of using n space
+
+// O(n) time due to looping over all n inputs
+// O(n) space due to storing n values from input
+
 function maximizeExpression(array) {
+    // handle edge case of less than 4 values in input, in which case return 0
     if (array.length < 4) {
         return 0;
     }
-
+    // set new array with length 1 and populate with value at index 0 in input array, store in variable maxOfA
     let maxOfA = new Array(1).fill(array[0]);
+    // set new array with length 1 and populate with value -Infinity, since do not know what A - B will be, store in variable maxOfAMinusB
     let maxOfAMinusB = new Array(1).fill(-Infinity);
+    // set new array with length 2, populate with value -Infinity since do know know what A - B + C will be, store in variable maxOfAMinusBPlusC
     let maxOfAMinusBPlusC = new Array(2).fill(-Infinity);
+    // set new array with length 3, populate with value -Infinity since do not know what A - B + C - D will be, store in variable maxOfAMinusBPlusCMinusD
     let maxOfAMinusBPlusCMinusD = new Array(3).fill(-Infinity);
-
+    // iterate over input, starting at index 1
     for (let idx = 1; idx < array.length; idx++) {
+        // select the maximum between value at idx in input array and maxOfA at position right behind current idx, store this value in variable currentMax
         let currentMax = Math.max(maxOfA[idx - 1], array[idx]);
+        // push currentMax into maxOfA array
         maxOfA.push(currentMax);
     }
-
+    // iterate over input, starting at index 1
     for (let idx = 1; idx < array.length; idx++) {
+        // select the maximum between value of maxOfAMinusB right behind current idx, and that same value minus the value of idx in input array, store this value in variable currentMax
         let currentMax = Math.max(maxOfAMinusB[idx - 1], maxOfA[idx - 1] - array[idx]);
+        // push currentMax value into maxOfAMinusB array
         maxOfAMinusB.push(currentMax);
     }
-
+    // iterate over input, starting at index 2
     for (let idx = 2; idx < array.length; idx++) {
+        // select the maximum between value of maxOfAMinusBPlusC right behind current idx, and that same value plus the value of idx in input array, store this value in variable currentMax
         let currentMax = Math.max(maxOfAMinusBPlusC[idx - 1], maxOfAMinusB[idx - 1] + array[idx]);
+        // push currentMax value into maxOfAMinusBPlusC array
         maxOfAMinusBPlusC.push(currentMax);
     }
-
+    // iterate over input, starting at index 3
     for (let idx = 3; idx < array.length; idx++) {
+        // select the maximum between value of maxOfAMinusBPlusCMinusD right behind current idx, and that same value minus the value of idx in input array, store this valuue in variable currentMax
         let currentMax = Math.max(maxOfAMinusBPlusCMinusD[idx - 1], maxOfAMinusBPlusC[idx - 1] - array[idx]);
+        // push currentMax value into maxOfAMinusBPlusCMinusD
         maxOfAMinusBPlusCMinusD.push(currentMax);
     }
-
+    // return the last value of final array as the answer
     return maxOfAMinusBPlusCMinusD[maxOfAMinusBPlusCMinusD.length - 1];
 }
