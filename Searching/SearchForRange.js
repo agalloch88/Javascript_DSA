@@ -63,7 +63,7 @@ function alteredBinarySearch(array, target, left, right, finalRange, goLeft) {
             if (mid === array.length - 1 || array[mid + 1] !== target) {
                 // this index represents the first occurence in the range of target values within the input array
                 finalRange[1] = mid;
-            // if neight at the end of array or off the target value, call helper function again to continue looking for rightmost index, updating left pointer to one right of current mid
+            // if neither at the end of array or off the target value, call helper function again to continue looking for rightmost index, updating left pointer to one right of current mid
             } else {
                 alteredBinarySearch(array, target, mid + 1, right, finalRange, goLeft);
             }
