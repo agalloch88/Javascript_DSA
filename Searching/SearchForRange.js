@@ -45,7 +45,7 @@ function alteredBinarySearch(array, target, left, right, finalRange, goLeft) {
     } else if (array[mid] > target) {
         // call helper again with right pointer shifted one to left of mid value
         alteredBinarySearch(array, target, left, mid - 1, finalRange, goLeft);
-    // if mid is not larger or smaller than target, must be equal, so have found at least one instance of the target, so execute block below
+    // if mid is not larger or smaller than target, must be equal, therefore have found at least one instance of the target, so execute block below
     } else {
         // if looking to the left for additional target values, execute block below
         if (goLeft) {
@@ -73,37 +73,59 @@ function alteredBinarySearch(array, target, left, right, finalRange, goLeft) {
 
 // Solution 2:
 
+// iterative solution employing helper function which executes modified binary serach to find leftmost and rightmost instances of target
+
+// O(log(n)) time due to executing modified binary search
+// O(1) space since only storing a few variables, iterative rather than recursive implementation
+
 function searchForRange(array, target) {
-    let finalRange = [-1, -1];
-    alteredBinarySearch(array, target, 0, array.length - 1, finalRange, true);
-    alteredBinarySearch(array, target, 0, array.length - 1, finalRange, false);
+   // set up holder array for final values, initialize to contain -1's right now in case no instances of target exist in input array
+   let finalRange = [-1, -1];
+   // recursive call for helper function with goLeft set to true to indicate looking left in input array
+   alteredBinarySearch(array, target, 0, array.length - 1, finalRange, true);
+   // recursive call for helper function with goLeft set to false to indicate looking right in input array
+   alteredBinarySearch(array,target, 0, array.length - 1, finalRange, false);
+   // once both recursive calls return, should have the finalRange to return, if target exists in input array, otherwise same initialized values satisfy requirements
     return finalRange;
 }
-
+// helper function taking in input array, target value, values for left and right points to calculate mid from, the finalRange holder array, and value for goLeft to determine direction
 function alteredBinarySearch(array, target, left, right, finalRange, goLeft) {
+    // since iterative rather than recursive, can ensure left pointer does not go past value of right, but when it does, loop breaks and should have proper finalRange to return
     while (left <= right) {
+        // floor the result of left plus right divided by 2 to find middle point of range, set equal to variable mid
         let mid = Math.max((left + right) / 2);
-
+        // if the mid value in input array is smaller than the target value, can discard the left half of the values as would be even smaller
         if (array[mid] < target) {
+            // set left pointer equal to the current value of mid plus 1
             left = mid + 1;
+        // if the mid value in the input array is greater than the target value, can discard the right half of the values as would be even larger
         } else if (array[mid] > target) {
+            // set right pointer equal to the current value of mid minus 1
             right = mid - 1;
+        // if mid is not larger or smaller than target, must be equal, therefore have found at least one instance of the target, so execute block below
         } else {
+            // if looking to the left for additional target values, execute block below
             if (goLeft) {
+                // if all the way at start of the input array, of if current mid's neighbor to left is not equal to the target value, set the first value in finalRange equal to current mid index
                 if (mid === 0 || array[mid - 1] !== target) {
+                    // this index represents the first occurence in the range of target values within the input array, so set equal to mid and return
                     finalRange[0] = mid;
                     return;
+                // if neither at the start of array or off the target value, must continue looking for leftmost index, so update right pointer to one left of current mid
                 } else {
                     right = mid - 1;
                 }
+            // if not looking left, must be looking for additional target values to the right, so execute block below
             } else {
+                // if all the way at the end of the input array, or if current mid's neighbor to the right is not equal to the target value, set the second value in finalRange equal to current mid index
                 if (mid === array.length - 1 || array[mid + 1] !== target) {
+                    // this index represents the first occurence in the range of target values within the input array, so set equal to mid and return
                     finalRange[1] = mid;
                     return;
+                // if neither at the end of array or off the target value, must continue looking for rightmost index, so update left pointer to one right of current mid
                 } else {
                     left = mid + 1;
                 }
-
             }
         }
     }
