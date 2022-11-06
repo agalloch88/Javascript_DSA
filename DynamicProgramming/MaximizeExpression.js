@@ -113,21 +113,32 @@ function maximizeExpression(array) {
 
 // Solution 3:
 
+// iterative solution with best-possible time and space complexity
+
+// O(n) time due to looping over all n inputs once
+// O(1) space due to only storing a few variables and not using additional data structures
+
 function maximizeExpression(array) {
+    // handle edge case of less than 4 values in input, in which case return 0
     if (array.length < 4) {
         return 0;
     }
-
+    // set up variables for various steps of determining maximum expression, initialize all to -Infinity to accept any potential value on first comparison
     let maxOfA = -Infinity;
     let maxOfAB = -Infinity;
     let maxOfABC = -Infinity;
     let maxOfABCD = -Infinity;
-
+    // iterate over the input array, stopping three shy of end
     for (let i = 0; i < array.length - 3; i++) {
+        // set variable maxOfA equal to the maximum between current maxOfA and value at i in input array
         maxOfA = Math.max(maxOfA, array[i]);
+        // set variable maxOfAB equal to the maximum between current maxOfAB and maxOfA value minus current i plus 1 in input array
         maxOfAB = Math.max(maxOfAB, maxOfA - array[i + 1]);
+        // set variable maxOfABC equal to the maximum between current maxOfABC and maxOfAB plus current i plus 2 in input array
         maxOfABC = Math.max(maxOfABC, maxOfAB + array[i + 2]);
+        // set variable maxOfABCD equal to the maximum between current maxOfABCD and maxOfABC minus current i plus 3 in input array
         maxOfABCD = Math.max(maxOfABCD, maxOfABC - array[i + 3]);
     }
+    // since tracked the max all the way through array and expressions, return the maxOfABCD variable as it holds the absolute maximum value possible in the input
     return maxOfABCD;
 }
