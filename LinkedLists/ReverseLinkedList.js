@@ -12,3 +12,23 @@
 // 5 -> 4 -> 3 -> 2 -> 1 -> 0
 
 // Solution 1:
+
+class LinkedList {
+    constructore(value) {
+        this.value = value;
+        this.next = null;
+    }
+}
+
+function reverseLinkedList(head) {
+    let p1PreviousNode = null;
+    let p2CurrentNode = head;
+
+    while (p2CurrentNode !== null) {
+        let p3NextNode = p2CurrentNode.next;
+        p2CurrentNode.next = p1PreviousNode;
+        p1PreviousNode = p2CurrentNode;
+        p2CurrentNode = p3NextNode;
+    }
+    return p1PreviousNode;
+}
