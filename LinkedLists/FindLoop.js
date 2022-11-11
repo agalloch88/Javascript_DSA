@@ -52,3 +52,25 @@ function findLoop(head) {
     // when the loop above exits, return wherever the first pointer is
     return first;
 }
+
+// Solution 2:
+
+class LinkedList {
+    constructor(value) {
+        this.value = value;
+        this.next = null;
+    }
+}
+
+function findLoop(head) {
+    let node = head;
+
+    while (node) {
+        if (node.seen) {
+            return node;
+        } else {
+            node.seen = true;
+        }
+        node = node.next;
+    }
+}
