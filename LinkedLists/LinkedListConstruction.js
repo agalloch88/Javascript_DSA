@@ -21,7 +21,7 @@
 // allow more clarity around what each input parameter is.
 
 // Each node has an integer value, as well as a prev node and a next node, both of which
-//can point to either another node, or None/null.
+// can point to either another node, or None/null.
 
 // Sample Usage:
 
@@ -48,6 +48,9 @@
 
 // Solution 1:
 
+// solution employing class for Node and DoublyLinkedList, with methods specific to creating, removing, inserting, and setting nodes
+
+// Node class for DoublyLinkedList nodes, with each having a value, prev pointer, and next pointer
 class Node {
     constructor(value) {
         this.value = value;
@@ -56,6 +59,7 @@ class Node {
     }
 }
 
+// class for constructing the DoublyLinkedList, containing all methods required, where each DoublyLinkedList has a head and tail property
 class DoublyLinkedList {
     constructor() {
         this.head = null;
@@ -79,6 +83,9 @@ class DoublyLinkedList {
         this.insertAfter(this.tail, node);
     }
 
+    // in creating a DoublyLinkedList, this is the fifth operation (makes use of the remove method)
+    // O(1) time
+    // O(1) space
     insertBefore(node, nodeToInsert) {
         if (nodeToInsert === this.head && nodeToInsert === this.tail) {
             return;
@@ -129,18 +136,30 @@ class DoublyLinkedList {
         }
     }
 
+    // in creating a DoublyLinkedList, this is the fourth operation (makes use of the remov method to remove a node with specific value)
+    // O(n) time
+    // O(1) space
     removeNodesWithValue(value) {
+        // grab value for head of the DoublyLinkedList and store in variable node
         let node = this.head;
+        // while not at the tail, keep iterating
         while (node !== null) {
+            // take current node and store in variable nodeToRemove
             let nodeToRemove = node;
+            // take value of node.next and store in variable node
             node = node.next;
+            // if the value of the nodeToRemove, aka current node, is equal to the value being looked for, call the remove method and pass in the nodeToRemove
             if (nodeToRemove.value === value) {
                 this.remove(nodeToRemove);
             }
         }
     }
 
+    // in creating a DoublyLinkedList, this is the third operation (must remove the node bindings first, and this makes use of that method)
+    // O(1) time
+    // O(1) space
     remove(node) {
+        // 
         if (node === this.head) {
             this.head = this.head.next;
         }
@@ -150,21 +169,36 @@ class DoublyLinkedList {
         this.removeNodeBindings(node);
     }
 
+    // in creating a DoublyLinkedList, this is the first operation
+    // O(n) time
+    // O(1) space
     containsNodeWithValue(value) {
+        // grab the head of the list, store in variable node
         let node = this.head;
+        // loop over inputs while the node is not null, and while have not found the value passed in which looking for in list
         while (node !== null && node.value !== value) {
+            // if not found, still inside this loop, so set the node.next value equal to node and move to next check
             node = node.next;
         }
+        // if outside while loop, either hit node === null or found the value, so return true or false depending on return statement
         return node !== null;
     }
 
+    // in creating a DoublyLinkedList, this is the second operation
+    // O(1) time
+    // O(1) space
     removeNodeBindings(node) {
+        // check whether the prev value of node passed in is equal to null, in which case this would be the head
         if (node.prev !== null) {
-            node.prev.net = node.next;
+            // set the next value of the node's prev equal to the current node.next
+            node.prev.next = node.next;
         }
+        // check whether the next value of the node passed in is equal to null, in which case this would be the tail
         if (node.next !== null) {
+            // set the prev value of the node's next equal to the current node.prev
             node.next.prev = node.prev;
         }
+        // since grabbed the prev and next values already, set current node.prev and node.next equal to null, effectively removing the node from the DoublyLinkedList
         node.prev = null;
         node.next = null;
     }
