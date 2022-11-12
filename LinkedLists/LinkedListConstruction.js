@@ -87,18 +87,24 @@ class DoublyLinkedList {
     // O(1) time
     // O(1) space
     insertBefore(node, nodeToInsert) {
+        // check nodeToInsert passed in to see if dealing with head or tail, and if so, return, as there are specific functions used to insert these nodes
         if (nodeToInsert === this.head && nodeToInsert === this.tail) {
             return;
         }
+        // if the checks above not triggered, call remove method on nodeToInsert
         this.remove(nodeToInsert);
+        // grab node.prev from passed in node and set nodeToInsert.prev equal to this value
         nodeToInsert.prev = node.prev;
+        // grab node passed in and set equal to nodeToInsert.next
         nodeToInsert.next = node;
-
+        // if the value for node.prev is null, dealing with the head of the LinkedList, so set the head value equal to nodeToInsert
         if (node.prev === null) {
             this.head = nodeToInsert;
+        // if not dealing with the head, set the next pointer of the node.prev equal to nodeToInsert
         } else {
             node.prev.next = nodeToInsert;
         }
+        // finally, set node.prev value equal to the nodeToInsert
         node.prev = nodeToInsert;
     }
 
