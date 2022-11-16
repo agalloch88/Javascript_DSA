@@ -132,19 +132,30 @@ function expandFromLocalMinIdx(localMinIdx, scores, rewards) {
 
 // Solution 3:
 
-function minRewards(scores) {
-    let rewards = scores.map(_ => 1);
+// iterative solution simplifying the checking of neighbor values by starting from beginning and end
 
+// O(n) time due to iterating over all n values in input, 2n converges to n
+// O(n) space due to storing extra rewards array
+
+function minRewards(scores) {
+    // create copy of scores array and map over, inserting 1 for each value as this is the minimum reward any student receives, store in variable rewards
+    let rewards = scores.map(_ => 1);
+    // iterate over the scores input array, starting at index 1 as will compare to item directly behind i, and moving from left to right
     for (let i = 1; i < scores.length; i++) {
+        // check to see if the value directly behind i is smaller than value at i, and if so, execute below
         if (scores[i] > scores[i - 1]) {
+            // update value of rewards at position i to equal the value at i minus 1 + 1
             rewards[i] = rewards[i - 1] + 1;
         }
     }
-
+    // iterate over the scores input array, starting at the second to last value as will compare to iterm directly following i, and moving from right to left
     for (let i = scores.length - 2; i >= 0; i--) {
+        // check to see if the value directly after i is smaller than the value at i, and if so, execute below
         if (scores[i] > scores[i + 1]) {
+            // set value of position i in rewards equal to the maximum between value at i currently in rewards or the value at i plus 1 + 1
             rewards[i] = Math.max(rewards[i], rewards[i + 1] + 1);
         }
     }
+    // return the reduced rewards array, which should sum up to the necessary rewards
     return rewards.reduce((a, b) => a + b);
 }
