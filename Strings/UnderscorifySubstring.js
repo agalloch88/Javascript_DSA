@@ -118,6 +118,6 @@ function underscorify(string, locations) {
     } else if (stringIdx < string.length) {
         finalChars.push(string.slice(stringIdx));
     }
-    //
+    // join the finalChars together
     return finalChars.join('');
 }
