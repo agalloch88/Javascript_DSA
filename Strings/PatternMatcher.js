@@ -36,7 +36,7 @@ function patternMatcher(pattern, string) {
                 continue;
             }
             let yIdx = firstYPos * lenOfX;
-            let x = string.slice(o, lenOfX);
+            let x = string.slice(0, lenOfX);
             let y = string.slice(yIdx, yIdx + lenOfY);
             let potentialMatch = newPattern.map(char => (char === 'x' ? x : y));
 
