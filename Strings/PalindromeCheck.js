@@ -76,3 +76,10 @@ function isPalindrome(string) {
     // once the pointers overlap, we've checked every value, and would be dealing with a palindrome, so return true
     return true;
 }
+
+// Solution 4:
+
+function isPalindrome(string, i = 0) {
+    let j = string.length - 1 - i;
+    return i >= j ? true : string[i] === string[j] && isPalindrome(string, i + 1);
+}
