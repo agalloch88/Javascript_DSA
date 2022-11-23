@@ -79,7 +79,16 @@ function isPalindrome(string) {
 
 // Solution 4:
 
+// memoized recursive solution
+
+// O(n) time due to checking up to n items in input string
+// O(n) space due to recursive calls on the call stack
+
+// main function which takes in input string and memoized value for i
 function isPalindrome(string, i = 0) {
+    // set variable j equal to length of string minus 1 minus current value for i in this call of isPalindrome
     let j = string.length - 1 - i;
+    // return the result from ternary statement: is i greater than or equal to j? if YES, return true, as this is a palindrome. if NO, check whether value at i is equal to value at j and
+    // call the isPalindrome function while adding 1 to memoized value of i
     return i >= j ? true : string[i] === string[j] && isPalindrome(string, i + 1);
 }
