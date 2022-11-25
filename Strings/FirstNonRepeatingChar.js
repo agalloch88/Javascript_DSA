@@ -15,21 +15,30 @@
 
 // Solution 1:
 
+// iterative solution using two pointers to compare values
+
 // O(n^2) time due to nested for loops, passing over each string value
 // O(1) space due to no additional data structures
 
 function firstNonRepeatingCharacter(string) {
+    // start iterating over the input string from the first index
     for (let idx = 0; idx < string.length; idx++) {
+        // set up boolean variable to determine whether character value repeats or not
         let isRepeating = false;
+        // set up second for loop iterating over input string to compare values, starting at first index
         for (let idx2 = 0; idx2 < string.length; idx2++) {
+            // if the values at idx and idx2 in input string are the same and idx and idx2 are not at the same index, found a repeating character
             if (string[idx] === string[idx2] && idx !== idx2) {
+                // set isRepeating equal to true now
                 isRepeating = true;
             }
         }
+        // if at any point isRepeating switches back to false, return that idx value as this is the answer
         if (!isRepeating) {
             return idx;
         }
     }
+    // if isRepeating never switches back to false, return -1 as there are no non-repeating characters
     return -1;
 }
 
