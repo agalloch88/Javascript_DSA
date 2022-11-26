@@ -58,36 +58,54 @@ function reverseWordsInString(string) {
 // O(n) space due to storing n words in array prior to joining
 
 function reverseWordsInString(string) {
+    // set up empty array to hold the words and store in variable words
     const words = [];
+    // set variable startOfWord equal to 0
     let startOfWord = 0;
-
+    // start looping over the input string, starting at index 0
     for (let idx = 0; idx < string.length; i++) {
+        // grab value at current idx in input string, and store in variable char
         const char = string[idx];
-
+        // if the current value of char is a space, execute the block below
         if (char === ' ') {
+            // take slice of string from startOfWord up to the current idx, and push this value into words
             words.push(string.slice(startOfWord, idx));
+            // set the startOfWord value equal to current idx
             startOfWord = idx;
+        // if the value at the startOfWord current value in string is equal to a space, execute the block below
         } else if (string[startOfWord] === ' ') {
+            // push a space into words array
             words.push(' ');
+            // set startOfWord equal to current idx
             startOfWord = idx;
         }
     }
-
+    // take slice of string from current value of startOfWord and push into words array
     words.push(string.slice(startOfWord));
-
+    // call helper function to reverse the words array, passing in said words array
     reverseList(words);
+    // return the joined array of words as string
     return words.join('');
 }
 
+// helper function to handle the reversing of the array items manually, taking in an array/list
+// procedure similar to setting up swap functionality in JS
 function reverseList(list) {
+    // set variable start equal to 0
     let start = 0;
+    // set variable end equal to index at very end of array
     let end = list.length -1;
-
+    // loop over items in array so long as start is less than end value
     while (start < end) {
+        // set variable temp equal to the value at position start in input array/list
         const temp = list[start];
+        // set value at position start equal to value at position end
         list[start] = list[end];
+        // set value at position end equal to value in variable temp
         list[end] = temp;
+        // increment start by 1
         start++;
+        // decrement end by 1
         end--;
     }
 }
