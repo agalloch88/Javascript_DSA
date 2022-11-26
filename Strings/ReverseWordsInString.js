@@ -22,20 +22,31 @@
 // O(n) space due to storing n values from input string
 
 function reverseWordsInString(string) {
+    // set up empty string to hold reversed string, store in variable reverse
     let reverse = '';
-
+    // start at last character in input string, store in variable i
     let i = string.length - 1;
+    // set up empty string to hold current word, store in variable currentWord
     let currentWord = '';
+    // start looping over input string so long as i is greater than or equal to 0, so still in bounds
     while (i >= 0) {
+        // grab the value of i in string, and store in variable char
         let char = string[i];
+        // if the char is equal to a space, then execute block below
         if (char === ' ') {
+            // add value of currentWord plus a space to the current string in reverse
             reverse += currentWord + ' ';
+            // once currentWord added to reverse, reset currentWord to empty string, as on to next word
             currentWord = '';
+        // if the char is equal to anything other than a space, execute the block below
         } else {
+            // set currentWord equal to the current value in variable char plus current value in currentWord
             currentWord = char + currentWord;
         }
+        // decrement i by 1
         i--;
     }
+    // return the value in reverse plus whatever is still in currentWord
     return reverse + currentWord;
 }
 
