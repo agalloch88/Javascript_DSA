@@ -116,31 +116,50 @@ function reverseList(list) {
 // O(n) space due to storing n characters from nput string
 
 function reverseWordsInString(string) {
+    // set up empty array to store characters
     const characters = [];
+    // loop over every character in the string
     for (const char of string) {
+        // push each char into the characters holder array
         characters.push(char);
     }
+    // call helper function to reverse the items in the passed-in characters array, starting at index 0 and ending at the last item
     reverseListRange(characters, 0, string.length - 1);
-
+    // set up variable startOfWord equal to 0
     let startOfWord = 0;
+    // while startOfWord is smaller than the number of characters, keep looping
     while (startOfWord < characters.length) {
+        // set variable endOfWord equal to startOfWord
         let endOfWord = startOfWord;
+        // while endOfWord is smaller than the number of characters AND the value at endOfWord in the characters array is not a space, keep looping
         while (endOfWord < characters.length && characters[endOfWord] !== ' ') {
+            // increment endOfWord by 1
             endOfWord++;
         }
-
+        // when while loop above breaks, must have finished an individual word, so call helper function
+        // pass in characters array, startOfWord and endOfWord values
         reverseListRange(characters, startOfWord, endOfWord - 1);
+        // now set startOfWord equal to the position directly to the right of endOfWord
         startOfWord = endOfWord + 1;
     }
+    // return the joined characters
     return characters.join('');
 }
 
+// helper function to handle the reversing of the array items manually, taking in an array/list plus start and end positions
+// procedure similar to setting up swap functionality in JS
 function reverseListRange(list, start, end) {
+    // while start is less than end, keep looping
     while (start < end) {
+        // grab the start of the list and store in variable temp
         const temp = list[start];
+        // set the start equal to the end
         list[start] = list[end];
+        // set the end equal to the temp
         list[end] = temp;
+        // increment start by 1
         start++;
+        // decrement end by 1
         end--;
     }
 }
