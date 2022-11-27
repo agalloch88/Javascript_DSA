@@ -14,7 +14,7 @@
 
 // Solution 1:
 
-// iterative solution using a few help[er functions to find locations of substring, collapse them, then underscorify where needed
+// iterative solution using a few helper functions to find locations of substring, collapse them, then underscorify where needed
 
 // O(n + m) time where n is length of the main string and m is the length of the substring
 // O(n) space due to storing locations and finalChars, 2n converges to n
