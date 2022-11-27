@@ -42,19 +42,28 @@ function twoNumberSum(array, targetSum) {
 
 // Solution 2:
 
+// iterative solution keeping track of seen numbers and using algebraic equation to find potentialMatch value
+
 // O(n) time due to single pass over input array
 // O(n) space due to creating hashmap/JS object to store nums
 
 function twoNumberSum(array, targetSum) {
+    // set up empty JS object and store in variable nums
     const nums = {};
+    // iterate over every num in array
     for (const num of array) {
+        // calculate the potentialMatch value by substracting targetSum by the current num
         const potentialMatch = targetSum - num;
+        // if potentialMatch is in the nums JS object, there's a valid answer for two number sum problem
         if (potentialMatch in nums) {
+            // if found, return the array of potentialMatch and the current num
             return [potentialMatch, num];
+        // if potentialMatch is NOT in nums, add it in there and set value equal to true
         } else {
             nums[num] = true;
         }
-    } 
+    }
+    // if no correct answer for problem, return empty array 
     return [];
 }
 
