@@ -15,19 +15,28 @@
 
 // Solution 1:
 
+// iterative solution using two pointers in for loops to compare values to targetSum
+
 // O(n^2) time complexity due to nested for loops
 // O(1) space complexity due to no additional data structures
 
 function twoNumberSum(array, targetSum) {
+    // start looping over array input, starting at index 0 for i
     for (let i = 0; i < array.length - 1; i++) {
+        // grab value at i in input array and store in variable int1
         const int1 = array[i];
+        // start second loop over input array, starting at index i plus 1
         for (let j = i + 1; j < array.length; j++) {
+            // grab value at j in input array and store in variable int2
             const int2 = array[j];
+            // check whether the sum of int1 plus int2 is equal to targetSum, and if so, execut below
             if (int1 + int2 === targetSum) {
+                // return array containing int1 and int2
                 return [int1, int2];
             }
         }
     }
+    // should if block above never triggers, return an empty array
     return [];
 }
 
