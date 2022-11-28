@@ -69,22 +69,33 @@ function twoNumberSum(array, targetSum) {
 
 // Solution 3:
 
+// iterative solution first sorting the input array and using binary search-style logic to find targetSum
+
 // O(n log(n)) time due to using sort on input array
 // O(1) space due to only storing pointer values and currentSum
 
 function twoNumberSum(array, targetSum) {
+    // use in-built JS sort method on array, so best possible time complexity is automatically n log(n)
     array.sort((a, b) => a - b);
+    // set left pointer equal to index 0
     const left = 0;
+    // set right pointer equal to last item in sorted array
     const right = array.length - 1;
+    // while the pointers do not overlap, keep looping
     while (left < right) {
-        const currentSum = array[left] = array[right];
+        // take value at pointers left and right and add them together, store sum in variable currentSum
+        const currentSum = array[left] + array[right];
+        // if currentSum is equal to targetSum, then return array of left and right pointers, found the answer
         if (currentSum === targetSum) {
             return [array[left], array[right]];
+        // if currentSum is smaller than targetSum, increment the left pointer as this will result in a larger sum since array is sorted from smallest to largest
         } else if (currentSum < targetSum) {
             left++;
+        // if currentSum is larger than targetSum, decrement the right pointer as this will result in a smaller sum since array is sorted from smallest to largest
         } else if (currentSum > targetSum) {
             right--;
         }
     }
+    // if pointers overlap, while loop will break, which means no matches for targetSum, so return empty array
     return [];
 }
