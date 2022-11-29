@@ -13,18 +13,27 @@
 
 // Solution 1:
 
+// iterative solution tracking indexes within the array and sequence and checking if sequence index matches sequence length at end
+
 // O(n) time due to single pass over array & sequence
 // O(1) space as only storing index values, regardless of array/sequence size
 
 function isValidSubsequence(array, sequence) {
+    // initialize variable arrIdx to track array index and set to 0
     let arrIdx = 0;
+    // initialize variable seqIdx to track sequence index and also set to 0
     let seqIdx = 0;
+    // while arrIdx is less than the length of the array AND seqIdx is less than the length of the sequence, keep looping
     while (arrIdx < array.length && seqIdx < sequence.length) {
+        //if the value at arrIdx in the array is equal to the value at seqIdx in the sequence, execute the below
         if (array[arrIdx] === sequence[seqIdx]) {
+            // if the above if statement is true, increment the seqIdx by 1 to then check the next value between the array and sequence
             seqIdx++;
         }
+        // regardless of whether if block above executes, increment the arrIdx by 1
         arrIdx++;
     }
+    // once while loop breaks, return the evaluation of the check as to whether the seqIdx is equal to the length of the sequence, meaning, if true, it would be at the end and a subsequence of the array
     return seqIdx === sequence.length;
 }
 
