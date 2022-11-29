@@ -39,18 +39,25 @@ function isValidSubsequence(array, sequence) {
 
 // Solution 2:
 
+// iterative solution only tracking the position in the sequence, as this is the crucial metric
+
 // O(n) time due to single pass over input array
 // O(1) space due to storing single value for sequence position
 
 function isValidSubsequence(array, sequence) {
+    // initialize variable seqIdx to track sequence index, and set to 0
     let seqIdx = 0;
+    // loop over every value in the input array
     for (const value of array) {
+        // should the seqIdx ever equal the sequence length, the sequence is validated and can break out of the for loop
         if (seqIdx === sequence.length) {
             break;
         }
+        // if the value at seqIdx in the sequence is equal to the current value in the array, increment the seqIdx by 1 as there's a match
         if (sequence[seqIdx] === value) {
             seqIdx++;
         }
     }
+    // return the evaluation of the check as to whether the seqIdx is equal to the length of the sequence, meaning, if true, it would be at the end and a subsequence of the array
     return seqIdx === sequence.length;
 }
