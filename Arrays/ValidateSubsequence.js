@@ -61,3 +61,12 @@ function isValidSubsequence(array, sequence) {
     // return the evaluation of the check as to whether the seqIdx is equal to the length of the sequence, meaning, if true, it would be at the end and a subsequence of the array
     return seqIdx === sequence.length;
 }
+
+// Solution 3:
+
+function isValidSubsequence(array, sequence) {
+    let counter = 0;
+
+    array.forEach((num) => num === sequence[counter] && counter++);
+    return counter === sequence.length;
+}
