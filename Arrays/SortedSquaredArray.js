@@ -56,6 +56,6 @@ function sortedSquaredArray(array) {
             largerValueIdx--;
         }
     }
-
+    // return the sortedSquares array once completed
     return sortedSquares;
 }
