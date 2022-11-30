@@ -1,5 +1,5 @@
 // Given an array of positive integers representing the values of coins in your possession, write a function which returns the minimum amount of change
-// (ie, the minimum sum of money) which cannotr be created. The given coins may have any positive integer value, and are not necessarily unique. So,
+// (ie, the minimum sum of money) which cannot be created. The given coins may have any positive integer value, and are not necessarily unique. So,
 // there may be multiple coins of the same value.
 
 // For example, if given coins = [1, 2, 5], the minimum amount of change which cannot be created is 4. If given no coins, the minimum amount
@@ -27,8 +27,9 @@ function nonConstructibleChange(coins) {
         if (coin > currentChangeCreated + 1) {
             return currentChangeCreated + 1;
         }
+        // increment currentChangeCreated by the value of the current coin
         currentChangeCreated += coin;
     }
-
+    // once array is looped, the value of minimum change which cannot be created is the currentChangeCreated value plus 1
     return currentChangeCreated + 1;
 }
