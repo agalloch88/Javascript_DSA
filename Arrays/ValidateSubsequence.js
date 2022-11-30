@@ -64,9 +64,17 @@ function isValidSubsequence(array, sequence) {
 
 // Solution 3:
 
-function isValidSubsequence(array, sequence) {
-    let counter = 0;
+// iterative solution using forEach array method and tracking subsequence via a counter
 
+// O(n) time due to iterating over every item in array
+// O(1) space due to only storing counter variable
+
+function isValidSubsequence(array, sequence) {
+    // set up variable counter to track how many matches found, and initialize to 0
+    let counter = 0;
+    // loop over array using the forEach array method, and for every num encountered, check whether that num is equal to the same index position in the sequence
+    // if so, increment the counter value by 1
     array.forEach((num) => num === sequence[counter] && counter++);
+    // return the evaluation value of checking whether the value for counter now matches the sequence length
     return counter === sequence.length;
 }
