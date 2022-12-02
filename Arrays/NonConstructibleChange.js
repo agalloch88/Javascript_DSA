@@ -13,6 +13,8 @@
 
 // Solution 1:
 
+// iterative solution first sorting coins then looping over values to find the minimum change value which cannot be created
+
 // O(nlog(n)) time due to sorting coins array
 // O(1) space due to only storing one variable regardless of contents of coins array
 
@@ -32,4 +34,13 @@ function nonConstructibleChange(coins) {
     }
     // once array is looped, the value of minimum change which cannot be created is the currentChangeCreated value plus 1
     return currentChangeCreated + 1;
+}
+
+// Solution 2:
+
+function nonConstructibleChange(coins) {
+    let currentChange = 1;
+    let sortCoins = coins.sort((a, b) => a - b).forEach(coin => coin < currentChange + 1 ? currentChange += coin : 0);
+
+    return currentChange;
 }
