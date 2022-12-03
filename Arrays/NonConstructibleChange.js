@@ -38,9 +38,18 @@ function nonConstructibleChange(coins) {
 
 // Solution 2:
 
-function nonConstructibleChange(coins) {
-    let currentChange = 1;
-    let sortCoins = coins.sort((a, b) => a - b).forEach(coin => coin < currentChange + 1 ? currentChange += coin : 0);
+// iterative solution chaining array methods to first sort then compare using forEach
 
+// O(n log(n)) time due to sorting coins array
+// O(1) space due to only storing the one variable regardless of contents of coins array
+
+function nonConstructibleChange(coins) {
+    // set up currentChange variable and initialize to 1
+    let currentChange = 1;
+    // sort the coins array from smallest to largest, then check using forEach on each item
+    // check here determines whether the current coin is smaller than the currentChange value plus 1
+    // if so, increment currentChange variable by value of current coin
+    coins.sort((a, b) => a - b).forEach(coin => coin < currentChange + 1 ? currentChange += coin : 0);
+    // once done, return the current value of currentChange variable
     return currentChange;
 }
