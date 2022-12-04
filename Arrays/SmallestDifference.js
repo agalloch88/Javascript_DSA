@@ -15,6 +15,8 @@
 
 // Solution 1:
 
+// iterative solution looping over the two arrays to find smallest difference
+
 // O(nlog(n) + mlog(m)) time due to looping over n values in arrayOne and m values in arrayTwo
 // O(1) space due to only storing 6 variables and a two-value array, regardless of n or m input array values
 
@@ -40,12 +42,12 @@ function smallestDifference(arrayOne, arrayTwo) {
             // set current difference value and move arrayOne pointer up one value
             current = secondNum - firstNum;
             idxOne++;
-            // if arrayTwo value is smaller, need to increment that value
+        // if arrayTwo value is smaller, need to increment that value
         } else if (secondNum < firstNum) {
             // set current difference value and move arrayTwo pointer up one value
             current = firstNum - secondNum;
             idxTwo++;
-            // if the values are equal, we have found are smallest difference, as 0 is the smallest possible value
+        // if the values are equal, we have found are smallest difference, as 0 is the smallest possible value
         } else {
             return [firstNum, secondNum];
         }
@@ -55,6 +57,6 @@ function smallestDifference(arrayOne, arrayTwo) {
             smallestPair = [firstNum, secondNum];
         }
     }
-
+    // return the array of smallestPair
     return smallestPair;
 }
