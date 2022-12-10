@@ -22,3 +22,33 @@
 // "/foo/bar/baz"
 
 // Solution 1:
+
+function shortenPath(path) {
+    let startsWithSlash = path[0] === '/';
+    let tokens = path.split('/').filter(isImportantToken);
+    let stack = [];
+
+    if (startsWithSlash) {
+        stack.push('');
+    }
+
+    for (let token of tokens) {
+        if (token === '..') {
+            if (stack.length === 0 || stack[stack.length - 1] === '..') {
+                stack.push(token);
+            } else if (stack[stack.length - 1] !== '') {
+                stack.pop();
+            }
+        } else {
+            stack.push(token);
+        }
+    }
+    if (stack.length === 1 && stack[0] === '') {
+        return '/';
+    }
+    return stack.join('/');
+}
+
+function isImportantToken(token) {
+    return token.length > 0 && token !== '.';
+}
