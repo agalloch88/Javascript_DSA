@@ -23,32 +23,54 @@
 
 // Solution 1:
 
+// iterative solution using stack and logic to identify important segments of path
+
+// O(n) time due to iterating over every segment in path, splitting, filtering, and finally joining path
+// O(n) space due to storing tokens and segments in stack
+
+// main function which takes in path
 function shortenPath(path) {
+    // determine whether value at index 0 in path is a slash, which determines whether dealing with
+    // absolute or relative path, and store boolean value in variable startsWithSlash
     let startsWithSlash = path[0] === '/';
+    // split items in path input on slashes, then filter segments using helper function which
+    // determines whether given segment is important, and store in variable tokens
     let tokens = path.split('/').filter(isImportantToken);
+    // set up empty array which will serve as a stack, and store in variable stack
     let stack = [];
 
+    // check whether path starts with a slash using variable established above
     if (startsWithSlash) {
+        // if true, push an empty string to bottom of stack, which will be joined with / once done
         stack.push('');
     }
 
+    // iterate over every token in tokens variable
     for (let token of tokens) {
+        // if the current token is .. which represents moving up one directory, execute below
         if (token === '..') {
+            // if the stack is currently empty or if the top item on the stack is .. then push token onto stack
             if (stack.length === 0 || stack[stack.length - 1] === '..') {
                 stack.push(token);
+            // if top item on stack is not an empty string, which would be a / at the end, then pop token off top of stack
             } else if (stack[stack.length - 1] !== '') {
                 stack.pop();
             }
+        // if token is anything other than .. then push token onto stack
         } else {
             stack.push(token);
         }
     }
+    // if stack has one element and that one element is an empty string, need to manually return /
     if (stack.length === 1 && stack[0] === '') {
         return '/';
     }
+    // return the joined elements in stack, joined with /'s
     return stack.join('/');
 }
 
+// helper function to determine whether segment is important, which takes in a single segment of path
 function isImportantToken(token) {
+    // return boolean result of check whether the token has a length greater than 0 and it is not a single .
     return token.length > 0 && token !== '.';
 }
