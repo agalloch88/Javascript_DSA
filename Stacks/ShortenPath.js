@@ -74,3 +74,36 @@ function isImportantToken(token) {
     // return boolean result of check whether the token has a length greater than 0 and it is not a single .
     return token.length > 0 && token !== '.';
 }
+
+// Solution 2:
+
+// iterative solution using switch statement for various cases
+
+function shortenPath(path) {
+    let isAbsolutePath = path[0] === '/';
+    let splitPath = path.split('/');
+    let moveUpDirectory = '..';
+    let sameDirectory = '.';
+    let result = [];
+
+    for (let idx = 0; idx < splitPath.length; idx++) {
+        let command = splitPath[idx];
+
+        switch (command) {
+            case moveUpDirectory:
+                if (!isAbsolutePath && (result.length === 0 || result[result.length - 1] === moveUpDirectory)) {
+                    result.push(moveUpDirectory);
+                } else {
+                    result.pop();
+                }
+                break;
+            case sameDirectory:
+            case '':
+                break;
+            default:
+                result.push(command);
+                break;
+        }
+    }
+    return (isAbsolutePath ? '/' : '') + result.join('/');
+}
