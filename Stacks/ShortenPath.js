@@ -79,31 +79,49 @@ function isImportantToken(token) {
 
 // iterative solution using switch statement for various cases
 
+// O(n) time due to single loop over inputs
+// O(n) space due to storing result and splitPath
+
 function shortenPath(path) {
+    // check whether first element in path input is a / which determines absolute vs relative path, and store boolean in variable isAbsolutePath
     let isAbsolutePath = path[0] === '/';
+    // split the input path into segments based on /'s, and store result in variable splitPath
     let splitPath = path.split('/');
+    // define what constitutes moving up a directory, which is .., and store in variable moveUpDirectory
     let moveUpDirectory = '..';
+    // define what constitutes a 'same directory' segment, and store in variable sameDirectory
     let sameDirectory = '.';
+    // initialize empty array to store the final shortened path, and store in variable result
     let result = [];
-
+    // iterate over every segment in the splitPath
     for (let idx = 0; idx < splitPath.length; idx++) {
+        // grab the segment at specific idx in splitPath and store in variable command
         let command = splitPath[idx];
-
+        // based on the command, check for matching switch statement case
         switch (command) {
+            // if current command is .. meaning moveUpDirectory, execute below
             case moveUpDirectory:
+                // check whether dealing with a relative path AND the current result length is zero, OR whether the last item in result is equal to ..
                 if (!isAbsolutePath && (result.length === 0 || result[result.length - 1] === moveUpDirectory)) {
+                    // if either set of conditions is true, push a .. into result
                     result.push(moveUpDirectory);
+                // if neither set of conditions above is true, then pop the last item out of result array
                 } else {
                     result.pop();
                 }
+                // once either the if or else above are executed, break out of switch
                 break;
+            // if current command is . meaning sameDirectory, do nothing as this is meaningless
             case sameDirectory:
+            // if current command is '' meaning this is where a / was before the split, then break
             case '':
                 break;
+            // the default case is to push the current value of command into the result array, then break
             default:
                 result.push(command);
                 break;
         }
     }
+    // return the ternary of isAbsolutePath check plus the result array joined with /'s to generate final shortened path
     return (isAbsolutePath ? '/' : '') + result.join('/');
 }
