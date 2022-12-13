@@ -12,3 +12,14 @@
 // 3 === array[3]
 
 // Solution 1:
+
+function indexEqualsValue(array) {
+    for (let idx = 0; idx < array.length; idx++) {
+        let value = array[idx];
+
+        if (idx === value) {
+            return idx;
+        }
+    }
+    return -1;
+}
