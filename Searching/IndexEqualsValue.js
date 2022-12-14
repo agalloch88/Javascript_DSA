@@ -19,7 +19,7 @@
 // O(1) space due to onkly storing two variables
 
 function indexEqualsValue(array) {
-    // iterate over every idx in inpout array
+    // iterate over every idx in input array
     for (let idx = 0; idx < array.length; idx++) {
         // grab the current value of idx in array and store in variable value
         let value = array[idx];
@@ -30,4 +30,29 @@ function indexEqualsValue(array) {
     }
     // if for loop ends with no return, no correct answer so return -1
     return -1;
+}
+
+// Solution 2:
+
+function indexEqualsValue(array) {
+    return indexEqualsValueHelper(array, 0, array.length - 1)
+}
+
+function indexEqualsValueHelper(array, leftIndex, rightIndex) {
+    if (leftIndex > rightIndex) {
+        return -1;
+    }
+
+    let middleIndex = leftIndex + Math.floor((leftIndex + rightIndex) / 2);
+    let middleValue = array[middleIndex];
+
+    if (middleValue < middleIndex) {
+        return indexEqualsValueHelper(array, middleIndex + 1, rightIndex);
+    } else if (middleValue === middleIndex && middleIndex === 0) {
+        return middleIndex;
+    } else if (middleValue === middleIndex && array[middleIndex - 1] < middleIndex - 1) {
+        return middleIndex;
+    } else {
+        return indexEqualsValueHelper(array, leftIndex, middleIndex - 1);
+    }
 }
