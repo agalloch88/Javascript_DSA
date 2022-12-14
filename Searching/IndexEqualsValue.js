@@ -13,13 +13,21 @@
 
 // Solution 1:
 
-function indexEqualsValue(array) {
-    for (let idx = 0; idx < array.length; idx++) {
-        let value = array[idx];
+// iterative solution checking every index to see if it equals the value
 
+// O(n) time due to iterating over n inputs in array
+// O(1) space due to onkly storing two variables
+
+function indexEqualsValue(array) {
+    // iterate over every idx in inpout array
+    for (let idx = 0; idx < array.length; idx++) {
+        // grab the current value of idx in array and store in variable value
+        let value = array[idx];
+        // if the idx equals the variable value, found the answer, so return -1
         if (idx === value) {
             return idx;
         }
     }
+    // if for loop ends with no return, no correct answer so return -1
     return -1;
 }
