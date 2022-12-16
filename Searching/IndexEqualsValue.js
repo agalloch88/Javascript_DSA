@@ -76,3 +76,26 @@ function indexEqualsValueHelper(array, leftIndex, rightIndex) {
         return indexEqualsValueHelper(array, leftIndex, middleIndex - 1);
     }
 }
+
+// Solution 3:
+
+function indexEqualsValue(array) {
+    let leftIndex = 0;
+    let rightIndex = array.length - 1;
+
+    while (leftIndex <= rightIndex) {
+        let middleIndex = leftIndex + Math.floor((leftIndex + rightIndex) / 2);
+        let middleValue = array[middleIndex];
+
+        if (middleValue < middleIndex) {
+            leftIndex = middleIndex + 1;
+        } else if (middleValue === middleIndex && middleIndex === 0) {
+            return middleIndex;
+        } else if (middleValue === middleIndex && array[middleIndex - 1] < middleIndex - 1) {
+            return middleIndex;
+        } else {
+            rightIndex = middleIndex - 1;
+        }
+    }
+    return -1;
+}
