@@ -12,3 +12,19 @@
 // [['diaper', 'repaid'], ['abc', 'cba']]
 
 // Solution 1:
+
+function saemordlinap(words) {
+    let wordSet = new Set(words);
+    let semordlinapPairs = [];
+
+    for (let word of words) {
+        let reverse = word.split('').reverse().join('');
+
+        if (wordSet.has(reverse) && reverse !== word) {
+            semordlinapPairs.push([word, reverse]);
+            wordSet.delete(reverse);
+            wordSet.delete(word);
+        }
+    }
+    return semordlinapPairs;
+}
