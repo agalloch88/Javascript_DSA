@@ -19,6 +19,9 @@
 
 // iterative solution utilizing lengths and slices to determine if One Edit is possible, and if so, which string should be modified
 
+// O(n + m) time due to checking n characters in stringOne and m characters in stringTwo
+// O(n + m) space due to storing copies of strings and slices
+
 function oneEdit(stringOne, stringTwo) {
     // grab the length of stringOne and store inside variable lengthOne
     let lengthOne = stringOne.length;
