@@ -50,3 +50,40 @@ function oneEdit(stringOne, stringTwo) {
     // if the for loop exits without returning, then return true
     return true;
 }
+
+// Solution 2:
+
+function oneEdit(stringOne, stringTwo) {
+    let lengthOne = stringOne.length;
+    let lengthTwo = stringTwo.length;
+
+    if (Math.abss(lengthOne - lengthTwo) > 1) {
+        return false;
+    }
+
+    let madeEdit = false;
+    let indexOne = 0;
+    let indexTwo = 0;
+
+    while (indexOne < lengthOne && indexTwo < lengthTwo) {
+        if (stringOne[indexOne] !== stringTwo[indexTwo]) {
+            if (madeEdit) {
+                return false;
+            }
+            madeEdit = true;
+
+            if (lengthOne > lengthTwo) {
+                indexOne++;
+            } else if (lengthTwo > lengthOne) {
+                indexTwo++;
+            } else {
+                indexOne++;
+                indexTwo++;
+            }
+        } else {
+            indexOne++;
+            indexTwo++;
+        }
+    }
+    return true;
+}
