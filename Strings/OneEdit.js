@@ -56,37 +56,50 @@ function oneEdit(stringOne, stringTwo) {
 
 // Solution 2:
 
-function oneEdit(stringOne, stringTwo) {
-    let lengthOne = stringOne.length;
-    let lengthTwo = stringTwo.length;
+// iterative solution tracking current index in each string, and whether an edit is made
 
-    if (Math.abss(lengthOne - lengthTwo) > 1) {
+function oneEdit(stringOne, stringTwo) {
+    // grab length of stringOne and store in variable lengthOne
+    let lengthOne = stringOne.length;
+    // grab length of stringTwo and store in variable lengthTwo
+    let lengthTwo = stringTwo.length;
+    // check whether the absolute value difference between the string lengths is greater than one, and if so, no viable solution, so return false
+    if (Math.abs(lengthOne - lengthTwo) > 1) {
         return false;
     }
-
+    // create variable madeEdit and set to false at outset
     let madeEdit = false;
+    // set up variables indexOne and indexTwo which will hold current position in each string, initialize them to index 0 at start
     let indexOne = 0;
     let indexTwo = 0;
-
+    // keep looping so long as the indexes are less than the lengths of the strings, meaning still in bounds
     while (indexOne < lengthOne && indexTwo < lengthTwo) {
+        // if the value at indexOne in stringOne is NOT equal to the value at indexTwo in string two, then execute block below
         if (stringOne[indexOne] !== stringTwo[indexTwo]) {
+            // check whether an edit has already occurred by checking this variable, and if so, one change was already made and no more are possible within
+            // scope of the problem, so therefore, return false
             if (madeEdit) {
                 return false;
             }
+            // if madeEdit was still false, then set it to true, as this is the first difference/discrepancy within the strings and is the "One Edit" to make
             madeEdit = true;
-
+            // if the stringOne is longer than stringTwo, then execute below and increment indexOne by 1
             if (lengthOne > lengthTwo) {
                 indexOne++;
+            // otherwise, if stringTwo is longer than stringOne, then execute below and increment indexTwo by 1
             } else if (lengthTwo > lengthOne) {
                 indexTwo++;
+            // if the two above conditions did not execute, this means the strings are equal length, so increment both indexes by 1
             } else {
                 indexOne++;
                 indexTwo++;
             }
+        // if the values at the respective indexes IS the same, then increment each index by one and check again
         } else {
             indexOne++;
             indexTwo++;
         }
     }
+    // if the while loop exits, this means the problem is solveable by making the One Edit, so return true
     return true;
 }
