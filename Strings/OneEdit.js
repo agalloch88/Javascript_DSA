@@ -58,6 +58,9 @@ function oneEdit(stringOne, stringTwo) {
 
 // iterative solution tracking current index in each string, and whether an edit is made
 
+// O(n) time due to interating over n total characters across the shorter string
+// O(1) space due to only storing a few variables
+
 function oneEdit(stringOne, stringTwo) {
     // grab length of stringOne and store in variable lengthOne
     let lengthOne = stringOne.length;
