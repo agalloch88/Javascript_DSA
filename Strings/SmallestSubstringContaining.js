@@ -16,3 +16,75 @@
 // "f$axb$"
 
 // Solution 1:
+
+function smallestSubstringContaining(bigString, smallString) {
+    let targetCharCounts = getCharCounts(smallString);
+    let substringBounds = getSubstringBounds(bigString, targetCharCounts);
+    return getStringFromBounds(bigString, substringBounds);
+}
+
+function getCharCounts(string) {
+    let charCounts = {};
+
+    for (let char of string) {
+        increaseCharCount(char, charCounts);
+    }
+    return charCounts;
+}
+
+function getSubstringBounds(string, targetCharCounts) {
+    let substringBounds = [0, Infinity];
+    let substringCharCounts = {};
+    let numUniqueChars = Object.keys(targetCharCounts).length;
+    let numUniqueCharsDone = 0;
+    let leftIdx = 0;
+    let rightIdx = 0;
+
+    while (rightIdx < string.length) {
+        let rightChar = string[rightIdx];
+
+        if (!(rightChar in targetCharCounts)) {
+            rightIdx++;
+            continue;
+        }
+        increaseCharCount(rightChar, substringCharCounts);
+
+        if (substringCharCounts[rightChar] === targetCharCounts[rightChar]) {
+            numUniqueCharsDone++;
+        }
+
+        while (numUniqueCharsDone === numUniqueChars && leftIdx <= rightIdx) {
+            substringBounds = getCloserBounds(leftIdx, rightIdx, substringBounds[0], substringBounds[1]);
+            let leftChar = string[leftIdx];
+
+            if (!(leftChar in targetCharCounts)) {
+                numUniqueCharsDone--;
+            }
+            decreaseCharCount(leftChar, substringCharCounts);
+            leftIdx++;
+        }
+        rightIdx++;
+    }
+    return substringBounds;
+}
+
+function getCloserBounds(idx1, idx2, idx3, idx4) {
+    return idx2 - idx1 < idx4 - idx3 ? [idx1, idx2] : [idx3, idx4];
+}
+
+function getStringFromBounds(string, bounds) {
+    let [start, end] = bounds;
+
+    if (end === Infinity) {
+        return '';
+    }
+    return string.slice(start, end + 1);
+}
+
+function increaseCharCount(char, charCounts) {
+    charCounts[char] = (charCounts[char] || 0) + 1;
+}
+
+function decreaseCharCount(char, charCounts) {
+    charCounts[char]--;
+}
