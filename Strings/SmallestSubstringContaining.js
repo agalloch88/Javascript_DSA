@@ -58,6 +58,11 @@ function getSubstringBounds(string, targetCharCounts) {
             let leftChar = string[leftIdx];
 
             if (!(leftChar in targetCharCounts)) {
+                leftIdx++;
+                continue;
+            }
+
+            if (substringCharCounts[leftChar] === targetCharCounts[leftChar]) {
                 numUniqueCharsDone--;
             }
             decreaseCharCount(leftChar, substringCharCounts);
