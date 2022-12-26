@@ -155,3 +155,50 @@ function decreaseCharCount(char, charCounts) {
     // decrement the current character in charCounts by 1
     charCounts[char]--;
 }
+
+// Solution 2:
+
+function smallestSubstringContaining(bigString, smallString) {
+    let charMap = {};
+
+    for (let char of smallString) {
+        charMap[char] = (charMap[char] || 0) + 1;
+    }
+
+    let left = 0;
+    let right = bigString.length - 1;
+    let countCharsNeeded = Object.keys(charMap).length;
+    let res = '';
+
+    while (right < bigString.length) {
+        if (countNeeded === 0) {
+            if (!res || res.length > right - left) {
+                res = bigString.slice(left, right + 1);
+            }
+
+            let leftChar = bigString[left];
+
+            if (leftChar in charMap) {
+                charMap[leftChar]++;
+            }
+
+            if (charMap[leftChar] === 1) {
+                countNeeded++;
+            }
+            left++;
+        } else {
+            right++;
+
+            let rightChar = bigString[right];
+
+            if (rightChar in charMap) {
+                charMap[rightChar]--;
+            }
+
+            if (charMap[rightChar] === 0) {
+                countNeeded--;
+            }
+        }
+    }
+    return res;
+}
