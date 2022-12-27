@@ -166,12 +166,12 @@ function smallestSubstringContaining(bigString, smallString) {
     }
 
     let left = 0;
-    let right = bigString.length - 1;
+    let right = -1;
     let countCharsNeeded = Object.keys(charMap).length;
     let res = '';
 
     while (right < bigString.length) {
-        if (countNeeded === 0) {
+        if (countCharsNeeded === 0) {
             if (!res || res.length > right - left) {
                 res = bigString.slice(left, right + 1);
             }
@@ -183,7 +183,7 @@ function smallestSubstringContaining(bigString, smallString) {
             }
 
             if (charMap[leftChar] === 1) {
-                countNeeded++;
+                countCharsNeeded++;
             }
             left++;
         } else {
@@ -196,7 +196,7 @@ function smallestSubstringContaining(bigString, smallString) {
             }
 
             if (charMap[rightChar] === 0) {
-                countNeeded--;
+                countCharsNeeded--;
             }
         }
     }
