@@ -158,47 +158,75 @@ function decreaseCharCount(char, charCounts) {
 
 // Solution 2:
 
-function smallestSubstringContaining(bigString, smallString) {
-    let charMap = {};
+// condensed, iterative solution employing the sliding window to find optimal, smallest substring
 
+// O(b + s) time where b is length of big string and s is length of small string
+// O(b + s) space due to using extra JS object
+
+function smallestSubstringContaining(bigString, smallString) {
+    // set up empty JS object to hold list of key/value pairs for chars and frequency, store in
+    // variable charMap
+    let charMap = {};
+    // iterate over every char in smallString
     for (let char of smallString) {
+        // set value of given char in charMap equal to its current value plus 1, if it already exists,
+        // or if it does not, initialize and set to 0 then add 1
         charMap[char] = (charMap[char] || 0) + 1;
     }
-
+    // set up the two pointers, left and right, for the sliding window
     let left = 0;
     let right = -1;
+    // count how many unique chars are needed from small string by using the keys method to look
+    // at charMap and find length of keys, aka how many there are
     let countCharsNeeded = Object.keys(charMap).length;
+    // set res equal to an empty string
     let res = '';
-
+    // iterate over the input so long as the right pointer is still in bounds
     while (right < bigString.length) {
+        // check whether the countCharsNeeded is equal to 0,
+        // meaning have found the optimal window size, and if so, execute below
         if (countCharsNeeded === 0) {
+            // if there's no res, or the length of the res is greater than the difference
+            // between the left and right pointers, execute below
             if (!res || res.length > right - left) {
+                // if either of the conditions above are true, set res equal to a slice of 
+                // bigString from the left pointer to right pointer plus one, to ensure 
+                // including the value at right pointer
                 res = bigString.slice(left, right + 1);
             }
-
+            // grab the value at left pointer in bigString, and store in variable leftChar
             let leftChar = bigString[left];
-
+            // if the value in leftChar is in the charMap, then execute below
             if (leftChar in charMap) {
+                // increment the value of the leftChar by 1
                 charMap[leftChar]++;
             }
-
+            // if the value of leftChar in the charMap is 1, execute below
             if (charMap[leftChar] === 1) {
+                // increment the countCharsNeeded as found another 
                 countCharsNeeded++;
             }
+            // increment the left pointer
             left++;
+        // if countCharsNeeded is anything other than 0, execute below
         } else {
+            // increment right pointer by 1
             right++;
-
+            // grab value of right pointer in bigString and store in variable rightChar
             let rightChar = bigString[right];
-
+            // if this rightChar is a character in the charmap, execute below
             if (rightChar in charMap) {
+                // decrement the value of this particular character, as one less is needed since
+                // one is found here
                 charMap[rightChar]--;
             }
-
+            // if the value of the rightChar in charMap reaches 0, execute below
             if (charMap[rightChar] === 0) {
+                // subtract one from the countCharsNeeded as there's one less to find
                 countCharsNeeded--;
             }
         }
     }
+    // once the while loop breaks, should have the proper res, so return the res
     return res;
 }
