@@ -66,24 +66,40 @@ function updateScores(team, points, scores) {
 
 // Solution 2:
 
+// iterative solution to find the winner, update the scoreboard and then update the leader
+
+// O(n) time where n is the number of competitions
+// O(k) space where k is the number of teams
+
 function tournamentWinner(competitions, results) {
+    // set up JS object to holder the leader's score and team name, and store in variable leader
     let leader = { score: -Infinity, name: ''};
+    // set up empty JS object to serve as the scoreboard, and store in variable scoreboard
     let scoreboard = {};
-
+    // iterate over all the competitions
     for (let i = 0; i < competitions.length; i++) {
+        // ternary check to see if value in results at index i is equal to 0, and if so, then 1
+        // should be stored in winnerIdx variable
         let winnerIdx = results[i] === 0 ? 1 : 0;
+        // grab the value at i and the winnerIdx and store in variable winner
         let winner = competitions[i][winnerIdx];
-
+        // if the value in winner is already in the scoreboard JS object, then
+        // add 3 points to the existing score total
         if (winner in scoreboard) {
             scoreboard[winner] += 3;
+        // if the value in winner is NOT already in the scoreboard JS object, then add it,
+        // and assign the points to 3
         } else {
             scoreboard[winner] = 3;
         }
-
+        // if the leader's score is smaller than the current winner's total in the scoreboard,
+        // then set the leader's name to that of the current winner, and set the score
+        // equal to the winner's score on the scoreboard
         if (leader.score < scoreboard[winner]) {
             leader.name = winner;
             leader.score = scoreboard[winner];
         }        
     }
+    // after iterating over every competition, return the name of the leader
     return leader.name;
 }
