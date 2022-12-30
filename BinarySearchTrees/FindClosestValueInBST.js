@@ -70,26 +70,37 @@ class BST {
 // O(log(n)) time on average due to eliminating half of remaining values, O(n) at worst if single-branch tree
 // O(1) space due to iterative solution and no extra data stored
 
+// main function whcich takes in the BST and the target
 function findClosestValueInBST(tree, target) {
+    // return a call to the helper function below
     return findClosestValueInBSTHelper(tree, target, tree.value);
 }
 
 function findClosestValueInBSTHelper(tree, target, closest) {
+    // grab the tree and store in variable currentNode
     let currentNode = tree;
-
+    // keep looping so long as not at a leaf node/null
     while (currentNode !== null) {
+        // if absolute value difference between target and closest is greater than absolute
+        // value difference between the target and the value of currentNode, set closest equal
+        // to the value of currentNode
         if (Math.abs(target - closest) > Math.abs(target - currentNode.value)) {
             closest = currentNode.value;
         }
-
+        // if the target is less than value of currentNode, set currentNode equal to currentNode's
+        // left value to check again
         if (target < currentNode.value) {
             currentNode = currentNode.left;
+        // otherwise, if target is greater than the currentNode's value, set currentNode equal to
+        // currentNode's right value to check again
         } else if (target > currentNode.value) {
             currentNode = currentNode.right;
+        // if not less than or greater than, then break
         } else {
             break;
         }
     }
+    // return the current value for closest
     return closest;
 }
 
