@@ -22,3 +22,27 @@
 // 9
 
 // Solution 1:
+
+function largestRectangleUnderSkyline(buildings) {
+    let maxArea = 0;
+
+    for (let pillarIdx = 0; pillarIdx < buildings.length; pillarIdx++) {
+        let currentHeight = buildings[pillarIdx];
+
+        let furthestLeft = pillarIdx;
+
+        while (furthestLeft > 0 && buildings[furthestLeft - 1] >= currentHeight) {
+            furthestLeft--;
+        }
+
+        let furthestRight = pillarIdx;
+
+        while (furthestRight < buildings.length - 1 && buildings[furthestRight + 1] >= currentHeight) {
+            furthestRight++;
+        }
+
+        let areaWithCurrentBuilding = (furthestRight - furthestLeft + 1) * currentHeight;
+        maxArea = Math.max(areaWithCurrentBuilding, maxArea);
+    }
+    return maxArea;
+}
