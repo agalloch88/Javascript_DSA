@@ -60,3 +60,24 @@ function largestRectangleUnderSkyline(buildings) {
     // once loop is finished, return the current value of maxArea
     return maxArea;
 }
+
+// Solution 2:
+
+function largestRectangleUnderSkyline(buildings) {
+    let maxArea = 0;
+    let pillarIndices = [];
+
+    let extendedBuildings = buildings.concat([0]);
+
+    for (let idx = 0; idx < extendedBuildings.length; idx++) {
+        let height = extendedBuildings[idx];
+
+        while (pillarIndices.length !== 0 && extendedBuildings[pillarIndices[pillarIndices.length - 1]] >= height) {
+            let pillarHeight = extendedBuildings[pillarIndices.pop()];
+            let width = pillarIndices.length === 0 ? idx : idx - pillarIndices[pillarIndices.length - 1] - 1;
+            maxArea = Math.max(width * pillarHeight, maxArea);
+        }
+        pillarIndices.push(idx);
+    }
+    return maxArea;
+}
