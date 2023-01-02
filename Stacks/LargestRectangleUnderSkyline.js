@@ -63,21 +63,37 @@ function largestRectangleUnderSkyline(buildings) {
 
 // Solution 2:
 
+// iterative solution making one pass to find indices for rectangle, and using a stack to keep track of the coordinates
+
+// O(n) time due to only making a single pass over the array
+// O(n) space due to storing indices as well as a concatenated array of the input
+
 function largestRectangleUnderSkyline(buildings) {
+    // set up variable maxArea to hold answer, and initialize to 0
     let maxArea = 0;
+    // set up empty array to hold indices for the largest rectangle, and store in variable pillarIndices
     let pillarIndices = [];
-
+    // take buildings input and add a 0 height building at the end via concat, and store new array in variable extendedBuildings
     let extendedBuildings = buildings.concat([0]);
-
+    // iterate over every building in the extended buildings
     for (let idx = 0; idx < extendedBuildings.length; idx++) {
+        // grab the value at current idx in extendedBuildings, and store in variable height
         let height = extendedBuildings[idx];
-
+        // keep looping so long as the number of pillarIndices values is not 0 AND the last value in pillarIndices
+        // represented in the extendedBuildings is greater than or equal to the value stored in height
         while (pillarIndices.length !== 0 && extendedBuildings[pillarIndices[pillarIndices.length - 1]] >= height) {
+            // pop the last value out of pillarIndices from the extendedBuildings, and store as the current pillarHeight
             let pillarHeight = extendedBuildings[pillarIndices.pop()];
+            // check whether the length of pillarIndices is 0, and if so, set width equal to the current idx, and if not, set width equal
+            // to the idx minus the last value in pillarIndices minus 1 to account for the extra value added via concat
             let width = pillarIndices.length === 0 ? idx : idx - pillarIndices[pillarIndices.length - 1] - 1;
+            // set value of maxArea equal to the maximum between the current value at width multiplied by the current value of pillarHeight,
+            // OR the current value of max area
             maxArea = Math.max(width * pillarHeight, maxArea);
         }
+        // push the current idx onto the pillarIndices stack
         pillarIndices.push(idx);
     }
+    // return the current value in maxArea
     return maxArea;
 }
