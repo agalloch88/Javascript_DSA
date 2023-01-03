@@ -38,3 +38,48 @@
 // ]
 
 // Solution 1:
+
+function stableInternships(interns, teams) {
+    let chosenInterns = {};
+    let freeInterns = interns.map((_, i) => i);
+    let currentInternChoices = new Array(interns.length).fill(0);
+
+    let teamMaps = [];
+    for (let team of teams) {
+        let rank = {};
+        team.forEach((internNum, i) => {
+            rank[internNum] = i;
+        });
+        teamMaps.push(rank);
+    }
+
+    while (freeInterns.length > 0) {
+        let internNum = freeInterns.pop();
+
+        let intern = interns[internNum];
+        let teamPreference = intern[currentInternChoices[internNum]];
+        currentInternChoices[internNum] += 1;
+
+        if (!(teamPreference in chosenInterns)) {
+            chosenInterns[teamPreference] = internNum;
+            continue;
+        }
+
+        let previousIntern = chosenInterns[teamPreference];
+        let previousInternRank = teamMaps[teamPreference][previousIntern];
+        let currentInternRank = teamMaps[teamPreference][internNum];
+
+        if (currentInternRank < previousInternRank) {
+            freeInterns.push(previousIntern);
+            chosenInterns[teamPreference] = internNum;
+        } else {
+            freeInterns.push(internNum);
+        }
+    }
+
+    let matches = Object.entries(chosenInterns).map(([teamNum, internNum]) => [
+        internNum,
+        parseInt(teamNum),
+    ]);
+    return matches;
+}
