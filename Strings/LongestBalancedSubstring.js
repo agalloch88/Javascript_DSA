@@ -12,3 +12,32 @@
 // The longest balanced substring is (())
 
 // Solution 1:
+
+function longestBalancedSubstring(string) {
+    let maxLength = 0;
+
+    for (let i = 0; i < string.length; i++) {
+        for (let j = i + 2; j < string.length + 1; j += 2) {
+            if (isBalanced(string.slice(i, j))) {
+                let currentLength = j - i;
+                maxLength = Math.max(currentLength, maxLength);
+            }
+        }
+    }
+    return maxLength;
+}
+
+function isBalanced(string) {
+    let openParenStack = [];
+
+    for (let char of string) {
+        if (char === '(') {
+            openParenStack.push('(');
+        } else if (openParenStack.length > 0) {
+            openParenStack.pop();
+        } else {
+            return false;
+        }
+    }
+    return openParenStack.length === 0;
+}
