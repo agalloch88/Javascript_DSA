@@ -13,6 +13,11 @@
 
 // Solution 1:
 
+// iterative solution using a stack to track the parens, pushing and popping as needed, then finding the length
+
+// O(n ^ 3) time due to nested for loops and addition for loop in helper function called within other for loops
+// O(n) space due to at most n items stored in stack at a given moment
+
 function longestBalancedSubstring(string) {
     let maxLength = 0;
 
