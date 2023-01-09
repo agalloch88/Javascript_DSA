@@ -62,3 +62,29 @@ function isBalanced(string) {
     // return the value of the check as to whether the stack's length is equal to 0, so essentially whether the stack is empty or not
     return openParenStack.length === 0;
 }
+
+// Solution 2:
+
+function longestBalancedSubstring(string) {
+    let maxLength = 0;
+    let idxStack = [];
+    idxStack.push(-1);
+
+    for (let i = 0; i < string.length; i++) {
+        if (string[i] === '(') {
+            idxStack.push(i);
+        } else {
+            idxStack.pop();
+
+            if (idxStack.length === 0) {
+                idxStack.push(i);
+            } else {
+                let balancedSubstringStartIdx = idxStack[idxStack.length - 1];
+                let currentLength = i - balancedSubstringStartIdx;
+                maxLength = Math.max(maxLength, currentLength);
+            }
+        }
+        
+    }
+    return maxLength;
+}
