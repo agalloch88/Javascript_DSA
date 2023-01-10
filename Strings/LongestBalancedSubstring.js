@@ -65,26 +65,43 @@ function isBalanced(string) {
 
 // Solution 2:
 
+// iterative solution using a stack and making single pass over input via for loop
+
+// O(n) time due to checking n inputs
+// O(n) space due to storing at most n inputs in stack
+
 function longestBalancedSubstring(string) {
+    // initialize maxLength variable to hold maximum length found and set to 0
     let maxLength = 0;
+    // set up empty stack and store in variable idxStack
     let idxStack = [];
+    // push -1 onto the stack so that, should we ever empty all other values out of the stack, we know nothing precedes this point in the string
     idxStack.push(-1);
-
+    // iterate over all values in the input string
     for (let i = 0; i < string.length; i++) {
+        // check whether the value at i in the string is an opening paren (, and if so, execute below
         if (string[i] === '(') {
+            // push the value at i onto the stack, which in this case should be an index
             idxStack.push(i);
+        // otherwise, if the value at i is anything else (in this case, a closing paren, ) ), execute the below
         } else {
+            // pop the value off the top of the stack
             idxStack.pop();
-
+            // if the stack's length is 0, meaning it is empty, push the value at i onto the stack, which is an index
+            // this is an edge case to account for
             if (idxStack.length === 0) {
                 idxStack.push(i);
+            // otherwise, if there is anything on the stack, including the -1 pushed at the beginning, execute the below
             } else {
+                // grab the top value in the idxStack, and store in variable balancedSubstringStartIdx
                 let balancedSubstringStartIdx = idxStack[idxStack.length - 1];
+                // subtract the current index, i, by the value stored in balancedSubstringStartIdx, which should be the top index on the stack
                 let currentLength = i - balancedSubstringStartIdx;
+                // set maxLength equal to the maximum value between the current value of maxLength and the value of currentLength
                 maxLength = Math.max(maxLength, currentLength);
             }
         }
-        
     }
+    // return the value in maxLength
     return maxLength;
 }
