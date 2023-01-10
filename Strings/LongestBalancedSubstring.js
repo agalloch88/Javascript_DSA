@@ -105,3 +105,47 @@ function longestBalancedSubstring(string) {
     // return the value in maxLength
     return maxLength;
 }
+
+// Solution 3:
+
+function longestBalancedSubstring(string) {
+    let maxLength = 0;
+    let openingCount = 0;
+    let closingCount = 0;
+
+    for (let char of string) {
+        if (char === '(') {
+            openingCount++;
+        } else {
+            closingCount++;
+        }
+
+        if (openingCount === closingCount) {
+            maxLength = Math.max(maxLength, closingCount * 2)
+        } else if (closingCount > openingCount) {
+            openingCount = 0;
+            closingCount = 0;
+        }
+    }
+
+    openingCount = 0;
+    closingCount = 0;
+
+    for (let i = string.length - 1; i >= 0; i--) {
+        let char = string[i];
+
+        if (char === '(') {
+            openingCount++;
+        } else {
+            closingCount++;
+        }
+
+        if (openingCount === closingCount) {
+            maxLength = Math.max(maxLength, openingCount * 2);
+        } else if (openingCount > closingCount) {
+            openingCount = 0;
+            closingCount = 0;
+        }
+    }
+    return maxLength;
+}
