@@ -108,44 +108,61 @@ function longestBalancedSubstring(string) {
 
 // Solution 3:
 
-function longestBalancedSubstring(string) {
-    let maxLength = 0;
-    let openingCount = 0;
-    let closingCount = 0;
+// iterative solution first checking counts of opening/closing parens from left to right, then right to left
 
+// O(n) time due to two passes through input, 2n converges to n
+// O(1) space due to only storing a few variables
+
+function longestBalancedSubstring(string) {
+    // set up variable maxLength to hold longest substring found, and initialize to 0
+    let maxLength = 0;
+    // set up variable openingCount to track number of opening parens found, initialize to 0
+    let openingCount = 0;
+    // set up variable closingCount to track number of closing parens found, initialize to 0
+    let closingCount = 0;
+    // iterate over ever char in the input string from left to right
     for (let char of string) {
+        // if the char is the opening paren, (, then increment the openingCount by 1
         if (char === '(') {
             openingCount++;
+        // otherwise, the char must be a closing paren, so increment the closingCount by 1
         } else {
             closingCount++;
         }
-
+        // check whether openingCount and closingCount are equal, meaning there is a match for every character
         if (openingCount === closingCount) {
+            // if the statement above is true, then set maxLength equal to the maximum value between the current value of maxLength and the closingCount squared
             maxLength = Math.max(maxLength, closingCount * 2)
+        // otherwise, if the closingCount is higher than the openingCount, reset openingCount and closingCount to 0, since this cannot be a balanced substring
         } else if (closingCount > openingCount) {
             openingCount = 0;
             closingCount = 0;
         }
     }
-
+    // reset the openingCount and closingCount variables to 0 prior to next pass over the input
     openingCount = 0;
     closingCount = 0;
-
+    // iterate over every character in the input from right to left
     for (let i = string.length - 1; i >= 0; i--) {
+        // grab the value at i in the input string, and store in variable char
         let char = string[i];
-
+        // if the char is the opening paren, (, then increment the openingCount by 1
         if (char === '(') {
             openingCount++;
+            // otherwise, the char must be a closing paren, so increment the closingCount by 1
         } else {
             closingCount++;
         }
-
+        // check whether openingCount and closingCount are equal, meaning there is a match for every character
         if (openingCount === closingCount) {
+            // if the statement above is true, then set maxLength equal to the maximum value between the current value of maxLength and the openingCount squared
             maxLength = Math.max(maxLength, openingCount * 2);
+        // otherwise, if the openingCount is greater than the closingCount, reset openingCount and closingCount to 0, since this cannot be a balanced substring
         } else if (openingCount > closingCount) {
             openingCount = 0;
             closingCount = 0;
         }
     }
+    // return the final value of maxLength
     return maxLength;
 }
