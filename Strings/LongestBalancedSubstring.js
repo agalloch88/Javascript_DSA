@@ -166,3 +166,39 @@ function longestBalancedSubstring(string) {
     // return the final value of maxLength
     return maxLength;
 }
+
+// Solution 4:
+
+function longestBalancedSubstring(string) {
+    return Math.max(getLongestBalancedInDirection(string, true), getLongestBalancedInDirection(string, false));
+}
+
+function getLongestBalancedInDirection(string, leftToRight) {
+    let openingParens = leftToRight ? '(' : ')';
+    let startIdx = leftToRight ? 0 : string.length - 1;
+    let step = leftToRight ? 1 : -1;
+
+    let maxLength = 0;
+    let openingCount = 0;
+    let closingCount = 0;
+    let idx = startIdx;
+
+    while (idx >= 0 && idx < string.length) {
+        let char = string[idx];
+
+        if (char === openingParens) {
+            openingCount++;
+        } else {
+            closingCount++;
+        }
+
+        if (openingCount === closingCount) {
+            maxLength = Math.max(maxLength, closingCount * 2);
+        } else if (closingCount > openingCount) {
+            openingCount = 0;
+            closingCount = 0;
+        }
+        idx += step;
+    }
+    return maxLength;
+}
