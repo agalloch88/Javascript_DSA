@@ -14,3 +14,31 @@
 // The lists intersect at the node with value 1
 
 // Solution 1:
+
+class LinkedList {
+    constructor(value) {
+        this.value = value;
+        this.next = null;
+    }
+}
+
+function mergeLinkedLists(linkedListOne, linkedListTwo) {
+    let listOneNodes = new Set();
+    let currentNodeOne = linkedListOne;
+
+    while (currentNodeOne !== null) {
+        listOneNodes.add(currentNodeOne);
+        currentNodeOne = currentNodeOne.next;
+    }
+
+    let currentNodeTwo = linkedListTwo;
+
+    while (currentNodeTwo !== null) {
+        if (listOneNodes.has(currentNodeTwo)) {
+            return currentNodeTwo;
+        }
+        currentNodeTwo = currentNodeTwo.next;
+    }
+
+    return null;
+}
