@@ -59,6 +59,12 @@ function mergeLinkedLists(linkedListOne, linkedListTwo) {
 
 // Solution 2:
 
+// iterative solution finding the lengths of lists, which is longer, and then finding the intersection point
+
+// O(n + m) time, where n is the length of list one and m is the length of list two
+// O(1) space due to only storing a few variables
+
+// base LinkedList class, with every node having a numeric value and next pointer
 class LinkedList {
     constructor(value) {
         this.value = value;
@@ -66,33 +72,45 @@ class LinkedList {
     }
 }
 
+// main function taking in the two linked lists
 function mergingLinkedLists(linkedListOne, linkedListTwo) {
+    // grab head of linkedListOne and store in variable currentNodeOne
     let currentNodeOne = linkedListOne;
+    // set variable countOne equal to 0
     let countOne = 0;
+    // continue looping so long as currentNodeOne is not null, meaning still within the linked list bounds
     while (currentNodeOne !== null) {
+        // for each value in currentNodeOne, increment the countOne variable by 1
         countOne++;
+        // set the value of currentNodeOne to equal the value of the next value in the list
         currentNodeOne = currentNodeOne.next;
     }
-
+    // grab head of linkedListTwo and store in variable currentNodeTwo
     let currentNodeTwo = linkedListTwo;
+    // set variable countTwo equal to 0
     let countTwo = 0;
+    // continue looping so long as currentNodeTwo is not null, meaning still within the linked list bounds
     while (currentNodeTwo !== null) {
+        // for each value in currentNodeTwo, increment the countTwo variable by 1
         countTwo++;
+        // set the value of currentNodeTwo to equal the value of the next value in the list
         currentNodeTwo = currentNodeTwo.next;
     }
-
-    let difference = Math/abs(countTwo - countOne);
+    // now that each list is counted for length, find the absolute value difference between their lengths, and store in variable difference
+    let difference = Math.abs(countTwo - countOne);
+    // determine whether linkedListOne or linkedListTwo are longer using ternary operators, and store in respective variables
     let biggerCurrentNode = countOne > countTwo ? linkedListOne : linkedListTwo;
     let smallerCurrentNode = countOne > countTwo ? linkedListTwo : linkedListOne;
-
+    // iterate over the biggerCurrentNode, which should hold the linkedListOne, for as many values as the difference is
     for (let i = 0; i < difference; i++) {
         biggerCurrentNode = biggerCurrentNode.next;  
     }
-
+    // keep looping over the lists so long as the biggerCurrentNode and smallerCurrentNode are not equal; when they are equal, this is the overlap point, so while loop will break
     while (biggerCurrentNode !== smallerCurrentNode) {
+        // set each variable equal to the next node value
         biggerCurrentNode = biggerCurrentNode.next;
         smallerCurrentNode = smallerCurrentNode.next;
     }
-
+    // once loop above breaks, should be at the intersection node, so return the value of biggerCurrentNode
     return biggerCurrentNode;
 }
