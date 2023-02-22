@@ -117,29 +117,41 @@ function mergingLinkedLists(linkedListOne, linkedListTwo) {
 
 // Solution 3:
 
+// iterative solution moving through each list, and when values are equal, returning
+
+// O(n + m) time, where n is the length of first list and m is the length of second list
+// O(1) space due to only storing a few variables
+
+// base LinkedList class, with every node having a numeric value and next pointer
 class LinkedList{
     constructor(value) {
         this.value = value;
         this.next = null;
     }
 }
-
+// main function taking in the two linked lists
 function mergeLinkedLists(linkedListOne, linkedListTwo) {
+    // grab head of linkedListOne and store in variable currentNodeOne
     let currentNodeOne = linkedListOne;
+    // grab head of linkedListTwo and store in variable currentNodeTwo
     let currentNodeTwo = linkedListTwo;
-
+    // keep looping while node values are not equal, but break when they are
     while (currentNodeOne !== currentNodeTwo) {
+        // if currentNodeOne ever equals null, at the end of the list, so switch value over to linkedListTwo
         if (currentNodeOne === null) {
             currentNodeOne = linkedListTwo;
+        // otherwise, move on to the next value
         } else {
             currentNodeOne = currentNodeOne.next;
         }
-
+        // if currentNodeTwo ever equals null, at the end of the list, so switch value over to linkedListOne
         if (currentNodeTwo === null) {
             currentNodeTwo = linkedListOne;
+        // otherwise, move on to the next value
         } else {
             currentNodeTwo = currentNodeTwo.next;
         }
     }
+    // when while loop breaks, node values should be equal, thus the intersection point; otherwise, this value will be null, which means there's no intersection
     return currentNodeOne;
 }
