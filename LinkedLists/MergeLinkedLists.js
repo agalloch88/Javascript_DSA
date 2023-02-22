@@ -114,3 +114,32 @@ function mergingLinkedLists(linkedListOne, linkedListTwo) {
     // once loop above breaks, should be at the intersection node, so return the value of biggerCurrentNode
     return biggerCurrentNode;
 }
+
+// Solution 3:
+
+class LinkedList{
+    constructor(value) {
+        this.value = value;
+        this.next = null;
+    }
+}
+
+function mergeLinkedLists(linkedListOne, linkedListTwo) {
+    let currentNodeOne = linkedListOne;
+    let currentNodeTwo = linkedListTwo;
+
+    while (currentNodeOne !== currentNodeTwo) {
+        if (currentNodeOne === null) {
+            currentNodeOne = linkedListTwo;
+        } else {
+            currentNodeOne = currentNodeOne.next;
+        }
+
+        if (currentNodeTwo === null) {
+            currentNodeTwo = linkedListOne;
+        } else {
+            currentNodeTwo = currentNodeTwo.next;
+        }
+    }
+    return currentNodeOne;
+}
