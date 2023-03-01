@@ -59,3 +59,48 @@ function mergeBinaryTrees(tree1, tree2) {
     // once done, return tree1, as this is the modified, final merged tree
     return tree1;
 }
+
+// Solution 2:
+
+class BinaryTree {
+    constructor(value) {
+        this.value = value;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+function mergeBinaryTrees(tree1, tree2) {
+    if (tree1 === null) {
+        return tree2;
+    }
+
+    let tree1Stack = [tree1];
+    let tree2Stack = [tree2];
+
+    while (tree1Stack.length > 0) {
+        let tree1Node = tree1Stack.pop();
+        let tree2Node = tree1Stack.pop();
+
+        if (tree2Node === null) {
+            continue;
+        }
+
+        tree1Node.value += tree2Node.value;
+
+        if (tree1Node.left === null) {
+            tree1Node = tree2Node.left
+        } else {
+            tree1Stack.push(tree1Node.left);
+            tree2Stack.push(tree2Node.left);
+        }
+
+        if (tree1Node.right === null) {
+            tree1Node.right = tree2Node.right;
+        } else {
+            tree1Stack.push(tree1Node.right);
+            tree2Stack.push(tree2Node.right);
+        }
+    }
+    return tree1;
+}
