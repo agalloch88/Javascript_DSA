@@ -19,3 +19,27 @@
 
 // 18
 // 5 + 2 + 1 + 3 + 7
+
+// Solution 1:
+
+function maxPathSum(tree) {
+  let [_, maxSum] = findMaxSum(tree);
+  return maxSum;
+}
+
+function findMaxSum(tree) {
+  if (tree === null) {
+    return [0, -Infinity];
+  }
+
+  let [leftMaxSumAsBranch, leftMaxPathSum] = findMaxSum(tree.left);
+  let [rightMaxSumAsBranch, rightMaxPathSum] = findMaxSum(tree.right);
+  let maxChildSumAsBranch = Math.max(leftMaxSumAsBranch, rightMaxSumAsBranch);
+
+  let { value } = tree;
+  let maxSumAsBranch = Math.max(maxChildSumAsBranch + value, value);
+  let maxSumAsRootNode = Math.max(leftMaxSumAsBranch + value + rightMaxSumAsBranch, maxSumAsBranch);
+  let maxPathSum = Math.max(leftMaxPathSum, rightMaxPathSum, maxSumAsRootNode);
+
+  return [maxSumAsBranch, maxPathSum];
+}
