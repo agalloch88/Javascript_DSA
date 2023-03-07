@@ -63,3 +63,22 @@ function findMaxSum(tree) {
   // return the maxSumAsBranch and maxPathSum values for use in next recursive call
   return [maxSumAsBranch, maxPathSum];
 }
+
+// Solution 2:
+
+function maxPathSum(tree) {
+    let max = -Infinity;
+    let dfs = (tree) => {
+        if (!tree) {
+            return 0;
+        }
+
+        let left = Math.max(0, dfs(tree.left));
+        let right = Math.max(0, dfs(tree.right));
+
+        max = Math.max(max, left + right + tree.value);
+        return Math.max(left, right) + tree.value;
+    }
+    dfs(tree);
+    return max;
+}
