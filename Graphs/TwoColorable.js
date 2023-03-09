@@ -31,3 +31,23 @@
 // meaning they must also have a different color, which is impossible with only 2 available colors.
 
 // Solution 1:
+
+function twoColorable(edges) {
+    let colors = edges.map(_ => null);
+    colors[0] = true;
+    let stack = [0];
+
+    while (stack.length > 0) {
+        let node = stack.pop();
+
+        for (let connection of edges[node]) {
+            if (colors[connection] === null) {
+                colors[connection] = !colors[node];
+                stack.push(connection);
+            } else if (colors[connection] === colors[node]) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
