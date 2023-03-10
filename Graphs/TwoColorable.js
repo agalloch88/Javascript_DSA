@@ -32,22 +32,37 @@
 
 // Solution 1:
 
+// iterative solution going through edges and vertices using boolean value to represent colors
+
+// O(v + e) time, where v is the number of nodes/vertices and e is the number of edges/connections, since traversing potentially all of them
+// O(v) space, since storing the colors array and stack, where 2v converges to v
+
 function twoColorable(edges) {
+    // initialize variable colors and set it equal to the length of the edges input value, with null at every index initially
     let colors = edges.map(_ => null);
+    // set the first index value of colors array equal to true, with this representing the first of two colors
     colors[0] = true;
+    // set up a stack and start with this first value from colors array
     let stack = [0];
-
+    // so long as there are values to check in the stack, keep looping
     while (stack.length > 0) {
+        // initialize variable node and set it equal to the top value popped off the stack
         let node = stack.pop();
-
+        // for every connection this node value has in the edges input, execute the below
         for (let connection of edges[node]) {
+            // if the connection has a null value in the colors array, it has not been checked yet, so execute the below
             if (colors[connection] === null) {
+                // set the value of this connection in the colors array equal to the opposite value of the current node in the colors array
                 colors[connection] = !colors[node];
+                // push the current connection on top of the stack
                 stack.push(connection);
+            // if the connection value in colors array is the same as the node value in the colors array, execute the below
             } else if (colors[connection] === colors[node]) {
+                // the condition here would violate the two-colorable rule, so therefore, return false
                 return false;
             }
         }
     }
+    // if the while loop breaks, the stack is empty, all nodes in the graph are visited, and never returned false, so this graph is two-colorable and can return true
     return true;
 }
