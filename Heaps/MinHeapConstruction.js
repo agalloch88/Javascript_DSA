@@ -44,20 +44,34 @@ class MinHeap {
     }
     // O(log(n)) time
     // O(1) space
+    // siftDown method which moves a value down the heap into proper position, and takes in the index to sift down, the last position, and the heap itself
     siftDown(currentIdx, endIdx, heap) {
+        // mathematically calculate the childOneIdx of the currentIdx
         let childOneIdx = currentIdx * 2 + 1;
+        // while this childOneIdx is less than or equal to the endIdx, meaning in bounds, keep sifting down
         while (childOneIdx <= endIdx) {
+            // ternary check to calculate the childTwoIdx, and whether it is less than endIdx, otherwise return -1
             let childTwoIdx = currentIdx * 2 + 2 <= endIdx ? currentIdx * 2 + 2 : - 1;
+            // initialize variable idxToSwap
             let idxToSwap;
+            // check whether childTwoIdx is anything other than -1 AND whether the childTwoIdx is less than childOneIdx, and if both true, execute below
             if (childTwoIdx !== -1 && heap[childTwoIdx] < heap[childOneIdx]) {
+                // set idxToSwap equal to childTwoIdx
                 idxToSwap = childTwoIdx;
+            // if either condition in the if statement is not met, execute below
             } else {
+                // set idxToSwap equal to childOneIdx
                 idxToSwap = childOneIdx;
             }
+            // check whether the value of idxToSwap, after being set above, is less than currentIdx, and if so, execute below
             if (heap[idxToSwap] < heap[currentIdx]) {
-                this.swap (currentIdx, idxToSwap, heap);
+                // call swap function, passing in the currentIdx, idxToSwap, and the heap itself
+                this.swap(currentIdx, idxToSwap, heap);
+                // set the currentIdx equal to idxToSwap
                 currentIdx = idxToSwap;
+                // mathematically calculate the next childOneIdx
                 childOneIdx = currentIdx * 2 + 1;
+            // if value of idxToSwap is greater than currentIdx, node should be in proper position, so simply return
             } else {
                 return;
             }
