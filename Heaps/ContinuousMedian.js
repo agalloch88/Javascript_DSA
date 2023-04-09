@@ -20,3 +20,73 @@
 // getMedian(): 10
 
 // Solution 1:
+
+class ContinuousMedianHandler {
+    constructor() {
+        this.lowers = new Heap(MAX_HEAP_FUNC, []);
+        this.greaters = new Heap(MIN_HEAP_FUNC, ());
+        this.median = null;
+    }
+
+    insert(number) {
+
+    }
+
+    rebalanceHeaps() {
+
+    }
+
+    updateMedian() {
+
+    }
+
+    getMedian() {
+        return this.median;
+    }
+}
+
+class Heap {
+    constructor(comparisonFunc, array) {
+        this.comparisonFunc = comparisonFunc;
+        this.heap = this.buildHeap(array);
+        this.length = this.heap.length;
+    }
+
+    buildHeap(array) {
+
+    }
+
+    siftDown(currentIdx, endIdx, heap) {
+
+    }
+
+    siftUp(currentIdx, heap) {
+
+    }
+
+    peek() {
+        return this.heap[0];
+    }
+
+    remove() {
+
+    }
+
+    insert(value) {
+
+    }
+
+    swap(i, j, heap) {
+        let temp = heap[j];
+        heap[j] = heap[i];
+        heap[i] = temp;
+    }
+}
+
+function MAX_HEAP_FUNC(a, b) {
+    return a > b;
+}
+
+function MIN_HEAP_FUNC(a, b) {
+    return a < b;
+}
