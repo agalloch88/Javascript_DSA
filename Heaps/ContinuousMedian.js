@@ -29,15 +29,31 @@ class ContinuousMedianHandler {
     }
 
     insert(number) {
-
+        if (!this.lowers.length || number < this.lowers.peek()) {
+            this.lowers.insert(number);
+        } else {
+            this.greaters.insert(number);
+        }
+        this.rebalanceHeaps();
+        this.updateMedian();
     }
 
     rebalanceHeaps() {
-
+        if (this.lowers.length - this.greaters.length === 2) {
+            this.greaters.insert(this.lowers.remove());
+        } else if (this.greaters.length - this.lowers.length === 2) {
+            this.lowers.insert(this.greaters.remove());
+        }
     }
 
     updateMedian() {
-
+        if (this.lowers.length === this.greaters.length) {
+            this.median = (this.lowers.peek() + this.greaters.peek()) / 2;
+        } else if (this.lowers.length > this.greaters.length) {
+            this.median = this.lowers.peek();
+        } else {
+            this.median = this.greaters.peek();
+        }
     }
 
     getMedian() {
