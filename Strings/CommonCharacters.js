@@ -50,31 +50,55 @@ function commonCharacters(strings) {
 
 // Solution 2:
 
-function commonCharacters(strings) {
-    let smallestString = getSmallestString(strings);
-    let potentialCommonCharacters = new Set(smallestString);
+// iterative solution finding the shortest string in input, then determining common characters from that smallest string
 
+// O(n * m) time, where n is the number of strings in input and m is the length of the longest string
+// O(m) space
+
+// main function which takes in strings input
+function commonCharacters(strings) {
+    // initialize variable smallestString and set equal to return value from a call to helper function
+    let smallestString = getSmallestString(strings);
+    // initialize variable potentialCommonCharacters as a new Set object composed by the value in
+    // smallestString
+    let potentialCommonCharacters = new Set(smallestString);
+    // iterate over every string in strings input array
     for (let string of strings) {
+        // for the current string in input, call helper function and pass in current string plus
+        // the Set object stored in variable potentialCommonCharacters
         removeNonexistentCharacters(string, potentialCommonCharacters);
     }
+    // return the value of potentialCommonCharacters as an array
     return Array.from(potentialCommonCharacters);
 }
 
+// helper function to determine which is the shortest string in strings input
 function getSmallestString(strings) {
+    // initialize variable smallestString and set equal to string at first index of strings input array
     let smallestString = strings[0];
+    // iterate over every string in strings input
     for (let string of strings) {
+        // if the length of currentstring is smallest than the string stored in smallestString,
+        // set smallestString equal to current string
         if (string.length < smallestString.length) {
             smallestString = string;
         }
     }
+    // once every string is checked, return the smallestString found in input strings
     return smallestString;
 }
 
+// helper function which will remove non-common characters
 function removeNonexistentCharacters(string, potentialCommonCharacters) {
+    // initialize variable uniqueStringCharacters as a new Set object, composed of the
+    // passed-in string
     let uniqueStringCharacters = new Set(string);
-
+    // iterate over every character in potentialCommonCharacters input, which was made into
+    // an array
     for (let character of Array.from(potentialCommonCharacters)) {
+        // if the current character is not in the uniqueStringCharacters set, execute below
         if (!uniqueStringCharacters.has(character)) {
+            // delete the current character from potentialCommonCharacters
             potentialCommonCharacters.delete(character);
         }
     }
