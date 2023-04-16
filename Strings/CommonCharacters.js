@@ -47,3 +47,35 @@ function commonCharacters(strings) {
     // return the finalCharacters array containing the common characters in each string within strings input
     return finalCharacters;
 }
+
+// Solution 2:
+
+function commonCharacters(strings) {
+    let smallestString = getSmallestString(strings);
+    let potentialCommonCharacters = new Set(smallestString);
+
+    for (let string of strings) {
+        removeNonexistentCharacters(string, potentialCommonCharacters);
+    }
+    return Array.from(potentialCommonCharacters);
+}
+
+function getSmallestString(strings) {
+    let smallestString = strings[0];
+    for (let string of strings) {
+        if (string.length < smallestString.length) {
+            smallestString = string;
+        }
+    }
+    return smallestString;
+}
+
+function removeNonexistentCharacters(string, potentialCommonCharacters) {
+    let uniqueStringCharacters = new Set(string);
+
+    for (let character of Array.from(potentialCommonCharacters)) {
+        if (!uniqueStringCharacters.has(character)) {
+            potentialCommonCharacters.delete(character);
+        }
+    }
+}
