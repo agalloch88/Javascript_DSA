@@ -31,6 +31,12 @@
 
 // Solution 1:
 
+// recursive solution evaluating leaf nodes then handling the expressions back up to root
+
+// O(n) time due recursing through all n nodes in input tree
+// O(h) space, where h is the height of the binary tree, due to at most h calls on call stack at a given time
+
+// BinaryTree class, where each node has a value, and potential left/right child nodes
 class BinaryTree {
     constructor(value) {
         this.value = value;
@@ -39,23 +45,30 @@ class BinaryTree {
     }
 }
 
+// main function which takes in input tree
 function evaluateExpressionTree(tree) {
+    // check whether the value of current node is greater than or equal to 0. if so, this is a numerical node which should be considered for an expression evaluation
     if (tree.value >= 0) {
+        // if greater than or equal to zero, return the tree.value
         return tree.value;
     }
-
+    // initialize variable leftValue and set equal to a recursive call to evaluateExpressionTree, passing in the tree.left
     let leftValue = evaluateExpressionTree(tree.left);
+    // initialize variable rightValue and set equal to a recursive call to evaluateExpressionTree, passing in the tree.right
     let rightValue = evaluateExpressionTree(tree.right);
-
+    // below are checks to handle the various evaluations, depending on the tree.value of the next node up in the tree
+    // if the tree.value is -1, then perform addition of leftValue and rightValue
     if (tree.value === -1) {
         return leftValue + rightValue;
     }
+    // if the tree.value is -2, then perform subtraction of leftValue and rightValue
     if (tree.value === -2) {
         return leftValue - rightValue;
     }
+    // if the tree.value is -3, then perform division of leftValue by rightValue
     if (tree.value === -3) {
         return Math.trunc(leftValue / rightValue);
     }
-
+    // since the only other option is -4, can simply return the multiplication of leftValue by rightValue
     return leftValue * rightValue;
 }
