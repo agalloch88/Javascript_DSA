@@ -10,6 +10,6 @@
 // Sample Output:
 
 // 3 -> 5
-// The middle could be either node, but as problem requires, would return 5 as the second of the two nodes.
+// The middle could be either 7 or 3, but as problem requires, would return 3 as the second of the two nodes.
 
 // Solution 1:
