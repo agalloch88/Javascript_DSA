@@ -13,3 +13,28 @@
 // The middle could be either 7 or 3, but as problem requires, would return 3 as the second of the two nodes.
 
 // Solution 1:
+
+class LinkedList {
+    constructor(value) {
+        this.value = value;
+        this.next = null;
+    }
+}
+
+function middleNode(linkedList) {
+    let count = 0;
+    let currentNode = linkedList;
+
+    while (currentNode !== null) {
+        count++;
+        currentNode = currentNode.next;
+    }
+
+    let middleNode = linkedList;
+    
+    for (let i = 0; i < Math.floor(count / 2); i++) {
+        middleNode = middleNode.next;      
+    }
+
+    return middleNode;
+}
