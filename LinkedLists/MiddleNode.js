@@ -51,3 +51,24 @@ function middleNode(linkedList) {
     // should either have the exact middle, or the second middle value, depending on whether odd or even length, so return middleNode
     return middleNode;
 }
+
+// Solution 2:
+
+class LinkedList {
+    constructor(value) {
+        this.value = value;
+        this.next = null;
+    }
+}
+
+function middleNode(linkedList) {
+    let slowNode = linkedList;
+    let fastNode = linkedList;
+
+    while (fastNode !== null && fastNode.next !== null) {
+        slowNode = slowNode.next;
+        fastNode = fastNode.next.next;
+    }
+
+    return slowNode;
+}
