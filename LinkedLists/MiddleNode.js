@@ -54,6 +54,12 @@ function middleNode(linkedList) {
 
 // Solution 2:
 
+// iterative, two-pointer solution moving one pointer at double the speed to more efficiently find the end in a single pass over input
+
+// O(n) time due to single pass over inputs with two pointers
+// O(1) space since only storing two pointers
+
+// LinkedList class, where each node has a value and next pointer, potentially
 class LinkedList {
     constructor(value) {
         this.value = value;
@@ -61,14 +67,17 @@ class LinkedList {
     }
 }
 
+// main function which takes in the linked list input
 function middleNode(linkedList) {
+    // initialize two pointers and set them equal to the linkedList input
     let slowNode = linkedList;
     let fastNode = linkedList;
-
+    // while the fastNode pointer is not either at the tail node or out of bounds, keep looping
     while (fastNode !== null && fastNode.next !== null) {
+        // increment slowNode pointer by 1 node, increment fastNode pointer by 2 nodes
         slowNode = slowNode.next;
         fastNode = fastNode.next.next;
     }
-
+    // when while loop breaks, fastNode will have found the end, and slowNode should be at the exact middle, so return slowNode
     return slowNode;
 }
