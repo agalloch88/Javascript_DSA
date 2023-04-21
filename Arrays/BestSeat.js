@@ -35,6 +35,7 @@ function bestSeat(seats) {
             bestSeat = Math.floor((left + right) / 2);
             maxSpace = availableSpace;
         }
+        left = right;
     }
     return bestSeat;
 }
