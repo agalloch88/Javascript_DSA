@@ -18,24 +18,43 @@
 
 // Solution 1:
 
+// iterative, two-pointer solution to find the largest gap of unoccupied space, then determin midpoint
+
+// O(n) time due to iterating over n inputs in seats
+// O(1) space due to only storing a few variables
+
 function bestSeat(seats) {
+    // initialize variable bestSeat to equal -1, and in case no suitable seat is found, can
+    // return this value
     let bestSeat = -1;
+    // initialize variable maxSpace and set equal to 0
     let maxSpace = 0;
+    // initialize variable left for left pointer, and start at index 0
     let left = 0;
-
+    // keep looping while left pointer remains in bounds of seats array
     while (left < seats.length) {
+        // initialize variable right for right pointer, and place one position to the right
+        // of the left pointer
         let right = left + 1;
-
+        // keep moving right pointer so long as right is in bounds of seats array,
+        // and only while the value right pointer is at is an empty seat, so 0
         while (right < seats.length && seats[right] === 0) {
+            // increment right pointer  by 1
             right++;
         }
-
+        // initialize variable availableSpace to calculate how much room is between left
+        // and right pointers, accounting for space of bestSeat
         let availableSpace = right - left - 1;
+        // if the availableSpace is greater than current value stored in maxSpace, execute below
         if (availableSpace > maxSpace) {
+            // set bestSeat equal to the floored value of midpoint between left and right
             bestSeat = Math.floor((left + right) / 2);
+            // set maxSpace equal to the current value of availableSpace
             maxSpace = availableSpace;
         }
+        // regroup the pointers by setting left equal to right
         left = right;
     }
+    // return the current value stored in bestSeat once left reaches end of array
     return bestSeat;
 }
