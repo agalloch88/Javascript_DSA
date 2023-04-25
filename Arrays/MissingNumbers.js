@@ -15,3 +15,15 @@
 // n is 5, meaning the completed list should be [1, 2, 3, 4, 5]
 
 // Solution 1:
+
+function missingNumbers(nums) {
+    let includedNums = new Set(nums);
+
+    let solution = [];
+    for (let num = 1; num < nums.length + 3; num++) {
+        if (!includedNums.has(num)) {
+            solution.push(num);
+        }
+    }
+    return solution;
+}
