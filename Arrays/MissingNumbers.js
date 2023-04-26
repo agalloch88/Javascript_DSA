@@ -16,14 +16,24 @@
 
 // Solution 1:
 
-function missingNumbers(nums) {
-    let includedNums = new Set(nums);
+// iterative solution using Set to check whether given number exists in Set
 
+// O(n) time due to iterating over n items in Set
+// O(n) space due to creating new Set with input array and solution array
+
+function missingNumbers(nums) {
+    // initialize variable includedNums and set equal to a new Set object created from input array nums
+    let includedNums = new Set(nums);
+    // initialize variable solution and set equal to empty array
     let solution = [];
+    // iterate over includedNums from 1 to nums.length + 3
     for (let num = 1; num < nums.length + 3; num++) {
+        // if includedNums set does NOT contain the given num, execute below
         if (!includedNums.has(num)) {
+            // push current num into solution array
             solution.push(num);
         }
     }
+    // once for loop ends, return the solution array containing the missing numbers
     return solution;
 }
