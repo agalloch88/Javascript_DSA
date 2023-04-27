@@ -37,3 +37,39 @@ function missingNumbers(nums) {
     // once for loop ends, return the solution array containing the missing numbers
     return solution;
 }
+
+// Solution 2:
+
+function missingNumbers(nums) {
+    let total = sum(arrayFromAToB(1, nums.length + 3));
+
+    for (let num of nums) {
+        total -= num;
+    }
+
+    let averageMissingValue = Math.floor(total / 2);
+    let foundFirstHalf = 0;
+    let foundSecondHalf = 0;
+    for (let num of nums) {
+        if (num <= averageMissingValue) {
+            foundFirstHalf += num;
+        } else {
+            foundSecondHalf += num;
+        }
+    }
+
+    let expectedFirstHalf = sum(arrayFromAToB(1, averageMissingValue + 1));
+    let expectedSecondHalf = sum(arrayFromAToB(averageMissingValue + 1, nums.length + 3));
+
+    return [expectedFirstHalf - foundFirstHalf, expectedSecondHalf - foundSecondHalf];
+}
+
+let arrayFromAToB = (a, b) => {
+    let array = [];
+    for (let num = a; num < b; num++) {
+        array.push(num);
+    }
+    return array;
+}
+
+let sum = array => array.reduce((a, b) => a + b);
