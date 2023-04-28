@@ -40,36 +40,55 @@ function missingNumbers(nums) {
 
 // Solution 2:
 
-function missingNumbers(nums) {
-    let total = sum(arrayFromAToB(1, nums.length + 3));
+// iterative solution finding missing numbers based on splitting input into halves
 
+// O(n) time due to iterating over n inputs in nums
+// O(1) space due to only storing a few variables
+
+// main function which takes in nums input
+function missingNumbers(nums) {
+    // initialize variable total, and set equal to the return of two helper functions, sum and arrayFromAToB
+    // should now have a numerical "total" from the input values, less the two missing numbers which need to be found
+    let total = sum(arrayFromAToB(1, nums.length + 3));
+    // for every num in the nums input, subtract this amount from the sum in total variable
+    // should now have the "sum" of the two missing numbers in total
     for (let num of nums) {
         total -= num;
     }
-
+    // initialize variable averageMissingValue and set equal to the floored average of total
     let averageMissingValue = Math.floor(total / 2);
+    // inititalize variables foundFirstHalf and foundSecondHalf, and set equal to 0 at the outset
     let foundFirstHalf = 0;
     let foundSecondHalf = 0;
+    // loop over every num in nums input
     for (let num of nums) {
+        // if the current num is less than or equal to the current value of foundFirstHalf, add the value of num to foundFirstHalf
         if (num <= averageMissingValue) {
             foundFirstHalf += num;
+        // if the current num is NOT less than or equal to the averageMissingValue, then add the value of current num to foundSecondHalf
         } else {
             foundSecondHalf += num;
         }
     }
-
+    // inititalize variable expectedFirstHalf, and set equal to return of two helpers, the sum of the array of values from 1 to averageMissingValue plus 1
     let expectedFirstHalf = sum(arrayFromAToB(1, averageMissingValue + 1));
+    // initialize variable expectedSecondHalf, and set equal to return of two helpers, the sum of the array of values from averageMissingValue plus 1 to the last item in nums plus three
     let expectedSecondHalf = sum(arrayFromAToB(averageMissingValue + 1, nums.length + 3));
-
+    // return an array containing the final values, calculated by subtracting foundFirstHalf from expectedFirstHalf, and subtracting foundSecondHalf from expectedSecondHalf
     return [expectedFirstHalf - foundFirstHalf, expectedSecondHalf - foundSecondHalf];
 }
-
+// helper function which compares two values from arrays
 let arrayFromAToB = (a, b) => {
+    // initialize variable array to empty array
     let array = [];
+    // loop over every num that is less than input b
+    // in theory, this should include the two missing nums which need to be found
     for (let num = a; num < b; num++) {
+        // push every num into the array
         array.push(num);
     }
+    // return the array
     return array;
 }
-
+// helper function which sums values, using reduce method to add values a and b together
 let sum = array => array.reduce((a, b) => a + b);
