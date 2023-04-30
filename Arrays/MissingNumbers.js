@@ -95,33 +95,47 @@ let sum = array => array.reduce((a, b) => a + b);
 
 // Solution 3:
 
+// solution using bitwise operations, where XOR removes duplicates
+
+// O(n) time
+// O(1) space
+
 function missingNumbers(nums) {
+    // initialize variable solutionXOR equal to 0
     let solutionXOR = 0;
+    // iterate through the expected range to cancel out any duplicates
     for (let i = 0; i < nums.length + 3; i++) {
         solutionXOR ^= i;
+        // also need to do this XOR process on the nums input
         if (i < nums.length) {
             solutionXOR ^= nums[i];
         }
     }
-
+    // initialize variable solution equal to a two-value array, with placeholder 0's
     let solution = [0, 0];
+    // initialize variable setBit and use two's complement to get rightmost XOR
     let setBit = solutionXOR & -solutionXOR;
+    // use setBit to iterate over expected range to find other number
     for (let i = 0; i < nums.length + 3; i++) {
+        // if i does not have binary setBit 1, then execute below and update leftmost number
         if ((i & setBit) === 0) {
             solution[0] ^= i;
+        // if i does have binary setBit 1, then execute below and update rightmost number
         } else {
             solution[1] ^= i;
         }
-
+        // need to do same check on nums input, so if i is less than length of nums, execute below
         if (i < nums.length) {
+            // if nums and i do NOT have setBit set, then execute below and set leftmost number in solution equal to XOR at i in nums
             if ((nums[i] & setBit) === 0) {
                 solution[0] ^= nums[i];
+            // if nums at i DOES have the setBit set, then execute below
             } else {
                 solution[1] ^= nums[i];
             }
         }
     }
-
+    // sort and then return the values in solution
     solution.sort((a, b) => a - b);
     return solution;
 }
