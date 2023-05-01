@@ -15,3 +15,21 @@
 // remove the digits 4 and 2
 
 // Solution 1:
+
+function bestDigits(number, numDigits) {
+    let stack = [];
+
+    for (let digit of number) {
+        while (numDigits > 0 && stack.length > 0 && digit > stack[stack.length - 1]) {
+            numDigits--;
+            stack.pop();
+        }
+        stack.push(digit);
+    }
+
+    while (numDigits > 0) {
+        numDigits--;
+        stack.pop();
+    }
+    return stack.join("");
+}
