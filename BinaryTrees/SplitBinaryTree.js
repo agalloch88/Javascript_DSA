@@ -23,3 +23,36 @@
 
 // Solution 1:
 
+class BinaryTree {
+    constructor(value) {
+        this.node = node;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+function splitBinaryTree(tree) {
+    let desiredSubtreeSum = getTreeSum(tree) / 2;
+    let canBeSplit = trySubtrees(tree, desiredSubtreeSum)[1];
+    return canBeSplit ? desiredSubtreeSum : 0;
+}
+
+function trySubtrees(tree, desiredSubtreeSum) {
+    if (tree === null) {
+        return [0, false];
+    }
+
+    let [leftSum, leftCanBeSplit] = trySubtrees(tree.left, desiredSubtreeSum);
+    let [rightSum, rightCanBeSplit] = trySubtrees(tree.right, desiredSubtreeSum);
+
+    let currentTreeSum = tree.value + leftSum + rightSum;
+    let canBeSplit = leftCanBeSplit || rightCanBeSplit || currentTreeSum === desiredSubtreeSum;
+    return [currentTreeSum, canBeSplit];
+}
+
+function getTreeSum(tree) {
+    if (tree === null) {
+        return 0;
+    }
+    return tree.value + getTreeSum(tree.left) + getTreeSum(tree.right);
+}
