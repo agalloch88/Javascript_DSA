@@ -30,3 +30,37 @@
 // find(20): 5
 
 // Solution 1:
+
+class UnionFind {
+    constructor() {
+        this.parents = {};
+    }
+
+    createSet(value) {
+        this.parents[value] = value;
+    }
+
+    find(value) {
+        if (!(value in this.parents)) {
+            return null;
+        }
+
+        let currentParent = value;
+
+        while (currentParent !== this.parents[currentParent]) {
+            currentParent = this.parents[currentParent];
+        }
+
+        return currentParent;
+    }
+
+    union(valueOne, valueTwo) {
+        if (!(valueOne in this.parents) || !(valueTwo in this.parents)) {
+            return;
+        }
+
+        let valueOneRoot = this.find(valueOne);
+        let valueTwoRoot = this.find(valueTwo);
+        this.parents[valueTwoRoot] = valueOneRoot;
+    }
+}
