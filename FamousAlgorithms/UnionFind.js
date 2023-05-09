@@ -31,36 +31,55 @@
 
 // Solution 1:
 
+// solution utilizing a parents JS object to keep track of and update the parent node of a value
+
+// main UnionFind class, with the required createSet, find, and union methods
 class UnionFind {
     constructor() {
+        // initialize the parents object to empty
         this.parents = {};
     }
 
+    // O(1) time due to object lookup speed
+    // O(1) space due to not creating any new data structures
+    // createSet method, which takes in a specific value
     createSet(value) {
+        // the value in parents object is equal to the value passed in
         this.parents[value] = value;
     }
 
+    // O(n) time due to potentially going through n values
+    // O(1) space due to not creating any new data structures
+    // find method, which takes in a specific value
     find(value) {
+        // if there is not the passed-in value in the parents JS object, then return null
         if (!(value in this.parents)) {
             return null;
         }
-
+        // initialize variable currentParent and set equal to the passed-in value
         let currentParent = value;
-
+        // keep looping so long as the currentParent is not equal to the value in parents JS object at currentParent
         while (currentParent !== this.parents[currentParent]) {
+            // set currentParennt equal to the value at currentParent in parents JS object
             currentParent = this.parents[currentParent];
         }
-
+        // return the new value for currentParent
         return currentParent;
     }
 
+    // O(n) time due to perhaps traversing up to n values
+    // O(1) space due to not creating any new data structures
+    // union method, which takes in two values
     union(valueOne, valueTwo) {
+        // if either valueOne or valueTwo are NOT in the parents JS object, then return
         if (!(valueOne in this.parents) || !(valueTwo in this.parents)) {
             return;
         }
-
+        // initialize variable valueOneRoot and set equal to the returned value of find method, passing in valueOne
         let valueOneRoot = this.find(valueOne);
+        // initialize variable valueTwoRoot and set equal to the returned value of find method, passing in valueTwo
         let valueTwoRoot = this.find(valueTwo);
+        // set the value of valueTwoRoot in parents JS object equal to the value stored in valueOneRoot
         this.parents[valueTwoRoot] = valueOneRoot;
     }
 }
