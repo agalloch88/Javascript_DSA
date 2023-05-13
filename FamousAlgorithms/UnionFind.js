@@ -86,43 +86,69 @@ class UnionFind {
 
 // Solution 2:
 
+// solution utilizing two objects to keep track of node parents and relative ranks, or heights, of nodes in a given tree
+
+// main UnionFind class, with required createSet, find, and union methods, along with two objects in constructor
 class UnionFind {
     constructor(value) {
         this.parents = {};
         this.ranks = {};
     }
 
+    // O(1) time due to object lookup speed
+    // O(1) space due to not creating any new data structures
+    // createSet method, which takes in a specific value
     createSet(value) {
+        // the value in the parents object is equal to the value passed in
         this.parents[value] = value;
+        // the value in ranks object is equal to 0 at outset, as it does not rank higher than any other node
         this.ranks[value] = 0;
     }
     
+    // O(log(n)) time due to potentially going through half of n values due to parents and ranks structures
+    // O(1) space due to not creating any new data structures
+    // find method, which takes in a specific value
     find(value) {
+        // if the passed-in value is NOT in parents object, then return null
         if (!(value in this.parents)) {
             return null;
         }
-
+        // initialize variable currentParent and set equal to the passed-in value
         let currentParent = value;
+        // keep looping so long as value stored in currentParent is NOT equal to the value of currentParent in parents JS object
         while (currentParent !== this.parents[currentParent]) {
+            // set value of currentParent equal to the value of currentParent in parents JS object
             currentParent = this.parents[currentParent];
         }
+        // once while loop breaks, return the value stored in currentParent
         return currentParent;
     }
 
+    // O(log(n)) time due to perhaps traversing up to half of n values due to parents and ranks structures
+    // O(1) space due to not creating any new data structures
+    // union method, which takes in two values
     union(valueOne, valueTwo) {
+        // if either valueOne or valueTwo are NOT in the parents JS object, then return
         if (!(valueOne in this.parents) || !(valueTwo in this.parents)) {
             return;
         }
-
+        // initialize variable valueOneRoot and set equal to the returned value of find method, passing in valueOne
         let valueOneRoot = this.find(valueOne);
+        // initialize variable valueTwoRoot and set equal to the returned value of find method, passing in valueTwo
         let valueTwoRoot = this.find(valueTwo);
 
+        // if the valueOneRoot in ranks object is smaller than the valueTwoRoot in ranks object, set valueOneRoot in parents object equalto valueTwoRoot
         if (this.ranks[valueOneRoot] < this.ranks[valueTwoRoot]) {
             this.parents[valueOneRoot] = valueTwoRoot;
+        // otherwise, if the valueOneRoot in ranks object is larger than valueTwoRoot in ranks object, execute below
         } else if (this.ranks[valueOneRoot] > this.ranks[valueTwoRoot]) {
+            // set valueTwoRoot in parents object equal to valueOneRoot
             this.parents[valueTwoRoot] = valueOneRoot;
+        // otherwise, if equal or not found in ranks object, then execute the below
         } else {
+            // set valueTwoRoot in parents object equal to valueOneRoot
             this.parents[valueTwoRoot] = valueOneRoot;
+            // increment valueOneRoot in ranks object by 1, indicating this node is not of greater height than other nodes
             this.ranks[valueOneRoot] += 1;
         }
     } 
