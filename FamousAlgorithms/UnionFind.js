@@ -153,3 +153,47 @@ class UnionFind {
         }
     } 
 }
+
+// Solution 3:
+
+class UnionFind {
+    constructor(value) {
+        this.parents = {};
+        this.ranks = {};
+    }
+
+    createSet(value) {
+        this.parents[value] = value;
+        this.ranks[value] = 0;
+    }
+
+    find(value) {
+        if (!(value in this.parents)) {
+            return null;
+        }
+
+        if (value !== this.parents[value]) {
+            this.parents[value] = this.find(this.parents[value]);
+        }
+
+        return this.parents[value];
+    }
+
+    union(valueOne, valueTwo) {
+        if (!(valueOne in this.parents) || !(valueTwo in this.parents)) {
+            return;
+        }
+
+        let valueOneRoot = this.find(valueOne);
+        let valueTwoRoot = this.find(valueTwo);
+
+        if (this.ranks[valueOneRoot] < this.ranks[valueTwoRoot]) {
+            this.parents[valueOneRoot] = valueTwoRoot;
+        } else if (this.ranks[valueOneRoot] > this.ranks[valueTwoRoot]) {
+            this.parents[valueTwoRoot] = valueOneRoot;
+        } else {
+            this.parents[valueTwoRoot] = valueOneRoot;
+            this.ranks[valueOneRoot] += 1;
+        }
+    }
+}
