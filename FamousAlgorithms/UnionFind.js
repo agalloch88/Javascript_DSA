@@ -137,7 +137,7 @@ class UnionFind {
         // initialize variable valueTwoRoot and set equal to the returned value of find method, passing in valueTwo
         let valueTwoRoot = this.find(valueTwo);
 
-        // if the valueOneRoot in ranks object is smaller than the valueTwoRoot in ranks object, set valueOneRoot in parents object equalto valueTwoRoot
+        // if the valueOneRoot in ranks object is smaller than the valueTwoRoot in ranks object, set valueOneRoot in parents object equal to valueTwoRoot
         if (this.ranks[valueOneRoot] < this.ranks[valueTwoRoot]) {
             this.parents[valueOneRoot] = valueTwoRoot;
         // otherwise, if the valueOneRoot in ranks object is larger than valueTwoRoot in ranks object, execute below
@@ -156,43 +156,67 @@ class UnionFind {
 
 // Solution 3:
 
+// solution utilizing two objects to keep track of node parents and relative ranks, or heights, of nodes in a given tree, slightly optimized via the find method
+
+// main UnionFind class, with required createSet, find, and union methods, along with two objects in constructor
 class UnionFind {
     constructor(value) {
         this.parents = {};
         this.ranks = {};
     }
 
+    // O(1) time due to object lookup speed
+    // O(1) space due to not creating any new data structures
+    // createSet method, which takes in a specific value
     createSet(value) {
+        // the value in the parents object is equal to the value passed in
         this.parents[value] = value;
+        // the value in ranks object is equal to 0 at outset, as it does not rank higher than any other node
         this.ranks[value] = 0;
     }
 
+    // O(α(n)) time, which is approximately O(1), due to optimization of lookup to parents object
+    // O(α(n)) space, which is approximately O(1), due to optimization of lookup to parents object
+    // find method, which takes in a specific value
     find(value) {
+        // if the value is NOT in the parents object, then return null
         if (!(value in this.parents)) {
             return null;
         }
-
+        // if the value passed in is NOT equal to the value in the parents object, execute below
         if (value !== this.parents[value]) {
+            // set the value in parents object equal to a call to find method, passing in the value within parents
             this.parents[value] = this.find(this.parents[value]);
         }
-
+        // return the value in parents object
         return this.parents[value];
     }
 
+    // O(α(n)) time, which is approximately O(1), due to optimization of lookup to parents object
+    // O(α(n)) space, which is approximately O(1), due to not using any additional data structures
+    // union method, which takes in two values
     union(valueOne, valueTwo) {
+        // if either valueOne or valueTwo are NOT in the parents JS object, then return
         if (!(valueOne in this.parents) || !(valueTwo in this.parents)) {
             return;
         }
 
+        // initialize variable valueOneRoot and set equal to the returned value of find method, passing in valueOne
         let valueOneRoot = this.find(valueOne);
+        // initialize variable valueTwoRoot and set equal to the returned value of find method, passing in valueTwo
         let valueTwoRoot = this.find(valueTwo);
 
+        // if the valueOneRoot in ranks is LESS than the valueTwoRoot in ranks object, then set valueOneRoot in parents object equal to valueTwoRoot
         if (this.ranks[valueOneRoot] < this.ranks[valueTwoRoot]) {
             this.parents[valueOneRoot] = valueTwoRoot;
+        // if the valueOneRoot in ranks is GREATER than the valueTwoRoot in ranks object, then set valueTwoRoot in parents object equal to valueOneRoot
         } else if (this.ranks[valueOneRoot] > this.ranks[valueTwoRoot]) {
             this.parents[valueTwoRoot] = valueOneRoot;
+        // otherwise, if equal or not found in ranks object, then execute the below
         } else {
+            // set valueTwoRoot in parents object equal to valueOneRoot
             this.parents[valueTwoRoot] = valueOneRoot;
+            // increment the rank of valueOneRoot by 1 in ranks object
             this.ranks[valueOneRoot] += 1;
         }
     }
