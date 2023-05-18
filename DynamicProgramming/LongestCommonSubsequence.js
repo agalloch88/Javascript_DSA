@@ -57,3 +57,33 @@ function longestCommonSubsequence(str1, str2) {
     // return the bottom-rightmost value in the 2D array, which is the final longest common subsequence of the two strings
     return lcs[str2.length][str1.length];
 }
+
+// Solution 2:
+
+function longestCommonSubsequence(str1, str2) {
+    let small = str1.length < str2.length ? str1 : str2;
+    let big = str1.length >= str2.length ? str1 : str2;
+    let evenLcs = new Array(small.length + 1).fill([]);
+    let oddLcs = new Array(small.length + 1).fill([]);
+
+    for (let i = 1; i < big.length + 1; i++) {
+        let currentLcs, previousLcs;
+
+        if (i % 2 === 1) {
+            currentLcs = oddLcs;
+            previousLcs = evenLcs;
+        } else {
+            currentLcs = evenLcs;
+            previousLcs = oddLcs;
+        }
+
+        for (let j = 1; j < small.length + 1; j++) {
+            if (big[i - 1] === small[j - 1]) {
+                currentLcs[j] = previousLcs[j - 1].concat(big[i - 1]);
+            } else {
+                currentLcs[j] = previousLcs[j].length > currentLcs[j - 1].length ? previousLcs[j] : currentLcs[j - 1];
+            }
+        }
+    }
+    return big.length % 2 === 0 ? evenLcs[small.length] : oddLcs[small.length];
+}
