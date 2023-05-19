@@ -105,3 +105,53 @@ function longestCommonSubsequence(str1, str2) {
     // once the for loops break, return then value of whether the big string is even or odd, and return evenLcs or oddLcs values at last index in small string, respectively
     return big.length % 2 === 0 ? evenLcs[small.length] : oddLcs[small.length];
 }
+
+// Solution 3:
+
+function longestCommonSubsequence(str1, str2) {
+    let lcs = [];
+
+    for (let i = 0; i < str2.length + 1; i++) {
+        let row = [];
+        
+        for (let j = 0; j < str1.length + 1; j++) {
+            let entry = new Array(4);
+            entry[1] = 0;
+            row.push(entry);
+        }
+        lcs.push(row);
+    }
+
+    for (let i = 0; i < str2.length + 1; i++) {
+        for (let j = 0; j < str1.length + 1; j++) {
+            if (str2[i - 1] === str1[j - 1]) {
+                lcs[i][j] = [str2[i - 1], lcs[i - 1][j - 1][1] + 1, i - 1, j - 1];
+            } else {
+                if (lcs[i - 1][j][1] > lcs[i][j - 1][1]) {
+                    lcs[i][j] = [null, lcs[i - 1][j][1], i - 1, j];
+                } else {
+                    lcs[i][j] = [null, lcs[i][j - 1][1], i, j - 1];
+                }
+            }
+        }
+    }
+    return buildSequence(lcs);
+}
+
+function buildSequence(lcs) {
+    let sequence = [];
+    let i = lcs.length - 1;
+    let j = lcs[0].length - 1;
+
+    while (i !== 0 && j !== 0) {
+        let currentEntry = lcs[i][j];
+
+        if (currentEntry[0]) {
+            sequence.unshift(currentEntry[0]);
+        }
+
+        i = currentEntry[2];
+        k = currentEntry[3];
+    }
+    return sequence;
+}
