@@ -60,15 +60,26 @@ function longestCommonSubsequence(str1, str2) {
 
 // Solution 2:
 
+// similar solution, finding out which is the small/big strings and whether the lcs is even or odd
+
+// O(NM * min(N, M)) time due to iterating over N and M values in str1 and str2 respectively, and
+// comparing to potentially N or M values, depending on what is smaller
+// O((min(N, M)) ^2) space due to storing additional arrays
+
 function longestCommonSubsequence(str1, str2) {
+    // initialize variable small and set equal to ternary result of whether str1 is smaller than str2
     let small = str1.length < str2.length ? str1 : str2;
+    // initialize variable big and set equal to ternary result of whether str1 is greater than or equal to str2
     let big = str1.length >= str2.length ? str1 : str2;
+    // initialize variable evenLcs and set equal to a new array one index longer than length of small, and fill with empty arrays for that length
     let evenLcs = new Array(small.length + 1).fill([]);
+    // initialize variable oddLcs and set equal to a new array one index longer than length of small, and fill with empty arrays for that length
     let oddLcs = new Array(small.length + 1).fill([]);
-
+    // iterate over all values in the big string, starting at index 1
     for (let i = 1; i < big.length + 1; i++) {
+        // initialize variables currentLcs and previousLcs to track the status of the lcs
         let currentLcs, previousLcs;
-
+        // divide the current value of i by 2 to determine whether even or odd, and set currentLcs and previousLcs to be oddLcs and evenLcs, respectively
         if (i % 2 === 1) {
             currentLcs = oddLcs;
             previousLcs = evenLcs;
@@ -76,14 +87,21 @@ function longestCommonSubsequence(str1, str2) {
             currentLcs = evenLcs;
             previousLcs = oddLcs;
         }
-
+        // iterate over all values in the small string, starting at index 1
         for (let j = 1; j < small.length + 1; j++) {
+            // if the value in big and small are equal, execute below
             if (big[i - 1] === small[j - 1]) {
+                // set value at index j in currentLcs equal to the value at j minus 1 in previousLcs and concatenate the value from i minus 1 in big string,
+                // which updates the running lcs value with another match
                 currentLcs[j] = previousLcs[j - 1].concat(big[i - 1]);
+            // if the value in big and small is NOT equal, execute below
             } else {
+                // set value of j in currentLcs equal to ternary result of checking whether previousLcs at index j is  larger than currentLcs at index j minus 1,
+                // which should then resolve to value at index j in previousLcs if true, or value at index j minus 1 in currentLcs if false
                 currentLcs[j] = previousLcs[j].length > currentLcs[j - 1].length ? previousLcs[j] : currentLcs[j - 1];
             }
         }
     }
+    // once the for loops break, return then value of whether the big string is even or odd, and return evenLcs or oddLcs values at last index in small string, respectively
     return big.length % 2 === 0 ? evenLcs[small.length] : oddLcs[small.length];
 }
