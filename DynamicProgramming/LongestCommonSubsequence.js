@@ -108,50 +108,77 @@ function longestCommonSubsequence(str1, str2) {
 
 // Solution 3:
 
-function longestCommonSubsequence(str1, str2) {
-    let lcs = [];
+// unique solution using a 4-index array to track either null or a value to store, the current length of the lcs, and then pointers for the row and column of the last matching character
 
+// O(NM) time due to only going over the two strings
+// O(NM) space due to reducing storage to lcs, row, and the entry array
+
+function longestCommonSubsequence(str1, str2) {
+    // initialize variable lcs and set equal to empty array
+    let lcs = [];
+    // iterate over str2 values plus 1 for empty string
+    // when this for loop exits, will have built the needed 2D array
     for (let i = 0; i < str2.length + 1; i++) {
+        // for every value, initialize variable row and set equal to another empty array
         let row = [];
-        
+        // iterate over str1 values plus 1 for empty string
         for (let j = 0; j < str1.length + 1; j++) {
+            // initialize variable entry, and set equal to a new array with length of 4
             let entry = new Array(4);
+            // set the value at index 1 equal to 0, which represents that the current lcs is currently 0 items long
             entry[1] = 0;
+            // push the entry array into the current row
             row.push(entry);
         }
+        // push the current row into the lcs array
         lcs.push(row);
     }
-
-    for (let i = 0; i < str2.length + 1; i++) {
-        for (let j = 0; j < str1.length + 1; j++) {
+    // iterate over str2, starting at index 1
+    for (let i = 1; i < str2.length + 1; i++) {
+        // iterate over str1, starting at index 1
+        for (let j = 1; j < str1.length + 1; j++) {
+            // check whether the values at i muns 1 and j minus 1 in str2 and str1, respectively, are equal, and if so, execute the below
             if (str2[i - 1] === str1[j - 1]) {
+                // set the values for entries at position i,j in lcs equal to the value at i minus 1 in str2, previous lcs length value plus 1, and then current i and j coordinates
                 lcs[i][j] = [str2[i - 1], lcs[i - 1][j - 1][1] + 1, i - 1, j - 1];
+            // if the values are NOT equal, not adding this value to the lcs, so execute the below
             } else {
+                // if length of lcs immediately above is greater than lcs immediately to the left, then take the length above
                 if (lcs[i - 1][j][1] > lcs[i][j - 1][1]) {
                     lcs[i][j] = [null, lcs[i - 1][j][1], i - 1, j];
+                // otherwise, if length to the left is greater, take the length to the left
                 } else {
                     lcs[i][j] = [null, lcs[i][j - 1][1], i, j - 1];
                 }
             }
         }
     }
+    // return call to helper function which builds the lcs sequence backwards using unshift method
     return buildSequence(lcs);
 }
 
+// helper function which takes in the lcs which needs to be built, working backwards from bottom-right of 2D array to build the final lcs sequence
 function buildSequence(lcs) {
+    // initialize variable sequence and set equal to empty array
     let sequence = [];
+    // initialize variable i, and set equal to last value in lcs
     let i = lcs.length - 1;
+    // initialize variable j, and set equal to last value in lcs at index 0
     let j = lcs[0].length - 1;
-
+    // keep looping so long as not finished with all actual values, meaning not back at the empty string intersection
     while (i !== 0 && j !== 0) {
+        // initialize variable current entry, and set equal to the coordinates of i,j in lcs
         let currentEntry = lcs[i][j];
-
+        // if there is a value at index 0 of the entry array at these coordinates, meaning it is not null and there is a value to add to the lcs, then execute the below
         if (currentEntry[0]) {
+            // unshift the value at index 0 of currentEntry into the sequence
             sequence.unshift(currentEntry[0]);
         }
-
+        // set the value of i equal to the value at index 2 of currentEntry
         i = currentEntry[2];
-        k = currentEntry[3];
+        // set the value of j equal to the value at index 3 of currentEntry
+        j = currentEntry[3];
     }
+    // once finished, return the completed sequence
     return sequence;
 }
