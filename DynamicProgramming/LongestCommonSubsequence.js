@@ -182,3 +182,5 @@ function buildSequence(lcs) {
     // once finished, return the completed sequence
     return sequence;
 }
+
+// Solution 4:
