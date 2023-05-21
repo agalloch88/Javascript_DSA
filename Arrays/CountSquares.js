@@ -23,3 +23,37 @@
 // [1, 1], [-4, 2], [-2, -1], and [-1, 4] make a square
 
 // Solution 1:
+
+function countSquares(points) {
+    let pointsSet = new Set();
+
+    for (let point of points) {
+        pointsSet.add(pointToString(point));
+    }
+
+    let count = 0;
+
+    for (let pointA of points) {
+        for (let pointB of points) {
+            if (pointA === pointB) {
+                continue;
+            }
+
+            let midpoint = [(pointA[0] + pointB[0]) / 2, (pointA[1] + pointB[1]) / 2];
+            let xDistanceFromMid = pointA[0] - midpoint[0];
+            let yDistanceFromMid = pointA[1] - midpoint[1];
+
+            let pointC = [midpoint[0] + yDistanceFromMid, midpoint[1] - xDistanceFromMid];
+            let pointD = [midpoint[0] - yDistanceFromMid, midpoint[1] + xDistanceFromMid];
+
+            if (pointsSet.has(pointToString(pointC)) && pointsSet.has(pointToString(pointD))) {
+                count++;
+            }
+        }
+    }
+    return count / 4;
+}
+
+function pointToString(point) {
+    return point.join(',');
+}
