@@ -185,40 +185,62 @@ function buildSequence(lcs) {
 
 // Solution 4:
 
-function longestCommonSubsequence(str1, str2) {
-    let lengths = [];
+// iterative solution tracking the numerical length at each spot in 2D array, pushing some additional
+// logic into helper as well
 
+// O(nm) time due to checking n * m values in str 1 and str2, respectively
+// O(nm) space due to spot a 2D array for n * m values
+
+// main function which takes in str1 and str2 as inputs
+function longestCommonSubsequence(str1, str2) {
+    // initialize variable lengths and set equal to empty array
+    let lengths = [];
+    // iterate over values in str2 plus 1
     for (let i = 0; i < str2.length + 1; i++) {
+        // for every value in st2, push a new array into lengths holder array for every value in str1 plus 1, and fill with a 0
+        // this value will track the length of the lcs at every step, simplifying to one value from 4 or lcs-length value
         lengths.push(new Array(str1.length + 1).fill(0));
     }
-
+    // iterate over every value in str2 plus 1 again
     for (let i = 1; i < str2.length + 1; i++) {
+        // iterate over every value in str1 plus 1 again
         for (let j = 1; j < str1.length + 1; j++) {
+            // if the values at i - 1 in str2 and j - 1 in str1 ARE equal, found another value in a lcs, so increment the value at the place of i,j in lengths by the previous value plus 1
             if (str2[i - 1] === str1[j - 1]) {
                 lengths[i][j] = lengths[i - 1][j - 1] + 1;
+            // if the values at i - 1 in str2 and j - 1 in str1 are NOT equal, set the value at i,j in lengths equal to the max value between value to left or above current position
             } else {
                 lengths[i][j] = Math.max(lengths[i - 1][j], lengths[i][j - 1]);
             }
         }
     }
+    // return the result from a call to helper function build sequence, passing in the lengths array and str1 values
     return buildSequence(lengths, str1);
 }
 
+// helper function which takes in the lengths array, and another string
 function buildSequence(lengths, string) {
+    // initialize variable sequence, and set equal to an empty array
     let sequence = [];
+    // initialize variable i, and set equal to the last value in lengths array
     let i = lengths.length - 1;
+    // initialize variable j, and set equal to the last value in lengths array at index 0
     let j = lengths[0].length - 1;
-
+    // keep looping so long as neither i nor j equal 0
     while (i !== 0 && j !== 0) {
+        // if current position value is equal to the position to the left, decrenment i by 1
         if (lengths[i][j] === lengths[i - 1][j]) {
             i--;
+        // if current position value is equal to the position above, decrement j by 1
         } else if (lengths[i][j] === lengths[i][j - 1]) {
             j--;
+        // otherwise, push value at j - 1 in string into sequence via unshift, then decrement both i and j by 1
         } else {
             sequence.unshift(string[j - 1]);
             i--;
             j--;
         }
     }
+    // return the sequence
     return sequence;
 }
