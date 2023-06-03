@@ -37,6 +37,7 @@
 function findNodesDistanceK(tree, target, k) {
     let nodesDistanceK = [];
     findDistanceFromNodeToTarget(tree, target, k, nodesDistanceK);
+    return nodesDistanceK;
 }
 
 function findDistanceFromNodeToTarget(node, target, k, nodesDistanceK) {
