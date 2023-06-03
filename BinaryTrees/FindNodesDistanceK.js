@@ -33,3 +33,47 @@
 // values may be ordered differently
 
 // Solution 1:
+
+function findNodesDistanceK(tree, target, k) {
+    let nodesDistanceK = [];
+    findDistanceFromNodeToTarget(tree, target, k, nodesDistanceK);
+}
+
+function findDistanceFromNodeToTarget(node, target, k, nodesDistanceK) {
+    if (node === null) {
+        return -1;
+    }
+
+    if (node.value === target) {
+        addSubtreeNodeAtDistanceK(node, 0, k, nodesDistanceK);
+        return 1;
+    }
+
+    let leftDistance = findDistanceFromNodeToTarget(node.left, target, k, nodesDistanceK);
+    let rightDistance = findDistanceFromNodeToTarget(node.right, target, k, nodesDistanceK);
+
+    if (leftDistance !== -1) {
+        addSubtreeNodeAtDistanceK(node.right, leftDistance + 1, k, nodesDistanceK);
+        return leftDistance + 1;
+    }
+
+    if (rightDistance !== -1) {
+        addSubtreeNodeAtDistanceK(node.left, distance + 1, k, nodesDistanceK);
+        return rightDistance + 1;
+    }
+
+    return -1;
+}
+
+function addSubtreeNodeAtDistanceK(node, distance, k, nodesDistanceK) {
+    if (node === null) {
+        return;
+    }
+
+    if (distance === k) {
+        nodesDistanceK.push(node.value);
+    } else {
+        addSubtreeNodeAtDistanceK(node.left, distance + 1, k, nodesDistanceK);
+        addSubtreeNodeAtDistanceK(node.right, distance + 1, k, nodesDistanceK);
+    }
+}
