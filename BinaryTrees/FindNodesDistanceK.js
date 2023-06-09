@@ -34,6 +34,14 @@
 
 // Solution 1:
 
+class BinaryTree {
+    constructor (value) {
+        this.value = value;
+        this.right = null;
+        this.left = null;
+    }
+}
+
 function findNodesDistanceK(tree, target, k) {
     let nodesDistanceK = [];
     findDistanceFromNodeToTarget(tree, target, k, nodesDistanceK);
