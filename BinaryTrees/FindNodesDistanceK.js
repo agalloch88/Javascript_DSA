@@ -43,6 +43,75 @@ class BinaryTree {
 }
 
 function findNodesDistanceK(tree, target, k) {
+    let nodesToParents = {};
+    populateNodesToParents(tree, nodesToParents);
+    let targetNode = getNodeFromValue(target, tree, nodesToParents);
+    return breadthFirstSearchForNodesDistanceK(targetNode, nodesToParents, k);
+}
+
+function populateNodesToParents(node, nodesToParents, parent = null) {
+    if (node !== null) {
+        nodesToParents[node.value] = parent;
+        populateNodesToParents(node.left, nodesToParents, node);
+        populateNodesToParents(node.right, nodesToParents, node);
+    }
+}
+
+function getNodeFromValue(value, tree, nodesToParents) {
+    if (tree.value === value) {
+        return tree;
+    }
+
+    let nodeParent = nodesToParents[value];
+
+    if (nodeParent.left !== null && nodeParent.left.value === value) {
+        return nodeParent.left;
+    }
+
+    return nodeParent.right;
+}
+
+function breadthFirstSearchForNodesDistanceK(targetNode, nodesToParents, k) {
+    let queue = [[targetNode, 0]];
+    let seen = new Set([targetNode.value]);
+
+    while (queue.length > 0) {
+        let [currentNode, distanceFromTarget] = queue.shift();
+
+        if (distanceFromTarget === k) {
+            let nodesDistanceK = queue.map(pair => pair[0].value);
+            nodesDistanceK.push(currentNode.value);
+            return nodesDistanceK;
+        }
+
+        let connectedNodes = [currentNode.left, currentNode.right, nodesToParents[currentNode.value]];
+        for (let node of connectedNodes) {
+            if (node === null) {
+                continue;
+            }
+
+            if (seen.has(node.value)) {
+                continue;
+            }
+
+            seen.add(node.value);
+            queue.push([node, distanceFromTarget + 1]);
+        }
+    }
+    return [];
+}
+
+// Solution 2:
+
+class BinaryTree {
+    constructor (value) {
+        this.value = value;
+        this.right = null;
+        this.left = null;
+    }
+}
+
+function findNodesDistanceK(tree, target, k) {
     let nodesDistanceK = [];
     findDistanceFromNodeToTarget(tree, target, k, nodesDistanceK);
     return nodesDistanceK;
