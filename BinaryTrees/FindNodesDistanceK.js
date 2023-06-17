@@ -107,28 +107,34 @@ function breadthFirstSearchForNodesDistanceK(targetNode, nodesToParents, k) {
         // if the distanceFromTarget is equal to given k value, then execute below
         if (distanceFromTarget === k) {
             // if current at K distance, need to handle and grab all nodes at this level
-            // initialize variable nodesDistanceK and set equal to a map over the queue, grabbing the
+            // initialize variable nodesDistanceK and set equal to a map over the queue, grabbing the zero-index position's value in pair
             let nodesDistanceK = queue.map(pair => pair[0].value);
+            // push the currentNode's value into the nodesDistanceK
             nodesDistanceK.push(currentNode.value);
+            // return the nodesDistanceK
             return nodesDistanceK;
         }
         // otherwise, if not at k distance yet, initialize variable connectedNodes and set equal to
         // array of values containing the left and right pointers of currentNode, and the
         // currentNode value from nodesToParents 
         let connectedNodes = [currentNode.left, currentNode.right, nodesToParents[currentNode.value]];
+        // iterate over every node in the connectedNodes array
         for (let node of connectedNodes) {
+            // if at a leaf/null node, simply continue
             if (node === null) {
                 continue;
             }
-
+            // if the current node.value already exists in the seen set and has thereforce been checked already, simply continue
             if (seen.has(node.value)) {
                 continue;
             }
-
+            // add the current node.value to the seen set
             seen.add(node.value);
+            // push the tuple value of node and the distanceFromTarget incremented by 1 into the queue
             queue.push([node, distanceFromTarget + 1]);
         }
     }
+    // if getting here, simply return an empty array
     return [];
 }
 
