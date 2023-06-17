@@ -34,6 +34,8 @@
 
 // Solution 1:
 
+// graph-style solution finding target node and expanding outward via BFS to get to distance k nodes
+
 // O(n) time due to finding target, expanding out via BFS, processing nodes from queue
 // O(n) space due to using queue, additional set for seen nodes
 
