@@ -142,6 +142,12 @@ function breadthFirstSearchForNodesDistanceK(targetNode, nodesToParents, k) {
 
 // Solution 2:
 
+// recursive approach with slightly different DFS approach to finding target and k-distance nodes
+
+// O(n) time due to using DFS to locate target and nodes at k distance
+// O(n) space due to at most n calls on call stack at once in worst-case linear binary tree
+
+// main Binary Tree class, with every node having a value, and potentially a left and/or right pointer to child nodes
 class BinaryTree {
     constructor (value) {
         this.value = value;
@@ -150,45 +156,62 @@ class BinaryTree {
     }
 }
 
+// main function taking in the input tree, target, and k
 function findNodesDistanceK(tree, target, k) {
+    // initialize variable nodesDistanceK to hold answer, and set equal to empty array at the outset
     let nodesDistanceK = [];
+    // call helper function findDistanceFromNodeToTarget, and pass in the tree, target, k, and nodesDistanceK answer array
     findDistanceFromNodeToTarget(tree, target, k, nodesDistanceK);
     return nodesDistanceK;
 }
 
+// helper function taking in a given node, target, k, and nodesDistanceK answer array
 function findDistanceFromNodeToTarget(node, target, k, nodesDistanceK) {
+    // base case
+    // if the node/leaf is null, then return -1 as the target is not found here
     if (node === null) {
         return -1;
     }
-
+    // if the node's value is equal to the target, execute below
     if (node.value === target) {
+        // call to helper function addSubtreeNodeAtDistanceK to traverse the target's possible subtrees, passing in a node, 0 as current distance, k, and nodesDistanceK answer array
         addSubtreeNodeAtDistanceK(node, 0, k, nodesDistanceK);
+        // since the target was found, return 1 for success
         return 1;
     }
-
+    // recursive cases
+    // initialize variables leftDistance and rightDistance, and set equal to recursive call to findDistanceFromNodeToTarget, passing in the node.left and node.right values, as well as target, k, and nodesDistanceK answer array
     let leftDistance = findDistanceFromNodeToTarget(node.left, target, k, nodesDistanceK);
     let rightDistance = findDistanceFromNodeToTarget(node.right, target, k, nodesDistanceK);
-
+    // if leftDistance is not null/-1, execute the below
     if (leftDistance !== -1) {
+        // call addSubtreeNodeAtDistanceK helper, passing in node.right, the value for leftDistance plus 1, and k and nodesDistanceK answer array
         addSubtreeNodeAtDistanceK(node.right, leftDistance + 1, k, nodesDistanceK);
+        // return the value of leftDistance plus 1
         return leftDistance + 1;
     }
-
+    // if rightDistance is not null/-1, execute the below
     if (rightDistance !== -1) {
+        // call addSubtreeNodeAtDistanceK helper, passing in node.left, the value for rightDistance plus 1, and k and nodesDistanceK answer array
         addSubtreeNodeAtDistanceK(node.left, distance + 1, k, nodesDistanceK);
+        // return rightDistance plus 1
         return rightDistance + 1;
     }
-
+    // if target not found, return -1
     return -1;
 }
 
+// helper fucntion taking in a node, an integer value for distance, k, and nodesDistanceK answer array
 function addSubtreeNodeAtDistanceK(node, distance, k, nodesDistanceK) {
+    // base case
+    // if the node/leaf is null, then do nothing and return
     if (node === null) {
         return;
     }
-
+    // if the current distance is equal to the value of k, execute the below and push the current node's value into the nodesDistanceK answer array
     if (distance === k) {
         nodesDistanceK.push(node.value);
+    // if the current distance is NOT equal to the value of k, make recursive calls to addSubtreeNodeAtDistanceK and pass in the node.left and node.right values, adding 1 to distance since traversing another level deeper
     } else {
         addSubtreeNodeAtDistanceK(node.left, distance + 1, k, nodesDistanceK);
         addSubtreeNodeAtDistanceK(node.right, distance + 1, k, nodesDistanceK);
