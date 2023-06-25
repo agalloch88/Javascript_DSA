@@ -16,18 +16,34 @@
 
 // Solution 1:
 
+// iterative solution finding heights, valid dimensions, and building possible sequence
+
+// O(n ^ 2) time due to nested for loops
+// O(n) space due to new sequence array of at most n
+
+// main function which takes in the array of disks
 function diskStacking(disks) {
+    // sort the disks such that the heights are in ascending order in the disks array
     disks.sort((a, b) => a[2] - b[2]);
+    // initialize variable heights and set equal to the mapped disks array, mapping on index 2
+    // to grab the heights of each disk
     let heights = disks.map(disk => disk[2]);
+    // initialize variable sequences and set equal to a new empty array the same length
+    // as the disks array
     let sequences = new Array(disks.length);
+    // initialize variable maxHeightIdx and set equal to 0 at the outset
     let maxHeightIdx = 0;
-
+    // loop over the disks for i, starting at index 1
     for (let i = 1; i < disks.length; i++) {
+        // initialize variable currentDisk and set equal to the value at index i in the disks
+        // array
         let currentDisk = disks[i];
-
+        // loop over the disks for j, starting at index 0
         for (let j = 0; j < disks.length; j++) {
+            // initialize variable otherDisk, and set equal to the value at j in disks array
             let otherDisk = disks[j];
-
+            // check whether there are valid dimensions between the two disks using helper
+            // function and passing in current values for otherDisk and currentDisk
             if (areValidDimensions(otherDisk, currentDisk)) {
                 if (heights[i] <= currentDisk[2] + heights[j]) {
                     heights[i] = currentDisk[2] + heights[j];
