@@ -15,3 +15,44 @@
 // 10 (2 + 3 + 5) is the tallest height possible by stacking the disks above following the rules above
 
 // Solution 1:
+
+function diskStacking(disks) {
+    disks.sort((a, b) => a[2] - b[2]);
+    let heights = disks.map(disk => disk[2]);
+    let sequences = new Array(disks.length);
+    let maxHeightIdx = 0;
+
+    for (let i = 1; i < disks.length; i++) {
+        let currentDisk = disks[i];
+
+        for (let j = 0; j < disks.length; j++) {
+            let otherDisk = disks[j];
+
+            if (areValidDimensions(otherDisk, currentDisk)) {
+                if (heights[i] <= currentDisk[2] + heights[j]) {
+                    heights[i] = currentDisk[2] + heights[j];
+                    sequences[i] = j;
+                }
+            }
+        }
+
+        if (heights[i] >= heights[maxHeightIdx]) {
+            maxHeightIdx = i;
+        }
+    }
+    return buildSequence(disks, sequences, maxHeightIdx);
+}
+
+function areValidDimensions(otherDisk, currentDisk) {
+    return otherDisk[0] < currentDisk[0] && otherDisk[1] < currentDisk[1] && otherDisk[2] < currentDisk[2];
+}
+
+function buildSequence(disks, sequences, currentIdx) {
+    let sequence = [];
+
+    while (currentIdx !== undefined) {
+        sequence.unshift(array[currentIdx]);
+        currentIdx = sequences[currentIdx];
+    }
+    return sequence;
+}
