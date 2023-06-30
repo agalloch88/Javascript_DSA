@@ -45,30 +45,45 @@ function diskStacking(disks) {
             // check whether there are valid dimensions between the two disks using helper
             // function and passing in current values for otherDisk and currentDisk
             if (areValidDimensions(otherDisk, currentDisk)) {
+                // if height of disk at position i is less than or equal to the height of the
+                // currentDisk plus the height of disk at position j, then execute below
                 if (heights[i] <= currentDisk[2] + heights[j]) {
+                    // entering this block means the disks are stackable, so set value at
+                    // position i in heights equal to currentDisk height plus height of disk
+                    // at position j
                     heights[i] = currentDisk[2] + heights[j];
+                    // set value at position i in sequences equal to value of position j
                     sequences[i] = j;
                 }
             }
         }
-
+        // if the value in heights at position i is greater than or equal to the value in heights
+        // at the maxHeightIdx, then set maxHeightIdx equal to i
         if (heights[i] >= heights[maxHeightIdx]) {
             maxHeightIdx = i;
         }
     }
+    // return a call to helper function buildSequence, passing in disks, sequences, and maxHeightIdx
     return buildSequence(disks, sequences, maxHeightIdx);
 }
 
+// helper function to determine valid dimensions of stack, passing in otherDisk and currentDisk
 function areValidDimensions(otherDisk, currentDisk) {
+    // return the result of comparing whether width, depth, and height of otherdisk is less than currentDisk
     return otherDisk[0] < currentDisk[0] && otherDisk[1] < currentDisk[1] && otherDisk[2] < currentDisk[2];
 }
 
-function buildSequence(disks, sequences, currentIdx) {
+// helper function to build the sequential stack of disks, passing in array, sequences, and currentIdx
+function buildSequence(array, sequences, currentIdx) {
+    // initialize variable sequence and set equal to empty array
     let sequence = [];
-
+    // while still in bounds and currentIdx is not undefined, keep looping
     while (currentIdx !== undefined) {
+        // unshift the value at currentIdx in the array into sequence
         sequence.unshift(array[currentIdx]);
+        // set currentIdx equal to the currentIdx in sequences
         currentIdx = sequences[currentIdx];
     }
+    // return the completed sequence
     return sequence;
 }
