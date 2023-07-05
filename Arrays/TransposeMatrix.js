@@ -54,16 +54,26 @@
 
 // Solution 1:
 
+// iterative solution flipping matrix columns to rows across diagonal axis
+
+// O(w * h) time due to going over w rows and h columns in original matrix
+// O(w * h) space due to storing a copy of w rows and h columns for new matrix
+
 function transposedMatrix(matrix) {
+    // initialize variable transposedMatrix and set equal to empty array
     let transposedMatrix = [];
-
+    // iterate over the columns
     for (let col = 0; col < matrix[0].length; col++) {
+        // initialize variable newRow and set equal to empty array
         let newRow = [];
-
+        // iterate over the rows for each column
         for (let row = 0; row < matrix.length; row++) {
+            // push the value at row/col intersection in the matrix into the newRow array
             newRow.push(matrix[row][col]);
         }
+        // push each newRow array into the transposedArray array to build the new matrix
         transposedMatrix.push(newRow);
     }
+    // once finished with all columns, return the finished transposedMatrix
     return transposedMatrix;
 }
