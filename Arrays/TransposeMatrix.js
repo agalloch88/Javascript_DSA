@@ -77,3 +77,30 @@ function transposedMatrix(matrix) {
     // once finished with all columns, return the finished transposedMatrix
     return transposedMatrix;
 }
+
+// Solution 2:
+
+function transposedMatrix(matrix) {
+    let transposedMatrix = [];
+    let total = matrix.length * matrix[0].length;
+    let i = 0;
+    let j = 0;
+    let count = 0;
+
+    while (count < total) {
+        if (!transposedMatrix[j]) {
+            transposedMatrix[j] = [];
+        }
+
+        transposedMatrix[j].push(matrix[i][j]);
+        j++;
+
+        if (j === matrix[0].length) {
+            i++;
+            j = 0;
+        }
+
+        count++;
+    }
+    return transposedMatrix;
+}
