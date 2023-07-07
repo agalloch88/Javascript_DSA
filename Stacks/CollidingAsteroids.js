@@ -22,3 +22,37 @@
 // the 7 moves right, colliding with the -7 moving left, which destroys both asteroids
 
 // Solution 1:
+
+function collidingAsteroids(asteroids) {
+    let resultsStack = [];
+
+    for (let asteroid of asteroids) {
+        if (asteroid > 0) {
+            resultsStack.push(asteroid);
+            continue;
+        }
+
+        while (true) {
+            let lastStackIdx = resultsStack.length - 1;
+
+            if (resultsStack.length === 0 || resultsStack[lastStackIdx] < 0) {
+                resultsStack.push(asteroid);
+                break;
+            }
+
+            let asteroidSize = Math.abs(asteroid);
+
+            if (resultsStack[lastStackIdx] > asteroidSize) {
+                break;
+            }
+
+            if (resultsStack[lastStackIdx] === asteroidSize) {
+                resultsStack.pop();
+                break;
+            }
+
+            resultsStack.pop();
+        }
+    }
+    return resultsStack;
+}
