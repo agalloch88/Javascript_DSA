@@ -50,3 +50,25 @@ function majorityElement(array) {
     // once at the end of the input array, should have the answer stored in this variable, so return answer
     return answer;
 }
+
+// Solution 2:
+
+function majorityElement(array) {
+    let answer = 0;
+
+    for (let currentBit = 0; currentBit < 32; currentBit++) {
+        let currentBitValue  = 1 << currentBit;
+        let onesCount = 0;
+
+        for (let num of array) {
+            if ((num & currentBitValue) !== 0) {
+                onesCount++;
+            }
+        }
+        
+        if (onesCount > array.length / 2) {
+            anser += currentBitValue;
+        }
+    }
+    return answer;
+}
