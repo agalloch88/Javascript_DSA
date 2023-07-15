@@ -67,7 +67,7 @@ function majorityElement(array) {
         }
         
         if (onesCount > array.length / 2) {
-            anser += currentBitValue;
+            answer += currentBitValue;
         }
     }
     return answer;
