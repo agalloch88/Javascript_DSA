@@ -22,21 +22,31 @@
 
 // Solution 1:
 
-function majorityElement(array) {
-    let count = 0;
-    let answer = null;
+// iterative solution making one pass over the array and tracking count plus answer
 
+// O(n) time due to checking every value in input array
+// O(1) space due to only storing two variables, as a constraint of the problem
+
+function majorityElement(array) {
+    // initialize variable count and set equal to 0
+    let count = 0;
+    // initialize variable answer and set equal to null, as currently no answer
+    let answer = null;
+    // iterate over every value in the input array
     for (let value of array) {
+        // if the count is equal to 0, set the answer equal to whatever the current value is
+        // this may be at the start of the for loop, or whenever count decreases back to 0
         if (count === 0) {
             answer = value;
         }
-
+        // if value and answer are equal, this is another possible majority element, so increment count by 1
         if (value === answer) {
             count++;
+        // otherwise, this is not indicative of an answer, so decrement count by 1
         } else {
             count--;
         }
     }
-
+    // once at the end of the input array, should have the answer stored in this variable, so return answer
     return answer;
 }
