@@ -53,7 +53,7 @@ function majorityElement(array) {
 
 // Solution 2:
 
-// iterative solution utiklizing bit manipulation
+// iterative solution utilizing bit manipulation
 
 // O(n) time due to checking n values in input array
 // O(1) space to comply with requirement of problem, only storing a couple variables
