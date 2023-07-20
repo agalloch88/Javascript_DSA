@@ -42,31 +42,46 @@
 
 // Solution 1:
 
+// iterative solution breaking sweet and savory into their own sorted arrays, then using two pointers to adjust values to get as close as possible to target
+// while minding constraints on savoriness of pairing
+
+// O(n log(n)) time due to sorting arrays, as that is best possible time complexity when using sort
+// O(n) space due to storing n dishes across two new arrays
+
 function sweetAndSavory(dishes, target) {
+    // filter the dishes input into variables sweetDishes and savoryDishes, filtering for negative (sweet) and positive (savory) numbers, and sort them respectively in their new arrays
     let sweetDishes = dishes.filter(dish => dish < 0).sort((a, b) => b - a);
     let savoryDishes = dishes.filter(dish => dish > 0).sort((a, b) => a - b);
-
+    // initialize variable bestPair and set to [0, 0] in case no new bestPair is found, so can return this
     let bestPair = [0, 0];
+    // initialize variable bestDifference and set equal to Infinity, such that any value will be lower at first check and this may be updated easily
     let bestDifference = Infinity;
+    // initialize variables sweetIndex and savoryIndex and set both equal to zero to start iterating at beginning of each array
     let sweetIndex = 0;
     let savoryIndex = 0;
-
+    // keep looping so long as both index pointers are in bounds of their respective arrays
+    // in the case of no dishes of either type, will skip directly to returning bestPair initialized above
     while (sweetIndex < sweetDishes.length && savoryIndex < savoryDishes.length) {
+        // initialize variable currentSum and set equal to the sum of value at sweetIndex in sweetDishes plus value at savoryIndex in savoryDishes
         let currentSum = sweetDishes[sweetIndex] + savoryDishes[savoryIndex];
-
+        // if the currentSum is less than or equal to the target, need to find the gap so can determine which pointer should be adjusted to get closer to target
         if (currentSum <= target) {
+            // initialize variable currentDifference and set equal to the difference between target value minus currentSum
             let currentDifference = target - currentSum;
-
+            // if the value stored in currentDifference is smaller than the current value in bestDifference, found a better pairing, so execute below
             if (currentDifference < bestDifference) {
+                // set bestDifference equal to currentDifference 
                 bestDifference = currentDifference;
+                // update bestPair to be current sweetIndex value in sweetDishes and current savoryIndex value in savoryDishes
                 bestPair = [sweetDishes[sweetIndex], savoryDishes[savoryIndex]];
             }
-
+            // if currentSum is less than or equal to the target, need to add a larger positive value to close the gap, so increment savoryIndex by 1
             savoryIndex++;
+        // if entering else block, must mean currentSum was larger than the target value, so need a larger negative value, so increment sweetIndex by 1
         } else {
             sweetIndex++;
         }
     }
-
+    // once while loop breaks, should have the best pairing stored in bestPair, so return bestPair
     return bestPair;
 }
