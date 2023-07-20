@@ -41,3 +41,32 @@
 // the pairing gets an exact combined profile of -20, the target
 
 // Solution 1:
+
+function sweetAndSavory(dishes, target) {
+    let sweetDishes = dishes.filter(dish => dish < 0).sort((a, b) => b - a);
+    let savoryDishes = dishes.filter(dish => dish > 0).sort((a, b) => a - b);
+
+    let bestPair = [0, 0];
+    let bestDifference = Infinity;
+    let sweetIndex = 0;
+    let savoryIndex = 0;
+
+    while (sweetIndex < sweetDishes.length && savoryIndex < savoryDishes.length) {
+        let currentSum = sweetDishes[sweetIndex] + savoryDishes[savoryIndex];
+
+        if (currentSum <= target) {
+            let currentDifference = target - currentSum;
+
+            if (currentDifference < bestDifference) {
+                bestDifference = currentDifference;
+                bestPair = [sweetDishes[sweetIndex], savoryDishes[savoryIndex]];
+            }
+
+            savoryIndex++;
+        } else {
+            sweetIndex++;
+        }
+    }
+
+    return bestPair;
+}
