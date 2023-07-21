@@ -21,3 +21,23 @@
 // jobs[0] would be started and completed first, followed by jobs[2]. jobs[1] is not completed in favor of jobs[2]'s higher payment.
 
 // Solution 1:
+
+function optimalFreelancing(jobs) {
+    let LENGTH_OF_WEEK = 7;
+    let profit = 0;
+    let timeline = new Array(LENGTH_OF_WEEK).fill(false);
+    jobs.sort((jobA, jobB) => jobB.payment - jobA.payment);
+
+    for (let job of jobs) {
+        let maxTime = Math.min(job.deadline, LENGTH_OF_WEEK);
+
+        for (let time = maxTime - 1; time >= 0; time--) {
+            if (timeline[time] === false) {
+                timeline[time] = true;
+                profit += job.payment;
+                break;
+            }
+        }
+    }
+    return profit;
+}
