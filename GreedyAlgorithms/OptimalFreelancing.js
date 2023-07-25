@@ -58,29 +58,48 @@ function optimalFreelancing(jobs) {
 
 // Solution 2:
 
-function optimalFreelancing(jobs) {
-  let earnings = 0;
-  let dayOfWork = 7;
-  let completedJobs = new WeakSet();
+// improved iterative solution reducing time complexity by not needinng to sort
 
+// O(n) time due to checking all jobs in input
+// O(1) space due to storing at max 7n jobs which converges to n
+
+// main function which takes in the jobs input array of objects
+function optimalFreelancing(jobs) {
+  // initialize variable earnings to track total for the week, and set to 0
+  let earnings = 0;
+  // initialize variable dayOfWork to track the limit of days, and set equal to 7
+  let dayOfWork = 7;
+  // initialize variable completedJobs and set equal to a new WeakSet, which can only hold unique objects
+  let completedJobs = new WeakSet();
+  // continue looping so long as there are available days of work remaining
   while (dayOfWork > 0) {
+    // increment earnings by the returned value of helper function, which receives the jobs input, decremented dayOfWork variable, and the completedJobs WeakSet
     earnings += findBestJobProfitForDay(jobs, dayOfWork--, completedJobs);
   }
-
+  // once while loop breaks, all days are filled, so return the final earnings total
   return earnings;
 }
 
+// helper function to determine the optimal job to take based on profit, which takes in jobs input, dayNumber, and completedJobs
 function findBestJobProfitForDay(jobs, dayNumber, completedJobs) {
+    // initialize variable bestJob and set equal to null
   let bestJob = null;
-
+    // iterate over every job in the jobs input
   jobs.forEach((job) => {
+    // destructure every job into the payment deadline components
     let { payment, deadline } = job;
-
-    if (!completedJobs.has(job) && deadline >= dayNumber && payment > (bestJob?.payment ?? 0)) {
-        bestJob = job;
+    // if completedJobs does NOT have the current job in it, AND the deadline of the given job is greater than or equal to the current dayNumber, AND the payment for the given job
+    // is greater than the payment for bestJob or zero, then set bestJob equal to the current job
+    if (
+      !completedJobs.has(job) &&
+      deadline >= dayNumber &&
+      payment > (bestJob?.payment ?? 0)
+    ) {
+      bestJob = job;
     }
   });
-
+// if there is a bestJob then add the bestJob to the completedJobs WeakSet
   bestJob && completedJobs.add(bestJob);
+// return the bestJob, if it exists, and it's payment, or 0 if bestJob is still null
   return bestJob?.payment ?? 0;
 }
