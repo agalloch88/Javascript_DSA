@@ -59,3 +59,56 @@
 // ]
 
 // Solution 1:
+
+function revealMinesweeper(board, row, column) {
+    if (board[row][column] === "M") {
+        board[row][column] = "X";
+        return board;
+    }
+
+    let neighbors = getNeighbors(board, row, column);
+    let adjacentMineCount = 0;
+
+    for (let [neighborRow, neighborColumn] of neighbors) {
+        if (board[neighborRow][neighborColumn] === "M") {
+            adjacentMineCount++;
+        }
+    }
+
+    if (adjacentMineCount > 0) {
+        board[row][column] = adjacentMineCount.toString();
+    } else {
+        board[row][column] = "0";
+
+        for (let [neighborRow, neighborColumn] of neighbors) {
+            if (board[neighborRow][neighborColumn] === "H") {
+                revealMinesweeper(board, neighborRow, neighborColumn);
+            }
+        }
+    }
+    return board;
+}
+
+function getNeighbors(board, row, column) {
+    let directions = [
+        [0, 1],
+        [0, -1],
+        [1, 0],
+        [-1, 0],
+        [1, 1],
+        [1, -1],
+        [-1, 1],
+        [-1, -1],
+    ];
+    let neighbors = [];
+
+    for (let [directionRow, directionColumn] of directions) {
+        let newRow = row + directionRow;
+        let newColumn = column + directionColumn;
+
+        if (0 <= newRow && newRow < board.length && 0 <= newColumn && newColumn < board[0].length) {
+            neighbors.push([newRow, newColumn]);
+        }
+    }
+    return neighbors;
+}
