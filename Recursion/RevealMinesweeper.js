@@ -60,36 +60,55 @@
 
 // Solution 1:
 
+// recursive solution getting neghbors and tracking adjacent mine counts to determine which H squares can be revealed
+
+// O(w * h) time, where w is the width and h is the height of the matrix, which ultimately converges to n inputs from the board
+// O(w * h) space, where w is the width and h is the height of the matrix, which is ultimately n, as may have as many calls on call stack as inputs in the board
+
+// main function, which takes in the input board, as well as a row and column coordinate pair of a given move
 function revealMinesweeper(board, row, column) {
+    // if the coordinates of row and column on the board are equal to M, or a mine position, execute below
     if (board[row][column] === "M") {
+        // in this case, change the M to an X
         board[row][column] = "X";
+        // the player has lost the game by picking a mine position, so simply return the board in it's current state and that's it
         return board;
     }
-
+    // for moves other than an M position, need to get the neighbors of the coordinate pair, so initialize variable neighbors and set equal to return value from getNeighbors helper, passing in input params
     let neighbors = getNeighbors(board, row, column);
+    // initialize variable adjacentMineCount and set equal to 0
     let adjacentMineCount = 0;
-
+    // iterate over all the results in neighbors, destructuring each coordinate pair into neighborRow and neighborColumn
     for (let [neighborRow, neighborColumn] of neighbors) {
+        // if the value on the board at these neighbor coordinates is an M, this is a mine, so increment adjacentMineCount by 1
         if (board[neighborRow][neighborColumn] === "M") {
             adjacentMineCount++;
         }
     }
-
+    // if adjacentMineCount is greater than 0, there are mines which should be accounted for at this initial input coordinate pair
     if (adjacentMineCount > 0) {
+        // convert the value at input coordinates to the stringified value of adjacentMineCount
         board[row][column] = adjacentMineCount.toString();
+    // if adjacentMineCount is 0, then execute below
     } else {
+        // set value at initial input coordinates to 0
         board[row][column] = "0";
-
+        // now, check every neighbor of this position to see if any others need to be changed as well, iterating over every neighbor in neighbors and destructuring the neighborRow and neighborColumn
+        // from the coordinates
         for (let [neighborRow, neighborColumn] of neighbors) {
+            // if the value at the given neighbor coordinates is also an H, then recursively call revealMinesweeper on this position
             if (board[neighborRow][neighborColumn] === "H") {
                 revealMinesweeper(board, neighborRow, neighborColumn);
             }
         }
     }
+    // once all possible neighbors are checked, return the final board
     return board;
 }
 
+// helper function to find the neighbors of given coordinates, which takes in all the main function input parameters
 function getNeighbors(board, row, column) {
+    // need to establish the directions being looked in, so initialize variable directions and set equal to an array of coordinates: up, down, left, right, as well as all the diagonals
     let directions = [
         [0, 1],
         [0, -1],
@@ -100,15 +119,20 @@ function getNeighbors(board, row, column) {
         [-1, 1],
         [-1, -1],
     ];
+    // initialize variable neighbors, and set equal to an empty array
+    // this will hold all the found neighbors of the given coordinates
     let neighbors = [];
-
+    // iterate over every possibility in directions, destructuring the directionRow and directionColumn from those coordinate pairs
     for (let [directionRow, directionColumn] of directions) {
+        // initialize variable newRow and set equal to the value of the current row plus the value of directionRow
         let newRow = row + directionRow;
+        // initialize variable newColumn and set equal to the value of the current column plus the value of directionColumn
         let newColumn = column + directionColumn;
-
+        // if the newRow and newColumn coordinate pair is in bounds of the row and column parameters of the input board, then push the value at that coordinate into the neighbors array
         if (0 <= newRow && newRow < board.length && 0 <= newColumn && newColumn < board[0].length) {
             neighbors.push([newRow, newColumn]);
         }
     }
+    // once looped over all possible directions, return the resulting neighbors found
     return neighbors;
 }
