@@ -144,6 +144,11 @@ function getNeighbors(board, row, column) {
 
 // Solution 2:
 
+// condensed recursive solution
+
+// O(w * h) time due to potentially checking all items in board input
+// O(w * h) space at max due to potentially having all input items on call stack
+
 function revealMinesweeper(board, row, column) {
   if (board[row][column] === "M") {
     board[row][column] = "X";
