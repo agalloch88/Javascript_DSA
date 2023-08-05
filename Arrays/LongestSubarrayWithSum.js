@@ -14,3 +14,22 @@
 // The longest subarray which sums to 10 starts at index 4 (3) and ends at index 8 (1), meaning 3 + 3 + 1 + 2 + 1
 
 // Solution 1:
+
+function longestSubarrayWithSum(array, targetSum) {
+    let indices = [];
+
+    for (let startingIndex = 0; startingIndex < array.length; startingIndex++) {
+        let currentSubarraySum = 0;
+
+        for (let endingIndex = startingIndex; endingIndex < array.length; endingIndex++) {
+            currentSubarraySum += array[startingIndex];
+            
+            if (currentSubarraySum === targetSum) {
+                if (indices.length === 0 || indices[1] - indices[0] < endingIndex - startingIndex) {
+                    indices = [startingIndex, endingIndex];
+                }
+            }
+        }
+    }
+    return indices;
+}
