@@ -21,27 +21,63 @@
 // O(1) space due to only storing indices and a few variables
 
 function longestSubarrayWithSum(array, targetSum) {
-    // initialize variable indices and set equal to an empty array
-    // if solution is never found, this will fulfill requirement of returning an empty array
-    let indices = [];
-    // iterate over the input array starting at index 0 with variable startingIndex
-    for (let startingIndex = 0; startingIndex < array.length; startingIndex++) {
-        // initialize variable currentSubarraySum to track the total of subarray
-        let currentSubarraySum = 0;
-        // iterate over the input array starting at the startingIndex with variable endingIndex
-        for (let endingIndex = startingIndex; endingIndex < array.length; endingIndex++) {
-            // add the current value at endingIndex in input array to the current value stored in currentSubarraySum
-            currentSubarraySum += array[endingIndex];
-            // check whether the value stored in currentSubarraySum is equal to the targetSum value
-            if (currentSubarraySum === targetSum) {
-                // if there are currently no indices, or if the length of subarray from current startingIndex and current endingIndex is greater than the length currently stored in indices
-                // then update indices with the current values of startingIndex and endingIndex
-                if (indices.length === 0 || indices[1] - indices[0] < endingIndex - startingIndex) {
-                    indices = [startingIndex, endingIndex];
-                }
-            }
+  // initialize variable indices and set equal to an empty array
+  // if solution is never found, this will fulfill requirement of returning an empty array
+  let indices = [];
+  // iterate over the input array starting at index 0 with variable startingIndex
+  for (let startingIndex = 0; startingIndex < array.length; startingIndex++) {
+    // initialize variable currentSubarraySum to track the total of subarray
+    let currentSubarraySum = 0;
+    // iterate over the input array starting at the startingIndex with variable endingIndex
+    for (
+      let endingIndex = startingIndex;
+      endingIndex < array.length;
+      endingIndex++
+    ) {
+      // add the current value at endingIndex in input array to the current value stored in currentSubarraySum
+      currentSubarraySum += array[endingIndex];
+      // check whether the value stored in currentSubarraySum is equal to the targetSum value
+      if (currentSubarraySum === targetSum) {
+        // if there are currently no indices, or if the length of subarray from current startingIndex and current endingIndex is greater than the length currently stored in indices
+        // then update indices with the current values of startingIndex and endingIndex
+        if (
+          indices.length === 0 ||
+          indices[1] - indices[0] < endingIndex - startingIndex
+        ) {
+          indices = [startingIndex, endingIndex];
         }
+      }
     }
-    // return the values stored in indices variable, if any
-    return indices;
+  }
+  // return the values stored in indices variable, if any
+  return indices;
+}
+
+// Solution 2:
+
+function longestSubarrayWithSum(array, targetSum) {
+  let indices = [];
+  let currentSubarraySum = 0;
+  let startingIndex = 0;
+  let endingIndex = 0;
+
+  while (endingIndex < array.length) {
+    currentSubarraySum += array[endingIndex];
+
+    while (startingIndex < endingIndex && currentSubarraySum > targetSum) {
+      currentSubarraySum -= array[startingIndex];
+      startingIndex++;
+    }
+
+    if (currentSubarraySum === targetSum) {
+      if (
+        indices.length === 0 ||
+        indices[1] - indices[0] < endingIndex - startingIndex
+      ) {
+        indices = [startingIndex, endingIndex];
+      }
+    }
+    endingIndex++;
+  }
+  return indices;
 }
