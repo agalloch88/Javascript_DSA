@@ -55,21 +55,35 @@ function longestSubarrayWithSum(array, targetSum) {
 
 // Solution 2:
 
+// improved solution reducing time complexity via sliding window approach
+
+// O(n) time due to moving the window of possible subarrays and doing one pass over entire input
+// O(1) space due to only storing indices and a few variables
+
 function longestSubarrayWithSum(array, targetSum) {
+  // initialize variable indices and set equal to an empty array
+  // can simply return this variable if no suitable longest subarray is found in the one pass over input
   let indices = [];
+  // initialize variable currentSubarraySum to track total of the subarray within the window, setting to 0 at outset
   let currentSubarraySum = 0;
+  // initialize variables startingIndex and endingIndex to track the current window start and end, setting both to zero at outset
   let startingIndex = 0;
   let endingIndex = 0;
-
+  // keep looping so long as endingIndex is in bounds of the end of the input array
   while (endingIndex < array.length) {
+    // increment currentSubarraySum value by the value at endingIndex in the array
     currentSubarraySum += array[endingIndex];
-
+    // keep looping so long as startingIndex is less than endingIndex AND the currentSubarraySum is greater than the targetSum, meaning window needs to shrink
     while (startingIndex < endingIndex && currentSubarraySum > targetSum) {
+      // decrement the currenSubarraySum total by the value at startingIndex in the array
       currentSubarraySum -= array[startingIndex];
+      //   move startingIndex forward by one position
       startingIndex++;
     }
-
+    // if currentSubarraySum equals targetSum, found a possible longest subarray, so execute the below
     if (currentSubarraySum === targetSum) {
+      // if indices is still empty, meaning this is the first pass, OR if the length of the current subarray in indices is smaller than the current window from startingIndex to endingIndex,
+      // then update indices to be the pair of current startingIndex and endingIndex values
       if (
         indices.length === 0 ||
         indices[1] - indices[0] < endingIndex - startingIndex
@@ -77,7 +91,9 @@ function longestSubarrayWithSum(array, targetSum) {
         indices = [startingIndex, endingIndex];
       }
     }
+    // increment endingIndex by 1, enlarging the window
     endingIndex++;
   }
+  // once both while loops are broken, should be at the end of the input array after a single pass and have result, so return whatever values, if any, are inside the indices variable
   return indices;
 }
