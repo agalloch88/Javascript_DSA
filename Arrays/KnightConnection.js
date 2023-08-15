@@ -23,3 +23,48 @@
 // knightA moves to [2, 1], and then knightB captures knightA on [2, 1]
 
 // Solution 1:
+
+function knightConnection(knightA, knightB) {
+  let possibleMoves = [
+    [-2, 1],
+    [-1, 2],
+    [1, 2],
+    [2, 1],
+    [2, -1],
+    [1, -2],
+    [-1, -2],
+    [-2, -1],
+  ];
+
+  let queue = [[knightA[0], knightA[1], 0]];
+  let visited = new Set(positionToString(knightA));
+
+  while (true) {
+    let currentPosition = queue.shift();
+
+    if (
+      currentPosition[0] === knightB[0] &&
+      currentPosition[1] === knightB[1]
+    ) {
+      return Math.ceil(currentPosition[2] / 2);
+    }
+
+    for (let possibleMove of possibleMoves) {
+      let position = [
+        currentPosition[0] + possibleMove[0],
+        currentPosition[1] + possibleMove[1],
+      ];
+      let positionString = positionToString(position);
+
+      if (!visited.has(positionString)) {
+        position.push(currentPosition[2] + 1);
+        queue.push(position);
+        visited.add(positionString);
+      }
+    }
+  }
+}
+
+function positionToString(position) {
+  return position.join(",");
+}
