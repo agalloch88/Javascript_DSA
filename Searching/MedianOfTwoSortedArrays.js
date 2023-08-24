@@ -66,33 +66,63 @@ function medianOfTwoSortedArrays(arrayOne, arrayTwo) {
 
 // Solution 2:
 
+// iterative solution utilizing a binary search approach to narrow the search for median
+
+// O(log(min(n, m))) time due to determining then searching within the smaller array
+// O(1) space due to only storing a few variables and no other data structures
+
 function medianOfTwoSortedArrays(arrayOne, arrayTwo) {
+    // initialize variable smallArray and set equal to result of ternary determining the smaller array
     let smallArray = arrayOne.length <= arrayTwo.length ? arrayOne : arrayTwo;
+    // initialize variable bigArray and set equal to result of ternary determining the larger array
     let bigArray = arrayOne.length > arrayTwo.length ? arrayOne : arrayTwo;
-
+    // initialize variable leftIdx and set equal to 0
     let leftIdx = 0;
+    // initialize variable rightIdx and set equal to last index in smallArray
     let rightIdx = smallArray.length - 1;
+    // initialize variable mergedLeftIdx and set equal to floored average index between smallArray and bigArray
     let mergedLeftIdx = Math.floor((smallArray.length + bigArray.length - 1) / 2);
-
+    
+    // keep looping until there's a return
     while (true) {
+        // initialize variable smallPartitionIdx and set equal to the floored midpoint between leftIdx and rightIdx
         let smallPartitionIdx = Math.floor((leftIdx + rightIdx) / 2);
+        // initialize variable bigPartitionIdx and set equal to the difference between the current mergedLeftIdx value and smallPartitionIdx
         let bigPartitionIdx = mergedLeftIdx - smallPartitionIdx - 1;
 
+        // initialize variable smallMaxLeftValue, and set equal to result of a ternary checking whether smallPartitionIdx is greater than or equal to 0, meaning in bounds
+        // if yes, set smallMaxLeftValue equal to the value at smallPartitionIdx in smallArray, otherwise set equal to negative infinity
         let smallMaxLeftValue = smallPartitionIdx >= 0 ? smallArray[smallPartitionIdx] : -Infinity;
+        // initialize variable smallMinRightValue, and set equal to result of a ternary checking whether smallPartitionIdx plus 1 is less than the length of smallArray, meaning in bounds
+        // if yes, set smallMinRightValue equal to the value at smallPartitionIdx plus 1 in smallArray, otherwise set equal to infinity
         let smallMinRightValue = smallPartitionIdx + 1 < smallArray.length ? smallArray[smallPartitionIdx + 1] : Infinity;
+        // initialize variable bigMaxLeftValue, and set equal to result of a ternary checking whether bigPartitionIdx is greater than or equal to 0, meaning in bounds
+        // if yes, set bigMaxLeftValue equal to the value at bigPartitionIdx in bigArray, otherwise set equal to negative infinity
         let bigMaxLeftValue = bigPartitionIdx >= 0 ? bigArray[bigPartitionIdx] : -Infinity;
+        // initialize variable bigMinRightValue, and set equal to result of a ternary checking whether bigPartitionIdx plus 1 is less than the length of bigArray, meaning in bounds
+        // if yes, set bigMinRightValue equal to the value at bigPartitionIdx plus 1 in bigArray, otherwise set equal to infinity
         let bigMinRightValue = bigPartitionIdx + 1 < bigArray.length ? bigArray[bigPartitionIdx + 1] : Infinity;
 
+        // check whether smallMaxLeftValue is greater than bigMinRightValue, meaning the scope of the binary search needs to be adjusted
+        // if so, execute below
         if (smallMaxLeftValue > bigMinRightValue) {
+            // reset the value of rightIdx equal to the smallPartitionIdx minus 1
             rightIdx = smallPartitionIdx - 1;
+        // check whether bigMaxLeftValue is greater than smallMinRightValue, meaning the scope of the binary search needs to be adjusted
+        // if so, execute below
         } else if (bigMaxLeftValue > smallMinRightValue) {
+            // reset the value of leftIdx equal to the smallPartitionIdx plus 1
             leftIdx = smallPartitionIdx + 1;
+        // if neither of the above conditions trigger, it's time to find the median as the search is complete
         } else {
+            // check whether the combined length of smallArray and bigArray is an even length, and if so, execute below
             if ((smallArray.length + bigArray.length) % 2 === 0) {
+                // return the max value of smallMaxLeftValue or bigMaxLeftValue plus the minimum value between smallMinRightValue or bigMinRightValue, divided by two
                 return (
                     (Math.max(smallMaxLeftValue, bigMaxLeftValue) + Math.min(smallMinRightValue, bigMinRightValue)) / 2
                 );
             }
+            // if the combined length is odd, a bit easier, as can simply return the max between smallMaxLeftValue and bigMaxLeftValue
             return Math.max(smallMaxLeftValue, bigMaxLeftValue);
         }
     }
