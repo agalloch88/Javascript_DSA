@@ -30,3 +30,43 @@
 //    2         14
 
 // Solution 1:
+
+class BST {
+    constructor(value) {
+        this.value = value;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+function repairBST(tree) {
+    let nodeOne = null;
+    let nodeTwo = null;
+    let previousNode = null;
+
+    function inOrderTraversal(node) {
+        if (node === null) {
+            return;
+        }
+
+        inOrderTraversal(node.left);
+
+        if (previousNode !== null && previousNode.value > node.value) {
+            if (nodeOne === null) {
+                nodeOne = previousNode;
+            }
+
+            nodeTwo = node;
+
+            inOrderTraversal(node.right);
+        }
+    }
+
+    inOrderTraversal(tree);
+
+    let temp = nodeOne.value;
+    nodeOne.value = nodeTwo.value;
+    nodeTwo.value = temp;
+
+    return tree;
+}
