@@ -21,3 +21,58 @@
 // Switching either matrix[1][2] or matrix[2][1] creates a land mass of size 5
 
 // Solution 1:
+
+function largestIsland(matrix) {
+    let maxSize = 0;
+
+    for (let row = 0; row < matrix.length; row++) {
+        for (let col = 0; col < matrix[0].length; col++) {
+            if (matrix[row][col] === 0) {
+                continue;
+            }
+
+            maxSize = Math.max(maxSize, getSizeFromNode(row, col, matrix));
+        }
+    }
+    return maxSize;
+}
+
+function getSizeFromNode(row, col, matrix) {
+    let size = 1;
+    let visited = matrix.map(row => row.map(_ => false));
+    let nodesToExplore = getLandNeighbors(row, col, matrix);
+
+    while (nodesToExplore.length > 0) {
+        let currentNode = nodesToExplore.pop();
+        let [currentRow, currentCol] = currentNode;
+
+        if (visited[currentRow][currentCol]) {
+            continue;
+        }
+
+        visited[currentRow][currentCol] = true;
+        size++;
+        nodesToExplore.push(...getLandNeighbors(currentRow, currentCol, matrix));
+    }
+
+    return size;
+}
+
+function getLandNeighbors(row, col, matrix) {
+    let landNeighbors = [];
+
+    if (row > 0 && matrix[row - 1][col] !== 1) {
+        landNeighbors.push([row - 1, col]);
+    }
+    if (row < matrix.length - 1 && matrix[row + 1][col] !== 1) {
+        landNeighbors.push([row + 1, col]);
+    }
+    if (col > 0 && matrix[row][col - 1] !== 1) {
+        landNeighbors.push([row, col - 1]);
+    }
+    if (col < matrix[0].length - 1 && matrix[row][col + 1] !== 1) {
+        landNeighbors.push([row, col + 1]);
+    }
+
+    return landNeighbors;
+}
