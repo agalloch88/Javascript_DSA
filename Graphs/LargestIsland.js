@@ -29,80 +29,158 @@
 
 // main function taking in the input matrix
 function largestIsland(matrix) {
-    // initialize variable maxSize to track largest island created
-    let maxSize = 0;
+  // initialize variable maxSize to track largest island created
+  let maxSize = 0;
 
-    // iterate over every row and every column in the input matrix
-    for (let row = 0; row < matrix.length; row++) {
-        for (let col = 0; col < matrix[0].length; col++) {
-            // if the value at given row/col pair is 0, do nothing and continue as this is a part of an island, and need to find any 1's/water position
-            if (matrix[row][col] === 0) {
-                continue;
-            }
-            // set variable maxSize equal to the max between current value of maxSize and return value from helper function getSizeFromNode, passing in current row, col, and the full matrix
-            maxSize = Math.max(maxSize, getSizeFromNode(row, col, matrix));
-        }
+  // iterate over every row and every column in the input matrix
+  for (let row = 0; row < matrix.length; row++) {
+    for (let col = 0; col < matrix[0].length; col++) {
+      // if the value at given row/col pair is 0, do nothing and continue as this is a part of an island, and need to find any 1's/water position
+      if (matrix[row][col] === 0) {
+        continue;
+      }
+      // set variable maxSize equal to the max between current value of maxSize and return value from helper function getSizeFromNode, passing in current row, col, and the full matrix
+      maxSize = Math.max(maxSize, getSizeFromNode(row, col, matrix));
     }
-    // once finished checking all input values from matrix, should have final maxSize value to return as the answer
-    return maxSize;
+  }
+  // once finished checking all input values from matrix, should have final maxSize value to return as the answer
+  return maxSize;
 }
 
 // helper function which determines islands size from a given island node
 function getSizeFromNode(row, col, matrix) {
-    // initialize variable size and set equal to one at outset, since there is a node
-    let size = 1;
-    // initialize variable visited and set equal to a new mapped copy of the input matrix, where every value is given false since it's yet to be visited
-    let visited = matrix.map(row => row.map(_ => false));
-    // initialize variable nodesToExplore and set equal to the return value of another helper function getLandNeighbors to look up, down, left, and right to find potential other land pieces
-    let nodesToExplore = getLandNeighbors(row, col, matrix);
+  // initialize variable size and set equal to one at outset, since there is a node
+  let size = 1;
+  // initialize variable visited and set equal to a new mapped copy of the input matrix, where every value is given false since it's yet to be visited
+  let visited = matrix.map((row) => row.map((_) => false));
+  // initialize variable nodesToExplore and set equal to the return value of another helper function getLandNeighbors to look up, down, left, and right to find potential other land pieces
+  let nodesToExplore = getLandNeighbors(row, col, matrix);
 
-    // keep looping so long as there are items in nodesToExplore array
-    while (nodesToExplore.length > 0) {
-        // initialize variable currentNode, and set equal to the popped value from nodesToExplore
-        let currentNode = nodesToExplore.pop();
-        // destructure currentNode into currentRow and currentCol variables inside each pair
-        let [currentRow, currentCol] = currentNode;
-        
-        // check whether this coordinate pair is listed as true in the visited matrix copy, and if so, simply continue
-        if (visited[currentRow][currentCol]) {
-            continue;
-        }
+  // keep looping so long as there are items in nodesToExplore array
+  while (nodesToExplore.length > 0) {
+    // initialize variable currentNode, and set equal to the popped value from nodesToExplore
+    let currentNode = nodesToExplore.pop();
+    // destructure currentNode into currentRow and currentCol variables inside each pair
+    let [currentRow, currentCol] = currentNode;
 
-        // set the value at coordinates of currentRow and currentCol in visited equal to true
-        visited[currentRow][currentCol] = true;
-        // increment the tracked size variable for size of island by 1
-        size++;
-        // since this is another piece of an island, need to check the neighbors of this position, so push the spread value of getLandNeighbors into nodesToExplore array, passing in currentRow, currentCol, and matrix
-        nodesToExplore.push(...getLandNeighbors(currentRow, currentCol, matrix));
+    // check whether this coordinate pair is listed as true in the visited matrix copy, and if so, simply continue
+    if (visited[currentRow][currentCol]) {
+      continue;
     }
-    // return the value of size for use in main function max comparison with maxSize
-    return size;
+
+    // set the value at coordinates of currentRow and currentCol in visited equal to true
+    visited[currentRow][currentCol] = true;
+    // increment the tracked size variable for size of island by 1
+    size++;
+    // since this is another piece of an island, need to check the neighbors of this position, so push the spread value of getLandNeighbors into nodesToExplore array, passing in currentRow, currentCol, and matrix
+    nodesToExplore.push(...getLandNeighbors(currentRow, currentCol, matrix));
+  }
+  // return the value of size for use in main function max comparison with maxSize
+  return size;
 }
 
 // helper function to look in given directions in bounds of matrix and determine whether there is another land section there
 function getLandNeighbors(row, col, matrix) {
-    // initialize variable landNeighbors, and set equal to an empty array to hold coordinate row/col pairs
-    let landNeighbors = [];
-    // LOOK UP
-    // if one row upward at current col position is a 0, push this positional coordinate pair into landNeighbors array
-    if (row > 0 && matrix[row - 1][col] !== 1) {
-        landNeighbors.push([row - 1, col]);
+  // initialize variable landNeighbors, and set equal to an empty array to hold coordinate row/col pairs
+  let landNeighbors = [];
+  // LOOK UP
+  // if one row upward at current col position is a 0, push this positional coordinate pair into landNeighbors array
+  if (row > 0 && matrix[row - 1][col] !== 1) {
+    landNeighbors.push([row - 1, col]);
+  }
+  // LOOK DOWN
+  // if one row downward at current col position is a 0, push this positional coordinate pair into landNeighbors array
+  if (row < matrix.length - 1 && matrix[row + 1][col] !== 1) {
+    landNeighbors.push([row + 1, col]);
+  }
+  // LOOK LEFT
+  // if one col left at current row position is a 0, push this positional coordinate pair into landNeighbors array
+  if (col > 0 && matrix[row][col - 1] !== 1) {
+    landNeighbors.push([row, col - 1]);
+  }
+  // LOOK RIGHT
+  // if one col right at current row position is a 0, push this positional coordinate pair into landNeighbors array
+  if (col < matrix[0].length - 1 && matrix[row][col + 1] !== 1) {
+    landNeighbors.push([row, col + 1]);
+  }
+  // once all four directions checked, return any findings stored in landNeighbors for use in getSizeFromNode()
+  return landNeighbors;
+}
+
+// Solution 2:
+
+function largestIsland(matrix) {
+  let islandSizes = [];
+  let islandNumber = 2;
+
+  for (let row = 0; row < matrix.length; row++) {
+    for (let col = 0; col < matrix[row].length; col++) {
+      if (matrix[row][col] === 0) {
+        islandSizes.push(getSizeFromNode(row, col, matrix, islandNumber));
+        islandNumber++;
+      }
     }
-    // LOOK DOWN
-    // if one row downward at current col position is a 0, push this positional coordinate pair into landNeighbors array
-    if (row < matrix.length - 1 && matrix[row + 1][col] !== 1) {
-        landNeighbors.push([row + 1, col]);
+  }
+
+  let maxSize = 0;
+
+  for (let row = 0; row < matrix.length; row++) {
+    for (let col = 0; col < matrix[row].length; col++) {
+      if (matrix[row][col] !== 1) {
+        continue;
+      }
+
+      let landNeighbors = getLandNeighbors(row, col, matrix);
+      let islands = new Set();
+
+      for (let neighbor of landNeighbors) {
+        islands.add(matrix[neighbor[0]][neighbor[1]]);
+      }
+
+      let size = 1;
+      for (let island of islands) {
+        size += islandSizes[island - 2];
+      }
+      maxSize = Math.max(maxSize, size);
     }
-    // LOOK LEFT
-    // if one col left at current row position is a 0, push this positional coordinate pair into landNeighbors array
-    if (col > 0 && matrix[row][col - 1] !== 1) {
-        landNeighbors.push([row, col - 1]);
+  }
+  return maxSize;
+}
+
+function getSizeFromNode(row, col, matrix, islandNumber) {
+  let size = 0;
+  let nodesToExplore = [[row, col]];
+
+  while (nodesToExplore.length > 0) {
+    let currentNode = nodesToExplore.pop();
+    let [currentRow, currentCol] = currentNode;
+
+    if (matrix[currentRow][currentCol] !== 0) {
+      continue;
     }
-    // LOOK RIGHT
-    // if one col right at current row position is a 0, push this positional coordinate pair into landNeighbors array
-    if (col < matrix[0].length - 1 && matrix[row][col + 1] !== 1) {
-        landNeighbors.push([row, col + 1]);
-    }
-    // once all four directions checked, return any findings stored in landNeighbors for use in getSizeFromNode()
-    return landNeighbors;
+
+    matrix[currentRow][currentCol] = islandNumber;
+    size++;
+    nodesToExplore.push(...getLandNeighbors(currentRow, currentCol, matrix));
+  }
+  return size;
+}
+
+function getLandNeighbors(row, col, matrix) {
+  let landNeighbors = [];
+
+  if (row > 0 && matrix[row - 1][col] !== 1) {
+    landNeighbors.push([row - 1, col]);
+  }
+  if (row < matrix.length - 1 && matrix[row + 1][col] !== 1) {
+    landNeighbors.push([row + 1, col]);
+  }
+  if (col > 0 && matrix[row][col - 1] !== 1) {
+    landNeighbors.push([row, col - 1]);
+  }
+  if (col < matrix[0].length - 1 && matrix[row][col + 1] !== 1) {
+    landNeighbors.push([row, col + 1]);
+  }
+
+  return landNeighbors;
 }
