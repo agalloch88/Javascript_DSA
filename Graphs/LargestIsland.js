@@ -109,78 +109,115 @@ function getLandNeighbors(row, col, matrix) {
 
 // Solution 2:
 
+// iterative solution finding and numbering islands, then determining the biggest island
+
+// O(w * h) time due to iterating over all inputs once
+// O(w * h) space due to storing arrays, set of values
+
+// main function which takes in the input matrix
 function largestIsland(matrix) {
+  // initialize variable islandSizes and set equal to empty array
   let islandSizes = [];
+  // initialize variable to islandNumber, and set equal to 2 at outset
+  // this variable will allow islands to be tagged individually, without overwriting whether they are 1 or 0
   let islandNumber = 2;
 
+  // iterate over every row and col in input matrix
   for (let row = 0; row < matrix.length; row++) {
     for (let col = 0; col < matrix[row].length; col++) {
+      // if the value at the current position is a 0, so land, execute the below
       if (matrix[row][col] === 0) {
+        // push the return result of helper function getSizeFromNode into islandSizes, passing in the current row, col, the input matrix, and current value of islandNumber for tagging
         islandSizes.push(getSizeFromNode(row, col, matrix, islandNumber));
+        // increment islandNumber by 1 for the next island found
         islandNumber++;
       }
     }
   }
-
+  // initialize variable maxSize, and set equal to 0 at outset
   let maxSize = 0;
-
+  // iterate over every row and col in input matrix looking for established islands
   for (let row = 0; row < matrix.length; row++) {
     for (let col = 0; col < matrix[row].length; col++) {
+      // if the current row and col position is anything other than water, simply continue
       if (matrix[row][col] !== 1) {
         continue;
       }
-
+      // initialize variable landNeighbors, and set equal to returned result from getLandNeighbors helper, passing in current row and col position plus input matrix
       let landNeighbors = getLandNeighbors(row, col, matrix);
+      // initialize variable islands, and set equal to a new Set object
       let islands = new Set();
-
+      // for every resulting neighbor in the landsNeighbors array, execute below
       for (let neighbor of landNeighbors) {
+        // add values into the islands Set
         islands.add(matrix[neighbor[0]][neighbor[1]]);
       }
-
+      // set variable size equal to 1
       let size = 1;
+      // iterate over every island found in islands Set
       for (let island of islands) {
+        // increment size variable by result in islandSizes at island minus 2 to account for initial +2
         size += islandSizes[island - 2];
       }
+      // set maxSize variable set to the max between current maxSize value at the size
       maxSize = Math.max(maxSize, size);
     }
   }
+  // return final value of maxSize
   return maxSize;
 }
 
+// helper function which determines total connected size of an island from one initial node
 function getSizeFromNode(row, col, matrix, islandNumber) {
+  // initialize variable size, and set equal to 0 at outset
   let size = 0;
+  // initialize variable nodesToExplore, which will contain all the nodes to check left, and set equal to an array populated with the passed in row and col
   let nodesToExplore = [[row, col]];
-
+  // keep looping so long as there are items in nodesToExplore
   while (nodesToExplore.length > 0) {
+    // initialize variable currentNode, and set equal to the popped value from nodesToExplore
     let currentNode = nodesToExplore.pop();
+    // destructure currentNode into coordinate pair of currentRow and currentCol
     let [currentRow, currentCol] = currentNode;
-
+    // if the value at currentRow and currentCol position is anything other than unexplored land, so 0, simply continue
     if (matrix[currentRow][currentCol] !== 0) {
       continue;
     }
-
+    // set value at the coordinates of currentRow and currentCol equal to current value of islandNumber, as this is a new island
     matrix[currentRow][currentCol] = islandNumber;
+    // increment value of size by 1
     size++;
+    // push the returned result from helper function getLandNeighbors into nodesToExplore array, spreading the result of function and passing in currentRow, currentCol, and the input matrix
     nodesToExplore.push(...getLandNeighbors(currentRow, currentCol, matrix));
   }
+  //   once nodesToExplore is empty, the current island size is set, so return current value of size
   return size;
 }
 
+// helper function which finds neighboring land nodes from a specific coordinate pair
 function getLandNeighbors(row, col, matrix) {
+  // initialize variable landNeighbors, and set equal to an empty array to hold coordinate row/col pairs
   let landNeighbors = [];
-
+  // LOOK UP
+  // if one row upward at current col position is a 0, push this positional coordinate pair into landNeighbors array
   if (row > 0 && matrix[row - 1][col] !== 1) {
     landNeighbors.push([row - 1, col]);
   }
+  // LOOK DOWN
+  // if one row downward at current col position is a 0, push this positional coordinate pair into landNeighbors array
   if (row < matrix.length - 1 && matrix[row + 1][col] !== 1) {
     landNeighbors.push([row + 1, col]);
   }
+  // LOOK LEFT
+  // if one col left at current row position is a 0, push this positional coordinate pair into landNeighbors array
   if (col > 0 && matrix[row][col - 1] !== 1) {
     landNeighbors.push([row, col - 1]);
   }
+  // LOOK RIGHT
+  // if one col right at current row position is a 0, push this positional coordinate pair into landNeighbors array
   if (col < matrix[0].length - 1 && matrix[row][col + 1] !== 1) {
     landNeighbors.push([row, col + 1]);
   }
-
+  // once all four directions checked, return any findings stored in landNeighbors for use in getSizeFromNode()
   return landNeighbors;
 }
