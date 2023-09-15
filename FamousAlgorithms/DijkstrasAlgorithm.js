@@ -28,3 +28,59 @@
 // [0, 7, 13, 27, 10, -1]
 
 // Solution 1:
+
+function dijkstrasAlgorithm(start, edges) {
+    let numberOfVertices = edges.length;
+    let minDistances = [];
+  
+    for (let i = 0; i < numberOfVertices; i++) {
+      minDistances.push(Infinity);
+    }
+  
+    minDistances[start] = 0;
+    let visited = new Set();
+  
+    while (visited.size !== numberOfVertices) {
+      let [vertex, currentMinDistance] = getVertexWithMinDistance(minDistances, visited);
+  
+      if (currentMinDistance === Infinity) {
+        break;
+      }
+  
+      visited.add(vertex);
+  
+      for (let edge of edges[vertex]) {
+        let [destination, distanceToDestination] = edge;
+  
+        if (visited.has(destination)) {
+          continue;
+        }
+  
+        let newPathDistance = currentMinDistance + distanceToDestination;
+        let currentDestinationDistance = minDistances[destination];
+  
+        if (newPathDistance < currentDestinationDistance) {
+          minDistances[destination] = newPathDistance;
+        }
+      }
+    }
+    return minDistances.map(x => x === Infinity ? -1 : x);
+  }
+  
+  function getVertexWithMinDistance(distances, visited) {
+    let currentMinDistance = Infinity;
+    let vertex = -1;
+  
+    for (let [vertexIdx, distance] of distances.entries()) {
+      if (visited.has(vertexIdx)) {
+        continue;
+      }
+  
+      if (distance <= currentMinDistance) {
+        vertex = vertexIdx;
+        currentMinDistance = distance;
+      }
+    }
+    return [vertex, currentMinDistance];
+  }
+  
