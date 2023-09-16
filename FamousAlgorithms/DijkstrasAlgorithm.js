@@ -29,58 +29,79 @@
 
 // Solution 1:
 
+// iterative solution finding all vertexes then checking different routes to find the minimum distance to traverse the positive weighted routes
+
+// O(v^2 + e) time, for traversing v vertices twice and e edges in the graph
+// O(v) space due to storing distances for vertices and visited information in array and set
+
+// main function taking in the start node and the array of edges
 function dijkstrasAlgorithm(start, edges) {
+  // initialize variable numberOfVertices, and set equal to the length of the edges array
     let numberOfVertices = edges.length;
+    // initialize variable minDistances to hold the distance information, and set equal to an empty array at the outset
     let minDistances = [];
-  
+    // loop for the numberOfVertices and push a value of Infinity into minDistances as a placeholder, since any value will be lower than Infinity
     for (let i = 0; i < numberOfVertices; i++) {
       minDistances.push(Infinity);
     }
-  
+    // set the value at the passed-in start index in minDistances to equal 0
     minDistances[start] = 0;
+    // initialize variable visited and set equal to a new empty Set object
     let visited = new Set();
-  
+    // keep looping so long as the size of the visited Set object is NOT equal to the number of vertices, meaning there are still vertices to discover and traverse
     while (visited.size !== numberOfVertices) {
+      // destructure the return from helper function into the values of vertex and currentMinDistance
       let [vertex, currentMinDistance] = getVertexWithMinDistance(minDistances, visited);
-  
+      // if currentMinDistance is equal to Infinity, this node is disconnected or otherwise unreachable, so break the while loop
       if (currentMinDistance === Infinity) {
         break;
       }
-  
+      // add the currentVertex into the visited Set
       visited.add(vertex);
-  
+      // loop over every edge of the current vertex in edges input
       for (let edge of edges[vertex]) {
+        // destructure the current edge into destination and distanceToDestination
         let [destination, distanceToDestination] = edge;
-  
+        // check whether the visited Set contains the current destination, and if so, simply continue
         if (visited.has(destination)) {
           continue;
         }
-  
+        // initialize variable newPathDistance and set equal to the value of currentMinDistance plus the distanceToDestination
         let newPathDistance = currentMinDistance + distanceToDestination;
+        // initialize variable currentDestinationDistance and set equal to the value of destination in minDistances
         let currentDestinationDistance = minDistances[destination];
-  
+        // check whether newPathDistance is shorter than the currentDestinationDistance, and if so, execute below
         if (newPathDistance < currentDestinationDistance) {
+          // set value at destination in minDistances equal to the newPathDistance
           minDistances[destination] = newPathDistance;
         }
       }
     }
+    // once all possible vertices and edges are checked, return the minDistances array, mapping over the array to replace every instance of Infinity with -1
     return minDistances.map(x => x === Infinity ? -1 : x);
   }
   
+  // helper function to find the vertex via minimum distance, taking in the distances and the visited Set object
   function getVertexWithMinDistance(distances, visited) {
+    // initialize variable currentMinDistance and set equal to Infinity, as any value will be smaller
     let currentMinDistance = Infinity;
+    // initialize the variable vertex and set equal to -1, assuming there may be no path to this vertex
     let vertex = -1;
-  
+    // keep looping over every entry in distances, destructing the entries into vertexIdx and the distance
     for (let [vertexIdx, distance] of distances.entries()) {
+      // if the vertexIdx already exists in the visited Set, do nothing and continue
       if (visited.has(vertexIdx)) {
         continue;
       }
-  
+      // if the distance of the current entry is less than or equal to the currentMinDistance value, execute below
       if (distance <= currentMinDistance) {
+        // set vertex equal to the current vertexIdx
         vertex = vertexIdx;
+        // set currentMinDistance equal to the current distance
         currentMinDistance = distance;
       }
     }
+    // return the pair of vertex and currentMinDistance for use in main function
     return [vertex, currentMinDistance];
   }
   
