@@ -105,3 +105,85 @@ function dijkstrasAlgorithm(start, edges) {
     return [vertex, currentMinDistance];
   }
   
+// Solution 2:
+
+class MinHeap {
+  constructor(array) {
+    this.vertexMap = array.reduce((obj, _, i) => {
+      obj[i] = i;
+      return obj;
+    }, {});
+    this.heap = this.buildHeap(array);
+  }
+
+  isEmpty() {
+    return this.heap.length === 0;
+  }
+
+  buildHeap(array) {
+    let firstParentIdx = Math.floor((array.length - 2) / 2);
+
+    for (let currentIdx = firstParentIdx; currentIdx >= 0; currentIdx--) {
+      this.siftDown(currentIdx, array.length - 1, array);
+    }
+    return array;
+  }
+
+  siftDown(currentIdx, endIdx, heap) {
+    let childOneIdx = currentIdx * 2 + 1;
+
+    while (childOneIdx <= endIdx) {
+      let childTwoIdx = currentIdx * 2 + 2 <= endIdx ? currentIdx * 2 + 2 : -1;
+      let idxToSwap;
+
+      if (childTwoIdx !== -1 && heap[childTwoIdx][1] < heap[childOneIdx][1]) {
+        idxToSwap = childTwoIdx;
+      } else {
+        idxToSwap = childOneIdx;
+      }
+
+      if (heap[idxToSwap][1] < heap[currentIdx][1]) {
+        this.swap(currentIdx, idxToSwap, heap);
+        currentIdx = idxToSwap;
+        childOneIdx = currentIdx * 2 + 1;
+      } else {
+        return;
+      }
+    }
+  }
+
+  siftUp(currentIdx, heap) {
+    let parentIdx = Math.floor((currentIdx - 1) / 2);
+
+    while (currentIdx > 0 && heap[currentIdx][1] < heap[parentIdx][1]) {
+      this.swap(currentIdx, parentIdx, heap);
+      currentIdx = parentIdx;
+      parentIdx = Math.floor((currentIdx - 1) / 2);
+    }
+  }
+
+  remove() {
+    if (this.isEmpty()) {
+      return;
+    }
+
+    this.swap(0, this.heap.length - 1, this.heap);
+    let [vertex, distance] = this.heap.pop();
+    delete this.vertexMap[vertex];
+    this.siftDown(0, this.heap.length - 1, this.heap);
+    return [vertex, distance];
+  }
+
+  swap(i, j, heap) {
+    this.vertexMap[heap[i][0]] = j;
+    this.vertexMap[heap[j][0]] = i;
+    let temp = heap[j];
+    heap[j] = heap[i];
+    heap[i] = temp;
+  }
+
+  update(vertex, value) {
+    this.heap[this.vertexMap[vertex]] = [vertex, value];
+    this.siftUp(this.vertexMap[vertex], this.heap);
+  }
+}
