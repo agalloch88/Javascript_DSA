@@ -3,7 +3,7 @@
 // The list/array is what's commonly referred to as an adjacency list, and it represents a graph. The number of vertices in the graph is equal to the length of list/array edges, where
 // each index, i, in edges contains vertex i's outbound edges, in no particular order. Each individual edge is represented by a pair of two numbers, [destination, distance], where the destination
 // is a positive integer denoting the destination vertex, and the distance is a positive integer representing the length of the edge (the distance from vertex i to vertex destination).
-// Note that these edges are directed, meaning that it is only possible to travel from a particular vertex to its corresponding destination - not the other way around 
+// Note that these edges are directed, meaning that it is only possible to travel from a particular vertex to its corresponding destination - not the other way around
 // (unless the destination vertex itself has an outbound edge to the original vertex).
 
 // Write a function which computes the lengths of the shortest paths between start, and all of the other vertices in the graph using Dijkstra's algorithm, and which returns them in an array/list.
@@ -37,74 +37,77 @@
 // main function taking in the start node and the array of edges
 function dijkstrasAlgorithm(start, edges) {
   // initialize variable numberOfVertices, and set equal to the length of the edges array
-    let numberOfVertices = edges.length;
-    // initialize variable minDistances to hold the distance information, and set equal to an empty array at the outset
-    let minDistances = [];
-    // loop for the numberOfVertices and push a value of Infinity into minDistances as a placeholder, since any value will be lower than Infinity
-    for (let i = 0; i < numberOfVertices; i++) {
-      minDistances.push(Infinity);
-    }
-    // set the value at the passed-in start index in minDistances to equal 0
-    minDistances[start] = 0;
-    // initialize variable visited and set equal to a new empty Set object
-    let visited = new Set();
-    // keep looping so long as the size of the visited Set object is NOT equal to the number of vertices, meaning there are still vertices to discover and traverse
-    while (visited.size !== numberOfVertices) {
-      // destructure the return from helper function into the values of vertex and currentMinDistance
-      let [vertex, currentMinDistance] = getVertexWithMinDistance(minDistances, visited);
-      // if currentMinDistance is equal to Infinity, this node is disconnected or otherwise unreachable, so break the while loop
-      if (currentMinDistance === Infinity) {
-        break;
-      }
-      // add the currentVertex into the visited Set
-      visited.add(vertex);
-      // loop over every edge of the current vertex in edges input
-      for (let edge of edges[vertex]) {
-        // destructure the current edge into destination and distanceToDestination
-        let [destination, distanceToDestination] = edge;
-        // check whether the visited Set contains the current destination, and if so, simply continue
-        if (visited.has(destination)) {
-          continue;
-        }
-        // initialize variable newPathDistance and set equal to the value of currentMinDistance plus the distanceToDestination
-        let newPathDistance = currentMinDistance + distanceToDestination;
-        // initialize variable currentDestinationDistance and set equal to the value of destination in minDistances
-        let currentDestinationDistance = minDistances[destination];
-        // check whether newPathDistance is shorter than the currentDestinationDistance, and if so, execute below
-        if (newPathDistance < currentDestinationDistance) {
-          // set value at destination in minDistances equal to the newPathDistance
-          minDistances[destination] = newPathDistance;
-        }
-      }
-    }
-    // once all possible vertices and edges are checked, return the minDistances array, mapping over the array to replace every instance of Infinity with -1
-    return minDistances.map(x => x === Infinity ? -1 : x);
+  let numberOfVertices = edges.length;
+  // initialize variable minDistances to hold the distance information, and set equal to an empty array at the outset
+  let minDistances = [];
+  // loop for the numberOfVertices and push a value of Infinity into minDistances as a placeholder, since any value will be lower than Infinity
+  for (let i = 0; i < numberOfVertices; i++) {
+    minDistances.push(Infinity);
   }
-  
-  // helper function to find the vertex via minimum distance, taking in the distances and the visited Set object
-  function getVertexWithMinDistance(distances, visited) {
-    // initialize variable currentMinDistance and set equal to Infinity, as any value will be smaller
-    let currentMinDistance = Infinity;
-    // initialize the variable vertex and set equal to -1, assuming there may be no path to this vertex
-    let vertex = -1;
-    // keep looping over every entry in distances, destructing the entries into vertexIdx and the distance
-    for (let [vertexIdx, distance] of distances.entries()) {
-      // if the vertexIdx already exists in the visited Set, do nothing and continue
-      if (visited.has(vertexIdx)) {
+  // set the value at the passed-in start index in minDistances to equal 0
+  minDistances[start] = 0;
+  // initialize variable visited and set equal to a new empty Set object
+  let visited = new Set();
+  // keep looping so long as the size of the visited Set object is NOT equal to the number of vertices, meaning there are still vertices to discover and traverse
+  while (visited.size !== numberOfVertices) {
+    // destructure the return from helper function into the values of vertex and currentMinDistance
+    let [vertex, currentMinDistance] = getVertexWithMinDistance(
+      minDistances,
+      visited
+    );
+    // if currentMinDistance is equal to Infinity, this node is disconnected or otherwise unreachable, so break the while loop
+    if (currentMinDistance === Infinity) {
+      break;
+    }
+    // add the currentVertex into the visited Set
+    visited.add(vertex);
+    // loop over every edge of the current vertex in edges input
+    for (let edge of edges[vertex]) {
+      // destructure the current edge into destination and distanceToDestination
+      let [destination, distanceToDestination] = edge;
+      // check whether the visited Set contains the current destination, and if so, simply continue
+      if (visited.has(destination)) {
         continue;
       }
-      // if the distance of the current entry is less than or equal to the currentMinDistance value, execute below
-      if (distance <= currentMinDistance) {
-        // set vertex equal to the current vertexIdx
-        vertex = vertexIdx;
-        // set currentMinDistance equal to the current distance
-        currentMinDistance = distance;
+      // initialize variable newPathDistance and set equal to the value of currentMinDistance plus the distanceToDestination
+      let newPathDistance = currentMinDistance + distanceToDestination;
+      // initialize variable currentDestinationDistance and set equal to the value of destination in minDistances
+      let currentDestinationDistance = minDistances[destination];
+      // check whether newPathDistance is shorter than the currentDestinationDistance, and if so, execute below
+      if (newPathDistance < currentDestinationDistance) {
+        // set value at destination in minDistances equal to the newPathDistance
+        minDistances[destination] = newPathDistance;
       }
     }
-    // return the pair of vertex and currentMinDistance for use in main function
-    return [vertex, currentMinDistance];
   }
-  
+  // once all possible vertices and edges are checked, return the minDistances array, mapping over the array to replace every instance of Infinity with -1
+  return minDistances.map((x) => (x === Infinity ? -1 : x));
+}
+
+// helper function to find the vertex via minimum distance, taking in the distances and the visited Set object
+function getVertexWithMinDistance(distances, visited) {
+  // initialize variable currentMinDistance and set equal to Infinity, as any value will be smaller
+  let currentMinDistance = Infinity;
+  // initialize the variable vertex and set equal to -1, assuming there may be no path to this vertex
+  let vertex = -1;
+  // keep looping over every entry in distances, destructing the entries into vertexIdx and the distance
+  for (let [vertexIdx, distance] of distances.entries()) {
+    // if the vertexIdx already exists in the visited Set, do nothing and continue
+    if (visited.has(vertexIdx)) {
+      continue;
+    }
+    // if the distance of the current entry is less than or equal to the currentMinDistance value, execute below
+    if (distance <= currentMinDistance) {
+      // set vertex equal to the current vertexIdx
+      vertex = vertexIdx;
+      // set currentMinDistance equal to the current distance
+      currentMinDistance = distance;
+    }
+  }
+  // return the pair of vertex and currentMinDistance for use in main function
+  return [vertex, currentMinDistance];
+}
+
 // Solution 2:
 
 class MinHeap {
@@ -186,4 +189,39 @@ class MinHeap {
     this.heap[this.vertexMap[vertex]] = [vertex, value];
     this.siftUp(this.vertexMap[vertex], this.heap);
   }
+}
+
+function dijkstrasAlgorithm(start, edges) {
+  let numberOfVertices = edges.length;
+  let minDistances = [];
+  let initialDistances = [];
+
+  for (let i = 0; i < numberOfVertices; i++) {
+    minDistances.push(Infinity);
+    initialDistances.push([i, Infinity]);
+  }
+
+  minDistances[start] = 0;
+  let minDistancesHeap = new MinHeap(initialDistances);
+  minDistancesHeap.update(start, 0);
+
+  while (!minDistancesHeap.isEmpty()) {
+    let [vertex, currentMinDistance] = minDistancesHeap.remove();
+
+    if (currentMinDistance === Infinity) {
+      break;
+    }
+
+    for (let edge of edges[vertex]) {
+      let [destination, distanceToDestination] = edge;
+      let newPathDistance = currentMinDistance + distanceToDestination;
+      let currentDestinationDistance = minDistances[destination];
+
+      if (newPathDistance < currentDestinationDistance) {
+        minDistances[destination] = newPathDistance;
+        minDistancesHeap.update(destination, newPathDistance);
+      }
+    }
+  }
+  return minDistances.map((x) => (x === Infinity ? -1 : x));
 }
