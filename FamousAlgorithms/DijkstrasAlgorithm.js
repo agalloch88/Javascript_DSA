@@ -110,73 +110,119 @@ function getVertexWithMinDistance(distances, visited) {
 
 // Solution 2:
 
+// more efficient solution ditching visited Set in favor of using a MinHeap structure
+
+// O((v + e) * log(v)) time due to only tracing the vertices and edges once then utilizing the MinHeap structure and methods for updates
+// O(v) space due to storing the additional structure containing "heap"
+
+// MinHeap class and its various methods
 class MinHeap {
   constructor(array) {
+    // the vertexMap holds the position in the heap which each vertex is at
     this.vertexMap = array.reduce((obj, _, i) => {
       obj[i] = i;
       return obj;
     }, {});
     this.heap = this.buildHeap(array);
   }
-
+  // method to help determine whether there are still vertices to check
   isEmpty() {
     return this.heap.length === 0;
   }
 
+  // method to build the MinHeap from an input array
+  // O(n) time
+  // O(1) space
   buildHeap(array) {
+    // initialize variable firstParentIdx and set equal to the floored median of input array
     let firstParentIdx = Math.floor((array.length - 2) / 2);
 
+    // iterate over every item in MinHeap
     for (let currentIdx = firstParentIdx; currentIdx >= 0; currentIdx--) {
+      // call siftDown method and pass in the currentIdx, along with last item in array and the array itself
       this.siftDown(currentIdx, array.length - 1, array);
     }
+    // once MinHeap is built, return the array
     return array;
   }
 
+  // method to sift nodes down the MinHeap
+  // O(log(n)) time
+  // O(1) space
   siftDown(currentIdx, endIdx, heap) {
+    // initialize variable childOneIdx and set equal to the doubled value of currentIdx plus 1
     let childOneIdx = currentIdx * 2 + 1;
-
+    // keep looping so long as childOneIdx is within bounds or equal to endIdx
     while (childOneIdx <= endIdx) {
+      // initialize variable childTwoIdx and set equal to result of a ternary, checking whether childTwoIdx is 1 greater than childOneIdx, and if so, go with that value, otherwise set equal to -1
       let childTwoIdx = currentIdx * 2 + 2 <= endIdx ? currentIdx * 2 + 2 : -1;
+      // initialize variable idxToSwap
       let idxToSwap;
 
+      // check whether childTwoIdx is NOT -1 AND and index 1 value of childTwoIdx is less than the index 1 value of childOneIdx
       if (childTwoIdx !== -1 && heap[childTwoIdx][1] < heap[childOneIdx][1]) {
+        // set idxToSwap equal to childTwoIdx
         idxToSwap = childTwoIdx;
+      // otherwise, set idxToSwap equal to the childOneIdx
       } else {
         idxToSwap = childOneIdx;
       }
 
+      // if the index 1 value of idxToSwap is less than index 1 value of currentIdx, then execute below
       if (heap[idxToSwap][1] < heap[currentIdx][1]) {
+        // call swap method, passing in currentIdx, idxToSwap, and the heap
         this.swap(currentIdx, idxToSwap, heap);
+        // set currentIdx equal to idxToSwap
         currentIdx = idxToSwap;
+        // set childOneIdx equal to the doubled value of currentIdx plus 1
         childOneIdx = currentIdx * 2 + 1;
+      // otherwise, simply return
       } else {
         return;
       }
     }
   }
 
+  // method to move a given node up in the MinHeap
+  // O(log(n)) time
+  // O(1) space
   siftUp(currentIdx, heap) {
+    // initialize variable parentIdx, and set equal to the floored value of currentIdx minus 1 divided in half
     let parentIdx = Math.floor((currentIdx - 1) / 2);
 
+    // keep looping so long as currentIdx is greater than 0 and the index 1 value of currentIdx is less than the index 1 value of parentIdx
     while (currentIdx > 0 && heap[currentIdx][1] < heap[parentIdx][1]) {
+      // call swap method, passing in the currentIdx, the parentIdx, and the heap
       this.swap(currentIdx, parentIdx, heap);
+      // set currentIdx equal to the parentIdx
       currentIdx = parentIdx;
+      // set the parentIdx equal to the floored value of currentIdx minus 1 divided in half
       parentIdx = Math.floor((currentIdx - 1) / 2);
     }
   }
 
+  // method to remove a given node from the MinHeap
+  // O(log(n)) time
+  // O(1) space
   remove() {
+    // check whether the heap is empty using isEmpty method, and if so, simply return
     if (this.isEmpty()) {
       return;
     }
 
+    // call swap method, passing in 0, the length of the heap, and the heap itself
     this.swap(0, this.heap.length - 1, this.heap);
+    // destructure the popped item from the heap into vertex and distance values
     let [vertex, distance] = this.heap.pop();
+    // delete the given vertex from the vertexMap
     delete this.vertexMap[vertex];
+    // call the siftDown method, passing in 0, the length of the heap, and the heap itself
     this.siftDown(0, this.heap.length - 1, this.heap);
+    // return the vertex and distance as a pair
     return [vertex, distance];
   }
 
+  // helper method since no built-in swap in JS
   swap(i, j, heap) {
     this.vertexMap[heap[i][0]] = j;
     this.vertexMap[heap[j][0]] = i;
@@ -185,6 +231,7 @@ class MinHeap {
     heap[i] = temp;
   }
 
+  // method to update vertex and value
   update(vertex, value) {
     this.heap[this.vertexMap[vertex]] = [vertex, value];
     this.siftUp(this.vertexMap[vertex], this.heap);
