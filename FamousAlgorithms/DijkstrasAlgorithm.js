@@ -238,37 +238,57 @@ class MinHeap {
   }
 }
 
+// main function which takes in the start and edges array
 function dijkstrasAlgorithm(start, edges) {
+  // initialize variable numberOfVertices, and set equal to the length of edges
   let numberOfVertices = edges.length;
+  // initialize variable minDistances, and set equal to empty array
+  // this will hold the determined collection of minimum distances between the nodes
   let minDistances = [];
+  // intialize variable initialDistances, and set equal to empty array
   let initialDistances = [];
 
+  // loop over the numberOfVertices
   for (let i = 0; i < numberOfVertices; i++) {
+    // for every vertex, push a value of Infinity into the minDistances array
     minDistances.push(Infinity);
+    // for every vertex, push in a pair of i/vertex and Infinity into the initialDistances array
     initialDistances.push([i, Infinity]);
   }
 
+  // set the value of start in MinDistances to 0
   minDistances[start] = 0;
+  // initialize variable minDistancesHeap and set equal to a new MinHeap constructed via the MinHeap class, and composed of the values in the initialDistances array
   let minDistancesHeap = new MinHeap(initialDistances);
+  // call the update() method on the minDistancesHeap, and set the start vertex value equal to 0
   minDistancesHeap.update(start, 0);
 
+  // while there are still items in the minDistancesHeap, keep looping
   while (!minDistancesHeap.isEmpty()) {
+    // call the remove() method on the minDistancesHeap, and destructure this return value into vertex and currentMinDistance value pair
     let [vertex, currentMinDistance] = minDistancesHeap.remove();
-
+    // if the currentMinDistance is equal to Infinity, this means this node must be unvisited/potentially disconnected, so break the while loop
     if (currentMinDistance === Infinity) {
       break;
     }
-
+    // loop over every edge of this specific vertex listed in the edges input
     for (let edge of edges[vertex]) {
+      // destructure the given edge into destination and distanceToDestination value pair
       let [destination, distanceToDestination] = edge;
+      // initialize variable newPathDistance, and set equal to the sum of currentMinDistance and distanceToDestination
       let newPathDistance = currentMinDistance + distanceToDestination;
+      // initialize variable currentDestinationDistance, and set equal to the value of the destination in minDistances array
       let currentDestinationDistance = minDistances[destination];
 
+      // compare whether the newPathDistance sum calculated above is less than the currentDestinationDistance for the destination in minDistances, and if so, execute below
       if (newPathDistance < currentDestinationDistance) {
+        // have found a shorter distance, so update the value of destination in the minDistances array to equal the newPathDistance
         minDistances[destination] = newPathDistance;
+        // call the update() method on the minDistancesHeap, passing in the destination value and the newPathDistance value
         minDistancesHeap.update(destination, newPathDistance);
       }
     }
   }
+  // once the while loop breaks, map over the minDistances array and replace all remaining instances of Infinity, which will be disconnected or unreachable nodes/vertices, with -1
   return minDistances.map((x) => (x === Infinity ? -1 : x));
 }
