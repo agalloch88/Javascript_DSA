@@ -77,40 +77,66 @@ function getMinSpaces(pi, numbersTable, cache, idx) {
 
 // Solution 2:
 
+// solution using recursion to get the minimum spaces and calculate placement based on position, starting at the end
+
+// O(n^3 + m) time due to multiple calculations and checks
+// O(n + m) space due to storing the JS object cache etc
+
+// main function, taking in the input string pi and array of number strings
 function numbersInPi(pi, numbers) {
+    // initialize variable numbersTable and set equal to an empty JS object
     let numbersTable = {};
 
+    // iterate over every number string in the numbers array
     for (let number of numbers) {
+        // ata the value for number in the numbersTable object, set it equal to true
         numbersTable[number] = true;
     }
 
+    // initialize variable cache, and set equal to an empty JS object
     let cache = {};
 
+    // start iterative over pi string, starting at the end and working toward the start
     for (let i = pi.length - 1; i >= 0; i--) {
+        // at every iteration, call getMinStapces helper function, passing in the pi input, the current numbersTable JS object, the cache, and the current value for i
         getMinSpaces(pi, numbersTable, cache, i);
     }
+    // return the result of a ternary checking whether the value at index 0 in the cache is Infinity, which should return -1 if so, and otherwise returning the value at index 0 in cache as the answer
     return cache[0] === Infinity ? -1 : cache[0];
 }
 
+// helper function to find the minimum spaces, taking in the pi input string, numbersTable JS object, the cache JS object, and a given idx value
 function getMinSpaces(pi, numbersTable, cache, idx) {
+    // base case
+    // check whether the current value for idx is equal to the length of pi, which would indicate done checking, and if so, return -1
     if (idx === pi.length) {
         return -1;
     }
 
+    // recursive case
+    // check whether the current value for idx already exists in the cache JS object, and if so, simply return the value
     if (idx in cache) {
         return cache[idx];
     }
 
+    // initialize variable minSpaces, and set equal to Infinity
     let minSpaces = Infinity;
 
+    // iterate over the pi input
     for (let i = idx; i < pi.length; i++) {
+        // initialize variable prefix, and set equal to a slice of the pi input from the current idx up to position i plus 1
         let prefix = pi.slice(idx, i + 1);
 
+        // check whether the current prefix exists in the numbersTable as one of the "favorite numbers" to isolate, and if so, execute below
         if (prefix in numbersTable) {
+            // intialize variable minSpacesInSuffix and set equal to recursive return value from getMinSpaces helper
             let minSpacesInSuffix = getMinSpaces(pi, numbersTable, cache, i + 1);
+            // set minSpaces equal to the minimum between existing value of minSpaces, OR minSpacesInSuffix plus 1
             minSpaces = Math.min(minSpaces, minSpacesInSuffix + 1);
         }
     }
+    // set value at idx in cache JS object equal to the current value of minSpaces
     cache[idx] = minSpaces;
+    // return the value at idx in the cache for use above and in main function
     return cache[idx];
 }
