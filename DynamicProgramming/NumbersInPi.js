@@ -58,7 +58,7 @@ function getMinSpaces(pi, numbersTable, cache, idx) {
     let minSpaces = Infinity;
 
     // iterate over the length of pi input string, starting at the position of the passed-in idx value
-    for (let i = idx; i < pi.length; i++) {\
+    for (let i = idx; i < pi.length; i++) {
         // initialize variable prefix, and set equal to a slice of the the pi input from the position of idx to the i plus 1 value
         let prefix = pi.slice(idx, i + 1);
         // check whether this prefix exists in the numbersTable JS object, and if so, execute below
