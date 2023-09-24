@@ -18,7 +18,7 @@
 
 // Solution 1:
 
-// solution using recursion to get the minimum spaces and calculate placement based on position
+// solution using recursion to get the minimum spaces and calculate placement based on position, starting at the beginning
 
 // O(n^3 + m) time due to multiple calculations and checks
 // O(n + m) space due to storing the JS object cache etc
@@ -72,5 +72,45 @@ function getMinSpaces(pi, numbersTable, cache, idx) {
     // set the value at idx in the cache equal to current value of minSpaces
     cache[idx] = minSpaces;
     // return the value at idx in cache for use in main function
+    return cache[idx];
+}
+
+// Solution 2:
+
+function numbersInPi(pi, numbers) {
+    let numbersTable = {};
+
+    for (let number of numbers) {
+        numbersTable[number] = true;
+    }
+
+    let cache = {};
+
+    for (let i = pi.length - 1; i >= 0; i--) {
+        getMinSpaces(pi, numbersTable, cache, i);
+    }
+    return cache[0] === Infinity ? -1 : cache[0];
+}
+
+function getMinSpaces(pi, numbersTable, cache, idx) {
+    if (idx === pi.length) {
+        return -1;
+    }
+
+    if (idx in cache) {
+        return cache[idx];
+    }
+
+    let minSpaces = Infinity;
+
+    for (let i = idx; i < pi.length; i++) {
+        let prefix = pi.slice(idx, i + 1);
+
+        if (prefix in numbersTable) {
+            let minSpacesInSuffix = getMinSpaces(pi, numbersTable, cache, i + 1);
+            minSpaces = Math.min(minSpaces, minSpacesInSuffix + 1);
+        }
+    }
+    cache[idx] = minSpaces;
     return cache[idx];
 }
