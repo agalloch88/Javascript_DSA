@@ -140,3 +140,30 @@ function getMinSpaces(pi, numbersTable, cache, idx) {
     // return the value at idx in the cache for use above and in main function
     return cache[idx];
 }
+
+// Solution 3:
+
+function numbersInPi(pi, numbers) {
+    let result = new Array(pi.length + 1).fill(null);
+
+    for (let i = 0; i < result.length; i++) {
+        let value = result[i];
+
+        if (i !== 0 && value === null) {
+            continue;
+        }
+        
+        let subString = pi.slice(i);
+
+        for (let j = 0; j < numbers.length; j++) {
+            let number = numbers[j];
+            let targetI = i + number.length;
+            let targetV = result[targetI];
+
+            if (subString.startsWith(number) && (targetV === null || targetV > value + 1)) {
+                result[targetI] = value + 1;
+            }
+        }
+    }
+    return result[result.length - 1] - 1;
+}
