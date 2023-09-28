@@ -143,27 +143,44 @@ function getMinSpaces(pi, numbersTable, cache, idx) {
 
 // Solution 3:
 
+// memoized solution reducing time and space complexity
+
+// O(n^2 * m) time due to running n x m loops, plus the startsWith() method which is at worst O(n), so simplifies to n^2 * m
+// O(n) space due to storing result array
+
 function numbersInPi(pi, numbers) {
+    // initialize variable result, and set equal to a new Array object the same length as the pi input plus one, to account for segmenting the entire string, and filled will null values at each position
     let result = new Array(pi.length + 1).fill(null);
 
+    // iterate over the result array
     for (let i = 0; i < result.length; i++) {
+        // initialize variable value, and set equal to the value at i in the result array
         let value = result[i];
 
+        // if i is NOT equal to 0, and the value is still equal to null, simply continue
         if (i !== 0 && value === null) {
             continue;
         }
         
+        // initialize variable subString, and set equal to a slice of the pi input, starting at the position of i
         let subString = pi.slice(i);
 
+        // iterate over the input numbers
         for (let j = 0; j < numbers.length; j++) {
+            // initialize variable number, and set equal to the value at position j in the numbers input
             let number = numbers[j];
+            // initialize variable targetI, and set equal to the result of combining value of i plus the length of numbers input
             let targetI = i + number.length;
+            // initialize variable targetV, and set equal to the value at targetI in the result array
             let targetV = result[targetI];
 
+            // if the subString slice starts with the value stored in number AND the value at targetV is null, OR the targetV is greater than the value plus 1, execute below
             if (subString.startsWith(number) && (targetV === null || targetV > value + 1)) {
+                // set the value at targetI in result equal to the current value plus 1, indicating an extra space
                 result[targetI] = value + 1;
             }
         }
     }
+    // return the value at the end of the result array, minus one, which should be the final number of spaces, or -1 if no possible spaces
     return result[result.length - 1] - 1;
 }
