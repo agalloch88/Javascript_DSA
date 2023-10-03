@@ -63,3 +63,41 @@ function areInterwoven(one, two, three, i, j) {
     // if neither of the three options above are true, then return false as cannot interweave the strings
     return false;
 }
+
+// Solution 2:
+
+function interweavingStrings(one, two, three) {
+    if (three.length !== one.length + two.length) {
+        return false;
+    }
+
+    let cache = new Array(one.length + 1).fill(0).map(_ => new Array(two.length + 1).fill(null));
+    return areInterwoven(one, two, three, 0, 0, cache);
+}
+
+function areInterwoven(one, two, three, i, j, cache) {
+    if (cache[i][j] !== null) {
+        return cache[i][j];
+    }
+    
+    let k = i + j;
+    if (k === three.length) {
+        return true;
+    }
+
+    if (i < one.length && one[i] === three[k]) {
+        cache[i][j] = areInterwoven(one, two, three, i + 1, j, cache);
+
+        if (cache[i][j]) {
+            return true;
+        }
+    }
+
+    if (j < two.length && two[j] === three[k]) {
+        cache[i][j] = areInterwoven(one, two, three, i, j + 1, cache);
+        return cache[i][j];
+    }
+
+    cache[i][j] = false;
+    return false;
+}
