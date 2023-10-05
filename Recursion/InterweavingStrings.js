@@ -66,38 +66,62 @@ function areInterwoven(one, two, three, i, j) {
 
 // Solution 2:
 
+// recursive solution utilizing caching strategy to reduce overall checks
+
+// O(nm) time due to checking all possibilities between one and two at least once and storing the results in cache for instant access later
+// O(nm) space due to storing the cache
+
+// main function which takes in the three string inputs
 function interweavingStrings(one, two, three) {
+    // edge case check
+    // if the length of string three is smaller or larger than the combined length of one and two, cannot interweave as there are values missing or added with three, so return false
     if (three.length !== one.length + two.length) {
         return false;
     }
 
+    // initialize variable cache, and set equal to a 2D array of one by two lengths plus 1, filled with 0's and null
     let cache = new Array(one.length + 1).fill(0).map(_ => new Array(two.length + 1).fill(null));
+    // return the value returned by areInterwoven helper, passing in the three strings, 0's for the start indexes of i and j, and the cache
     return areInterwoven(one, two, three, 0, 0, cache);
 }
 
+// helper function to determine whether strings can be interwoven, taking in the three strings, indexes to start iterating over one and two, and the cache
 function areInterwoven(one, two, three, i, j, cache) {
+    // base cases
+    // if the result in the cache at position [i, j] is NOT null, meaning this has been seen before, then return the value at that position
     if (cache[i][j] !== null) {
         return cache[i][j];
     }
     
+    // since we have positions of i and j, calculate position k for use in string three by adding i and j together, and storing in variable k
     let k = i + j;
+    // if the value for k is equal to the length of string three, made it to the end of the interwoven result, so return true
     if (k === three.length) {
         return true;
     }
 
+    // recursive cases
+    // if i is less than the length of string one AND the value at i in one is equal to the value at k in three, execute below
     if (i < one.length && one[i] === three[k]) {
+        // set the value at [i, j] in the cache equal to the recursive return value of areInterwoven at [i + 1, j]
         cache[i][j] = areInterwoven(one, two, three, i + 1, j, cache);
 
+        // if a non-null value exists at [i, j] in cache, then return true
         if (cache[i][j]) {
             return true;
         }
     }
 
+    // if the value of j is less than length of two AND value at j in two is equal to value at k in three, execute below
     if (j < two.length && two[j] === three[k]) {
+        // set the value at [i, j] in cache equal tot he recursive return value of areInterwoven at [i, j + 1]
         cache[i][j] = areInterwoven(one, two, three, i, j + 1, cache);
+        // return the value at [i, j] in the cache
         return cache[i][j];
     }
 
+    // if made it here, no conditions above hit, so set the value at current [i, j] position in cache equal to false
     cache[i][j] = false;
+    // return false for use in main function
     return false;
 }
