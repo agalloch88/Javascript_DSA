@@ -22,7 +22,7 @@
 
 // iterative solution using three pointers to track positions within lists and check values
 
-// O(nm) time due to checking all values between the two input lists
+// O(n + m) time due to checking all values between the two input lists
 // O(1) space due to only storing three pointer values and doing constant time operations/checks
 
 // singly LinkedList class, where every node has a value and potentially a next pointer
@@ -77,6 +77,12 @@ function mergeLinkedLists(headOne, headTwo) {
 
 // Solution 2:
 
+// recursive solution similar to iterative but at expense of optimal space complexity
+
+// O(n + m) time due to checking all possibilities in the two lists
+// O(n + m) space due to potentially having as many as n + m calls on call stack at a given time
+
+// LinkedList class, where every entry has a value and potentially a next pointer
 class LinkedList {
   constructor(value) {
     this.value = value;
@@ -84,31 +90,48 @@ class LinkedList {
   }
 }
 
+// main function, which takes in heads of two linked lists
 function mergeLinkedLists(headOne, headTwo) {
+  // call helper function, passing in the two nodes and null for the p1Prev value, since at the beginning of the list currently
   recursiveMerge(headOne, headTwo, null);
+//   return the result of a ternary checking whether the headOne or headTwo node is smaller, and returning it as the answer
   return headOne.value < headTwo.value ? headOne : headTwo;
 }
 
+// helper function which takes in the two positions across the linked lists, and tracks the value previous to p1
 function recursiveMerge(p1, p2, p1Prev) {
+  // base case
+  // if the p1 value is null, then execute below
   if (p1 === null) {
+    // check whether the value prior to p1 is also null, and if so, likely an edge case where the first list is empty, or otherwise unusual, so set p1Prev next value equal to p2
     if (p1Prev !== null) {
       p1Prev.next = p2;
     }
+    // return for use in recursive calls or in the main function
     return;
   }
 
+  // check whether p2 is null, if so so, simply return for use in recursive calls or in the main function
   if (p2 === null) {
     return;
   }
 
+  // recursive case
+  // check whether p1's value is less than p2's value, and if so, recursively call function passing in p1's next value and p1 as the p1Prev, since moving along within the first list
   if (p1.value < p2.value) {
     recursiveMerge(p1.next, p2, p1);
+  // otherwise, execute below
   } else {
+    // check whether p1Prev is NOT equal to null, and if so, set p1Prev's next value equal to p2
     if (p1Prev !== null) {
       p1Prev.next = p2;
     }
+
+    // otherwise, capture what will be newP2 and set equal to p2's next value
     let newP2 = p2.next;
+    // set p2's current next value equal to p1
     p2.next = p1;
+    // recursively call function, passing in newP2 for p2 and current p2 for p1Prev value
     recursiveMerge(p1, newP2, p2);
   }
 }
