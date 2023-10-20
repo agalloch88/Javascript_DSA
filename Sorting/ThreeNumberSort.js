@@ -29,25 +29,27 @@
 // each value in the order.
 
 function threeNumberSort(array, order) {
-    const valueCounts = [0, 0, 0];
+  const valueCounts = [0, 0, 0];
 
-    for (const element of array) {
-        const orderIdx = order.indexOf(element);
-        valueCounts[orderIdx]++;
+  for (const element of array) {
+    const orderIdx = order.indexOf(element);
+    valueCounts[orderIdx]++;
+  }
+
+  for (let idx = 0; idx < 3; idx++) {
+    const value = order[idx];
+    const count = valueCounts[idx];
+
+    const numElementsBefore = valueCounts
+      .slice(0, idx)
+      .reduce((a, b) => a + b, 0);
+    for (let n = 0; n < count; n++) {
+      const currentIdx = numElementsBefore + n;
+      array[currentIdx] = value;
     }
+  }
 
-    for (let idx = 0; idx < 3; idx++) {
-        const value = order[idx];
-        const count = valueCounts[idx];
-
-        const numElementsBefore = valueCounts.slice(0, idx).reduce((a, b) => a + b, 0);
-        for (let n = 0; n < count; n++) {
-            const currentIdx = numElementsBefore + n;
-            array[currentIdx] = value;
-        }
-    }
-
-    return array;
+  return array;
 }
 
 // Solution 2:
@@ -55,32 +57,32 @@ function threeNumberSort(array, order) {
 // and push all last-position instances to end of array.
 
 function threeNumberSort(array, order) {
-    const firstValue = order[0];
-    const thirdValue = order[2];
+  const firstValue = order[0];
+  const thirdValue = order[2];
 
-    let firstIdx = 0;
-    for (let idx = 0; idx < array.length; idx++) {
-        if (array[idx] === firstValue) {
-            swap(firstIdx, idx, array);
-            firstIdx++;
-        }
+  let firstIdx = 0;
+  for (let idx = 0; idx < array.length; idx++) {
+    if (array[idx] === firstValue) {
+      swap(firstIdx, idx, array);
+      firstIdx++;
     }
+  }
 
-    let thirdIdx = array.length - 1;
-    for (let idx = array.length - 1; idx > -1; idx--) {
-        if (array[idx] === thirdValue) {
-            swap(thirdIdx, idx, array);
-            thirdIdx--;
-        }
+  let thirdIdx = array.length - 1;
+  for (let idx = array.length - 1; idx > -1; idx--) {
+    if (array[idx] === thirdValue) {
+      swap(thirdIdx, idx, array);
+      thirdIdx--;
     }
+  }
 
-    return array;
+  return array;
 }
 
 function swap(i, j, array) {
-    const temp = array[j];
-    array[j] = array[i];
-    array[i] = temp;
+  const temp = array[j];
+  array[j] = array[i];
+  array[i] = temp;
 }
 
 // Solution 3:
@@ -88,33 +90,32 @@ function swap(i, j, array) {
 // array items should be positioned
 
 function threeNumberSort(array, order) {
-    const firstValue = order[0];
-    const secondValue = order[1];
+  const firstValue = order[0];
+  const secondValue = order[1];
 
-    let firstIdx = 0;
-    let secondIdx = 0;
-    let thirdIdx = array.length - 1;
+  let firstIdx = 0;
+  let secondIdx = 0;
+  let thirdIdx = array.length - 1;
 
-    while (secondIdx <= thirdIdx) {
-        const value = array[secondIdx];
-        if (value === firstValue) {
-            swap(firstIdx, secondIdx, array);
-            firstIdx++;
-            secondIdx++;
-        } else if (value === secondValue) {
-            secondIdx++;
-        } else {
-            swap(secondIdx, thirdIdx, array);
-            thirdIdx--;
-        }
+  while (secondIdx <= thirdIdx) {
+    const value = array[secondIdx];
+    if (value === firstValue) {
+      swap(firstIdx, secondIdx, array);
+      firstIdx++;
+      secondIdx++;
+    } else if (value === secondValue) {
+      secondIdx++;
+    } else {
+      swap(secondIdx, thirdIdx, array);
+      thirdIdx--;
     }
+  }
 
-    return array;
-
+  return array;
 }
 
 function swap(i, j, array) {
-    const temp = array[j];
-    array[j] = array[i];
-    array[i] = temp;
+  const temp = array[j];
+  array[j] = array[i];
+  array[i] = temp;
 }

@@ -24,33 +24,33 @@
 
 // main function taking in the provided characters and document strings
 function generateDocument(characters, document) {
-    // iterating over each single character in the provided document, need to compare frequency of the specific character between input characters and input document
-    for (let character of document) {
-        // set variable documentFrequency equal to result of helper function counting frequency of specific character in input document
-        let documentFrequency = countCharacterFrequency(character, document);
-        // set variable charactersFrequency equal to result of helper function counting frequency of specific character in input characters
-        let charactersFrequency = countCharacterFrequency(character, characters);
-        // if, for any character in the input document, there is a higher count in the document than what is provided in the input characters, return false, since the document cannot be generated
-        if (documentFrequency > charactersFrequency) {
-            return false;
-        }
+  // iterating over each single character in the provided document, need to compare frequency of the specific character between input characters and input document
+  for (let character of document) {
+    // set variable documentFrequency equal to result of helper function counting frequency of specific character in input document
+    let documentFrequency = countCharacterFrequency(character, document);
+    // set variable charactersFrequency equal to result of helper function counting frequency of specific character in input characters
+    let charactersFrequency = countCharacterFrequency(character, characters);
+    // if, for any character in the input document, there is a higher count in the document than what is provided in the input characters, return false, since the document cannot be generated
+    if (documentFrequency > charactersFrequency) {
+      return false;
     }
-    // if both inputs were iterated successfully and the if condition above never triggered, document can be generated from input characters, so return true
-    return true;
+  }
+  // if both inputs were iterated successfully and the if condition above never triggered, document can be generated from input characters, so return true
+  return true;
 }
 // helper function solely responsible for targeting a specific character and counting the frequency of the specific character
 function countCharacterFrequency(character, target) {
-    // initialize frequency variable to 0
-    let frequency = 0;
-    // for every character in the target, do stuff
-    for (let char of target) {
-        // if the current char is equal to the character currently being looked at, increment the frequency of that char by 1
-        if (char === character) {
-            frequency++;
-        }
+  // initialize frequency variable to 0
+  let frequency = 0;
+  // for every character in the target, do stuff
+  for (let char of target) {
+    // if the current char is equal to the character currently being looked at, increment the frequency of that char by 1
+    if (char === character) {
+      frequency++;
     }
-    // return the frequency of this char so it can be compared across the characters and document in above function
-    return frequency;
+  }
+  // return the frequency of this char so it can be compared across the characters and document in above function
+  return frequency;
 }
 
 // Solution 2:
@@ -61,40 +61,40 @@ function countCharacterFrequency(character, target) {
 // O(c) space due to storing c number of unique character records in the JS Set
 
 function generateDocument(characters, document) {
-    // create variable to store a new Set, which will contain the already-counted characters
-    let alreadyCounted = new Set();
-    // for every character in the document, do some checks
-    for (let character of document) {
-        // if this character is in the alreadyCounted set already, just continue
-        if (character in alreadyCounted) {
-            continue;
-        }
-        // store results of countCharacterFreqeuncy in variable for documentFrequency of this character
-        let documentFrequency = countCharacterFrequency(character, document);
-        // store results of countCharacterFreqeuncy in variable for charactersFrequency of this character
-        let charactersFrequency = countCharacterFrequency(character, characters);
-        // if higher count for the character in document than the characters input, cannot generate the document so return false
-        if (documentFrequency > charactersFrequency) {
-            return false;
-        }
-        // add this character to the alreadyCounted Set, and go on to the next
-        alreadyCounted.add(character);
+  // create variable to store a new Set, which will contain the already-counted characters
+  let alreadyCounted = new Set();
+  // for every character in the document, do some checks
+  for (let character of document) {
+    // if this character is in the alreadyCounted set already, just continue
+    if (character in alreadyCounted) {
+      continue;
     }
-    // if made it all the way through without returning false, then can generate the document from provided characters, so return true
-    return true;
+    // store results of countCharacterFreqeuncy in variable for documentFrequency of this character
+    let documentFrequency = countCharacterFrequency(character, document);
+    // store results of countCharacterFreqeuncy in variable for charactersFrequency of this character
+    let charactersFrequency = countCharacterFrequency(character, characters);
+    // if higher count for the character in document than the characters input, cannot generate the document so return false
+    if (documentFrequency > charactersFrequency) {
+      return false;
+    }
+    // add this character to the alreadyCounted Set, and go on to the next
+    alreadyCounted.add(character);
+  }
+  // if made it all the way through without returning false, then can generate the document from provided characters, so return true
+  return true;
 }
 // helper function solely responsible for targeting a specific character and counting the frequency of the specific character
 function countCharacterFrequency(character, target) {
-    // set variable frequency to 0
-    let frequency = 0;
-    // for every char in the target, check to see if the char matches the character, and if so, increment the frequency
-    for (let char of target) {
-        if (char === character) {
-            frequency++;
-        }
+  // set variable frequency to 0
+  let frequency = 0;
+  // for every char in the target, check to see if the char matches the character, and if so, increment the frequency
+  for (let char of target) {
+    if (char === character) {
+      frequency++;
     }
-    // return the frequency for this character in the target
-    return frequency;
+  }
+  // return the frequency for this character in the target
+  return frequency;
 }
 
 // Solution 3:
@@ -105,26 +105,26 @@ function countCharacterFrequency(character, target) {
 // O(c) space due to storing c unique characters from the characters string
 
 function generateDocument(characters, document) {
-    // set up empty JS object to hold key/value pairs for character and the respective counts
-    let characterCounts = {};
-    // check each character in characters input string first
-    for (let character of characters) {
-        // if that character does not exist already in characterCounts, initialize it and set count to 0
-        if (!(character in characterCounts)) {
-            characterCounts[character] = 0;
-        }
-        // increment the count of this character
-        characterCounts[character]++;
+  // set up empty JS object to hold key/value pairs for character and the respective counts
+  let characterCounts = {};
+  // check each character in characters input string first
+  for (let character of characters) {
+    // if that character does not exist already in characterCounts, initialize it and set count to 0
+    if (!(character in characterCounts)) {
+      characterCounts[character] = 0;
     }
-    // check each character in the desired document next
-    for (let character of document) {
-        // if the current character is not in the characterCounts JS object, or if the count of this character is 0, the document cannot be generated, so return false
-        if (!(character in characterCounts) || characterCounts[character] === 0) {
-            return false;
-        }
-        // if the character is found in document, decrement the count by 1
-        characterCounts[character]--;
+    // increment the count of this character
+    characterCounts[character]++;
+  }
+  // check each character in the desired document next
+  for (let character of document) {
+    // if the current character is not in the characterCounts JS object, or if the count of this character is 0, the document cannot be generated, so return false
+    if (!(character in characterCounts) || characterCounts[character] === 0) {
+      return false;
     }
-    // if made it all the way through the two for loops, the document can be generated, so return true
-    return true;
+    // if the character is found in document, decrement the count by 1
+    characterCounts[character]--;
+  }
+  // if made it all the way through the two for loops, the document can be generated, so return true
+  return true;
 }

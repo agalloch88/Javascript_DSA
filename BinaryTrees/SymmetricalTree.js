@@ -25,60 +25,63 @@
 
 // standard BinaryTree class with each node potentially having a value, left, and/or right node
 class BinaryTree {
-    constructor(value) {
-        this.value = value;
-        this.left = null;
-        this.right = null;
-    }
+  constructor(value) {
+    this.value = value;
+    this.left = null;
+    this.right = null;
+  }
 }
 // main function which takes in the input tree for evaluation
 function symmetricalTree(tree) {
-    // main function returns a call to helper function, which takes in the left and right nodes of input tree
-    return treesAreMirrored(tree.left, tree.right);
+  // main function returns a call to helper function, which takes in the left and right nodes of input tree
+  return treesAreMirrored(tree.left, tree.right);
 }
 // helper function which takes in left and right nodes to evaluate
 function treesAreMirrored(left, right) {
-    // check a few conditions: ensure neither the right or left node under evaluation are null,
-    // and that the value of left and right nodes are equal, meaning mirrored
-    if (left !== null && right !== null && left.value === right.value) {
-        // if all three checks are true, return recursive calls, passing in
-        // left.left and right.right AND left.right and right.left for next evaluating call
-        return treesAreMirrored(left.left, right.right) && treesAreMirrored(left.right, right.left);
-    }
-    // return a check of whether left is equal to right
-    return left === right;
+  // check a few conditions: ensure neither the right or left node under evaluation are null,
+  // and that the value of left and right nodes are equal, meaning mirrored
+  if (left !== null && right !== null && left.value === right.value) {
+    // if all three checks are true, return recursive calls, passing in
+    // left.left and right.right AND left.right and right.left for next evaluating call
+    return (
+      treesAreMirrored(left.left, right.right) &&
+      treesAreMirrored(left.right, right.left)
+    );
+  }
+  // return a check of whether left is equal to right
+  return left === right;
 }
 
 // Solution 2:
 
 class BinaryTree {
-    constructor(value) {
-        this.value = value;
-        this.left = null;
-        this.right = null;
-    }
+  constructor(value) {
+    this.value = value;
+    this.left = null;
+    this.right = null;
+  }
 }
 
 function symmetricalTree(tree) {
-    let stackLeft = [tree.left];
-    let stackRight = [tree.right];
+  let stackLeft = [tree.left];
+  let stackRight = [tree.right];
 
-    while (stackLeft.length > 0) {
-        let left = stackLeft.pop();
-        let right = stackRight.pop();
+  while (stackLeft.length > 0) {
+    let left = stackLeft.pop();
+    let right = stackRight.pop();
 
-        if (left === null && right === null) {
-            continue;
-        }
-
-        if (left === null || right === null || left.value !== right.value) {
-            return false;
-        }
-
-        stackLeft.push(left.left);
-        stackLeft.push(left.right);
-        stackRight.push(right.right);
-        stackRight.push(right.left);
+    if (left === null && right === null) {
+      continue;
     }
-    return true;
+
+    if (left === null || right === null || left.value !== right.value) {
+      return false;
+    }
+
+    stackLeft.push(left.left);
+    stackLeft.push(left.right);
+    stackRight.push(right.right);
+    stackRight.push(right.left);
+  }
+  return true;
 }

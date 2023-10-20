@@ -23,30 +23,30 @@
 // O(n) space due to log(n) frames on call stack due to recursive calls and less than n values in sums array
 
 class BinaryTree {
-    constructor(value) {
-        this.value = value;
-        this.left = null;
-        this.right = null;
-    } 
+  constructor(value) {
+    this.value = value;
+    this.left = null;
+    this.right = null;
+  }
 }
 
 function branchSums(root) {
-    let sums = [];
-    calculateBranchSums(root, 0, sums);
-    return sums;
+  let sums = [];
+  calculateBranchSums(root, 0, sums);
+  return sums;
 }
 
 function calculateBranchSums(node, runningSum, sums) {
-    if (!node) {
-        return;
-    }
+  if (!node) {
+    return;
+  }
 
-    let newRunningSum = runningSum + node.value;
-    if (!node.left && !node.right) {
-        sums.push(newRunningSum);
-        return;
-    }
+  let newRunningSum = runningSum + node.value;
+  if (!node.left && !node.right) {
+    sums.push(newRunningSum);
+    return;
+  }
 
-    calculateBranchSums(node.left, newRunningSum, sums);
-    calculateBranchSums(node.right, newRunningSum, sums);
+  calculateBranchSums(node.left, newRunningSum, sums);
+  calculateBranchSums(node.right, newRunningSum, sums);
 }

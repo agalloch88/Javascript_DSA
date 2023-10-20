@@ -19,7 +19,7 @@
 //          "c": {"*": true},
 //          "a": {"b": {"c": { "*": true}}},
 //      },
-//      "a": {"b": {"c": {"*": true}}},   
+//      "a": {"b": {"c": {"*": true}}},
 // }
 
 // Sample Input (searching the above suffix trie):
@@ -30,48 +30,47 @@
 // Solution 1:
 
 class SuffixTrie {
-    constructor(string) {
-        this.root = {};
-        this.endSymbol = '*';
-        this.populateSuffixTreeFrom(string);
+  constructor(string) {
+    this.root = {};
+    this.endSymbol = '*';
+    this.populateSuffixTreeFrom(string);
+  }
+  // O(n^2) time
+  // O(n^2) space
+  populateSuffixTreeFrom(string) {
+    for (let i = 0; i < string.length; i++) {
+      this.insertSubstringStartingAt(i, string);
     }
-    // O(n^2) time
-    // O(n^2) space
-    populateSuffixTreeFrom(string) {
-        for (let i = 0; i < string.length; i++) {
-            this.insertSubstringStartingAt(i, string);
-        }
+  }
+
+  insertSuffixTreeStartingAt(i, string) {
+    let node = this.root;
+
+    for (let j = i; j < string.length; j++) {
+      let letter = string[j];
+
+      if (!(letter in node)) {
+        node[letter] = {};
+      }
+
+      node = node[letter];
     }
 
-    insertSuffixTreeStartingAt(i, string) {
-        let node = this.root;
+    node[this.endSymbol] = true;
+  }
+  // O(m) time
+  // O(1) space
+  contains(string) {
+    let node = this.node;
 
-        for (let j = i; j < string.length; j++) {
-            let letter = string[j];
+    for (let letter of string) {
+      if (!(letter in node)) {
+        return false;
+      }
 
-            if (!(letter in node)) {
-                node[letter] = {};
-            }
-
-            node = node[letter];
-        }
-
-        node[this.endSymbol] = true;
+      node = node[letter];
     }
-    // O(m) time 
-    // O(1) space
-    contains(string) {
-        let node = this.node;
-        
-        for (let letter of string) {
 
-            if (!(letter in node)) {
-                return false;
-            }
-
-            node = node[letter];
-        }
-
-        return this.endSymbol in node;
-    }
+    return this.endSymbol in node;
+  }
 }

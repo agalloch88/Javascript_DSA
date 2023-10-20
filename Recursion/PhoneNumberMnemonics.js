@@ -45,47 +45,57 @@
 
 // create JS object mapping individual numbers of phoneNumber into key:value pairs with the respective letter possibilities
 const DIGIT_LETTERS = {
-    0: ['0'],
-    1: ['1'],
-    2: ['a', 'b', 'c'],
-    3: ['d', 'e', 'f'],
-    4: ['g', 'h', 'i'],
-    5: ['j', 'k', 'l'],
-    6: ['m', 'n', 'o'],
-    7: ['p', 'q', 'r', 's'],
-    8: ['t', 'u', 'v'],
-    9: ['w', 'x', 'y', 'z'],
-  };
+  0: ['0'],
+  1: ['1'],
+  2: ['a', 'b', 'c'],
+  3: ['d', 'e', 'f'],
+  4: ['g', 'h', 'i'],
+  5: ['j', 'k', 'l'],
+  6: ['m', 'n', 'o'],
+  7: ['p', 'q', 'r', 's'],
+  8: ['t', 'u', 'v'],
+  9: ['w', 'x', 'y', 'z'],
+};
 
 function phoneNumberMnemonics(phoneNumber) {
-    // populate variable as new array filled with 0's for as long as phoneNumber actually is
-    let currentMnemonic = new Array(phoneNumber.length).fill('0');
-    // set up holder array for new permutations of mnemonic
-    let mnemonicsFound = [];
-    // call helper function, passing in startIdx, the given phoneNumber, holder array with 0's, and array with found mnemonics
-    phoneNumberMnemonicsHelper(0, phoneNumber, currentMnemonic, mnemonicsFound);
-    // after recursing through everything, return array with results
-    return mnemonicsFound;
+  // populate variable as new array filled with 0's for as long as phoneNumber actually is
+  let currentMnemonic = new Array(phoneNumber.length).fill('0');
+  // set up holder array for new permutations of mnemonic
+  let mnemonicsFound = [];
+  // call helper function, passing in startIdx, the given phoneNumber, holder array with 0's, and array with found mnemonics
+  phoneNumberMnemonicsHelper(0, phoneNumber, currentMnemonic, mnemonicsFound);
+  // after recursing through everything, return array with results
+  return mnemonicsFound;
 }
 
-function phoneNumberMnemonicsHelper(idx, phoneNumber, currentMnemonic, mnemonicsFound) {
-    // base case: if at the end of a new mnemonic
-    if (idx === phoneNumber.length) {
-        // create new string 
-        let mnemonic = currentMnemonic.join('');
-        // push what was found into results array
-        mnemonicsFound.push(mnemonic);
+function phoneNumberMnemonicsHelper(
+  idx,
+  phoneNumber,
+  currentMnemonic,
+  mnemonicsFound,
+) {
+  // base case: if at the end of a new mnemonic
+  if (idx === phoneNumber.length) {
+    // create new string
+    let mnemonic = currentMnemonic.join('');
+    // push what was found into results array
+    mnemonicsFound.push(mnemonic);
     // recursive case: if still have digits to convert to letter
-    } else {
-        // grab digit for where we are in phoneNumber
-        let digit = phoneNumber[idx];
-        // find that digit in JS object, and the letters corresponding to said digit
-        let letters = DIGIT_LETTERS[digit];
-        // for every letter possibility of that digit, replace 0 in currentMnemonic at current idx with letter
-        for (let letter of letters) {
-            currentMnemonic[idx] = letter;
-            // recursively call helper to increment idx and do it again
-            phoneNumberMnemonicsHelper(idx + 1, phoneNumber, currentMnemonic, mnemonicsFound);
-        }
+  } else {
+    // grab digit for where we are in phoneNumber
+    let digit = phoneNumber[idx];
+    // find that digit in JS object, and the letters corresponding to said digit
+    let letters = DIGIT_LETTERS[digit];
+    // for every letter possibility of that digit, replace 0 in currentMnemonic at current idx with letter
+    for (let letter of letters) {
+      currentMnemonic[idx] = letter;
+      // recursively call helper to increment idx and do it again
+      phoneNumberMnemonicsHelper(
+        idx + 1,
+        phoneNumber,
+        currentMnemonic,
+        mnemonicsFound,
+      );
     }
+  }
 }

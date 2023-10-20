@@ -29,38 +29,38 @@
 // O(log(n)) space on average due to recursive calls on stack, O(n) at worst if single-branch tree
 
 function findClosestValueInBST(tree, target) {
-    // return helper function
-    return findClosestValueInBSTHelper(tree, target, tree.value);
+  // return helper function
+  return findClosestValueInBSTHelper(tree, target, tree.value);
 }
 
 function findClosestValueInBSTHelper(tree, target, closest) {
-    // if reach a leaf node, return closest found thus far
-    if (tree === null) {
-        return closest;
-    }
-     
-    if (Math.abs(target - closest) > Math.abs(target - tree.value)) {
-        closest = tree.value;
-    }
-    // determine whether right or left branch may possibly contain target, eliminate other branch
-    if (target < tree.value) {
-        return findClosestValueInBSTHelper(tree.left, target, closest);
-    } else if (target > tree.value) {
-        return findClosestValueInBSTHelper(tree.right, target, closest);
+  // if reach a leaf node, return closest found thus far
+  if (tree === null) {
+    return closest;
+  }
+
+  if (Math.abs(target - closest) > Math.abs(target - tree.value)) {
+    closest = tree.value;
+  }
+  // determine whether right or left branch may possibly contain target, eliminate other branch
+  if (target < tree.value) {
+    return findClosestValueInBSTHelper(tree.left, target, closest);
+  } else if (target > tree.value) {
+    return findClosestValueInBSTHelper(tree.right, target, closest);
     // if not greater or smaller, there's zero difference and found optimal value
-    } else {
-        return closest;
-    }
+  } else {
+    return closest;
+  }
 }
 
 // class of the input tree
 
 class BST {
-    constructor(value) {
-        this.value = value;
-        this.right = null;
-        this.left = null;
-    }
+  constructor(value) {
+    this.value = value;
+    this.right = null;
+    this.left = null;
+  }
 }
 
 // Solution 2:
@@ -72,44 +72,44 @@ class BST {
 
 // main function whcich takes in the BST and the target
 function findClosestValueInBST(tree, target) {
-    // return a call to the helper function below
-    return findClosestValueInBSTHelper(tree, target, tree.value);
+  // return a call to the helper function below
+  return findClosestValueInBSTHelper(tree, target, tree.value);
 }
 
 function findClosestValueInBSTHelper(tree, target, closest) {
-    // grab the tree and store in variable currentNode
-    let currentNode = tree;
-    // keep looping so long as not at a leaf node/null
-    while (currentNode !== null) {
-        // if absolute value difference between target and closest is greater than absolute
-        // value difference between the target and the value of currentNode, set closest equal
-        // to the value of currentNode
-        if (Math.abs(target - closest) > Math.abs(target - currentNode.value)) {
-            closest = currentNode.value;
-        }
-        // if the target is less than value of currentNode, set currentNode equal to currentNode's
-        // left value to check again
-        if (target < currentNode.value) {
-            currentNode = currentNode.left;
-        // otherwise, if target is greater than the currentNode's value, set currentNode equal to
-        // currentNode's right value to check again
-        } else if (target > currentNode.value) {
-            currentNode = currentNode.right;
-        // if not less than or greater than, then break
-        } else {
-            break;
-        }
+  // grab the tree and store in variable currentNode
+  let currentNode = tree;
+  // keep looping so long as not at a leaf node/null
+  while (currentNode !== null) {
+    // if absolute value difference between target and closest is greater than absolute
+    // value difference between the target and the value of currentNode, set closest equal
+    // to the value of currentNode
+    if (Math.abs(target - closest) > Math.abs(target - currentNode.value)) {
+      closest = currentNode.value;
     }
-    // return the current value for closest
-    return closest;
+    // if the target is less than value of currentNode, set currentNode equal to currentNode's
+    // left value to check again
+    if (target < currentNode.value) {
+      currentNode = currentNode.left;
+      // otherwise, if target is greater than the currentNode's value, set currentNode equal to
+      // currentNode's right value to check again
+    } else if (target > currentNode.value) {
+      currentNode = currentNode.right;
+      // if not less than or greater than, then break
+    } else {
+      break;
+    }
+  }
+  // return the current value for closest
+  return closest;
 }
 
 // class of the input tree
 
 class BST {
-    constructor(value) {
-        this.value = value;
-        this.right = null;
-        this.left = null;
-    }
+  constructor(value) {
+    this.value = value;
+    this.right = null;
+    this.left = null;
+  }
 }

@@ -82,9 +82,9 @@ function optimalFreelancing(jobs) {
 
 // helper function to determine the optimal job to take based on profit, which takes in jobs input, dayNumber, and completedJobs
 function findBestJobProfitForDay(jobs, dayNumber, completedJobs) {
-    // initialize variable bestJob and set equal to null
+  // initialize variable bestJob and set equal to null
   let bestJob = null;
-    // iterate over every job in the jobs input
+  // iterate over every job in the jobs input
   jobs.forEach((job) => {
     // destructure every job into the payment deadline components
     let { payment, deadline } = job;
@@ -98,8 +98,8 @@ function findBestJobProfitForDay(jobs, dayNumber, completedJobs) {
       bestJob = job;
     }
   });
-// if there is a bestJob then add the bestJob to the completedJobs WeakSet
+  // if there is a bestJob then add the bestJob to the completedJobs WeakSet
   bestJob && completedJobs.add(bestJob);
-// return the bestJob, if it exists, and it's payment, or 0 if bestJob is still null
+  // return the bestJob, if it exists, and it's payment, or 0 if bestJob is still null
   return bestJob?.payment ?? 0;
 }

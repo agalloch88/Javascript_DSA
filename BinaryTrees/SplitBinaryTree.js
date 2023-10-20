@@ -30,54 +30,55 @@
 
 // main BinaryTree class, where every node has a value, and potentially a left and right pointer
 class BinaryTree {
-    constructor(value) {
-        this.value = value;
-        this.left = null;
-        this.right = null;
-    }
+  constructor(value) {
+    this.value = value;
+    this.left = null;
+    this.right = null;
+  }
 }
 
 // main function which takes in the input tree
 function splitBinaryTree(tree) {
-    // initialize variable desiredSubtreeSum and set equal to a call to helper function getTreeSum, passing in the input tree, and divide by 2 to find what the split should equal
-    let desiredSubtreeSum = getTreeSum(tree) / 2;
-    // initialize variable canBeSplit and set equal to a call to helper function trySubtrees, passing in the input tree and the current value of desiredSubtreeSum
-    // above, and grabbing the value at index 1 of the returned array
-    let canBeSplit = trySubtrees(tree, desiredSubtreeSum)[1];
-    // return the ternary result for canBeSplit, which, if true, will return the desiredSubtreeSum which was calculatred, and if false, will return 0 since the tree
-    // cannot be split
-    return canBeSplit ? desiredSubtreeSum : 0;
+  // initialize variable desiredSubtreeSum and set equal to a call to helper function getTreeSum, passing in the input tree, and divide by 2 to find what the split should equal
+  let desiredSubtreeSum = getTreeSum(tree) / 2;
+  // initialize variable canBeSplit and set equal to a call to helper function trySubtrees, passing in the input tree and the current value of desiredSubtreeSum
+  // above, and grabbing the value at index 1 of the returned array
+  let canBeSplit = trySubtrees(tree, desiredSubtreeSum)[1];
+  // return the ternary result for canBeSplit, which, if true, will return the desiredSubtreeSum which was calculatred, and if false, will return 0 since the tree
+  // cannot be split
+  return canBeSplit ? desiredSubtreeSum : 0;
 }
 
 // helper function which tries the various subtrees to find the optimal splitting edge, taking in the input tree and the desiredSubtreeSum to look for
 function trySubtrees(tree, desiredSubtreeSum) {
-    // base case
-    // if no tree/no value, return 0 for the sum and false for the boolean value of canBeSplit
-    if (tree === null) {
-        return [0, false];
-    }
-    // recursive case
-    // destructure variables leftSum and boolean leftCanBeSplit from the return value of trySubtrees helper function, passing in the tree.left and desiredSubtreeSum
-    let [leftSum, leftCanBeSplit] = trySubtrees(tree.left, desiredSubtreeSum);
-    // destructure variables rightSum and boolean rightCanBeSplit from the return value of trySubtrees helper function, passing in the tree.right and desiredSubtreeSum
-    let [rightSum, rightCanBeSplit] = trySubtrees(tree.right, desiredSubtreeSum);
-    // initialize variable currentTreeSum and set equal to the sum of tree.value, aka the root, plus leftSum and rightSum
-    let currentTreeSum = tree.value + leftSum + rightSum;
-    // set variable canBeSplit and set equal to a boolean, based on three conditions:
-    // either leftCanBeSplit is true/false, OR rightCanBeSplit is true/false, OR currentTreeSum is equal to desiredTreeSum
-    let canBeSplit = leftCanBeSplit || rightCanBeSplit || currentTreeSum === desiredSubtreeSum;
-    // return an array containing currentTreeSum and the boolean for canBeSplit
-    return [currentTreeSum, canBeSplit];
+  // base case
+  // if no tree/no value, return 0 for the sum and false for the boolean value of canBeSplit
+  if (tree === null) {
+    return [0, false];
+  }
+  // recursive case
+  // destructure variables leftSum and boolean leftCanBeSplit from the return value of trySubtrees helper function, passing in the tree.left and desiredSubtreeSum
+  let [leftSum, leftCanBeSplit] = trySubtrees(tree.left, desiredSubtreeSum);
+  // destructure variables rightSum and boolean rightCanBeSplit from the return value of trySubtrees helper function, passing in the tree.right and desiredSubtreeSum
+  let [rightSum, rightCanBeSplit] = trySubtrees(tree.right, desiredSubtreeSum);
+  // initialize variable currentTreeSum and set equal to the sum of tree.value, aka the root, plus leftSum and rightSum
+  let currentTreeSum = tree.value + leftSum + rightSum;
+  // set variable canBeSplit and set equal to a boolean, based on three conditions:
+  // either leftCanBeSplit is true/false, OR rightCanBeSplit is true/false, OR currentTreeSum is equal to desiredTreeSum
+  let canBeSplit =
+    leftCanBeSplit || rightCanBeSplit || currentTreeSum === desiredSubtreeSum;
+  // return an array containing currentTreeSum and the boolean for canBeSplit
+  return [currentTreeSum, canBeSplit];
 }
 
 // helper function to find the sum of the whole tree, taking in an input tree
 function getTreeSum(tree) {
-    // base case
-    // if no tree/no value, return 0
-    if (tree === null) {
-        return 0;
-    }
-    // recursive case
-    // return the current tree.value plus recursive calls to getTreeSum, passing in tree.left and tree.right to proceed through the whole tree
-    return tree.value + getTreeSum(tree.left) + getTreeSum(tree.right);
+  // base case
+  // if no tree/no value, return 0
+  if (tree === null) {
+    return 0;
+  }
+  // recursive case
+  // return the current tree.value plus recursive calls to getTreeSum, passing in tree.left and tree.right to proceed through the whole tree
+  return tree.value + getTreeSum(tree.left) + getTreeSum(tree.right);
 }

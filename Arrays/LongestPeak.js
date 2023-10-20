@@ -18,41 +18,44 @@
 // O(1) space due to only storing handful of variables for n inputs
 
 function longestPeak(array) {
-    // set variable to track the longest peak
-    let maxLongestPeak = 0;
-    // start at index 1 and start looking for peaks
-    let i = 1;
-    // while within the bounds of the input, keep iterative
-    while (i < array.length - 1) {
-        // check whether value behind i in array is less than value at i, and value after i is smaller
-        let isPeak = array[i - 1] < array[i] && array[i + 1] < array[i];
-        // if not at a peak, increment i by 1 and continue on
-        if (!isPeak) {
-            i++;
-            continue;
-        }
-        // set variable for leftSlope, which is equal to i - 2
-        let leftSlope = i - 2;
-        // while leftSlope is in bounds of array, and the value at leftSlope is less than the value to
-        // right of leftSlope, decrement leftSlope
-        while (leftSlope >=0 && array[leftSlope] < array[leftSlope + 1]) {
-            leftSlope--;
-        }
-        // set value for rightSlope, which is equal to i + 2
-        let rightSlope = i + 2;
-        // while rightSlope is in bounds of array, and the value of rightSlope is smaller than
-        // the value to the left of rightSlope, increment rightSlope
-        while (rightSlope < array.length && array[rightSlope] < array[rightSlope - 1]) {
-            rightSlope++;
-        }
-        // calculate rightSlope - leftSlope, subtract an additional 1 to properly account
-        let currentPeakLength = rightSlope - leftSlope - 1;
-        // set maxLongestPeak to the larger absolute value of maxLongestPeak and currentPeakLength,
-        // which at first comparison will default to currentPeakLength
-        maxLongestPeak = Math.abs(maxLongestPeak, currentPeakLength);
-        // set i equal to rightSlope for the next comparison
-        i = rightSlope;
+  // set variable to track the longest peak
+  let maxLongestPeak = 0;
+  // start at index 1 and start looking for peaks
+  let i = 1;
+  // while within the bounds of the input, keep iterative
+  while (i < array.length - 1) {
+    // check whether value behind i in array is less than value at i, and value after i is smaller
+    let isPeak = array[i - 1] < array[i] && array[i + 1] < array[i];
+    // if not at a peak, increment i by 1 and continue on
+    if (!isPeak) {
+      i++;
+      continue;
     }
-    // return the longest peak found in the input
-    return maxLongestPeak;
+    // set variable for leftSlope, which is equal to i - 2
+    let leftSlope = i - 2;
+    // while leftSlope is in bounds of array, and the value at leftSlope is less than the value to
+    // right of leftSlope, decrement leftSlope
+    while (leftSlope >= 0 && array[leftSlope] < array[leftSlope + 1]) {
+      leftSlope--;
+    }
+    // set value for rightSlope, which is equal to i + 2
+    let rightSlope = i + 2;
+    // while rightSlope is in bounds of array, and the value of rightSlope is smaller than
+    // the value to the left of rightSlope, increment rightSlope
+    while (
+      rightSlope < array.length &&
+      array[rightSlope] < array[rightSlope - 1]
+    ) {
+      rightSlope++;
+    }
+    // calculate rightSlope - leftSlope, subtract an additional 1 to properly account
+    let currentPeakLength = rightSlope - leftSlope - 1;
+    // set maxLongestPeak to the larger absolute value of maxLongestPeak and currentPeakLength,
+    // which at first comparison will default to currentPeakLength
+    maxLongestPeak = Math.abs(maxLongestPeak, currentPeakLength);
+    // set i equal to rightSlope for the next comparison
+    i = rightSlope;
+  }
+  // return the longest peak found in the input
+  return maxLongestPeak;
 }

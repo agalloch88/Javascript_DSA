@@ -10,7 +10,7 @@
 //      [2, 5, 19, 31, 32, 10001],
 //      [3, 8, 24, 33, 35, 1002],
 //      [40,, 41, 42, 44, 45, 1003],
-//      [99, 100, 103, 106, 128, 1004],         
+//      [99, 100, 103, 106, 128, 1004],
 //     ]
 // target = 44
 
@@ -25,22 +25,22 @@
 // O(1) space due to only storing a few variables, no auxiliary data structures
 
 function searchInSortedMatrix(matrix, target) {
-    // set coordinates of where at in the matrix for x(row) and y(col)
-    let row = 0;
-    let col = matrix[0].length - 1;
-    // while within the bounds of the matrix, keep searching
-    while (row < matrix.length && col >= 0) {
-        // if current value at coordinates is bigger than target, any other values in this col will also be larger, so discard rest of col
-        if (matrix[row][col] > target) {
-            col--;
-        // if current value at coordinates is smaller than target, rest of values to the left in this row will also be smaller, so discard rest of row
-        } else if (matrix[row][col] < target) {
-            row++;
-        // if not greater or smaller, must have found value, so return coordinates
-        } else {
-            return [row, col];
-        }
+  // set coordinates of where at in the matrix for x(row) and y(col)
+  let row = 0;
+  let col = matrix[0].length - 1;
+  // while within the bounds of the matrix, keep searching
+  while (row < matrix.length && col >= 0) {
+    // if current value at coordinates is bigger than target, any other values in this col will also be larger, so discard rest of col
+    if (matrix[row][col] > target) {
+      col--;
+      // if current value at coordinates is smaller than target, rest of values to the left in this row will also be smaller, so discard rest of row
+    } else if (matrix[row][col] < target) {
+      row++;
+      // if not greater or smaller, must have found value, so return coordinates
+    } else {
+      return [row, col];
     }
-    // if break out of confines of matrix without returning coordinates of value, value must not be in matrix, so return base case
-    return [-1, -1];
+  }
+  // if break out of confines of matrix without returning coordinates of value, value must not be in matrix, so return base case
+  return [-1, -1];
 }

@@ -22,21 +22,21 @@
 // O(v) space since storing each node name in array
 
 class Node {
-    constructor(name) {
-        this.name = name;
-        this.children = [];
-    }
+  constructor(name) {
+    this.name = name;
+    this.children = [];
+  }
 
-    addChild(name) {
-        this.children.push(new Node(name));
-        return this;
-    }
+  addChild(name) {
+    this.children.push(new Node(name));
+    return this;
+  }
 
-    depthFirstSearch(array) {
-        array.push(this.name);
-        for (const child of this.children) {
-            child.depthFirstSearch(array);
-        }
-        return array;
+  depthFirstSearch(array) {
+    array.push(this.name);
+    for (const child of this.children) {
+      child.depthFirstSearch(array);
     }
+    return array;
+  }
 }

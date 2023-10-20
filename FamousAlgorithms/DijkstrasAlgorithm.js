@@ -53,7 +53,7 @@ function dijkstrasAlgorithm(start, edges) {
     // destructure the return from helper function into the values of vertex and currentMinDistance
     let [vertex, currentMinDistance] = getVertexWithMinDistance(
       minDistances,
-      visited
+      visited,
     );
     // if currentMinDistance is equal to Infinity, this node is disconnected or otherwise unreachable, so break the while loop
     if (currentMinDistance === Infinity) {
@@ -163,7 +163,7 @@ class MinHeap {
       if (childTwoIdx !== -1 && heap[childTwoIdx][1] < heap[childOneIdx][1]) {
         // set idxToSwap equal to childTwoIdx
         idxToSwap = childTwoIdx;
-      // otherwise, set idxToSwap equal to the childOneIdx
+        // otherwise, set idxToSwap equal to the childOneIdx
       } else {
         idxToSwap = childOneIdx;
       }
@@ -176,7 +176,7 @@ class MinHeap {
         currentIdx = idxToSwap;
         // set childOneIdx equal to the doubled value of currentIdx plus 1
         childOneIdx = currentIdx * 2 + 1;
-      // otherwise, simply return
+        // otherwise, simply return
       } else {
         return;
       }

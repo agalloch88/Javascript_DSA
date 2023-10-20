@@ -19,21 +19,21 @@
 // O(1) space due to only storing one variable regardless of contents of coins array
 
 function nonConstructibleChange(coins) {
-    // sort the input array so coins can be interated over efficiently
-    coins.sort((a, b) => a - b);
-    // set variable for amount currently creatable
-    let currentChangeCreated = 0;
-    // iterate over every coin in coins array
-    for (const coin of coins) {
-        // cannot create any more change than current total + 1 
-        if (coin > currentChangeCreated + 1) {
-            return currentChangeCreated + 1;
-        }
-        // increment currentChangeCreated by the value of the current coin
-        currentChangeCreated += coin;
+  // sort the input array so coins can be interated over efficiently
+  coins.sort((a, b) => a - b);
+  // set variable for amount currently creatable
+  let currentChangeCreated = 0;
+  // iterate over every coin in coins array
+  for (const coin of coins) {
+    // cannot create any more change than current total + 1
+    if (coin > currentChangeCreated + 1) {
+      return currentChangeCreated + 1;
     }
-    // once array is looped, the value of minimum change which cannot be created is the currentChangeCreated value plus 1
-    return currentChangeCreated + 1;
+    // increment currentChangeCreated by the value of the current coin
+    currentChangeCreated += coin;
+  }
+  // once array is looped, the value of minimum change which cannot be created is the currentChangeCreated value plus 1
+  return currentChangeCreated + 1;
 }
 
 // Solution 2:
@@ -44,12 +44,16 @@ function nonConstructibleChange(coins) {
 // O(1) space due to only storing the one variable regardless of contents of coins array
 
 function nonConstructibleChange(coins) {
-    // set up currentChange variable and initialize to 1
-    let currentChange = 1;
-    // sort the coins array from smallest to largest, then check using forEach on each item
-    // check here determines whether the current coin is smaller than the currentChange value plus 1
-    // if so, increment currentChange variable by value of current coin
-    coins.sort((a, b) => a - b).forEach(coin => coin < currentChange + 1 ? currentChange += coin : 0);
-    // once done, return the current value of currentChange variable
-    return currentChange;
+  // set up currentChange variable and initialize to 1
+  let currentChange = 1;
+  // sort the coins array from smallest to largest, then check using forEach on each item
+  // check here determines whether the current coin is smaller than the currentChange value plus 1
+  // if so, increment currentChange variable by value of current coin
+  coins
+    .sort((a, b) => a - b)
+    .forEach((coin) =>
+      coin < currentChange + 1 ? (currentChange += coin) : 0,
+    );
+  // once done, return the current value of currentChange variable
+  return currentChange;
 }

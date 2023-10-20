@@ -25,30 +25,30 @@
 // O(n) space due to storing merged intervals in new array
 
 function mergeOverlappingIntervals(intervals) {
-    // problem does not specify that intervals will be given in sorted order, so must sort
-    let sortedIntervals = intervals.sort((a, b) => a[0] - b[0]);
-    // set up holder array for merged intervals
-    let mergedIntervals = [];
-    // establish the current interval being looked at
-    let currentInterval = sortedIntervals[0];
-    // push first interval into mergedIntervals as first mergedInterval
-    mergedIntervals.push(currentInterval);
-    // start iterating over the remaining values in sortedIntervals
-    for (let nextInterval of sortedIntervals) {
-        // set up comparisons for current and nextInterval values
-        let [_, currentIntervalEnd] = currentInterval;
-        let [nextIntervalStart, nextIntervalEnd] = nextInterval;
-        // if end of currentInterval is greater than or equal to start of nextInterval:
-        // set currentInterval end to max of end of currentInterval or nextInterval
-        if (currentIntervalEnd >= nextIntervalStart) {
-            currentInterval[1] = Math.max(currentIntervalEnd, nextIntervalEnd);
-        // if not previous case, there's not an overlap needing a merge
-        } else {
-            currentInterval = nextInterval;
-            // push currentInterval to mergedIntervals
-            mergedIntervals.push(currentInterval);
-        }
+  // problem does not specify that intervals will be given in sorted order, so must sort
+  let sortedIntervals = intervals.sort((a, b) => a[0] - b[0]);
+  // set up holder array for merged intervals
+  let mergedIntervals = [];
+  // establish the current interval being looked at
+  let currentInterval = sortedIntervals[0];
+  // push first interval into mergedIntervals as first mergedInterval
+  mergedIntervals.push(currentInterval);
+  // start iterating over the remaining values in sortedIntervals
+  for (let nextInterval of sortedIntervals) {
+    // set up comparisons for current and nextInterval values
+    let [_, currentIntervalEnd] = currentInterval;
+    let [nextIntervalStart, nextIntervalEnd] = nextInterval;
+    // if end of currentInterval is greater than or equal to start of nextInterval:
+    // set currentInterval end to max of end of currentInterval or nextInterval
+    if (currentIntervalEnd >= nextIntervalStart) {
+      currentInterval[1] = Math.max(currentIntervalEnd, nextIntervalEnd);
+      // if not previous case, there's not an overlap needing a merge
+    } else {
+      currentInterval = nextInterval;
+      // push currentInterval to mergedIntervals
+      mergedIntervals.push(currentInterval);
     }
-    // return the final array of mergedIntervals
-    return mergedIntervals;
+  }
+  // return the final array of mergedIntervals
+  return mergedIntervals;
 }

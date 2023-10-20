@@ -25,20 +25,20 @@
 // O(1) space due to mutating input array, no extra data structure used
 
 function minimumWaitingTime(queries) {
-    // sort the queries in ascending order
-    queries.sort((a, b) => a - b);
-    // initialize variable totalWaitingTime, and set equal to 0 at outset
-    let totalWaitingTime = 0;
+  // sort the queries in ascending order
+  queries.sort((a, b) => a - b);
+  // initialize variable totalWaitingTime, and set equal to 0 at outset
+  let totalWaitingTime = 0;
 
-    // iterate over all queries in input array
-    for (let idx = 0; idx < queries.length; idx++) {
-        // initialize variable duration, and set equal to the value in queries input at current idx
-        let duration = queries[idx];
-        // initialize variable queriesLeft, and set equal to calculation of remaining queries minus current idx plus 1
-        let queriesLeft = queries.length - (idx + 1);
-        // increment the totalWaitingTime by the current value of duration multiplied by the value of queriesLeft
-        totalWaitingTime += duration * queriesLeft;
-    }
-    // once all inputs checked, return the cumulative value of totalingWaitingTime
-    return totalWaitingTime;
+  // iterate over all queries in input array
+  for (let idx = 0; idx < queries.length; idx++) {
+    // initialize variable duration, and set equal to the value in queries input at current idx
+    let duration = queries[idx];
+    // initialize variable queriesLeft, and set equal to calculation of remaining queries minus current idx plus 1
+    let queriesLeft = queries.length - (idx + 1);
+    // increment the totalWaitingTime by the current value of duration multiplied by the value of queriesLeft
+    totalWaitingTime += duration * queriesLeft;
+  }
+  // once all inputs checked, return the cumulative value of totalingWaitingTime
+  return totalWaitingTime;
 }

@@ -27,35 +27,34 @@
 // O(1) space due to using provided arrays, sorting in place
 
 function tandemBicycle(redShirtSpeeds, blueShirtSpeeds, fastest) {
-    redShirtSpeeds.sort((a, b) => a - b);
-    blueShirtSpeeds.sort((a, b) => a - b);
+  redShirtSpeeds.sort((a, b) => a - b);
+  blueShirtSpeeds.sort((a, b) => a - b);
 
-    if (!fastest) {
-        reverseArrayInPlace(redShirtSpeeds);
-    }
+  if (!fastest) {
+    reverseArrayInPlace(redShirtSpeeds);
+  }
 
-    let totalSpeed = 0;
+  let totalSpeed = 0;
 
-    for (let idx = 0; idx < redShirtSpeeds.length; idx++) {
-        let rider1 = redShirtSpeeds[idx];
-        let rider2 = blueShirtSpeeds[blueShirtSpeeds.length - idx - 1];
-        totalSpeed += Math.max(rider1, rider2);
-    }
-    return totalSpeed;
-
+  for (let idx = 0; idx < redShirtSpeeds.length; idx++) {
+    let rider1 = redShirtSpeeds[idx];
+    let rider2 = blueShirtSpeeds[blueShirtSpeeds.length - idx - 1];
+    totalSpeed += Math.max(rider1, rider2);
+  }
+  return totalSpeed;
 }
 
 function reverseArrayInPlace(array) {
-    let start = 0;
-    let end = array.length - 1;
+  let start = 0;
+  let end = array.length - 1;
 
-    while (start < end) {
-        let temp = array[start];
-        array[start] = array[end];
-        array[end] = temp;
-        start++
-        end--;
-    }
+  while (start < end) {
+    let temp = array[start];
+    array[start] = array[end];
+    array[end] = temp;
+    start++;
+    end--;
+  }
 }
 
 // Solution 2:
@@ -66,14 +65,15 @@ function reverseArrayInPlace(array) {
 // O(1) space due to using provided arrays, sorting in place
 
 function tandemBicycle(redShirtSpeeds, blueShirtSpeeds, fastest) {
-    redShirtSpeeds.sort((a, b) => a - b);
-    blueShirtSpeeds.sort((a, b) => a - b);
+  redShirtSpeeds.sort((a, b) => a - b);
+  blueShirtSpeeds.sort((a, b) => a - b);
 
-    let totalSpeed = 0;
-    for (let idx = 0; idx < redShirtSpeeds.length; idx++) {
-        let rider1 = redShirtSpeeds[idx];
-        let rider2 = blueShirtSpeeds[fastest ? blueShirtSpeeds.length - idx - 1 : idx];
-        totalSpeed += Math.max(rider1, rider2);
-    }
-    return totalSpeed;
+  let totalSpeed = 0;
+  for (let idx = 0; idx < redShirtSpeeds.length; idx++) {
+    let rider1 = redShirtSpeeds[idx];
+    let rider2 =
+      blueShirtSpeeds[fastest ? blueShirtSpeeds.length - idx - 1 : idx];
+    totalSpeed += Math.max(rider1, rider2);
+  }
+  return totalSpeed;
 }

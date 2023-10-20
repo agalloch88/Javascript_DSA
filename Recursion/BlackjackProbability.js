@@ -36,37 +36,40 @@
 
 // main function, which takes in the target and startingHand values
 function blackjackProbability(target, startingHand) {
-    // initialize variable memo, and set equal to an empty JS object
-    let memo = {};
-    // return a call to helper function, passing in the startingHand, target, and running memo object values
-    // use toFixed to round this calculation to three decimal places, and use parseFloat to convert the string to a floating point number before returning
-    return parseFloat(calculateProbability(startingHand, target, memo).toFixed(3));
+  // initialize variable memo, and set equal to an empty JS object
+  let memo = {};
+  // return a call to helper function, passing in the startingHand, target, and running memo object values
+  // use toFixed to round this calculation to three decimal places, and use parseFloat to convert the string to a floating point number before returning
+  return parseFloat(
+    calculateProbability(startingHand, target, memo).toFixed(3),
+  );
 }
 // helper function which handles the calculations, taking in the currentHand, which on first fun is the startingHand, a target value, and the memo object
 function calculateProbability(currentHand, target, memo) {
-    // check for currentHand value in the memo object, and if it exists, return the value stored at currentHand in memo object
-    if (currentHand in memo) {
-        return memo[currentHand];
-    }
-    // check whether currentHand total is larger than the target
-    // if so, the dealer has busted, so the probability is 100%, so return 1
-    if (currentHand > target) {
-        return 1;
-    }
-    // check whether the value of currentHand plus 4 is greater than or equal to the target
-    // if so, this is a situation where the dealer should stand and not draw again, meaning the probability of busting is 0%, so return 0
-    if (currentHand + 4 >= target) {
-        return 0;
-    }
-    // initialize variable totalProbability, and set equal to 0 at the outset
-    let totalProbability = 0;
-    // iterate over drawnCard values, starting at 1 but not going over 10
-    for (let drawnCard = 1; drawnCard <= 10; drawnCard++) {
-        // update totalProbability by 0.1 multiplied by a recursive call to calculateProbability, passing in currentHand plus the current drawnCard, the target, and the memo object
-        totalProbability += 0.1 * calculateProbability(currentHand + drawnCard, target, memo);
-    }
-    // set the value of currentHand in memo equal to the totalProbability calculated in for loop above
-    memo[currentHand] = totalProbability;
-    // return totalProbability to use in main function and recursive calls
-    return totalProbability;
+  // check for currentHand value in the memo object, and if it exists, return the value stored at currentHand in memo object
+  if (currentHand in memo) {
+    return memo[currentHand];
+  }
+  // check whether currentHand total is larger than the target
+  // if so, the dealer has busted, so the probability is 100%, so return 1
+  if (currentHand > target) {
+    return 1;
+  }
+  // check whether the value of currentHand plus 4 is greater than or equal to the target
+  // if so, this is a situation where the dealer should stand and not draw again, meaning the probability of busting is 0%, so return 0
+  if (currentHand + 4 >= target) {
+    return 0;
+  }
+  // initialize variable totalProbability, and set equal to 0 at the outset
+  let totalProbability = 0;
+  // iterate over drawnCard values, starting at 1 but not going over 10
+  for (let drawnCard = 1; drawnCard <= 10; drawnCard++) {
+    // update totalProbability by 0.1 multiplied by a recursive call to calculateProbability, passing in currentHand plus the current drawnCard, the target, and the memo object
+    totalProbability +=
+      0.1 * calculateProbability(currentHand + drawnCard, target, memo);
+  }
+  // set the value of currentHand in memo equal to the totalProbability calculated in for loop above
+  memo[currentHand] = totalProbability;
+  // return totalProbability to use in main function and recursive calls
+  return totalProbability;
 }

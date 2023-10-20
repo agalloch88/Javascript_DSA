@@ -28,27 +28,27 @@
 // O(1) space due to only storing two variables, as a constraint of the problem
 
 function majorityElement(array) {
-    // initialize variable count and set equal to 0
-    let count = 0;
-    // initialize variable answer and set equal to null, as currently no answer
-    let answer = null;
-    // iterate over every value in the input array
-    for (let value of array) {
-        // if the count is equal to 0, set the answer equal to whatever the current value is
-        // this may be at the start of the for loop, or whenever count decreases back to 0
-        if (count === 0) {
-            answer = value;
-        }
-        // if value and answer are equal, this is another possible majority element, so increment count by 1
-        if (value === answer) {
-            count++;
-        // otherwise, this is not indicative of an answer, so decrement count by 1
-        } else {
-            count--;
-        }
+  // initialize variable count and set equal to 0
+  let count = 0;
+  // initialize variable answer and set equal to null, as currently no answer
+  let answer = null;
+  // iterate over every value in the input array
+  for (let value of array) {
+    // if the count is equal to 0, set the answer equal to whatever the current value is
+    // this may be at the start of the for loop, or whenever count decreases back to 0
+    if (count === 0) {
+      answer = value;
     }
-    // once at the end of the input array, should have the answer stored in this variable, so return answer
-    return answer;
+    // if value and answer are equal, this is another possible majority element, so increment count by 1
+    if (value === answer) {
+      count++;
+      // otherwise, this is not indicative of an answer, so decrement count by 1
+    } else {
+      count--;
+    }
+  }
+  // once at the end of the input array, should have the answer stored in this variable, so return answer
+  return answer;
 }
 
 // Solution 2:
@@ -59,21 +59,21 @@ function majorityElement(array) {
 // O(1) space to comply with requirement of problem, only storing a couple variables
 
 function majorityElement(array) {
-    let answer = 0;
+  let answer = 0;
 
-    for (let currentBit = 0; currentBit < 32; currentBit++) {
-        let currentBitValue  = 1 << currentBit;
-        let onesCount = 0;
+  for (let currentBit = 0; currentBit < 32; currentBit++) {
+    let currentBitValue = 1 << currentBit;
+    let onesCount = 0;
 
-        for (let num of array) {
-            if ((num & currentBitValue) !== 0) {
-                onesCount++;
-            }
-        }
-        
-        if (onesCount > array.length / 2) {
-            answer += currentBitValue;
-        }
+    for (let num of array) {
+      if ((num & currentBitValue) !== 0) {
+        onesCount++;
+      }
     }
-    return answer;
+
+    if (onesCount > array.length / 2) {
+      answer += currentBitValue;
+    }
+  }
+  return answer;
 }

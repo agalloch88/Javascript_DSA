@@ -9,8 +9,8 @@
 //        2   3
 //       / \ / \
 //      4  5 6  7
-//     / \ 
-//    8  9 
+//     / \
+//    8  9
 
 // Sample Output:
 // 16 ((1 * 2) + (2 * 4) + (3 * 2))
@@ -23,31 +23,31 @@
 // O(h) space due to at most h layers in stack, with h = height of the binary tree
 
 class BinaryTree {
-    constructor(value) {
-        this.value = value;
-        this.left = null;
-        this.right = null;
-    } 
+  constructor(value) {
+    this.value = value;
+    this.left = null;
+    this.right = null;
+  }
 }
 
 function nodeDepths(root) {
-    // set up running depth total
-    let sumOfDepths = 0;
-    // keep track of nodes via a stack
-    const stack = [{node: root, depth: 0}];
-    // while stack not empty, keep going
-    while (stack.length > 0) {
-        // pop top layer off stack
-        const {node, depth} = stack.pop();
-        // if node is null, keep going
-        if (node === null) {
-            continue;
-        }
-        // increment depth 
-        sumOfDepths += depth;
-        // push nodes left and/or right children into stack and increase depth by 1
-        stack.push({node: node.left, depth: depth + 1});
-        stack.push({node: node.right, depth: depth + 1});
+  // set up running depth total
+  let sumOfDepths = 0;
+  // keep track of nodes via a stack
+  const stack = [{ node: root, depth: 0 }];
+  // while stack not empty, keep going
+  while (stack.length > 0) {
+    // pop top layer off stack
+    const { node, depth } = stack.pop();
+    // if node is null, keep going
+    if (node === null) {
+      continue;
     }
-    return sumOfDepths;
+    // increment depth
+    sumOfDepths += depth;
+    // push nodes left and/or right children into stack and increase depth by 1
+    stack.push({ node: node.left, depth: depth + 1 });
+    stack.push({ node: node.right, depth: depth + 1 });
+  }
+  return sumOfDepths;
 }

@@ -22,35 +22,35 @@
 
 // main LinkedList class, showing properties of value and next on each node
 class LinkedList {
-    constructor(value) {
-        this.value = value;
-        this.next = null;
-    }
+  constructor(value) {
+    this.value = value;
+    this.next = null;
+  }
 }
 // main function, which takes in a parameter labeled head which is the start of the Linked list
 function findLoop(head) {
-    // set up first pointer, and set equal to head.next
-    let first = head.next;
-    // set up second pointer, and set it next to first pointer so while condition below will not immediately exit
-    let second = head.next.next;
-    // start iterating so long as the pointers do not overlap
-    while (first !== second) {
-        // keep incrementing the first pointer by one value
-        first = first.next;
-        // increment the second pointer by 2x that of the first, such that the second pointer will eventually lap the first and the while loop will break
-        second = second.next.next;
-    }
-    // when the while loop above breaks, set the first pointer back to the head, now will increment to find where they overlap again and should be the loop start point
-    first = head;
-    // start another while loop which will exit when the pointers once again overlap. the second pointer is within the loop at this point
-    while (first !== second) {
-        // keep incrementing the first pointer by one
-        first = first.next;
-        // this time, increment the second pointer by one, too, so they are moving at the same place the overlap/converge at the loop start
-        second = second.next;
-    }
-    // when the loop above exits, return wherever the first pointer is
-    return first;
+  // set up first pointer, and set equal to head.next
+  let first = head.next;
+  // set up second pointer, and set it next to first pointer so while condition below will not immediately exit
+  let second = head.next.next;
+  // start iterating so long as the pointers do not overlap
+  while (first !== second) {
+    // keep incrementing the first pointer by one value
+    first = first.next;
+    // increment the second pointer by 2x that of the first, such that the second pointer will eventually lap the first and the while loop will break
+    second = second.next.next;
+  }
+  // when the while loop above breaks, set the first pointer back to the head, now will increment to find where they overlap again and should be the loop start point
+  first = head;
+  // start another while loop which will exit when the pointers once again overlap. the second pointer is within the loop at this point
+  while (first !== second) {
+    // keep incrementing the first pointer by one
+    first = first.next;
+    // this time, increment the second pointer by one, too, so they are moving at the same place the overlap/converge at the loop start
+    second = second.next;
+  }
+  // when the loop above exits, return wherever the first pointer is
+  return first;
 }
 
 // Solution 2:
@@ -63,27 +63,27 @@ function findLoop(head) {
 // main LinkedList class, showing properties of value and next on each node
 
 class LinkedList {
-    constructor(value) {
-        this.value = value;
-        this.next = null;
-    }
+  constructor(value) {
+    this.value = value;
+    this.next = null;
+  }
 }
 // main function, which takes in a parameter labeled head which is the start of the Linked list
 function findLoop(head) {
-    // create variable node and set equal to the head value passed in to the function
-    let node = head;
-    // while loop to iterate over the input so long as there is a node
-    while (node) {
-        // if node was previously seen, this is the start of the loop
-        if (node.seen) {
-            // since found where the loop begins/where tail converges back into the loop, return this node
-            return node;
-        // if not seen, execute code below
-        } else {
-            // create new property on each node called seen, and set it to true
-            node.seen = true;
-        }
-        // move on to the next node in the Linked List
-        node = node.next;
+  // create variable node and set equal to the head value passed in to the function
+  let node = head;
+  // while loop to iterate over the input so long as there is a node
+  while (node) {
+    // if node was previously seen, this is the start of the loop
+    if (node.seen) {
+      // since found where the loop begins/where tail converges back into the loop, return this node
+      return node;
+      // if not seen, execute code below
+    } else {
+      // create new property on each node called seen, and set it to true
+      node.seen = true;
     }
+    // move on to the next node in the Linked List
+    node = node.next;
+  }
 }

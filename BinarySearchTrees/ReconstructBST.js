@@ -35,41 +35,45 @@
 
 // main class for creating a BST node
 class BST {
-    constructor(value, left = null, right = null) {
-        this.value = value;
-        this.left = left;
-        this.right = right;
-    }
+  constructor(value, left = null, right = null) {
+    this.value = value;
+    this.left = left;
+    this.right = right;
+  }
 }
 
 function reconstructBST(preOrderTraversalValues) {
-    // base case
-    // if provided an empty tree, do nothing
-    if (preOrderTraversalValues.length === 0) {
-        return null;
+  // base case
+  // if provided an empty tree, do nothing
+  if (preOrderTraversalValues.length === 0) {
+    return null;
+  }
+  // recursive cases
+  // find the root of the BST, which is first node/first value in given array
+  let currentValue = preOrderTraversalValues[0];
+  // don't know position of right subtree root yet, so could be all the way at the end
+  let rightSubtreeRootIdx = preOrderTraversalValues.length;
+  // starting from second value, so first value after tree root, check to see if value is right subtree root node
+  for (let idx = 1; idx < preOrderTraversalValues.length; idx++) {
+    // grab given value at index
+    let value = preOrderTraversalValues[idx];
+    // if the given value is greater than the tree root, or equal, this would be the first value seen as such and therefore the right subtree root
+    if (value >= currentValue) {
+      // set right subtree root to start at this value, then break from this check as do not need to look further
+      rightSubtreeRootIdx = idx;
+      break;
     }
-    // recursive cases
-    // find the root of the BST, which is first node/first value in given array
-    let currentValue = preOrderTraversalValues[0];
-    // don't know position of right subtree root yet, so could be all the way at the end
-    let rightSubtreeRootIdx = preOrderTraversalValues.length;
-    // starting from second value, so first value after tree root, check to see if value is right subtree root node
-    for (let idx = 1; idx < preOrderTraversalValues.length; idx++) {
-        // grab given value at index
-        let value = preOrderTraversalValues[idx];
-        // if the given value is greater than the tree root, or equal, this would be the first value seen as such and therefore the right subtree root
-        if (value >= currentValue) {
-            // set right subtree root to start at this value, then break from this check as do not need to look further
-            rightSubtreeRootIdx = idx;
-            break;
-        }
-    }
-    // recursively call reconstructBST function, passing in remaining values for left subtree from second value/index 1 up to the right subtree root found above
-    let leftSubtree = reconstructBST(preOrderTraversalValues.slice(1, rightSubtreeRootIdx));
-    // recursively call reconstructBST function, passing in remaining values for right subtree from right subtree root found above to end of array
-    let rightSubtree = reconstructBST(preOrderTraversalValues.slice(rightSubtreeRootIdx));
-    // return newly created BST node with left and right values, recursively continue this process until done
-    return new BST(currentValue, leftSubtree, rightSubtree);
+  }
+  // recursively call reconstructBST function, passing in remaining values for left subtree from second value/index 1 up to the right subtree root found above
+  let leftSubtree = reconstructBST(
+    preOrderTraversalValues.slice(1, rightSubtreeRootIdx),
+  );
+  // recursively call reconstructBST function, passing in remaining values for right subtree from right subtree root found above to end of array
+  let rightSubtree = reconstructBST(
+    preOrderTraversalValues.slice(rightSubtreeRootIdx),
+  );
+  // return newly created BST node with left and right values, recursively continue this process until done
+  return new BST(currentValue, leftSubtree, rightSubtree);
 }
 
 // Solution 2:
@@ -82,46 +86,66 @@ function reconstructBST(preOrderTraversalValues) {
 
 // class for BST nodes
 class BST {
-    constructor(value) {
-        this.value = value;
-        this.left = left;
-        this.right = right;
-    }
+  constructor(value) {
+    this.value = value;
+    this.left = left;
+    this.right = right;
+  }
 }
 
 // class to globally track rootIdx variable, aka position in building tree
 class TreeInfo {
-    constructor(rootIdx) {
-        this.rootIdx = rootIdx;
-    }
+  constructor(rootIdx) {
+    this.rootIdx = rootIdx;
+  }
 }
 
 // main function, which hands off to recursive helper
 function reconstructBST(preOrderTraversalValues) {
-    // set the main root node as the start point/rootIdx
-    let treeInfo = new TreeInfo(0);
-    // call to helper setting lower bound to -Infinity, upper bound to Infinity, so whatever values come next are valid
-    return reconstructBstFromRange(-Infinity, Infinity, preOrderTraversalValues, treeInfo);
+  // set the main root node as the start point/rootIdx
+  let treeInfo = new TreeInfo(0);
+  // call to helper setting lower bound to -Infinity, upper bound to Infinity, so whatever values come next are valid
+  return reconstructBstFromRange(
+    -Infinity,
+    Infinity,
+    preOrderTraversalValues,
+    treeInfo,
+  );
 }
 
 // helper function with recursive calls to build left and right nodes progressing down from root
-function reconstructBstFromRange(lowerBound, upperBound, preOrderTraversalValues, currentSubtreeInfo) {
-    // base cases
-    // if only one node, or reach a leaf, stop there and return null
-    if (currentSubtreeInfo.rootIdx === preOrderTraversalValues.length) {
-        return null;
-    }
-    // grab rootValue from TreeInfo class, which is updated each time a node is placed
-    let rootValue = preOrderTraversalValues[currentSubtreeInfo.rootIdx];
-    // check to see that the node in question fits the parameters for being placed, and falls within the upper/lower bounds for this position
-    // if not, return null
-    if (rootValue < lowerBound || rootValue >= upperBound) {
-        return null;
-    }
-    // increment the rootIdx
-    currentSubtreeInfo++;
-    // build left and right subtrees using current rootValues, lowerBound, and upperBound
-    let leftSubtree = reconstructBstFromRange(lowerBound, rootValue, preOrderTraversalValues, currentSubtreeInfo);
-    let rightSubtree = reconstructBstFromRange(rootValue, upperBound, preOrderTraversalValues, currentSubtreeInfo);
-    return new BST(rootValue, leftSubtree, rightSubtree);
+function reconstructBstFromRange(
+  lowerBound,
+  upperBound,
+  preOrderTraversalValues,
+  currentSubtreeInfo,
+) {
+  // base cases
+  // if only one node, or reach a leaf, stop there and return null
+  if (currentSubtreeInfo.rootIdx === preOrderTraversalValues.length) {
+    return null;
+  }
+  // grab rootValue from TreeInfo class, which is updated each time a node is placed
+  let rootValue = preOrderTraversalValues[currentSubtreeInfo.rootIdx];
+  // check to see that the node in question fits the parameters for being placed, and falls within the upper/lower bounds for this position
+  // if not, return null
+  if (rootValue < lowerBound || rootValue >= upperBound) {
+    return null;
+  }
+  // increment the rootIdx
+  currentSubtreeInfo++;
+  // build left and right subtrees using current rootValues, lowerBound, and upperBound
+  let leftSubtree = reconstructBstFromRange(
+    lowerBound,
+    rootValue,
+    preOrderTraversalValues,
+    currentSubtreeInfo,
+  );
+  let rightSubtree = reconstructBstFromRange(
+    rootValue,
+    upperBound,
+    preOrderTraversalValues,
+    currentSubtreeInfo,
+  );
+  return new BST(rootValue, leftSubtree, rightSubtree);
 }

@@ -17,14 +17,14 @@
 // and input string to see if they are equal.
 
 function isPalindrome(string) {
-    // create empty holder string
-    let reversedString = '';
-    // start at the end of input string, iterate forward and add values at each index to reversedString
-    for (let i = string.length - 1; i >= 0; i--) {
-        reversedString += string[i];
-    }
-    // check whether input and reversedString are equal
-    return string === reversedString;
+  // create empty holder string
+  let reversedString = '';
+  // start at the end of input string, iterate forward and add values at each index to reversedString
+  for (let i = string.length - 1; i >= 0; i--) {
+    reversedString += string[i];
+  }
+  // check whether input and reversedString are equal
+  return string === reversedString;
 }
 
 // Solution 2:
@@ -38,14 +38,14 @@ function isPalindrome(string) {
 // comparison.
 
 function isPalindrome(string) {
-    // create holder array for each letter
-    const reversedChars = [];
-    // start at end of input string and push each new value into holder array
-    for (let i = string.length - 1; i >= 0; i--) {
-        reversedChars.push(string[i]);
-    }
-    // check whether input and joined values from array are equal
-    return string === reversedChars.join('');
+  // create holder array for each letter
+  const reversedChars = [];
+  // start at end of input string and push each new value into holder array
+  for (let i = string.length - 1; i >= 0; i--) {
+    reversedChars.push(string[i]);
+  }
+  // check whether input and joined values from array are equal
+  return string === reversedChars.join('');
 }
 
 // Solution 3:
@@ -59,22 +59,22 @@ function isPalindrome(string) {
 // the function returns false.
 
 function isPalindrome(string) {
-    // initialize two variables for the pointers
-    let firstIdx = 0;
-    let lastIdx = string.length - 1;
-    // set up while condition; once pointers overlap, we've checked every value and can break out
-    while (firstIdx < lastIdx) {
-        // check to see if values match, values within a palindrome should be a mirror of each other
-        if (string[firstIdx] === string[lastIdx]) {
-            firstIdx++;
-            lastIdx--;
-        // if they do not match at any point within our while condition, return false
-        } else {
-            return false;
-        }
+  // initialize two variables for the pointers
+  let firstIdx = 0;
+  let lastIdx = string.length - 1;
+  // set up while condition; once pointers overlap, we've checked every value and can break out
+  while (firstIdx < lastIdx) {
+    // check to see if values match, values within a palindrome should be a mirror of each other
+    if (string[firstIdx] === string[lastIdx]) {
+      firstIdx++;
+      lastIdx--;
+      // if they do not match at any point within our while condition, return false
+    } else {
+      return false;
     }
-    // once the pointers overlap, we've checked every value, and would be dealing with a palindrome, so return true
-    return true;
+  }
+  // once the pointers overlap, we've checked every value, and would be dealing with a palindrome, so return true
+  return true;
 }
 
 // Solution 4:
@@ -86,9 +86,9 @@ function isPalindrome(string) {
 
 // main function which takes in input string and memoized value for i
 function isPalindrome(string, i = 0) {
-    // set variable j equal to length of string minus 1 minus current value for i in this call of isPalindrome
-    let j = string.length - 1 - i;
-    // return the result from ternary statement: is i greater than or equal to j? if YES, return true, as this is a palindrome. if NO, check whether value at i is equal to value at j and
-    // call the isPalindrome function while adding 1 to memoized value of i
-    return i >= j ? true : string[i] === string[j] && isPalindrome(string, i + 1);
+  // set variable j equal to length of string minus 1 minus current value for i in this call of isPalindrome
+  let j = string.length - 1 - i;
+  // return the result from ternary statement: is i greater than or equal to j? if YES, return true, as this is a palindrome. if NO, check whether value at i is equal to value at j and
+  // call the isPalindrome function while adding 1 to memoized value of i
+  return i >= j ? true : string[i] === string[j] && isPalindrome(string, i + 1);
 }

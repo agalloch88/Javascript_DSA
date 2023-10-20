@@ -56,7 +56,7 @@ function findMaxSum(tree) {
   // set variable maxSumAsRootNode equal to the maximum between the left and right MaxSumAsBranch totals, including the root node/value to make ^ shape, or just the maxSumAsBranch found above
   let maxSumAsRootNode = Math.max(
     leftMaxSumAsBranch + value + rightMaxSumAsBranch,
-    maxSumAsBranch
+    maxSumAsBranch,
   );
   // set final variable maxPathSum equal to the maximum between leftMaxPathSum, rightMaxPathSum, and maxSumAsRootNode, to determine the optimal value to return
   let maxPathSum = Math.max(leftMaxPathSum, rightMaxPathSum, maxSumAsRootNode);

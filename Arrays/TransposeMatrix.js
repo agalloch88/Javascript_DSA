@@ -60,22 +60,22 @@
 // O(w * h) space due to storing a copy of w rows and h columns for new matrix
 
 function transposedMatrix(matrix) {
-    // initialize variable transposedMatrix and set equal to empty array
-    let transposedMatrix = [];
-    // iterate over the columns
-    for (let col = 0; col < matrix[0].length; col++) {
-        // initialize variable newRow and set equal to empty array
-        let newRow = [];
-        // iterate over the rows for each column
-        for (let row = 0; row < matrix.length; row++) {
-            // push the value at row/col intersection in the matrix into the newRow array
-            newRow.push(matrix[row][col]);
-        }
-        // push each newRow array into the transposedArray array to build the new matrix
-        transposedMatrix.push(newRow);
+  // initialize variable transposedMatrix and set equal to empty array
+  let transposedMatrix = [];
+  // iterate over the columns
+  for (let col = 0; col < matrix[0].length; col++) {
+    // initialize variable newRow and set equal to empty array
+    let newRow = [];
+    // iterate over the rows for each column
+    for (let row = 0; row < matrix.length; row++) {
+      // push the value at row/col intersection in the matrix into the newRow array
+      newRow.push(matrix[row][col]);
     }
-    // once finished with all columns, return the finished transposedMatrix
-    return transposedMatrix;
+    // push each newRow array into the transposedArray array to build the new matrix
+    transposedMatrix.push(newRow);
+  }
+  // once finished with all columns, return the finished transposedMatrix
+  return transposedMatrix;
 }
 
 // Solution 2:
@@ -83,36 +83,36 @@ function transposedMatrix(matrix) {
 // one-loop solution using dimensions of matrix and count to figure out when done transposing
 
 function transposedMatrix(matrix) {
-    // initialize variable transposedMatrix and set equal to empty array
-    let transposedMatrix = [];
-    // initialize variable total and set equal to the dimensions of the matrix
-    let total = matrix.length * matrix[0].length;
-    // initialize variables i and j, setting both equal to 0
-    // these variables will function as the coordinate pointers when moving through the matrix
-    let i = 0;
-    let j = 0;
-    // initialize variable count and set equal to 0
-    let count = 0;
-    // keep looping while count is smaller than the total
-    while (count < total) {
-        // if there is not a value at position j in transposedMatrix, then set the value equal to an empty array, so a new row in the matrix
-        if (!transposedMatrix[j]) {
-            transposedMatrix[j] = [];
-        }
-        // push the value at the i,j coordinates in input matrix into the transposedMatrix at position j
-        transposedMatrix[j].push(matrix[i][j]);
-        // increment j by 1, moving this pointer along its current row to the right
-        j++;
-        // j is equal to the length of the row, hit the end, so need to reset
-        if (j === matrix[0].length) {
-            // increment i by 1, moving over to the next column
-            i++;
-            // reset j equal to 0
-            j = 0;
-        }
-        // increment count by 1
-        count++;
+  // initialize variable transposedMatrix and set equal to empty array
+  let transposedMatrix = [];
+  // initialize variable total and set equal to the dimensions of the matrix
+  let total = matrix.length * matrix[0].length;
+  // initialize variables i and j, setting both equal to 0
+  // these variables will function as the coordinate pointers when moving through the matrix
+  let i = 0;
+  let j = 0;
+  // initialize variable count and set equal to 0
+  let count = 0;
+  // keep looping while count is smaller than the total
+  while (count < total) {
+    // if there is not a value at position j in transposedMatrix, then set the value equal to an empty array, so a new row in the matrix
+    if (!transposedMatrix[j]) {
+      transposedMatrix[j] = [];
     }
-    // once while loop breaks, should be done transposing the matrix, so return the new transposedMatrix
-    return transposedMatrix;
+    // push the value at the i,j coordinates in input matrix into the transposedMatrix at position j
+    transposedMatrix[j].push(matrix[i][j]);
+    // increment j by 1, moving this pointer along its current row to the right
+    j++;
+    // j is equal to the length of the row, hit the end, so need to reset
+    if (j === matrix[0].length) {
+      // increment i by 1, moving over to the next column
+      i++;
+      // reset j equal to 0
+      j = 0;
+    }
+    // increment count by 1
+    count++;
+  }
+  // once while loop breaks, should be done transposing the matrix, so return the new transposedMatrix
+  return transposedMatrix;
 }

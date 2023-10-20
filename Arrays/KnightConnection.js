@@ -85,5 +85,5 @@ function knightConnection(knightA, knightB) {
 // helper function which takes in position coordinates of a knight
 function positionToString(position) {
   // return the joined values from position input
-  return position.join(",");
+  return position.join(',');
 }

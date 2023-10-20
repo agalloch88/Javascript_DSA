@@ -30,40 +30,40 @@
 
 // class for the OrgChart, where every node has a name and an array of direct reports underneath itself
 class OrgChart {
-    constructor(name) {
-        this.name = name;
-        this.directReports = [];
-    }
+  constructor(name) {
+    this.name = name;
+    this.directReports = [];
+  }
 }
 // main function which takes in the topManager of the org, and the two reports to look for
 function lowestCommonManager(topManager, reportOne, reportTwo) {
-    // this function simply returns the result of a helper, specificially looking for the property of the lowestCommonManager
-    return getOrgInfo(topManager, reportOne, reportTwo).lowestCommonManager;
+  // this function simply returns the result of a helper, specificially looking for the property of the lowestCommonManager
+  return getOrgInfo(topManager, reportOne, reportTwo).lowestCommonManager;
 }
 // helper function which takes in a specific manager, and the two reports to look for
 function getOrgInfo(manager, reportOne, reportTwo) {
-    // keep track of the number of reports found in each manager subtree, each time one is found then add one to this variable
-    let numImportantReports = 0;
-    // for every direct report this manager has in the diretReports array, do stuff
-    for (let directReport of manager.directReports) {
-        // base case
-        // set results of recursive call equal to variable orgInfo
-        let orgInfo = getOrgInfo(directReport, reportOne, reportTwo);
+  // keep track of the number of reports found in each manager subtree, each time one is found then add one to this variable
+  let numImportantReports = 0;
+  // for every direct report this manager has in the diretReports array, do stuff
+  for (let directReport of manager.directReports) {
+    // base case
+    // set results of recursive call equal to variable orgInfo
+    let orgInfo = getOrgInfo(directReport, reportOne, reportTwo);
 
-        if (!!orgInfo.lowestCommonManager) {
-            return orgInfo;
-        }
-        // once a manager is found, increment numImportantReports by the current number of numImportantReports, then move on to the next directReport
-        numImportantReports += orgInfo.numImportantReports;
+    if (!!orgInfo.lowestCommonManager) {
+      return orgInfo;
     }
-    // if the current manager in question is either of the two reports to look for, then incremet numImportantReports by one
-    if (manager === reportOne || manager === reportTwo) {
-        numImportantReports++;
-    }
-    // check if numImportantReports is equal to 2, in which case are done, if not, set lowestCommonManager equal to null, as it's not found yet
-    let lowestCommonManager = numImportantReports === 2 ? manager : null;
-    // return this function with both the lowestCommonManager and the current numImportantReports found
-    return {lowestCommonManager, numImportantReports};
+    // once a manager is found, increment numImportantReports by the current number of numImportantReports, then move on to the next directReport
+    numImportantReports += orgInfo.numImportantReports;
+  }
+  // if the current manager in question is either of the two reports to look for, then incremet numImportantReports by one
+  if (manager === reportOne || manager === reportTwo) {
+    numImportantReports++;
+  }
+  // check if numImportantReports is equal to 2, in which case are done, if not, set lowestCommonManager equal to null, as it's not found yet
+  let lowestCommonManager = numImportantReports === 2 ? manager : null;
+  // return this function with both the lowestCommonManager and the current numImportantReports found
+  return { lowestCommonManager, numImportantReports };
 }
 
 // Solution 2:
@@ -75,46 +75,46 @@ function getOrgInfo(manager, reportOne, reportTwo) {
 
 // class for the OrgChart, where every node has a name and an array of direct reports underneath itself
 class OrgChart {
-    constructor(name) {
-        this.name = name;
-        this.directReports = [];
-    }
+  constructor(name) {
+    this.name = name;
+    this.directReports = [];
+  }
 }
 
 function lowestCommonManager(topManager, reportOne, reportTwo) {
-    // set variable to equal null for now, will update once the LCM is found
-    let lowestCommonManager = null;
-    // set up closure here, which takes in the manager in question and the two reports
-    let managerHelper = (manager, reportOne, reportTwo) => {
-        // if the lowestCommonManager is found, return and exit the closure
-        if (lowestCommonManager) {
-            return 0;
-        }
-        // set the number of reports found to 0 and store in variable count
-        let count = 0;
-        // if the manager in question matches either of the reports, increment count by 1
-        if (manager === reportOne || manager === reportTwo) {
-            count++;
-        }
-        // for every report of the manager's directReports array, do stuff
-        for (let report of manager.directReports) {
-            // recursively increment count depending on the return result of the closure
-            count += managerHelper(report, reportOne, reportTwo);
-            // when count is 2 or greater, check for the LCM
-            if (count >= 2) {
-                // when count is at 2 or more, a LCM is found, so if it doesn't already have association, set LCM to equal the current manager
-                if (!lowestCommonManager) {
-                    lowestCommonManager = manager;
-                }
-                // return the count now
-                return count;
-            }
-        }
-        // if made it through the for loop above, return the count
-        return count;
+  // set variable to equal null for now, will update once the LCM is found
+  let lowestCommonManager = null;
+  // set up closure here, which takes in the manager in question and the two reports
+  let managerHelper = (manager, reportOne, reportTwo) => {
+    // if the lowestCommonManager is found, return and exit the closure
+    if (lowestCommonManager) {
+      return 0;
     }
-    // call the function here and execute the closure
-    managerHelper(topManager, reportOne, reportTwo);
-    // once the closure finishes, should now have the LCM, so return it
-    return lowestCommonManager;
+    // set the number of reports found to 0 and store in variable count
+    let count = 0;
+    // if the manager in question matches either of the reports, increment count by 1
+    if (manager === reportOne || manager === reportTwo) {
+      count++;
+    }
+    // for every report of the manager's directReports array, do stuff
+    for (let report of manager.directReports) {
+      // recursively increment count depending on the return result of the closure
+      count += managerHelper(report, reportOne, reportTwo);
+      // when count is 2 or greater, check for the LCM
+      if (count >= 2) {
+        // when count is at 2 or more, a LCM is found, so if it doesn't already have association, set LCM to equal the current manager
+        if (!lowestCommonManager) {
+          lowestCommonManager = manager;
+        }
+        // return the count now
+        return count;
+      }
+    }
+    // if made it through the for loop above, return the count
+    return count;
+  };
+  // call the function here and execute the closure
+  managerHelper(topManager, reportOne, reportTwo);
+  // once the closure finishes, should now have the LCM, so return it
+  return lowestCommonManager;
 }

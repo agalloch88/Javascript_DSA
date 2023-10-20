@@ -23,34 +23,34 @@
 // O(n) space due to storing the n encoded characters
 
 function runLengthEncoding(string) {
-    // set up empty array to hold the encoded characters
-    const encodedCharacters = [];
-    // since string is non-empty, current run will always be at least 1 at start
-    let currentRunLength = 1;
-    // iterate over the input string, starting at index 1
-    for (let i = 1; i < string.length; i++) {
-        // grab position i in input string and store in variable currentCharacter
-        const currentCharacter = string[i];
-        // grab position directly to the left of i in input string, and store in variable previousCharacter
-        const previousCharacter = string[i - 1];
-        // check whether currentCharacter differs from previousCharacter OR if the currentRunLength is maxed out at 9
-        if (currentCharacter !== previousCharacter || currentRunLength === 9) {
-            // convert currentRunLength to string and push this number to encodedCharacters holder array
-            encodedCharacters.push(currentRunLength.toString());
-            // since character may be different to enter this block, or maxed out run length, push the previousCharacter into encodedCharacters holder array
-            encodedCharacters.push(previousCharacter);
-            // reset currentRunLength to 0 for next encoding
-            currentRunLength = 0;
-        }
-        // increment currentRunLength by 1
-        currentRunLength++;
+  // set up empty array to hold the encoded characters
+  const encodedCharacters = [];
+  // since string is non-empty, current run will always be at least 1 at start
+  let currentRunLength = 1;
+  // iterate over the input string, starting at index 1
+  for (let i = 1; i < string.length; i++) {
+    // grab position i in input string and store in variable currentCharacter
+    const currentCharacter = string[i];
+    // grab position directly to the left of i in input string, and store in variable previousCharacter
+    const previousCharacter = string[i - 1];
+    // check whether currentCharacter differs from previousCharacter OR if the currentRunLength is maxed out at 9
+    if (currentCharacter !== previousCharacter || currentRunLength === 9) {
+      // convert currentRunLength to string and push this number to encodedCharacters holder array
+      encodedCharacters.push(currentRunLength.toString());
+      // since character may be different to enter this block, or maxed out run length, push the previousCharacter into encodedCharacters holder array
+      encodedCharacters.push(previousCharacter);
+      // reset currentRunLength to 0 for next encoding
+      currentRunLength = 0;
     }
+    // increment currentRunLength by 1
+    currentRunLength++;
+  }
 
-    // need to handle last potential character, as that if condition will not catch it
-    // push whatever the currentRunLength is, converted to string, into the encodedCharacters holder array
-    encodedCharacters.push(currentRunLength.toString());
-    // push the last character in the input string into encodedCharacters
-    encodedCharacters.push(string[string.length - 1]);
-    // join the values in the encodedCharacters array and return this encoded string
-    return encodedCharacters.join('');
+  // need to handle last potential character, as that if condition will not catch it
+  // push whatever the currentRunLength is, converted to string, into the encodedCharacters holder array
+  encodedCharacters.push(currentRunLength.toString());
+  // push the last character in the input string into encodedCharacters
+  encodedCharacters.push(string[string.length - 1]);
+  // join the values in the encodedCharacters array and return this encoded string
+  return encodedCharacters.join('');
 }

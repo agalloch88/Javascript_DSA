@@ -27,26 +27,26 @@
 // O(n) space due to storing at most n calls on call stack at a time
 
 function staicaseTraversal(height, maxSteps) {
-    // pass off to better-named start function
-    return numberOfWaysToTop(height, maxSteps);
+  // pass off to better-named start function
+  return numberOfWaysToTop(height, maxSteps);
 }
 
 function numberOfWaysToTop(height, maxSteps) {
-    // base case
-    // if encountering 0 or 1, return 1 for both
-    if (height <= 1) {
-        return 1;
-    }
-    // set up variable to track different combos
-    let numberOfWays = 0;
-    // recursive case
-    // start at 1, where the step is less than maxSteps or the height, whichever is lower, and increment accordingly
-    for (let step = 1; step < Math.min(maxSteps, height) + 1; step++) {
-        // add to variable
-        numberOfWays += numberOfWaysToTop(height - step, maxSteps);
-    }
-    // return number of ways found
-    return numberOfWays;
+  // base case
+  // if encountering 0 or 1, return 1 for both
+  if (height <= 1) {
+    return 1;
+  }
+  // set up variable to track different combos
+  let numberOfWays = 0;
+  // recursive case
+  // start at 1, where the step is less than maxSteps or the height, whichever is lower, and increment accordingly
+  for (let step = 1; step < Math.min(maxSteps, height) + 1; step++) {
+    // add to variable
+    numberOfWays += numberOfWaysToTop(height - step, maxSteps);
+  }
+  // return number of ways found
+  return numberOfWays;
 }
 
 // Solution 2:
@@ -58,28 +58,28 @@ function numberOfWaysToTop(height, maxSteps) {
 // O(n) space due to at most n calls on call stack due to recursion
 
 function staicaseTraversal(height, maxSteps) {
-    // pass off to better-named start function, initialize memoize values to base cases of 0 and 1 to start
-    return numberOfWaysToTop(height, maxSteps, {0: 1, 1: 1});
+  // pass off to better-named start function, initialize memoize values to base cases of 0 and 1 to start
+  return numberOfWaysToTop(height, maxSteps, { 0: 1, 1: 1 });
 }
 
 function numberOfWaysToTop(height, maxSteps, memoize) {
-    // base case
-    // if encountering 0 or 1, return 1 for both using memoized values
-    if (height in memoize) {
-        return memoize[height];
-    }
-    // set up variable to track different combos
-    let numberOfWays = 0;
-    // recursive case
-    // start at 1, where the step is less than maxSteps or the height, whichever is lower, and increment accordingly
-    for (let step = 1; step < Math.min(maxSteps, height) + 1; step++) {
-        // add to variable
-        numberOfWays += numberOfWaysToTop(height - step, maxSteps, memoize);
-    }
-    // update memoize with current value
-    memoize[height] = numberOfWays
-    // return number of ways found
-    return numberOfWays;
+  // base case
+  // if encountering 0 or 1, return 1 for both using memoized values
+  if (height in memoize) {
+    return memoize[height];
+  }
+  // set up variable to track different combos
+  let numberOfWays = 0;
+  // recursive case
+  // start at 1, where the step is less than maxSteps or the height, whichever is lower, and increment accordingly
+  for (let step = 1; step < Math.min(maxSteps, height) + 1; step++) {
+    // add to variable
+    numberOfWays += numberOfWaysToTop(height - step, maxSteps, memoize);
+  }
+  // update memoize with current value
+  memoize[height] = numberOfWays;
+  // return number of ways found
+  return numberOfWays;
 }
 
 // Solution 3:
@@ -90,23 +90,24 @@ function numberOfWaysToTop(height, maxSteps, memoize) {
 // O(n) space due to storing n waysToTop in new holder array
 
 function staircaseTraversal(height, maxSteps) {
-    // set up holder array for tracking # of ways to get to top, initially filled with zero
-    let waysToTop = new Array(height + 1).fill(0);
-    // take care of base cases, initialize them to 1
-    waysToTop[0] = 1;
-    waysToTop[1] = 1;
-    // starting at height 2, loop through options, populate # of possible waysToTop, and increment accordingly
-    for (let currentHeight = 2; currentHeight < height + 1; currentHeight++) {
-        let step = 1;
-        // given potential step amounts between 1 and maxSteps, populate potential values
-        while (step <= maxSteps && step <= currentHeight) {
-            // for the currentHeight, calculate the possiblities for current step size, then increment step
-            waysToTop[currentHeight] = waysToTop[currentHeight] + waysToTop[currentHeight - step];
-            step++;
-        }
+  // set up holder array for tracking # of ways to get to top, initially filled with zero
+  let waysToTop = new Array(height + 1).fill(0);
+  // take care of base cases, initialize them to 1
+  waysToTop[0] = 1;
+  waysToTop[1] = 1;
+  // starting at height 2, loop through options, populate # of possible waysToTop, and increment accordingly
+  for (let currentHeight = 2; currentHeight < height + 1; currentHeight++) {
+    let step = 1;
+    // given potential step amounts between 1 and maxSteps, populate potential values
+    while (step <= maxSteps && step <= currentHeight) {
+      // for the currentHeight, calculate the possiblities for current step size, then increment step
+      waysToTop[currentHeight] =
+        waysToTop[currentHeight] + waysToTop[currentHeight - step];
+      step++;
     }
-    // once done with calculating currentHeight, return value for height provided
-    return waysToTop[height];
+  }
+  // once done with calculating currentHeight, return value for height provided
+  return waysToTop[height];
 }
 
 // Solution 4:
@@ -117,19 +118,19 @@ function staircaseTraversal(height, maxSteps) {
 // O(n) space due to storing n values in waysToTop array
 
 function staircaseTraversal(height, maxSteps) {
-    let currentNumberOfWays = 0;
-    let waysToTop = [1];
+  let currentNumberOfWays = 0;
+  let waysToTop = [1];
 
-    for (let currentHeight = 1; currentHeight < height + 1; currentHeight++) {
-        let startOfWindow = currentHeight - maxSteps - 1;
-        let endOfWindow = currentHeight - 1;
+  for (let currentHeight = 1; currentHeight < height + 1; currentHeight++) {
+    let startOfWindow = currentHeight - maxSteps - 1;
+    let endOfWindow = currentHeight - 1;
 
-        if (startOfWindow >= 0) {
-            currentNumberOfWays -= waysToTop[startOfWindow];
-        }
-
-        currentNumberOfWays += waysToTop[endOfWindow];
-        waysToTop.push(currentNumberOfWays);
+    if (startOfWindow >= 0) {
+      currentNumberOfWays -= waysToTop[startOfWindow];
     }
-    return waysToTop[height];
+
+    currentNumberOfWays += waysToTop[endOfWindow];
+    waysToTop.push(currentNumberOfWays);
+  }
+  return waysToTop[height];
 }

@@ -35,48 +35,56 @@
 
 // ancestral tree class, giving every node a name and ancestor property (except root node)
 class AncestralTree {
-    constructor(name) {
-        this.name = name;
-        this.ancestor = null;
-    }
+  constructor(name) {
+    this.name = name;
+    this.ancestor = null;
+  }
 }
 
 function youngestCommonAncestor(topAncestor, descendantOne, descendantTwo) {
-    // determine depths of the two descendants using helper function
-    let depthOne = getDescendantDepth(descendantOne, topAncestor);
-    let depthTwo = getDescendantDepth(descendantTwo, topAncestor);
-    // if descendant one is deeper, use backtrack helper to get descendants on same level then return result
-    if (depthOne > depthTwo) {
-        return backtrackAncestralTree(descendantOne, descendantTwo, depthOne - depthTwo);
+  // determine depths of the two descendants using helper function
+  let depthOne = getDescendantDepth(descendantOne, topAncestor);
+  let depthTwo = getDescendantDepth(descendantTwo, topAncestor);
+  // if descendant one is deeper, use backtrack helper to get descendants on same level then return result
+  if (depthOne > depthTwo) {
+    return backtrackAncestralTree(
+      descendantOne,
+      descendantTwo,
+      depthOne - depthTwo,
+    );
     // if descendant two is deeper, use backtrack helper to get descendants on same level then return result
-    } else {
-        return backtrackAncestralTree(descendantTwo, descendantOne, depthTwo - depthOne);
-    }
+  } else {
+    return backtrackAncestralTree(
+      descendantTwo,
+      descendantOne,
+      depthTwo - depthOne,
+    );
+  }
 }
 // helper function to determine the depth of given descendant relevant to top/root ancestor
 function getDescendantDepth(descendant, topAncestor) {
-    // set initial depth
-    let depth = 0;
-    // while moving up the tree, increment depth and set descendant to be equal to its ancestor
-    while (descendant !== topAncestor) {
-        depth++;
-        descendant = descendant.ancestor;
-    }
-    // return the final depth once reaching the root/top ancestor
-    return depth;
+  // set initial depth
+  let depth = 0;
+  // while moving up the tree, increment depth and set descendant to be equal to its ancestor
+  while (descendant !== topAncestor) {
+    depth++;
+    descendant = descendant.ancestor;
+  }
+  // return the final depth once reaching the root/top ancestor
+  return depth;
 }
 // helper function to get descendants on same level to then deduce the youngest common ancestor
 function backtrackAncestralTree(lowerDescendant, higherDescendant, diff) {
-    // while the descendants still have depth difference between them, keep going
-    while (diff > 0) {
-        // set the lower of the two descendants to be equal to its ancestor, decrement the diff value
-        lowerDescendant = lowerDescendant.ancestor;
-        diff--;
-    }
-    // while descendants are not on same level, keep going
-    while (lowerDescendant !== higherDescendant) {
-        lowerDescendant = lowerDescendant.ancestor;
-        higherDescendant = higherDescendant.ancestor;
-    }
-    return lowerDescendant;
+  // while the descendants still have depth difference between them, keep going
+  while (diff > 0) {
+    // set the lower of the two descendants to be equal to its ancestor, decrement the diff value
+    lowerDescendant = lowerDescendant.ancestor;
+    diff--;
+  }
+  // while descendants are not on same level, keep going
+  while (lowerDescendant !== higherDescendant) {
+    lowerDescendant = lowerDescendant.ancestor;
+    higherDescendant = higherDescendant.ancestor;
+  }
+  return lowerDescendant;
 }

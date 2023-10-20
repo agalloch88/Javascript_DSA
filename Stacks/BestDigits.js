@@ -22,27 +22,31 @@
 // O(n) space due to storing at most n digits in stack/string
 
 function bestDigits(number, numDigits) {
-    // initialize an empty stack/array
-    let stack = [];
-    // iterate over ever digit in the input string
-    for (let digit of number) {
-        // keep looping so long as there are still digits left to be deleted AND the stack is not empty AND the current digit is greater than the top value on the stack
-        while (numDigits > 0 && stack.length > 0 && digit > stack[stack.length - 1]) {
-            // decrement the numDigits value by 1
-            numDigits--;
-            // pop the top digit off the stack
-            stack.pop();
-        }
-        // push each digit in the number input onto the stack
-        stack.push(digit);
+  // initialize an empty stack/array
+  let stack = [];
+  // iterate over ever digit in the input string
+  for (let digit of number) {
+    // keep looping so long as there are still digits left to be deleted AND the stack is not empty AND the current digit is greater than the top value on the stack
+    while (
+      numDigits > 0 &&
+      stack.length > 0 &&
+      digit > stack[stack.length - 1]
+    ) {
+      // decrement the numDigits value by 1
+      numDigits--;
+      // pop the top digit off the stack
+      stack.pop();
     }
-    // if there are still items left to be removed from stack, such as in the case where values are all descending, will be caught here
-    while (numDigits > 0) {
-        // decrement numDigits by 1
-        numDigits--;
-        // pop the top digit off the stack
-        stack.pop();
-    }
-    // join the inidivual integers in the stack into a string and return said string
-    return stack.join("");
+    // push each digit in the number input onto the stack
+    stack.push(digit);
+  }
+  // if there are still items left to be removed from stack, such as in the case where values are all descending, will be caught here
+  while (numDigits > 0) {
+    // decrement numDigits by 1
+    numDigits--;
+    // pop the top digit off the stack
+    stack.pop();
+  }
+  // join the inidivual integers in the stack into a string and return said string
+  return stack.join('');
 }

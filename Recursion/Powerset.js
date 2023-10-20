@@ -18,49 +18,49 @@
 // O(n * 2^n) space due to storing all 2^n subsets inside new array
 
 function powerset(array) {
-    // initialize new holder array with empty set inside.
-    let subsets = [[]];
-    // iterate over every item in array
-    for (let element of array) {
-        // set up variable for length of items in subsets
-        let length = subsets.length;
-        // start iterating over subsets
-        for (let i = 0; i < length; i++) {
-            let currentSubset = subsets[i];
-            // push new subset containing current element to subsets array
-            subsets.push(currentSubset.concat(element));
-        }
+  // initialize new holder array with empty set inside.
+  let subsets = [[]];
+  // iterate over every item in array
+  for (let element of array) {
+    // set up variable for length of items in subsets
+    let length = subsets.length;
+    // start iterating over subsets
+    for (let i = 0; i < length; i++) {
+      let currentSubset = subsets[i];
+      // push new subset containing current element to subsets array
+      subsets.push(currentSubset.concat(element));
     }
+  }
 
-    return subsets;
+  return subsets;
 }
 
 // Solution 2:
 
-// recursive solution 
+// recursive solution
 
 // O(n * 2^n) due to recursing over n items and mathematical 2^n possibilities for subsets of n
 // O(n * 2^n) space due to storing all 2^n subsets inside new array
 
 function powerset(array, idx = null) {
-    // base case
-    if (idx === null) {
-        idx = array.length;
-    }
-    // if array ends up being empty, return this base case
-    if (idx < 0) {
-        return [[]];
-    }
-    // grab element at current index in array
-    let element = array[idx];
-    // recursively build subsets
-    let subsets = powerset(array, idx - 1);
-    let length = subsets.length;
-    
-    for (let i = 0; i < length; i++) {
-        let currentSubset = subsets[i];
-        subsets.push(currentSubset.concat(element));
-    }
+  // base case
+  if (idx === null) {
+    idx = array.length;
+  }
+  // if array ends up being empty, return this base case
+  if (idx < 0) {
+    return [[]];
+  }
+  // grab element at current index in array
+  let element = array[idx];
+  // recursively build subsets
+  let subsets = powerset(array, idx - 1);
+  let length = subsets.length;
 
-    return subsets;
+  for (let i = 0; i < length; i++) {
+    let currentSubset = subsets[i];
+    subsets.push(currentSubset.concat(element));
+  }
+
+  return subsets;
 }

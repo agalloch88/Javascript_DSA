@@ -13,7 +13,7 @@
 // Given this requirement, naturally, the input matrix is mutable and may be modified.
 
 // Sample Input:
-// matrix = 
+// matrix =
 // [
 //  [1, 0, 0, 0, 0, 0],
 //  [0, 1, 0, 1, 1, 1],
@@ -24,7 +24,7 @@
 // ]
 
 // Sample Output:
-// matrix = 
+// matrix =
 // [
 //  [1, 0, 0, 0, 0, 0],
 //  [0, 0, 0, 1, 1, 1],
@@ -42,110 +42,115 @@
 // O(w * h) space due to storing entirely separate w columns * h rows copy of matrix for true/false values, plus stack and neighbors
 
 function removeIslands(matrix) {
-    // initialize empty array to hold copy of matrix, will keep track of islands and items visited here
-    let onesConnectedToBorder = [];
-    // create array for every row in input matrix
-    for (let row = 0; row < matrix.length; row++) {
-        // now a 2D array/matrix, still empty
-        onesConnectedToBorder.push([]);
-        // set up column to match for every column in input matrix
-        for (let col = 0; col < matrix[0].length; col++) {
-            // initialize every value to false at outset
-            onesConnectedToBorder[row].push(false);
-        }
+  // initialize empty array to hold copy of matrix, will keep track of islands and items visited here
+  let onesConnectedToBorder = [];
+  // create array for every row in input matrix
+  for (let row = 0; row < matrix.length; row++) {
+    // now a 2D array/matrix, still empty
+    onesConnectedToBorder.push([]);
+    // set up column to match for every column in input matrix
+    for (let col = 0; col < matrix[0].length; col++) {
+      // initialize every value to false at outset
+      onesConnectedToBorder[row].push(false);
     }
-    // will now check every value on the border of matrix
-    for (let row = 0; row < matrix.length; row++) {
-        for (let col = 0; col < matrix[row].length; col++) {
-            // determine if the current row is a border, either first or last row will be border
-            let rowIsBorder = row === 0 || row === matrix.length - 1;
-            // determine if the current column is a border, either first or last column will be border
-            let colIsBorder = col === 0 || col === matrix[row].length - 1;
-            // set variable to determine if a border, it will either be border row or border column if so
-            let isBorder = rowIsBorder || colIsBorder;
-            // if not dealing with a border, do nothing and continue
-            if (!isBorder) {
-                continue;
-            }
-            // if the current position on the border is not a 1, do nothing and continue
-            if (matrix[row][col] !== 1) {
-                continue;
-            }
-            // call helper function to find all the 1's on the border, as these will be valid islands which should not be removed
-            findOnesConnectedToBorder(matrix, row, col, onesConnectedToBorder);
-        }
+  }
+  // will now check every value on the border of matrix
+  for (let row = 0; row < matrix.length; row++) {
+    for (let col = 0; col < matrix[row].length; col++) {
+      // determine if the current row is a border, either first or last row will be border
+      let rowIsBorder = row === 0 || row === matrix.length - 1;
+      // determine if the current column is a border, either first or last column will be border
+      let colIsBorder = col === 0 || col === matrix[row].length - 1;
+      // set variable to determine if a border, it will either be border row or border column if so
+      let isBorder = rowIsBorder || colIsBorder;
+      // if not dealing with a border, do nothing and continue
+      if (!isBorder) {
+        continue;
+      }
+      // if the current position on the border is not a 1, do nothing and continue
+      if (matrix[row][col] !== 1) {
+        continue;
+      }
+      // call helper function to find all the 1's on the border, as these will be valid islands which should not be removed
+      findOnesConnectedToBorder(matrix, row, col, onesConnectedToBorder);
     }
-    // since already determined the borders, now need to look to interior of matrix, so can skip value 0 on both row and column here
-    for (let row = 1; row < matrix.length - 1; row++) {
-        for (let col = 1; col < matrix[row].length - 1; col++) {
-            // if the current item is true, it's a 1 connected to the border, so continue
-            if (onesConnectedToBorder[row][col]) {
-                continue;
-            }
-            // otherwise, this 1 is not connected, so set it to a 0 instead and effectively remove this island from matrix
-            matrix[row][col] = 0;
-        }
+  }
+  // since already determined the borders, now need to look to interior of matrix, so can skip value 0 on both row and column here
+  for (let row = 1; row < matrix.length - 1; row++) {
+    for (let col = 1; col < matrix[row].length - 1; col++) {
+      // if the current item is true, it's a 1 connected to the border, so continue
+      if (onesConnectedToBorder[row][col]) {
+        continue;
+      }
+      // otherwise, this 1 is not connected, so set it to a 0 instead and effectively remove this island from matrix
+      matrix[row][col] = 0;
     }
-    // return the final matrix with islands removed
-    return matrix;
+  }
+  // return the final matrix with islands removed
+  return matrix;
 }
 // helper function to find 1's on the border, and thus, valid islands
-function findOnesConnectedToBorder(matrix, startRow, startCol, onesConnectedToBorder) {
-    // initialize stack to hold the starting row and column from which will check for 1's and find branches out from border via DFS
-    let stack = [[startRow, startCol]];
-    // while items are in the stack to check, continue
-    while (stack.length > 0) {
-        // grab current position by popping top item off the stack
-        let currentPosition = stack.pop();
-        // deconstruct the tuple and grab the current row and column of currentPosition
-        let [currentRow, currentCol] = currentPosition;
-        // check to see if already visited this item, and if so, do nothing and continue
-        let alreadyVisited = onesConnectedToBorder[currentRow][currentCol];
-        if (alreadyVisited) {
-            continue;
-        }
-        // if item was not visited and still shows as false, set it to true
-        onesConnectedToBorder[currentRow][currentCol] = true;
-        // find the neighbors for the current item, may be up, down, left, or right, by calling another helper function getNeighbors
-        let neighbors = getNeighbors(matrix, currentRow, currentCol);
-        // for every neighbor returned, check to see if it's a 1 or 0
-        for (let neighbor of neighbors) {
-            // deconstruct neighbor to grab row and column value
-            let [row, col] = neighbor;
-            // if this position in the matrix is a 0, do nothing and continue
-            if (matrix[row][col] !== 1) {
-                continue;
-            }
-            // if a 1, push this neighbor onto the stack to check it's neighbors for 1 or 0, as well
-            stack.push(neighbor);
-        }
+function findOnesConnectedToBorder(
+  matrix,
+  startRow,
+  startCol,
+  onesConnectedToBorder,
+) {
+  // initialize stack to hold the starting row and column from which will check for 1's and find branches out from border via DFS
+  let stack = [[startRow, startCol]];
+  // while items are in the stack to check, continue
+  while (stack.length > 0) {
+    // grab current position by popping top item off the stack
+    let currentPosition = stack.pop();
+    // deconstruct the tuple and grab the current row and column of currentPosition
+    let [currentRow, currentCol] = currentPosition;
+    // check to see if already visited this item, and if so, do nothing and continue
+    let alreadyVisited = onesConnectedToBorder[currentRow][currentCol];
+    if (alreadyVisited) {
+      continue;
     }
+    // if item was not visited and still shows as false, set it to true
+    onesConnectedToBorder[currentRow][currentCol] = true;
+    // find the neighbors for the current item, may be up, down, left, or right, by calling another helper function getNeighbors
+    let neighbors = getNeighbors(matrix, currentRow, currentCol);
+    // for every neighbor returned, check to see if it's a 1 or 0
+    for (let neighbor of neighbors) {
+      // deconstruct neighbor to grab row and column value
+      let [row, col] = neighbor;
+      // if this position in the matrix is a 0, do nothing and continue
+      if (matrix[row][col] !== 1) {
+        continue;
+      }
+      // if a 1, push this neighbor onto the stack to check it's neighbors for 1 or 0, as well
+      stack.push(neighbor);
+    }
+  }
 }
 // helper function to determine valid neighbors for a given item
 function getNeighbors(matrix, row, col) {
-    // initialize holder array for the neighbors of a given item
-    let neighbors = [];
-    // set variables to determine number of rows and columns in matrix, so can determine valid direction of neighbors
-    let numRows = matrix.length;
-    let numCols = matrix[row].length;
-    // if direction up is greater than or equal to zero, grab this item and push it to neighbors
-    if (row - 1 >= 0) {
-        neighbors.push([row - 1, col]); // UP
-    }
-    // if direction down is less than the value of numRows, grab this item and push it to neighbors
-    if (row + 1 < numRows) {
-        neighbors.push([row + 1, col]); // DOWN
-    }
-    // if direction left is greater than or equal to zero, grab this item and push it to neighbors
-    if (col - 1 >= 0) {
-        neighbors.push([row, col - 1]); // LEFT
-    }
-    // if direction right is less than the value of numCols, grab this item and push it to neighbors
-    if (col + 1 < numCols) {
-        neighbors.push([row, col + 1]); // RIGHT
-    }
-    // return all the valid neighbors for this item
-    return neighbors;
+  // initialize holder array for the neighbors of a given item
+  let neighbors = [];
+  // set variables to determine number of rows and columns in matrix, so can determine valid direction of neighbors
+  let numRows = matrix.length;
+  let numCols = matrix[row].length;
+  // if direction up is greater than or equal to zero, grab this item and push it to neighbors
+  if (row - 1 >= 0) {
+    neighbors.push([row - 1, col]); // UP
+  }
+  // if direction down is less than the value of numRows, grab this item and push it to neighbors
+  if (row + 1 < numRows) {
+    neighbors.push([row + 1, col]); // DOWN
+  }
+  // if direction left is greater than or equal to zero, grab this item and push it to neighbors
+  if (col - 1 >= 0) {
+    neighbors.push([row, col - 1]); // LEFT
+  }
+  // if direction right is less than the value of numCols, grab this item and push it to neighbors
+  if (col + 1 < numCols) {
+    neighbors.push([row, col + 1]); // RIGHT
+  }
+  // return all the valid neighbors for this item
+  return neighbors;
 }
 
 // Solution 2:
@@ -156,92 +161,92 @@ function getNeighbors(matrix, row, col) {
 // O(w * h) space due to returning w columns * h rows matrix, plus stack and neighbors, slightly better time complexity overall than solution 1
 
 function removeIslands(matrix) {
-    // start at [0, 0] and establish the row and column borders as in previous solution
-    for (let row = 0; row < matrix.length; row++) {
-        for (let col = 0; col < matrix[row].length; col++) {
-            let rowIsBorder = row === 0 || row === matrix.length - 1;
-            let colIsBorder = col === 0 || col === matrix[row].length - 1;
-            // a border will either be a border row or border column
-            let isBorder = rowIsBorder || colIsBorder;
-            // if not a border, do nothing
-            if (!isBorder) {
-                continue;
-            }
-            // if a 0 in the border, do nothing
-            if (matrix[row][col] !== 1) {
-                continue;
-            }
-            // call helper function to convert border 1's and connected-to-border 1's to 2's
-            changeOnesConnectedToBorderToTwos(matrix, row, col);
-        }
+  // start at [0, 0] and establish the row and column borders as in previous solution
+  for (let row = 0; row < matrix.length; row++) {
+    for (let col = 0; col < matrix[row].length; col++) {
+      let rowIsBorder = row === 0 || row === matrix.length - 1;
+      let colIsBorder = col === 0 || col === matrix[row].length - 1;
+      // a border will either be a border row or border column
+      let isBorder = rowIsBorder || colIsBorder;
+      // if not a border, do nothing
+      if (!isBorder) {
+        continue;
+      }
+      // if a 0 in the border, do nothing
+      if (matrix[row][col] !== 1) {
+        continue;
+      }
+      // call helper function to convert border 1's and connected-to-border 1's to 2's
+      changeOnesConnectedToBorderToTwos(matrix, row, col);
     }
-    // go through the matrix again, starting at [0, 0]
-    for (let row = 0; row < matrix.length; row++) {
-        for (let col = 0; col < matrix[row].length; col++) {
-            // set current position to variable color to check whether 1 or 2
-            let color = matrix[row][col];
-            // if there are any remaining 1's, these 1's were not connected to the border and are thus islands, so remove them by changing to 0's
-            if (color === 1) {
-                matrix[row][col] = 0;
-            // if any 2's found, change them back to 1's
-            } else if (color === 2) {
-                matrix[row][col] = 1;
-            }
-        }
+  }
+  // go through the matrix again, starting at [0, 0]
+  for (let row = 0; row < matrix.length; row++) {
+    for (let col = 0; col < matrix[row].length; col++) {
+      // set current position to variable color to check whether 1 or 2
+      let color = matrix[row][col];
+      // if there are any remaining 1's, these 1's were not connected to the border and are thus islands, so remove them by changing to 0's
+      if (color === 1) {
+        matrix[row][col] = 0;
+        // if any 2's found, change them back to 1's
+      } else if (color === 2) {
+        matrix[row][col] = 1;
+      }
     }
-    // return final matrix
-    return matrix;
+  }
+  // return final matrix
+  return matrix;
 }
 
 function changeOnesConnectedToBorderToTwos(matrix, startRow, startCol) {
-    // set up stack and initialize to starting border and column position
-    let stack = [[startRow, startCol]];
-    // while stack has items, do stuff
-    while (stack.length > 0) {
-        // pop top item off stack and initialize to currentPosition
-        let currentPosition = stack.pop();
-        // deconstruct currentPosition to get current row and column position
-        let [currentRow, currentCol] = currentPosition;
-        // set this position in the input matrix to equal 2 rather than 1
-        matrix[currentRow][currentCol] = 2;
-        // find all neighbors using helper function getNeighbors
-        let neighbors = getNeighbors(matrix, currentRow, currentCol);
-        // for each neighbor, grab the row and column position
-        for (let neighbor of neighbors) {
-            let [row, col] = neighbor;
-            // if a neighbor is a 0, do nothing and continue
-            if (matrix[row][col] !== 1) {
-                continue;
-            }
-            // if neighbor is a 1, push it on to the stack to handle in successive operation
-            stack.push(neighbor);
-        }
+  // set up stack and initialize to starting border and column position
+  let stack = [[startRow, startCol]];
+  // while stack has items, do stuff
+  while (stack.length > 0) {
+    // pop top item off stack and initialize to currentPosition
+    let currentPosition = stack.pop();
+    // deconstruct currentPosition to get current row and column position
+    let [currentRow, currentCol] = currentPosition;
+    // set this position in the input matrix to equal 2 rather than 1
+    matrix[currentRow][currentCol] = 2;
+    // find all neighbors using helper function getNeighbors
+    let neighbors = getNeighbors(matrix, currentRow, currentCol);
+    // for each neighbor, grab the row and column position
+    for (let neighbor of neighbors) {
+      let [row, col] = neighbor;
+      // if a neighbor is a 0, do nothing and continue
+      if (matrix[row][col] !== 1) {
+        continue;
+      }
+      // if neighbor is a 1, push it on to the stack to handle in successive operation
+      stack.push(neighbor);
     }
+  }
 }
 
 function getNeighbors(matrix, row, col) {
-    // set up holder array for neighbors
-    let neighbors = [];
-    // establish num of rows and columns as parameters for which direction neighbors may be
-    let numRows = matrix.length;
-    let numCols = matrix[row].length;
+  // set up holder array for neighbors
+  let neighbors = [];
+  // establish num of rows and columns as parameters for which direction neighbors may be
+  let numRows = matrix.length;
+  let numCols = matrix[row].length;
 
-    // if direction up is greater than or equal to zero, grab this item and push it to neighbors
-    if (row - 1 >= 0) {
-        neighbors.push([row - 1, col]); // UP
-    }
-    // if direction down is less than the value of numRows, grab this item and push it to neighbors
-    if (row + 1 < numRows) {
-        neighbors.push([row + 1, col]); // DOWN
-    }
-    // if direction left is greater than or equal to zero, grab this item and push it to neighbors
-    if (col - 1 >= 0) {
-        neighbors.push([row, col - 1]); // LEFT
-    }
-    // if direction right is less than the value of numCols, grab this item and push it to neighbors
-    if (col + 1 < numCols) {
-        neighbors.push([row, col + 1]); // RIGHT
-    }
-    // return all the valid neighbors for this item
-    return neighbors;
+  // if direction up is greater than or equal to zero, grab this item and push it to neighbors
+  if (row - 1 >= 0) {
+    neighbors.push([row - 1, col]); // UP
+  }
+  // if direction down is less than the value of numRows, grab this item and push it to neighbors
+  if (row + 1 < numRows) {
+    neighbors.push([row + 1, col]); // DOWN
+  }
+  // if direction left is greater than or equal to zero, grab this item and push it to neighbors
+  if (col - 1 >= 0) {
+    neighbors.push([row, col - 1]); // LEFT
+  }
+  // if direction right is less than the value of numCols, grab this item and push it to neighbors
+  if (col + 1 < numCols) {
+    neighbors.push([row, col + 1]); // RIGHT
+  }
+  // return all the valid neighbors for this item
+  return neighbors;
 }

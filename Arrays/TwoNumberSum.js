@@ -8,7 +8,7 @@
 
 // You can assume that there will be at most one pair of numbers summing up to the target sum.
 
-// Sample input: 
+// Sample input:
 // array = [3, 5, -4, 8, 11, 1, -1, 6]
 // targetSum = 10
 // Sample output: [-1, 11]
@@ -21,23 +21,23 @@
 // O(1) space complexity due to no additional data structures
 
 function twoNumberSum(array, targetSum) {
-    // start looping over array input, starting at index 0 for i
-    for (let i = 0; i < array.length - 1; i++) {
-        // grab value at i in input array and store in variable int1
-        const int1 = array[i];
-        // start second loop over input array, starting at index i plus 1
-        for (let j = i + 1; j < array.length; j++) {
-            // grab value at j in input array and store in variable int2
-            const int2 = array[j];
-            // check whether the sum of int1 plus int2 is equal to targetSum, and if so, execut below
-            if (int1 + int2 === targetSum) {
-                // return array containing int1 and int2
-                return [int1, int2];
-            }
-        }
+  // start looping over array input, starting at index 0 for i
+  for (let i = 0; i < array.length - 1; i++) {
+    // grab value at i in input array and store in variable int1
+    const int1 = array[i];
+    // start second loop over input array, starting at index i plus 1
+    for (let j = i + 1; j < array.length; j++) {
+      // grab value at j in input array and store in variable int2
+      const int2 = array[j];
+      // check whether the sum of int1 plus int2 is equal to targetSum, and if so, execut below
+      if (int1 + int2 === targetSum) {
+        // return array containing int1 and int2
+        return [int1, int2];
+      }
     }
-    // should if block above never triggers, return an empty array
-    return [];
+  }
+  // should if block above never triggers, return an empty array
+  return [];
 }
 
 // Solution 2:
@@ -48,23 +48,23 @@ function twoNumberSum(array, targetSum) {
 // O(n) space due to creating hashmap/JS object to store nums
 
 function twoNumberSum(array, targetSum) {
-    // set up empty JS object and store in variable nums
-    const nums = {};
-    // iterate over every num in array
-    for (const num of array) {
-        // calculate the potentialMatch value by substracting targetSum by the current num
-        const potentialMatch = targetSum - num;
-        // if potentialMatch is in the nums JS object, there's a valid answer for two number sum problem
-        if (potentialMatch in nums) {
-            // if found, return the array of potentialMatch and the current num
-            return [potentialMatch, num];
-        // if potentialMatch is NOT in nums, add it in there and set value equal to true
-        } else {
-            nums[num] = true;
-        }
+  // set up empty JS object and store in variable nums
+  const nums = {};
+  // iterate over every num in array
+  for (const num of array) {
+    // calculate the potentialMatch value by substracting targetSum by the current num
+    const potentialMatch = targetSum - num;
+    // if potentialMatch is in the nums JS object, there's a valid answer for two number sum problem
+    if (potentialMatch in nums) {
+      // if found, return the array of potentialMatch and the current num
+      return [potentialMatch, num];
+      // if potentialMatch is NOT in nums, add it in there and set value equal to true
+    } else {
+      nums[num] = true;
     }
-    // if no correct answer for problem, return empty array 
-    return [];
+  }
+  // if no correct answer for problem, return empty array
+  return [];
 }
 
 // Solution 3:
@@ -75,27 +75,27 @@ function twoNumberSum(array, targetSum) {
 // O(1) space due to only storing pointer values and currentSum
 
 function twoNumberSum(array, targetSum) {
-    // use in-built JS sort method on array, so best possible time complexity is automatically n log(n)
-    array.sort((a, b) => a - b);
-    // set left pointer equal to index 0
-    const left = 0;
-    // set right pointer equal to last item in sorted array
-    const right = array.length - 1;
-    // while the pointers do not overlap, keep looping
-    while (left < right) {
-        // take value at pointers left and right and add them together, store sum in variable currentSum
-        const currentSum = array[left] + array[right];
-        // if currentSum is equal to targetSum, then return array of left and right pointers, found the answer
-        if (currentSum === targetSum) {
-            return [array[left], array[right]];
-        // if currentSum is smaller than targetSum, increment the left pointer as this will result in a larger sum since array is sorted from smallest to largest
-        } else if (currentSum < targetSum) {
-            left++;
-        // if currentSum is larger than targetSum, decrement the right pointer as this will result in a smaller sum since array is sorted from smallest to largest
-        } else if (currentSum > targetSum) {
-            right--;
-        }
+  // use in-built JS sort method on array, so best possible time complexity is automatically n log(n)
+  array.sort((a, b) => a - b);
+  // set left pointer equal to index 0
+  const left = 0;
+  // set right pointer equal to last item in sorted array
+  const right = array.length - 1;
+  // while the pointers do not overlap, keep looping
+  while (left < right) {
+    // take value at pointers left and right and add them together, store sum in variable currentSum
+    const currentSum = array[left] + array[right];
+    // if currentSum is equal to targetSum, then return array of left and right pointers, found the answer
+    if (currentSum === targetSum) {
+      return [array[left], array[right]];
+      // if currentSum is smaller than targetSum, increment the left pointer as this will result in a larger sum since array is sorted from smallest to largest
+    } else if (currentSum < targetSum) {
+      left++;
+      // if currentSum is larger than targetSum, decrement the right pointer as this will result in a smaller sum since array is sorted from smallest to largest
+    } else if (currentSum > targetSum) {
+      right--;
     }
-    // if pointers overlap, while loop will break, which means no matches for targetSum, so return empty array
-    return [];
+  }
+  // if pointers overlap, while loop will break, which means no matches for targetSum, so return empty array
+  return [];
 }

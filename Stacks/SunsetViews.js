@@ -2,7 +2,7 @@
 
 // A building can see the sunset if it's strictly taller than all the buildings which come after the given building in the direction which it faces.
 
-// The input array named buildings contains positive, non-zero integers representing the heights of the buildings. A building at index i thus has a height 
+// The input array named buildings contains positive, non-zero integers representing the heights of the buildings. A building at index i thus has a height
 // denoted by buildings[i]. All of the buildings face the same direction, and this direction is either east or west, denoted by the input string named direction,
 // which will always be equal to 'EAST' or 'WEST'. In relation to the input array, the direction may be interpreted as right for east, and left for west.
 
@@ -31,35 +31,35 @@
 // O(n) space due to storing at max n items from input in new array
 
 function sunsetViews(buildings, direction) {
-    // create holder array for buildings to return
-    let buildingsWithSunsetViews = [];
-    // determine where to start iterating depending on direction provided, and how iterating will proceed
-    let startIdx = direction === 'WEST' ? 0 : buildings.length - 1;
-    let step = direction === 'WEST' ? 1 : -1;
-    // set idx to the startIdx determined by direction
-    let idx = startIdx;
-    // keep track of current tallest building to check if buildings' views may be blocked
-    let runningMaxHeight = 0;
-    // start iterating from startIdx determined by direction, and continue doing so while in the confines of the input values
-    while (idx >= 0 && idx < buildings.length) {
-        // grab current building height
-        let buildingHeight = buildings[idx];
-        // check to see if current building is taller than any others thus far, indicating it will have a view
-        if (buildingHeight > runningMaxHeight) {
-            // if taller, push into holder array
-            buildingsWithSunsetViews.push(idx);
-        }
-        // after check, set the max height to the max value between current building and current max height
-        runningMaxHeight = Math.max(buildingHeight, runningMaxHeight);
-        // move on to next building
-        idx = idx + step;
+  // create holder array for buildings to return
+  let buildingsWithSunsetViews = [];
+  // determine where to start iterating depending on direction provided, and how iterating will proceed
+  let startIdx = direction === 'WEST' ? 0 : buildings.length - 1;
+  let step = direction === 'WEST' ? 1 : -1;
+  // set idx to the startIdx determined by direction
+  let idx = startIdx;
+  // keep track of current tallest building to check if buildings' views may be blocked
+  let runningMaxHeight = 0;
+  // start iterating from startIdx determined by direction, and continue doing so while in the confines of the input values
+  while (idx >= 0 && idx < buildings.length) {
+    // grab current building height
+    let buildingHeight = buildings[idx];
+    // check to see if current building is taller than any others thus far, indicating it will have a view
+    if (buildingHeight > runningMaxHeight) {
+      // if taller, push into holder array
+      buildingsWithSunsetViews.push(idx);
     }
-    // if direction was EAST, started from the end, so have to reverse the values in holder array, which is fine as it's O(n) operation
-    if (direction === 'EAST') {
-        buildingsWithSunsetViews.reverse();
-    }
-    // return final array of results
-    return buildingsWithSunsetViews;
+    // after check, set the max height to the max value between current building and current max height
+    runningMaxHeight = Math.max(buildingHeight, runningMaxHeight);
+    // move on to next building
+    idx = idx + step;
+  }
+  // if direction was EAST, started from the end, so have to reverse the values in holder array, which is fine as it's O(n) operation
+  if (direction === 'EAST') {
+    buildingsWithSunsetViews.reverse();
+  }
+  // return final array of results
+  return buildingsWithSunsetViews;
 }
 
 // Solution 2:
@@ -70,31 +70,35 @@ function sunsetViews(buildings, direction) {
 // O(n) space due to storing at max n items from input in stack
 
 function sunsetViews(buildings, direction) {
-    // create empty stack
-    let candidateBuildings = [];
-    // determine where to start iterating depending on direction provided, and how iterating will proceed
-    let startIdx = direction === 'EAST' ? 0 : buildings.length - 1;
-    let step = direction === 'EAST' ? 1 : -1;
-    // set idx to the startIdx determined by direction
-    let idx = startIdx;
-    // start iterating from startIdx determined by direction, and continue doing so while in the confines of the input values
-    while (idx >= 0 && idx < buildings.length) {
-        // grab current building height
-        let buildingHeight = buildings[idx];
-        // perform check such that while stack has items, check continually done to see if building has sunset view
-        while (candidateBuildings.length > 0 && buildings[candidateBuildings[candidateBuildings.length - 1]] <= buildingHeight) {
-            // remove top item from stack if not taller, successively until condition met
-            candidateBuildings.pop();
-        }
-        // push current item onto stack 
-        candidateBuildings.push(idx);
-        // move on to next
-        idx = idx + step;
+  // create empty stack
+  let candidateBuildings = [];
+  // determine where to start iterating depending on direction provided, and how iterating will proceed
+  let startIdx = direction === 'EAST' ? 0 : buildings.length - 1;
+  let step = direction === 'EAST' ? 1 : -1;
+  // set idx to the startIdx determined by direction
+  let idx = startIdx;
+  // start iterating from startIdx determined by direction, and continue doing so while in the confines of the input values
+  while (idx >= 0 && idx < buildings.length) {
+    // grab current building height
+    let buildingHeight = buildings[idx];
+    // perform check such that while stack has items, check continually done to see if building has sunset view
+    while (
+      candidateBuildings.length > 0 &&
+      buildings[candidateBuildings[candidateBuildings.length - 1]] <=
+        buildingHeight
+    ) {
+      // remove top item from stack if not taller, successively until condition met
+      candidateBuildings.pop();
     }
-    // if direction was WEST, started from end so items in backwards order, so need to use reverse which is O(n) operation
-    if (direction === 'WEST') {
-        candidateBuildings.reversse();
-    }
-    // return the stack
-    return candidateBuildings;
+    // push current item onto stack
+    candidateBuildings.push(idx);
+    // move on to next
+    idx = idx + step;
+  }
+  // if direction was WEST, started from end so items in backwards order, so need to use reverse which is O(n) operation
+  if (direction === 'WEST') {
+    candidateBuildings.reversse();
+  }
+  // return the stack
+  return candidateBuildings;
 }

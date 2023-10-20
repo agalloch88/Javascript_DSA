@@ -68,9 +68,9 @@
 // main function, which takes in the input board, as well as a row and column coordinate pair of a given move
 function revealMinesweeper(board, row, column) {
   // if the coordinates of row and column on the board are equal to M, or a mine position, execute below
-  if (board[row][column] === "M") {
+  if (board[row][column] === 'M') {
     // in this case, change the M to an X
-    board[row][column] = "X";
+    board[row][column] = 'X';
     // the player has lost the game by picking a mine position, so simply return the board in it's current state and that's it
     return board;
   }
@@ -81,7 +81,7 @@ function revealMinesweeper(board, row, column) {
   // iterate over all the results in neighbors, destructuring each coordinate pair into neighborRow and neighborColumn
   for (let [neighborRow, neighborColumn] of neighbors) {
     // if the value on the board at these neighbor coordinates is an M, this is a mine, so increment adjacentMineCount by 1
-    if (board[neighborRow][neighborColumn] === "M") {
+    if (board[neighborRow][neighborColumn] === 'M') {
       adjacentMineCount++;
     }
   }
@@ -92,12 +92,12 @@ function revealMinesweeper(board, row, column) {
     // if adjacentMineCount is 0, then execute below
   } else {
     // set value at initial input coordinates to 0
-    board[row][column] = "0";
+    board[row][column] = '0';
     // now, check every neighbor of this position to see if any others need to be changed as well, iterating over every neighbor in neighbors and destructuring the neighborRow and neighborColumn
     // from the coordinates
     for (let [neighborRow, neighborColumn] of neighbors) {
       // if the value at the given neighbor coordinates is also an H, then recursively call revealMinesweeper on this position
-      if (board[neighborRow][neighborColumn] === "H") {
+      if (board[neighborRow][neighborColumn] === 'H') {
         revealMinesweeper(board, neighborRow, neighborColumn);
       }
     }
@@ -150,8 +150,8 @@ function getNeighbors(board, row, column) {
 // O(w * h) space at max due to potentially having all input items on call stack
 
 function revealMinesweeper(board, row, column) {
-  if (board[row][column] === "M") {
-    board[row][column] = "X";
+  if (board[row][column] === 'M') {
+    board[row][column] = 'X';
     return board;
   }
 
@@ -163,7 +163,7 @@ function revealMinesweeper(board, row, column) {
 
   for (let i = rowStart; i <= rowEnd; i++) {
     for (let j = columnStart; j <= columnEnd; j++) {
-      if (board[i][j] === "M") {
+      if (board[i][j] === 'M') {
         numOfMines++;
       }
     }
@@ -172,7 +172,7 @@ function revealMinesweeper(board, row, column) {
   if (numOfMines === 0) {
     for (let i = rowStart; i <= rowEnd; i++) {
       for (let j = columnStart; j <= columnEnd; j++) {
-        if (board[i][j] === "H") {
+        if (board[i][j] === 'H') {
           revealMinesweeper(board, i, j);
         }
       }

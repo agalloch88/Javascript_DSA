@@ -31,37 +31,37 @@
 // O(k) space where k is the number of teams
 
 // set variable to use for results
-const HOME_TEAM_WON = 1
+const HOME_TEAM_WON = 1;
 
 function tournamentWinner(competitions, results) {
-    // initialize and set variable for lead team, starting with empty string as placeholder
-    let currentBestTeam = '';
-    const scores = {[currentBestTeam]: 0};
-    // loop over competitions array
-    for (let idx = 0; idx < competitions.length; idx++) {
-        // grab our result value for the specific competition from results array 
-        const result = results[idx];
-        // grab our competing teams for specific competition from competitions array
-        const [homeTeam, awayTeam] = competitions[idx];
-        // determine, using our HOME_TEAM_WON variable, who won competition via ternary operator
-        const winningTeam = result === HOME_TEAM_WON ? homeTeam : awayTeam;
-        // update scores object to reflect who won and add points
-        updateScores(winningTeam, 3, scores);
-        // check to see if new point additions changes who is currently leading, and if so, update team in the lead
-        if (scores[winningTeam] > scores[currentBestTeam]) {
-            currentBestTeam = winningTeam;
-        }
+  // initialize and set variable for lead team, starting with empty string as placeholder
+  let currentBestTeam = '';
+  const scores = { [currentBestTeam]: 0 };
+  // loop over competitions array
+  for (let idx = 0; idx < competitions.length; idx++) {
+    // grab our result value for the specific competition from results array
+    const result = results[idx];
+    // grab our competing teams for specific competition from competitions array
+    const [homeTeam, awayTeam] = competitions[idx];
+    // determine, using our HOME_TEAM_WON variable, who won competition via ternary operator
+    const winningTeam = result === HOME_TEAM_WON ? homeTeam : awayTeam;
+    // update scores object to reflect who won and add points
+    updateScores(winningTeam, 3, scores);
+    // check to see if new point additions changes who is currently leading, and if so, update team in the lead
+    if (scores[winningTeam] > scores[currentBestTeam]) {
+      currentBestTeam = winningTeam;
     }
-    return currentBestTeam;
+  }
+  return currentBestTeam;
 }
 // helper function to interact with scores object
 function updateScores(team, points, scores) {
-    // if the team was not encountered yet, create new entry in scores object
-    if (!(team in scores)) {
-        scores[team] = 0;
-    }
-    // update the team entry in scores object with points from competition
-    scores[team] += points;
+  // if the team was not encountered yet, create new entry in scores object
+  if (!(team in scores)) {
+    scores[team] = 0;
+  }
+  // update the team entry in scores object with points from competition
+  scores[team] += points;
 }
 
 // Solution 2:
@@ -72,34 +72,34 @@ function updateScores(team, points, scores) {
 // O(k) space where k is the number of teams
 
 function tournamentWinner(competitions, results) {
-    // set up JS object to holder the leader's score and team name, and store in variable leader
-    let leader = { score: -Infinity, name: ''};
-    // set up empty JS object to serve as the scoreboard, and store in variable scoreboard
-    let scoreboard = {};
-    // iterate over all the competitions
-    for (let i = 0; i < competitions.length; i++) {
-        // ternary check to see if value in results at index i is equal to 0, and if so, then 1
-        // should be stored in winnerIdx variable
-        let winnerIdx = results[i] === 0 ? 1 : 0;
-        // grab the value at i and the winnerIdx and store in variable winner
-        let winner = competitions[i][winnerIdx];
-        // if the value in winner is already in the scoreboard JS object, then
-        // add 3 points to the existing score total
-        if (winner in scoreboard) {
-            scoreboard[winner] += 3;
-        // if the value in winner is NOT already in the scoreboard JS object, then add it,
-        // and assign the points to 3
-        } else {
-            scoreboard[winner] = 3;
-        }
-        // if the leader's score is smaller than the current winner's total in the scoreboard,
-        // then set the leader's name to that of the current winner, and set the score
-        // equal to the winner's score on the scoreboard
-        if (leader.score < scoreboard[winner]) {
-            leader.name = winner;
-            leader.score = scoreboard[winner];
-        }        
+  // set up JS object to holder the leader's score and team name, and store in variable leader
+  let leader = { score: -Infinity, name: '' };
+  // set up empty JS object to serve as the scoreboard, and store in variable scoreboard
+  let scoreboard = {};
+  // iterate over all the competitions
+  for (let i = 0; i < competitions.length; i++) {
+    // ternary check to see if value in results at index i is equal to 0, and if so, then 1
+    // should be stored in winnerIdx variable
+    let winnerIdx = results[i] === 0 ? 1 : 0;
+    // grab the value at i and the winnerIdx and store in variable winner
+    let winner = competitions[i][winnerIdx];
+    // if the value in winner is already in the scoreboard JS object, then
+    // add 3 points to the existing score total
+    if (winner in scoreboard) {
+      scoreboard[winner] += 3;
+      // if the value in winner is NOT already in the scoreboard JS object, then add it,
+      // and assign the points to 3
+    } else {
+      scoreboard[winner] = 3;
     }
-    // after iterating over every competition, return the name of the leader
-    return leader.name;
+    // if the leader's score is smaller than the current winner's total in the scoreboard,
+    // then set the leader's name to that of the current winner, and set the score
+    // equal to the winner's score on the scoreboard
+    if (leader.score < scoreboard[winner]) {
+      leader.name = winner;
+      leader.score = scoreboard[winner];
+    }
+  }
+  // after iterating over every competition, return the name of the leader
+  return leader.name;
 }

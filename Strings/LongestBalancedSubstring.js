@@ -46,9 +46,9 @@ function isBalanced(string) {
   // iterate over every char in the input string
   for (let char of string) {
     // if the current char is an open paren, (, execute the below
-    if (char === "(") {
+    if (char === '(') {
       // push this open paren onto the openParenStack stack
-      openParenStack.push("(");
+      openParenStack.push('(');
       // otherwise, if the current char is not an open paren, if the stack's length is greater than 0, so the stack is not empty, execute the below
     } else if (openParenStack.length > 0) {
       // pop the top item off the top of the stack
@@ -80,7 +80,7 @@ function longestBalancedSubstring(string) {
   // iterate over all values in the input string
   for (let i = 0; i < string.length; i++) {
     // check whether the value at i in the string is an opening paren (, and if so, execute below
-    if (string[i] === "(") {
+    if (string[i] === '(') {
       // push the value at i onto the stack, which in this case should be an index
       idxStack.push(i);
       // otherwise, if the value at i is anything else (in this case, a closing paren, ) ), execute the below
@@ -123,7 +123,7 @@ function longestBalancedSubstring(string) {
   // iterate over ever char in the input string from left to right
   for (let char of string) {
     // if the char is the opening paren, (, then increment the openingCount by 1
-    if (char === "(") {
+    if (char === '(') {
       openingCount++;
       // otherwise, the char must be a closing paren, so increment the closingCount by 1
     } else {
@@ -147,7 +147,7 @@ function longestBalancedSubstring(string) {
     // grab the value at i in the input string, and store in variable char
     let char = string[i];
     // if the char is the opening paren, (, then increment the openingCount by 1
-    if (char === "(") {
+    if (char === '(') {
       openingCount++;
       // otherwise, the char must be a closing paren, so increment the closingCount by 1
     } else {
@@ -179,7 +179,7 @@ function longestBalancedSubstring(string) {
   // return the maximum between the return values of helper function looking left to right or return values of helper function looking right to left
   return Math.max(
     getLongestBalancedInDirection(string, true),
-    getLongestBalancedInDirection(string, false)
+    getLongestBalancedInDirection(string, false),
   );
 }
 // helper function which takes in the input string and boolean value determining direction, either left to right (true) or right to left (false)
@@ -187,7 +187,7 @@ function getLongestBalancedInDirection(string, leftToRight) {
   // the function will make two passes through the input, one from left to right and one from right to left, and directionality is controlled by the
   // leftToRight variable value, either true or false. the three below variables will be set depending on this variable using the ternary operator.
   // check whether leftToRight is true, and if so set openingParens variable equal to (, otherwise set it to )
-  let openingParens = leftToRight ? "(" : ")";
+  let openingParens = leftToRight ? '(' : ')';
   // check whether leftToRight is true, and if so, set the startIdx variable equal to 0, otherwise set it to the last index in the input string
   let startIdx = leftToRight ? 0 : string.length - 1;
   // check whether leftTToRight is true, and if so, set the variable step equal to 1, otherwise set it to -1
