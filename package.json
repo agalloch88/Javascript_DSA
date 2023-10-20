@@ -1,0 +1,32 @@
+{
+  "name": "javascript_dsa",
+  "version": "1.0.0",
+  "description": "A repository for JS solutions to DSA problems",
+  "main": "none",
+  "scripts": {
+    "test": "none",
+    "format": "prettier --write '**/*.js'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agalloch88/Javascript_DSA.git"
+  },
+  "keywords": [
+    "javascript",
+    "algorithms",
+    "interview",
+    "data-structures"
+  ],
+  "author": "Ryan Kirsch",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/agalloch88/Javascript_DSA/issues"
+  },
+  "homepage": "https://github.com/agalloch88/Javascript_DSA#readme",
+  "devDependencies": {
+    "eslint": "^8.51.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "prettier": "^3.0.3"
+  }
+}
