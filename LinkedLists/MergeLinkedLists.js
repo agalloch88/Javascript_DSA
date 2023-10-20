@@ -94,7 +94,7 @@ class LinkedList {
 function mergeLinkedLists(headOne, headTwo) {
   // call helper function, passing in the two nodes and null for the p1Prev value, since at the beginning of the list currently
   recursiveMerge(headOne, headTwo, null);
-//   return the result of a ternary checking whether the headOne or headTwo node is smaller, and returning it as the answer
+  //   return the result of a ternary checking whether the headOne or headTwo node is smaller, and returning it as the answer
   return headOne.value < headTwo.value ? headOne : headTwo;
 }
 
@@ -120,7 +120,7 @@ function recursiveMerge(p1, p2, p1Prev) {
   // check whether p1's value is less than p2's value, and if so, recursively call function passing in p1's next value and p1 as the p1Prev, since moving along within the first list
   if (p1.value < p2.value) {
     recursiveMerge(p1.next, p2, p1);
-  // otherwise, execute below
+    // otherwise, execute below
   } else {
     // check whether p1Prev is NOT equal to null, and if so, set p1Prev's next value equal to p2
     if (p1Prev !== null) {
