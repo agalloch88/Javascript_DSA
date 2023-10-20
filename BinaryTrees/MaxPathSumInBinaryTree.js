@@ -72,25 +72,25 @@ function findMaxSum(tree) {
 // O(log (n)) space due to recursive calls on call stack
 
 function maxPathSum(tree) {
-    // set variable max equal to -Infinity to handle any possible value, including negatives
-    let max = -Infinity;
-    // set up call to dfs function, passing in tree
-    let dfs = (tree) => {
-        // if the tree is empty/does not exist, return 0
-        if (!tree) {
-            return 0;
-        }
-        // set up variable left to equal the max between 0 and a call to dfs passing in the tree.left
-        let left = Math.max(0, dfs(tree.left));
-        // set up variable right to equal the max between 0 and a call to dfs passing in the tree.right
-        let right = Math.max(0, dfs(tree.right));
-        // set max variable equal to the maximum between current value of max, and the total of left plus right plus the tree.value
-        max = Math.max(max, left + right + tree.value);
-        // return the maximum between left or right plus the tree.value
-        return Math.max(left, right) + tree.value;
+  // set variable max equal to -Infinity to handle any possible value, including negatives
+  let max = -Infinity;
+  // set up call to dfs function, passing in tree
+  let dfs = (tree) => {
+    // if the tree is empty/does not exist, return 0
+    if (!tree) {
+      return 0;
     }
-    // make another call to dfs passing in tree
-    dfs(tree);
-    // once all done with the path traversal, return the current value of max
-    return max;
+    // set up variable left to equal the max between 0 and a call to dfs passing in the tree.left
+    let left = Math.max(0, dfs(tree.left));
+    // set up variable right to equal the max between 0 and a call to dfs passing in the tree.right
+    let right = Math.max(0, dfs(tree.right));
+    // set max variable equal to the maximum between current value of max, and the total of left plus right plus the tree.value
+    max = Math.max(max, left + right + tree.value);
+    // return the maximum between left or right plus the tree.value
+    return Math.max(left, right) + tree.value;
+  };
+  // make another call to dfs passing in tree
+  dfs(tree);
+  // once all done with the path traversal, return the current value of max
+  return max;
 }

@@ -29,135 +29,133 @@
 // ConinuousMedianHandler class which builds off heap class, providing lowers heap, greaters heap, and median
 
 class ContinuousMedianHandler {
-    constructor() {
-        this.lowers = new Heap(MAX_HEAP_FUNC, []);
-        this.greaters = new Heap(MIN_HEAP_FUNC, []);
-        this.median = null;
+  constructor() {
+    this.lowers = new Heap(MAX_HEAP_FUNC, []);
+    this.greaters = new Heap(MIN_HEAP_FUNC, []);
+    this.median = null;
+  }
+  // main function for this class, which inserts a specific number from the array
+  insert(number) {
+    // if there is no item in lowers or if the number to insert is smaller than the head of the heap, then insert number into lowers heap
+    if (!this.lowers.length || number < this.lowers.peek()) {
+      this.lowers.insert(number);
+      // if both conditions above are false, then insert number into greaters heap
+    } else {
+      this.greaters.insert(number);
     }
-    // main function for this class, which inserts a specific number from the array
-    insert(number) {
-        // if there is no item in lowers or if the number to insert is smaller than the head of the heap, then insert number into lowers heap
-        if (!this.lowers.length || number < this.lowers.peek()) {
-            this.lowers.insert(number);
-        // if both conditions above are false, then insert number into greaters heap
-        } else {
-            this.greaters.insert(number);
-        }
-        // once inserted, check to rebalance the heaps
-        this.rebalanceHeaps();
-        // once heaps are rebalanced, can then calculate the updated median value
-        this.updateMedian();
+    // once inserted, check to rebalance the heaps
+    this.rebalanceHeaps();
+    // once heaps are rebalanced, can then calculate the updated median value
+    this.updateMedian();
+  }
+  // function which helps to maintain balanced heaps, continually checking to ensure heaps are not off by more than 2 nodes
+  rebalanceHeaps() {
+    // if the length of lowers heap is 2 values longer than greaters heap, then insert a call to remove from lowers into greaters
+    if (this.lowers.length - this.greaters.length === 2) {
+      this.greaters.insert(this.lowers.remove());
+      // if the length of greaters heap is 2 values longer than lowers heap, then insert a call to remove from greaters into lowers
+    } else if (this.greaters.length - this.lowers.length === 2) {
+      this.lowers.insert(this.greaters.remove());
     }
-    // function which helps to maintain balanced heaps, continually checking to ensure heaps are not off by more than 2 nodes
-    rebalanceHeaps() {
-        // if the length of lowers heap is 2 values longer than greaters heap, then insert a call to remove from lowers into greaters
-        if (this.lowers.length - this.greaters.length === 2) {
-            this.greaters.insert(this.lowers.remove());
-        // if the length of greaters heap is 2 values longer than lowers heap, then insert a call to remove from greaters into lowers
-        } else if (this.greaters.length - this.lowers.length === 2) {
-            this.lowers.insert(this.greaters.remove());
-        }
+  }
+  // function which updates the median value from the head nodes of the heaps, and this workss simplistically since we know heaps will either be perfectly balanced or off by at most 1 value
+  updateMedian() {
+    // if the lengths of the heaps are the same, then calculate median by taking the average of head nodes from lowers and greaters heaps
+    if (this.lowers.length === this.greaters.length) {
+      this.median = (this.lowers.peek() + this.greaters.peek()) / 2;
+      // if lowers heap is longer, then set median to the head node of lowers heap
+    } else if (this.lowers.length > this.greaters.length) {
+      this.median = this.lowers.peek();
+      // if greaters heap is longer, then set median to the head node of greaters heap
+    } else {
+      this.median = this.greaters.peek();
     }
-    // function which updates the median value from the head nodes of the heaps, and this workss simplistically since we know heaps will either be perfectly balanced or off by at most 1 value
-    updateMedian() {
-        // if the lengths of the heaps are the same, then calculate median by taking the average of head nodes from lowers and greaters heaps
-        if (this.lowers.length === this.greaters.length) {
-            this.median = (this.lowers.peek() + this.greaters.peek()) / 2;
-        // if lowers heap is longer, then set median to the head node of lowers heap
-        } else if (this.lowers.length > this.greaters.length) {
-            this.median = this.lowers.peek();
-        // if greaters heap is longer, then set median to the head node of greaters heap
-        } else {
-            this.median = this.greaters.peek();
-        }
-    }
-    // function to get median value, which simply returns the median
-    getMedian() {
-        return this.median;
-    }
+  }
+  // function to get median value, which simply returns the median
+  getMedian() {
+    return this.median;
+  }
 }
 
 // heap class which has main functions, including insertion, removal, sifting up, sifting down, peeking, swapping
 class Heap {
-    constructor(comparisonFunc, array) {
-        this.comparisonFunc = comparisonFunc;
-        this.heap = this.buildHeap(array);
-        this.length = this.heap.length;
-    }
+  constructor(comparisonFunc, array) {
+    this.comparisonFunc = comparisonFunc;
+    this.heap = this.buildHeap(array);
+    this.length = this.heap.length;
+  }
 
-    buildHeap(array) {
-        let firstParentIdx = Math.floor((array.length - 2) / 2);
-        for (let currentIdx = 0; currentIdx >= 0; currentIdx--) {
-            this.siftDown(currentIdx, array.length - 1, array);
+  buildHeap(array) {
+    let firstParentIdx = Math.floor((array.length - 2) / 2);
+    for (let currentIdx = 0; currentIdx >= 0; currentIdx--) {
+      this.siftDown(currentIdx, array.length - 1, array);
+    }
+    return array;
+  }
+
+  siftDown(currentIdx, endIdx, heap) {
+    let childOneIdx = currentIdx * 2 + 1;
+    while (childOneIdx <= endIdx) {
+      let childTwoIdx = currentIdx * 2 + 2 <= endIdx ? currentIdx * 2 + 2 : -1;
+      let idxToSwap;
+      if (childTwoIdx !== -1) {
+        if (this.comparisonFunc(heap[childTwoIdx], heap[childOneIdx])) {
+          idxToSwap = childTwoIdx;
+        } else {
+          idxToSwap = childOneIdx;
         }
-        return array;
+      } else {
+        idxToSwap = childOneIdx;
+      }
+
+      if (this.comparisonFunc(heap[idxToSwap], heap[currentIdx])) {
+        this.swap(currentIdx, idxToSwap, heap);
+        currentIdx = idxToSwap;
+        childOneIdx = currentIdx * 2 + 1;
+      } else {
+        return;
+      }
     }
+  }
 
-    siftDown(currentIdx, endIdx, heap) {
-        let childOneIdx = currentIdx * 2 + 1;
-        while (childOneIdx <= endIdx) {
-            let childTwoIdx = currentIdx * 2 + 2 <= endIdx? currentIdx * 2 + 2 : -1
-            let idxToSwap;
-            if (childTwoIdx !== -1) {
-                if (this.comparisonFunc(heap[childTwoIdx], heap[childOneIdx])) {
-                    idxToSwap = childTwoIdx;
-                } else {
-                    idxToSwap = childOneIdx;
-                }
-            } else {
-                idxToSwap = childOneIdx;
-            }
-
-            if (this.comparisonFunc(heap[idxToSwap], heap[currentIdx])) {
-                this.swap(currentIdx, idxToSwap, heap);
-                currentIdx = idxToSwap;
-                childOneIdx = currentIdx * 2 + 1;
-            } else {
-                return;
-            }
-        }
+  siftUp(currentIdx, heap) {
+    let parentIdx = Math.floor((currentIdx - 1) / 2);
+    while (currentIdx > 0) {
+      if (this.comparisonFunc(heap[currentIdx], heap[parentIdx])) {
+        this.swap(currentIdx, parentIdx, heap);
+        currentIdx = parentIdx;
+        parentIdx = Math.floor((currentIdx - 1) / 2);
+      } else {
+        return;
+      }
     }
+  }
 
-    siftUp(currentIdx, heap) {
-        let parentIdx = Math.floor((currentIdx - 1) / 2);
-        while (currentIdx > 0) {
-            if (this.comparisonFunc(heap[currentIdx], heap[parentIdx])) {
-                this.swap(currentIdx, parentIdx, heap);
-                currentIdx = parentIdx;
-                parentIdx = Math.floor((currentIdx - 1) / 2);
-            } else {
-                return;
-            }
-        }
-    }
+  peek() {
+    return this.heap[0];
+  }
 
-    peek() {
-        return this.heap[0];
-    }
+  remove() {}
 
-    remove() {
+  insert(value) {
+    this.heap.push(value);
+    this.length++;
+    this.siftUp(this.length - 1, this.heap);
+  }
 
-    }
-
-    insert(value) {
-        this.heap.push(value);
-        this.length++;
-        this.siftUp(this.length - 1, this.heap);
-    }
-
-    swap(i, j, heap) {
-        let temp = heap[j];
-        heap[j] = heap[i];
-        heap[i] = temp;
-    }
+  swap(i, j, heap) {
+    let temp = heap[j];
+    heap[j] = heap[i];
+    heap[i] = temp;
+  }
 }
 
 // function to build a max heap by comparing two input values
 function MAX_HEAP_FUNC(a, b) {
-    return a > b;
+  return a > b;
 }
 
 // function to build a min heap by comparing two input values
 function MIN_HEAP_FUNC(a, b) {
-    return a < b;
+  return a < b;
 }

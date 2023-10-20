@@ -26,109 +26,109 @@
 
 // main class with the buildHeap, siftDown, insert, peek, and remove methods
 class MinHeap {
-    constructor(array) {
-        // set the heap equal to a call to buildHeap method, passing in the input array
-        this.heap = this.buildHeap(array);
+  constructor(array) {
+    // set the heap equal to a call to buildHeap method, passing in the input array
+    this.heap = this.buildHeap(array);
+  }
+  // O(n) time
+  // O(1) space
+  // buildHeap method which constructs the MinHeap from the input array
+  buildHeap(array) {
+    // initialize variable firstParentIdx, and set it equal to the floored value of the array's length minus two, then divided by 2, which is essentially the middle of the MinHeap
+    let firstParentIdx = Math.floor((array.length - 2) / 2);
+    // iterate over the items in the MinHeap,
+    for (let currentIdx = firstParentIdx; currentIdx >= 0; currentIdx--) {
+      this.siftDown(currentIdx, array.length - 1, array);
     }
-    // O(n) time
-    // O(1) space
-    // buildHeap method which constructs the MinHeap from the input array
-    buildHeap(array) {
-        // initialize variable firstParentIdx, and set it equal to the floored value of the array's length minus two, then divided by 2, which is essentially the middle of the MinHeap
-        let firstParentIdx = Math.floor((array.length - 2) / 2);
-        // iterate over the items in the MinHeap, 
-        for (let currentIdx = firstParentIdx; currentIdx >= 0; currentIdx--) {
-            this.siftDown(currentIdx, array.length - 1, array);
-        }
-        return array;
+    return array;
+  }
+  // O(log(n)) time
+  // O(1) space
+  // siftDown method which moves a value down the heap into proper position, and takes in the index to sift down, the last position, and the heap itself
+  siftDown(currentIdx, endIdx, heap) {
+    // mathematically calculate the childOneIdx of the currentIdx
+    let childOneIdx = currentIdx * 2 + 1;
+    // while this childOneIdx is less than or equal to the endIdx, meaning in bounds, keep sifting down
+    while (childOneIdx <= endIdx) {
+      // ternary check to calculate the childTwoIdx, and whether it is less than endIdx, otherwise return -1
+      let childTwoIdx = currentIdx * 2 + 2 <= endIdx ? currentIdx * 2 + 2 : -1;
+      // initialize variable idxToSwap
+      let idxToSwap;
+      // check whether childTwoIdx is anything other than -1 AND whether the childTwoIdx is less than childOneIdx, and if both true, execute below
+      if (childTwoIdx !== -1 && heap[childTwoIdx] < heap[childOneIdx]) {
+        // set idxToSwap equal to childTwoIdx
+        idxToSwap = childTwoIdx;
+        // if either condition in the if statement is not met, execute below
+      } else {
+        // set idxToSwap equal to childOneIdx
+        idxToSwap = childOneIdx;
+      }
+      // check whether the value of idxToSwap, after being set above, is less than currentIdx, and if so, execute below
+      if (heap[idxToSwap] < heap[currentIdx]) {
+        // call swap function, passing in the currentIdx, idxToSwap, and the heap itself
+        this.swap(currentIdx, idxToSwap, heap);
+        // set the currentIdx equal to idxToSwap
+        currentIdx = idxToSwap;
+        // mathematically calculate the next childOneIdx
+        childOneIdx = currentIdx * 2 + 1;
+        // if value of idxToSwap is greater than currentIdx, node should be in proper position, so simply return
+      } else {
+        return;
+      }
     }
-    // O(log(n)) time
-    // O(1) space
-    // siftDown method which moves a value down the heap into proper position, and takes in the index to sift down, the last position, and the heap itself
-    siftDown(currentIdx, endIdx, heap) {
-        // mathematically calculate the childOneIdx of the currentIdx
-        let childOneIdx = currentIdx * 2 + 1;
-        // while this childOneIdx is less than or equal to the endIdx, meaning in bounds, keep sifting down
-        while (childOneIdx <= endIdx) {
-            // ternary check to calculate the childTwoIdx, and whether it is less than endIdx, otherwise return -1
-            let childTwoIdx = currentIdx * 2 + 2 <= endIdx ? currentIdx * 2 + 2 : - 1;
-            // initialize variable idxToSwap
-            let idxToSwap;
-            // check whether childTwoIdx is anything other than -1 AND whether the childTwoIdx is less than childOneIdx, and if both true, execute below
-            if (childTwoIdx !== -1 && heap[childTwoIdx] < heap[childOneIdx]) {
-                // set idxToSwap equal to childTwoIdx
-                idxToSwap = childTwoIdx;
-            // if either condition in the if statement is not met, execute below
-            } else {
-                // set idxToSwap equal to childOneIdx
-                idxToSwap = childOneIdx;
-            }
-            // check whether the value of idxToSwap, after being set above, is less than currentIdx, and if so, execute below
-            if (heap[idxToSwap] < heap[currentIdx]) {
-                // call swap function, passing in the currentIdx, idxToSwap, and the heap itself
-                this.swap(currentIdx, idxToSwap, heap);
-                // set the currentIdx equal to idxToSwap
-                currentIdx = idxToSwap;
-                // mathematically calculate the next childOneIdx
-                childOneIdx = currentIdx * 2 + 1;
-            // if value of idxToSwap is greater than currentIdx, node should be in proper position, so simply return
-            } else {
-                return;
-            }
-        }
+  }
+  // O(log(n)) time
+  // O(1) space
+  // siftUp method which moves a value up the heap into proper position, and takes in the index to sift upward and the heap itself
+  siftUp(currentIdx, heap) {
+    // initialize variable parentIdx to equal the floored value of the currentIdx passed in minus 1, then divided by 2
+    let parentIdx = Math.floor((currentIdx - 1) / 2);
+    // keep sifting up so long as the currentIdx is greater than 0 AND the value of currentIdx in the MinHeap is less than the value of parentIdx in the MinHeap
+    while (currentIdx > 0 && heap[currentIdx] < heap[parentIdx]) {
+      // swap the values at the index of currentIdx and parentIdx
+      this.swap(currentIdx, parentIdx, heap);
+      // set currentIdx equal to parentIdx
+      currentIdx = parentIdx;
+      // set parentIdx equal to the floored value of currentIdx minus 1, then divided by 2
+      parentIdx = Math.floor((currentIdx - 1) / 2);
     }
-    // O(log(n)) time
-    // O(1) space
-    // siftUp method which moves a value up the heap into proper position, and takes in the index to sift upward and the heap itself
-    siftUp(currentIdx, heap) {
-        // initialize variable parentIdx to equal the floored value of the currentIdx passed in minus 1, then divided by 2
-        let parentIdx = Math.floor((currentIdx - 1) / 2);
-        // keep sifting up so long as the currentIdx is greater than 0 AND the value of currentIdx in the MinHeap is less than the value of parentIdx in the MinHeap
-        while (currentIdx > 0 && heap[currentIdx] < heap[parentIdx]) {
-            // swap the values at the index of currentIdx and parentIdx
-            this.swap(currentIdx, parentIdx, heap);
-            // set currentIdx equal to parentIdx
-            currentIdx = parentIdx;
-            // set parentIdx equal to the floored value of currentIdx minus 1, then divided by 2
-            parentIdx = Math.floor((currentIdx - 1) / 2);
-        }
-    }
-    // O(1) time
-    // O(1) space
-    // peek method which allows a view at root/min value in the MinHeap at any given time
-    peek() {
-        // returns the first index in the MinHeap/array
-        return this.heap[0];
-    }
-    // O(log(n)) time
-    // O(1) space
-    // remove method which excises a min/root value from the MinHeap
-    remove () {
-        // call swap method, passing in index 0 and last item in the array/MinHeap
-        this.swap(0, this.heap.length - 1, this.heap);
-        // initialize variable valueToRemove and set equal to the popped item/last value in the heap/array
-        let valueToRemove = this.heap.pop();
-        // call the siftDown method, passsing in index 0, the last item in MinHeap/array, and sift this value down
-        this.siftDown(0, this.heap.length - 1, this.heap);
-        // return the valueToRemove, which is now gone
-        return valueToRemove;
-    }
-    // O(log(n)) time
-    // O(1) space
-    // insert method, which allows the addition of new values into the MinHeap
-    insert(value) {
-        // push the value to insert onto the end of the MinHeap/array
-        this.heap.push(value);
-        // call the siftUp method, passing in the index of the value to siftUp (which is currently the last index in the array), which is this new inserted value, and the heap itself
-        this.siftUp(this.heap.length - 1, this.heap);
-    }
-    // swap method, which is necessary since there's no built-in function for this in JS, which takes in the indexes to swap and a temp variable
-    swap(i, j, temp) {
-        // set temp variable equal to the value at index j in the MinHeap
-        let temp = heap[j];
-        // set value at index j in MinHeap equal to the value at index i in MinHeap
-        heap[j] = heap[i];
-        // set value at index i in MinHeap equal to the index store in temp variable
-        heap[i] = temp;
-    }
+  }
+  // O(1) time
+  // O(1) space
+  // peek method which allows a view at root/min value in the MinHeap at any given time
+  peek() {
+    // returns the first index in the MinHeap/array
+    return this.heap[0];
+  }
+  // O(log(n)) time
+  // O(1) space
+  // remove method which excises a min/root value from the MinHeap
+  remove() {
+    // call swap method, passing in index 0 and last item in the array/MinHeap
+    this.swap(0, this.heap.length - 1, this.heap);
+    // initialize variable valueToRemove and set equal to the popped item/last value in the heap/array
+    let valueToRemove = this.heap.pop();
+    // call the siftDown method, passsing in index 0, the last item in MinHeap/array, and sift this value down
+    this.siftDown(0, this.heap.length - 1, this.heap);
+    // return the valueToRemove, which is now gone
+    return valueToRemove;
+  }
+  // O(log(n)) time
+  // O(1) space
+  // insert method, which allows the addition of new values into the MinHeap
+  insert(value) {
+    // push the value to insert onto the end of the MinHeap/array
+    this.heap.push(value);
+    // call the siftUp method, passing in the index of the value to siftUp (which is currently the last index in the array), which is this new inserted value, and the heap itself
+    this.siftUp(this.heap.length - 1, this.heap);
+  }
+  // swap method, which is necessary since there's no built-in function for this in JS, which takes in the indexes to swap and a temp variable
+  swap(i, j, temp) {
+    // set temp variable equal to the value at index j in the MinHeap
+    let temp = heap[j];
+    // set value at index j in MinHeap equal to the value at index i in MinHeap
+    heap[j] = heap[i];
+    // set value at index i in MinHeap equal to the index store in temp variable
+    heap[i] = temp;
+  }
 }
