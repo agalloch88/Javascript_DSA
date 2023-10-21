@@ -22,3 +22,37 @@
 // Station 1 does steps 0 and 1, Station 2 does steps 2 and 3, Station 3 does step 4
 
 // Solution 1:
+
+function optimalAssemblyLine(stepDurations, numStations) {
+    let left = Math.max(...stepDurations);
+    let right = stepDurations.reduce((a, b) => a + b);
+    let maxStationDuration = Infinity;
+
+    while (left <= right) {
+        let potentialMaxStationDuration = Math.floor((left + right) / 2);
+
+        if (isPotentialSolution(stepDurations, numStations, potentialMaxStationDuration)) {
+            maxStationDuration = potentialMaxStationDuration;
+            right = potentialMaxStationDuration - 1;
+        } else {
+            left = potentialMaxStationDuration + 1;
+        }
+    }
+    return maxStationDuration;
+}
+
+function isPotentialSolution(stepDurations, numStations, potentialMaxStationDuration) {
+    let stationsRequired = 1;
+    let currentDuration = 0;
+
+    for (let stepDuration of stepDurations) {
+        if (currentDuration + stepDuration > potentialMaxStationDuration) {
+            stationsRequired++;
+            currentDuration = stepDuration;
+        } else {
+            currentDuration += stepDuration;
+        }
+    }
+
+    return stationsRequired <= numStations;
+}
