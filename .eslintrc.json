@@ -5,15 +5,32 @@
       "es6": true,
       "node": true
     },
+    "overrides": [
+      {
+        "files": ["**/*.js"], // apply to all JS files, adjust as needed
+        "rules": {
+          "no-redeclare": "off",
+          "no-var": "off"
+        }
+      }
+    ],
     "plugins": ["prettier"],
     "rules": {
+      "no-redeclare": "off",
       "prettier/prettier": "error",
       "spaced-comment": ["error", "always", {
         "exceptions": ["?", "!"]
       }]
     },
+    "parser": "@babel/eslint-parser",
     "parserOptions": {
+      "allowImportExportEverywhere": true,
+      "codeFrame": false,
       "ecmaVersion": 2021,
+      "requireConfigFile": false,
+      "babelOptions": {
+        "presets": ["@babel/preset-env"]
+      },
       "sourceType": "module"
     }
   }

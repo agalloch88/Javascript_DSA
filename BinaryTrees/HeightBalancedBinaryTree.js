@@ -23,7 +23,7 @@
 // O(n) time due to iterating over n nodes in tree
 // O(h) space where h is the height of the longest branch, as there will be at most h frames on call stack at any given time
 
-//provided class for Binary Tree
+// provided class for Binary Tree
 class BinaryTree {
   constructor(value) {
     this.value = value;
