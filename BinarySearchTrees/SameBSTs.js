@@ -33,67 +33,67 @@
 
 // main functions which takes in the two arrays representing the theoretical BST's to compare
 function sameBsts(arrayOne, arrayTwo) {
-    // base/edge cases
-    // check whether the two arrays/BST's are different lengths
-    // if so, these are not the same as there are extra or missing elements, so return false
-    if (arrayOne.length !== arrayTwo.length) {
-        return false;
-    }
+  // base/edge cases
+  // check whether the two arrays/BST's are different lengths
+  // if so, these are not the same as there are extra or missing elements, so return false
+  if (arrayOne.length !== arrayTwo.length) {
+    return false;
+  }
 
-    // check whether the lengths of the input arrays are at 0, meaning all values are processed, and if so, this is an indication the BST's are the same, so return true
-    if (arrayOne.length === 0 && arrayTwo.length === 0) {
-        return true;
-    }
+  // check whether the lengths of the input arrays are at 0, meaning all values are processed, and if so, this is an indication the BST's are the same, so return true
+  if (arrayOne.length === 0 && arrayTwo.length === 0) {
+    return true;
+  }
 
-    // check whether the first values in the two arrays/BST's are the same
-    // this is the root of the entire BST, so if these values differ, there is no possible way for it to be the same BST, so return false
-    if (arrayOne[0] !== arrayTwo[0]) {
-        return false;
-    }
+  // check whether the first values in the two arrays/BST's are the same
+  // this is the root of the entire BST, so if these values differ, there is no possible way for it to be the same BST, so return false
+  if (arrayOne[0] !== arrayTwo[0]) {
+    return false;
+  }
 
-    // the remaining logic after the initial edge case checks involves splitting the two arrays into smaller/left subtree values, and bigger or equal/right subtree values
-    // initialize the requisite variables, then call helper functions
-    // these helper functions will get all the values smaller than root in each array, and all bigger or equal values compared to root in each array
-    let leftOne = getSmaller(arrayOne);
-    let leftTwo = getSmaller(arrayTwo);
-    let rightOne = getBiggerOrEqual(arrayOne);
-    let rightTwo = getBiggerOrEqual(arrayTwo);
+  // the remaining logic after the initial edge case checks involves splitting the two arrays into smaller/left subtree values, and bigger or equal/right subtree values
+  // initialize the requisite variables, then call helper functions
+  // these helper functions will get all the values smaller than root in each array, and all bigger or equal values compared to root in each array
+  let leftOne = getSmaller(arrayOne);
+  let leftTwo = getSmaller(arrayTwo);
+  let rightOne = getBiggerOrEqual(arrayOne);
+  let rightTwo = getBiggerOrEqual(arrayTwo);
 
-    // recursive case
-    // return recursive calls to sameBsts:
-    // will check that the leftOne and leftTwo portions are the same AND the rightOne and rightTwo portions are the same
-    // otherwise, if any element is false, this statement will return false
-    return sameBsts(leftOne, leftTwo) && sameBsts(rightOne, rightTwo);
+  // recursive case
+  // return recursive calls to sameBsts:
+  // will check that the leftOne and leftTwo portions are the same AND the rightOne and rightTwo portions are the same
+  // otherwise, if any element is false, this statement will return false
+  return sameBsts(leftOne, leftTwo) && sameBsts(rightOne, rightTwo);
 }
 
 // helper function which takes in a specific array and will find all the values smaller than the root/zero index of the BST/array
 function getSmaller(array) {
-    // initialize variable smaller and set equal to an empty array
-    let smaller = [];
+  // initialize variable smaller and set equal to an empty array
+  let smaller = [];
 
-    // iterate over all values in the input array, starting at index 1 since index 0 is already known
-    for (let i = 1; i < array.length; i++) {
-        // check whether the value at index i is less than the value at index 0, and if so, push this value into the smaller holder array
-        if (array[i] < array[0]) {
-            smaller.push(array[i]);
-        }
+  // iterate over all values in the input array, starting at index 1 since index 0 is already known
+  for (let i = 1; i < array.length; i++) {
+    // check whether the value at index i is less than the value at index 0, and if so, push this value into the smaller holder array
+    if (array[i] < array[0]) {
+      smaller.push(array[i]);
     }
-    // return the smaller array for use in the main function
-    return smaller;
+  }
+  // return the smaller array for use in the main function
+  return smaller;
 }
 
 // helper function which takes in a specific array and willfind all the values bigger than or equal to the root/zero index of the BST/array
 function getBiggerOrEqual(array) {
-    // initialize variable biggerOrEqual and set equal to an empty array
-    let biggerOrEqual = [];
+  // initialize variable biggerOrEqual and set equal to an empty array
+  let biggerOrEqual = [];
 
-    // iterate over all values in the input array, starting at index 1 since index 0 is already known
-    for (let i = 1; i < array.length; i++) {
-        // check whether the value at index i is bigger than or equal to the value at index 0, and if so, push this value into the biggerOrEqual holder array
-        if (array[i] >= array[0]) {
-            biggerOrEqual.push(array[i]);
-        }
+  // iterate over all values in the input array, starting at index 1 since index 0 is already known
+  for (let i = 1; i < array.length; i++) {
+    // check whether the value at index i is bigger than or equal to the value at index 0, and if so, push this value into the biggerOrEqual holder array
+    if (array[i] >= array[0]) {
+      biggerOrEqual.push(array[i]);
     }
-    // return the biggerOrEqual array for use in the main function
-    return biggerOrEqual;
+  }
+  // return the biggerOrEqual array for use in the main function
+  return biggerOrEqual;
 }
