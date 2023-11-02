@@ -97,3 +97,48 @@ function getBiggerOrEqual(array) {
   // return the biggerOrEqual array for use in the main function
   return biggerOrEqual;
 }
+
+// Solution 2:
+
+function sameBsts(arrayOne, arrayTwo) {
+    return areSameBsts(arrayOne, arrayTwo, 0, 0, -Infinity, Infinity);
+}
+
+function areSameBsts(arrayOne, arrayTwo, rootOneIdx, rootTwoIdx, minVal, maxVal) {
+    if (rootOneIdx === -1 || rootTwoIdx === -1) {
+        return rootOneIdx === rootTwoIdx;
+    }
+
+    if (arrayOne[rootOneIdx] !== arrayTwo[rootTwoIdx]) {
+        return false;
+    }
+
+    let leftRootIdxOne = getIdxOfFirstSmaller(arrayOne, rootOneIdx, minVal);
+    let leftRootIdxTwo = getIdxOfFirstSmaller(arrayTwo, rootTwoIdx, minVal);
+    let rightRootIdxOne = getIdxOfFirstBiggerOrEqual(arrayOne, rootOneIdx, maxVal);
+    let rightRootIdxTwo = getIdxOfFirstBiggerOrEqual(arrayTwo, rootTwoIdx, maxVal);
+
+    let currentValue = arrayOne[rootOneIdx];
+    let leftAreSame = areSameBsts(arrayOne, arrayTwo, leftRootIdxOne, leftRootIdxTwo, minVal, currentValue);
+    let rightAreSame = areSameBsts(arrayOne, arrayTwo, rightRootIdxOne, rightRootIdxTwo, currentValue, maxVal);
+
+    return leftAreSame && rightAreSame;
+}
+
+function getIdxOfFirstSmaller(array, startingIdx, minVal) {
+    for (let i = startingIdx + 1; i < array.length; i++) {
+        if (array[i] < array[startingIdx] && array[i] >= minVal) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+function getIdxOfFirstBiggerOrEqual(array, startingIdx, maxVal) {
+    for (let i = startingIdx + 1; i < array.length; i++) {
+        if (array[i] >= array[startingIdx] & array[i] < maxVal) {
+            return i;
+        }
+    }
+    return -1;
+}
