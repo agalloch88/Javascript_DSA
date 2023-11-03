@@ -100,10 +100,18 @@ function getBiggerOrEqual(array) {
 
 // Solution 2:
 
+// recursive solution opting to treat ever node checked as a root node of subtree, and using min/max value bounds to account for any values out of scope for subtree
+
+// O(n^2) time due to needing to check n possibilities n times
+// O(d) space, where d is the depth of the deeper BST, due to potentially d recursive calls on the call stack at any time, which may be as good as log(n) for balanced BST
+ 
+// main function which takes in the two input arrays
 function sameBsts(arrayOne, arrayTwo) {
+  // return a call to helper function, passing in the two input arrays, rootIdx values of 0 to start, and -Infinity/Infinity bounds for the min and max values
   return areSameBsts(arrayOne, arrayTwo, 0, 0, -Infinity, Infinity);
 }
 
+// helper function which takes in the two input arrays, rootIdx values for both arrays, and min/max values to consider
 function areSameBsts(
   arrayOne,
   arrayTwo,
@@ -112,14 +120,21 @@ function areSameBsts(
   minVal,
   maxVal,
 ) {
+  // base case checks
+  // check whether either rootOneIdx or rootTwoIdx come back as -1 from helper function, and if so, execute below
   if (rootOneIdx === -1 || rootTwoIdx === -1) {
+    // return a check of whether the rootOneIdx and rootTwoIdx are equal to one another, because if not, these are not the same BST's, as would expect -1 to come back for both in that situation
     return rootOneIdx === rootTwoIdx;
   }
 
+  // check whether the root values in the arrays are not equal, in which case should return false
   if (arrayOne[rootOneIdx] !== arrayTwo[rootTwoIdx]) {
     return false;
   }
 
+  // set up same four variables, but this time using the subtree root approach and the min/max value bounds to exclude non-relevant values
+  // not creating arrays here, which is where the space savings occur
+  // variables contain the return values of helper functions grabbing the idx of the first smaller or bigger/equal values
   let leftRootIdxOne = getIdxOfFirstSmaller(arrayOne, rootOneIdx, minVal);
   let leftRootIdxTwo = getIdxOfFirstSmaller(arrayTwo, rootTwoIdx, minVal);
   let rightRootIdxOne = getIdxOfFirstBiggerOrEqual(
@@ -133,7 +148,11 @@ function areSameBsts(
     maxVal,
   );
 
+  // initialize variable currentValue and set equal to the rootOneIdx position in arrayOne
   let currentValue = arrayOne[rootOneIdx];
+  // recursive case
+  // initialize two new variables, leftAreSame and rightAreSame, to check whether those subtrees are the same via recursive calls to areSameBsts()
+  // for leftAreSame, the maxVal parameter will be the currentValue
   let leftAreSame = areSameBsts(
     arrayOne,
     arrayTwo,
@@ -142,6 +161,7 @@ function areSameBsts(
     minVal,
     currentValue,
   );
+  // for rightAreSame, the minVal parameter will be currentValue
   let rightAreSame = areSameBsts(
     arrayOne,
     arrayTwo,
@@ -151,23 +171,34 @@ function areSameBsts(
     maxVal,
   );
 
+  // return a check of whether leftAreSame AND rightAreSame, which will generate the answer to the question
   return leftAreSame && rightAreSame;
 }
 
+// helper function which finds idx of the first smaller value compared to the startingIdx
 function getIdxOfFirstSmaller(array, startingIdx, minVal) {
+  // iterate over the passed in array, starting at the next value after the startingIdx
   for (let i = startingIdx + 1; i < array.length; i++) {
+    // check whether the value at i in the array is smaller than the value of startingIdx AND whether the value at i in the array is greater than or equal to the minVal constraint
     if (array[i] < array[startingIdx] && array[i] >= minVal) {
+      // if both checks above are true, return the value at i for use in areSameBsts()
       return i;
     }
   }
+  // if no values are found which match the conditions above, return -1 instead for use in areSameBsts()
   return -1;
 }
 
+// helper function which finds idx of the first greater or equal value compared to the startingIdx
 function getIdxOfFirstBiggerOrEqual(array, startingIdx, maxVal) {
+  // itarte over the passed in array, starting at the next value after the startingIdx
   for (let i = startingIdx + 1; i < array.length; i++) {
+    // check whether the value at i in the array is greater than or equal to the startingIdx AND whether the value at i in the array is less than the maxVal constraint
     if ((array[i] >= array[startingIdx]) & (array[i] < maxVal)) {
+      // if both checks above are true, return the value at i for use in areSameBsts()
       return i;
     }
   }
+  // if no values are found which match the conditions above, return -1 instead for use in areSameBsts()
   return -1;
 }
