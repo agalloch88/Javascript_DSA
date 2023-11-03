@@ -104,7 +104,7 @@ function getBiggerOrEqual(array) {
 
 // O(n^2) time due to needing to check n possibilities n times
 // O(d) space, where d is the depth of the deeper BST, due to potentially d recursive calls on the call stack at any time, which may be as good as log(n) for balanced BST
- 
+
 // main function which takes in the two input arrays
 function sameBsts(arrayOne, arrayTwo) {
   // return a call to helper function, passing in the two input arrays, rootIdx values of 0 to start, and -Infinity/Infinity bounds for the min and max values
