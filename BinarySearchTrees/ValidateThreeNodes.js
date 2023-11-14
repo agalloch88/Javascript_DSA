@@ -32,6 +32,12 @@
 
 // Solution 1:
 
+// recursive solution checking which node between one and three is descendant or ancestor
+
+// O(h) time, where h is the height of the BST, due to potentially going h nodes deep on a descendant/ancestor check
+// O(h) space, where h is the height of the BST, due to potentially having up to h calls on the call stack
+
+// BST class, where every node has a value, and potentially a left/right pointer, or None/null
 class BST {
   constructor(value) {
     this.value = value;
@@ -40,27 +46,39 @@ class BST {
   }
 }
 
+// main function taking in the three nodes to validate
 function validateThreeNodes(nodeOne, nodeTwo, nodeThree) {
+  // check whether nodeOne is a descendant of nodeTwo via calling helper function, and if so, execute below
   if (isDescendant(nodeTwo, nodeOne)) {
+    // return a check via helper function as to whether, given nodeOne is a descendant of nodeTwo, whether nodeTwo is a descendant of nodeThree
     return isDescendant(nodeThree, nodeTwo);
   }
 
+  // check whether nodeThree is a descendant of nodeTwo via calling helper function, and if so, execute below
   if (isDescendant(nodeTwo, nodeThree)) {
+    // return a check via helper function as to whether, given nodeThree is a descendant of nodeTwo, whether nodeTwo is a descendant of nodeOne
     return isDescendant(nodeOne, nodeTwo);
   }
 
+  // if neither if block returns anything, simply return false
   return false;
 }
-
+// helper function taking in two inputs: a given node, and a target node based on the given node
 function isDescendant(node, target) {
+  // base cases
+  // check whether the given node is null, and if so, return false as a null node cannot be a descendant
   if (node === null) {
     return false;
   }
 
+  // check whether the node and target are equal, and if so, return true
   if (node === target) {
     return true;
   }
 
+  // return the result of a ternary checking whether the target.value is less than the node.value
+  // due to BST properties, if the target value IS smaller than the node value, then will be looking in the left subtree
+  // if not, then will be looking in the right subtree
   return target.value < node.value
     ? isDescendant(node.left, target)
     : isDescendant(node.right, target);
