@@ -86,6 +86,55 @@ function isDescendant(node, target) {
 
 // Solution 2:
 
+// another recursive solution simplying the logic in helper to reduce space complexity
+
+// O(h) time, where h is the height of the BST, due to potentially searching h levels deep in BST
+// O(1) space due to simplified logic in helper
+
+// BST class, where every node has a value, and potentially a left/right pointer, or None/null
+class BST {
+  constructor(value) {
+    this.value = value;
+    this.left = null;
+    this.right = null;
+  }
+}
+
+// main function taking in the three nodes to validate
+function validateThreeNodes(nodeOne, nodeTwo, nodeThree) {
+  // check via call to helper whether nodeOne is a descendant of nodeTwo, and if so, execute below
+  if (isDescendant(nodeTwo, nodeOne)) {
+    // return another call to helper to check whether nodeTwo is a descendant of nodeThree
+    return isDescendant(nodeThree, nodeTwo);
+  }
+
+  // check via call to helper whether nodeThree is a descendant of nodeTwo, and if so, execute below
+  if (isDescendant(nodeTwo, nodeThree)) {
+    // return another call to helper to check whether nodeTwo is a descendant of nodeOne
+    return isDescendant(nodeOne, nodeTwo);
+  }
+
+  // if neither blocks above return, then return false as cannot validate the three nodes
+  return false;
+
+}
+
+// helper function taking in two inputs: a given node, and a target node based on the given node
+function isDescendant(node, target) {
+  // so long as node is not null AND the node is not equal to the target, keep looping
+  while (node !== null && node !== target) {
+    // set node equal to result from ternary checking whether value of target is less than value of node
+    // if so, look to the left so set node equal to node.left
+    // if not, look to the right so set node equal to node.right
+    node = target.value < node.value ? node.left : node.right;
+  }
+
+  // once while loop exits, return a check of whether node is equal to target for use in main function
+  return node === target;
+}
+
+// Solution 3:
+
 class BST {
   constructor(value) {
     this.value = value;
@@ -95,19 +144,39 @@ class BST {
 }
 
 function validateThreeNodes(nodeOne, nodeTwo, nodeThree) {
-  if (isDescendant(nodeTwo, nodeOne)) {
-    return isDescendant(nodeThree, nodeTwo);
+  let searchOne = nodeOne;
+  let searchTwo = nodeThree;
+
+  while (true) {
+    let foundThreeFromOne = searchOne === nodeThree;
+    let foundOneFromThree = searchTwo === nodeOne;
+    let foundNodeTwo = searchOne === nodeTwo || searchTwo === nodeTwo;
+    let finishedSearching = searchOne === null && searchTwo === null;
+
+    if (foundThreeFromOne || foundOneFromThree || foundNodeTwo || finishedSearching) {
+      break;
+    }
+
+    if (searchOne !== null) {
+      searchOne = searchOne.value > nodeTwo.value ? searchOne.left : searchOne.right;
+    }
+
+    if (searchTwo !== null) {
+      searchTwo = searchTwo.value > nodeTwo.value ? searchTwo.left : searchTwo.right;
+    }
   }
 
-  if (isDescendant(nodeTwo, nodeThree)) {
-    return isDescendant(nodeOne, nodeTwo);
+  let foundNodeFromOther = searchOne === nodeThree || searchTwo === nodeOne;
+  let foundNodeTwo = searchOne === nodeTwo || searchTwo === nodeTwo;
+
+  if (!foundNodeTwo || foundNodeFromOther) {
+    return false;
   }
 
-  return false;
-
+  return searchForTarget(nodeTwo, searchOne === nodeTwo ? nodeThree : nodeOne);
 }
 
-function isDescendant(node, target) {
+function searchForTarget(node, target) {
   while (node !== null && node !== target) {
     node = target.value < node.value ? node.left : node.right;
   }
