@@ -116,7 +116,6 @@ function validateThreeNodes(nodeOne, nodeTwo, nodeThree) {
 
   // if neither blocks above return, then return false as cannot validate the three nodes
   return false;
-
 }
 
 // helper function taking in two inputs: a given node, and a target node based on the given node
@@ -153,16 +152,23 @@ function validateThreeNodes(nodeOne, nodeTwo, nodeThree) {
     let foundNodeTwo = searchOne === nodeTwo || searchTwo === nodeTwo;
     let finishedSearching = searchOne === null && searchTwo === null;
 
-    if (foundThreeFromOne || foundOneFromThree || foundNodeTwo || finishedSearching) {
+    if (
+      foundThreeFromOne ||
+      foundOneFromThree ||
+      foundNodeTwo ||
+      finishedSearching
+    ) {
       break;
     }
 
     if (searchOne !== null) {
-      searchOne = searchOne.value > nodeTwo.value ? searchOne.left : searchOne.right;
+      searchOne =
+        searchOne.value > nodeTwo.value ? searchOne.left : searchOne.right;
     }
 
     if (searchTwo !== null) {
-      searchTwo = searchTwo.value > nodeTwo.value ? searchTwo.left : searchTwo.right;
+      searchTwo =
+        searchTwo.value > nodeTwo.value ? searchTwo.left : searchTwo.right;
     }
   }
 
