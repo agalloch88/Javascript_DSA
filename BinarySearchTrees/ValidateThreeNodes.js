@@ -86,7 +86,7 @@ function isDescendant(node, target) {
 
 // Solution 2:
 
-// another recursive solution simplying the logic in helper to reduce space complexity
+// another solution simplying the logic in helper to reduce space complexity by taking iterative approach in isDescendant()
 
 // O(h) time, where h is the height of the BST, due to potentially searching h levels deep in BST
 // O(1) space due to simplified logic in helper
@@ -134,6 +134,12 @@ function isDescendant(node, target) {
 
 // Solution 3:
 
+// iterative solution searching for nodeTwo from nodeOne and nodeThree at the same time
+
+// O(d) time, where d is the distance between nodeOne and nodeThree
+// O(1) space since not using any recursive calls on the call stack
+
+// BST class, where every node has a value, and potentially a left/right pointer, or None/null
 class BST {
   constructor(value) {
     this.value = value;
@@ -142,16 +148,27 @@ class BST {
   }
 }
 
+// main function taking in the three nodes to validate
 function validateThreeNodes(nodeOne, nodeTwo, nodeThree) {
+  // initialize two variables, searchOne and searchTwo, and set them equal to nodeOne and nodeThree, respectively
+  // these variables will keep track of where in the BST the searches are individually
   let searchOne = nodeOne;
   let searchTwo = nodeThree;
 
+    // set up a while loop  to run indefinitely
   while (true) {
+    // set up four break conditions
+    // initialize variable foundThreeFromOne and set equal to a check of whether searchOne is equal to the value of nodeThree
     let foundThreeFromOne = searchOne === nodeThree;
+    // initialize variable foundOneFromThree, and set equal to a check of whether searchTwo is equal to the value of nodeOne
     let foundOneFromThree = searchTwo === nodeOne;
+    // initialize variable foundNodeTwo, and set equal to a check of whether searchOne is equal to the value of nodeTwo, meaning this node is found, OR whether searchTwo
+    // is equal to nodeTwo, meaning again that this node is found
     let foundNodeTwo = searchOne === nodeTwo || searchTwo === nodeTwo;
+    // initialize variable finishedSearching, and set equal to check of whether searchOne is null AND searchTwo is null, meaning have reached the last children nodes of subtrees
     let finishedSearching = searchOne === null && searchTwo === null;
 
+    // check whether any of the break conditions are true, and if ANY condition is true, break out of the while loop
     if (
       foundThreeFromOne ||
       foundOneFromThree ||
@@ -161,31 +178,51 @@ function validateThreeNodes(nodeOne, nodeTwo, nodeThree) {
       break;
     }
 
+    // check whether searchOne is any value except null, and if so, need to update the value of searchOne since not found the node yet
     if (searchOne !== null) {
+      // set searchOne equal to a check of whether the value of searchOne is greater than the value of nodeTwo, and if so, set equal to the left value of searchOne
+      // if not, set equal to the right value of searchOne
+      // using the BST properties here to determine which subtree to continue down
       searchOne =
         searchOne.value > nodeTwo.value ? searchOne.left : searchOne.right;
     }
 
+    // check whether searchTwo is any value except null, and if so, need to update the value of searchTwo since not found the node yet
     if (searchTwo !== null) {
+      // set searchTwo equal to a check of whether the value of searchTwo is greater than the value of nodeTwo, and if so, set equal to the left value of searchTwo
+      // if not, set equal to the right value of searchTwo
+      // using the BST properties here to determine which subtree to continue down
       searchTwo =
         searchTwo.value > nodeTwo.value ? searchTwo.left : searchTwo.right;
     }
   }
 
+  // back outside the while loop, do a couple checks
+  // initialize variable foundNodeFromOther to check whether nodeOne was found from nodeThree or vice versa
+  // in this instance, would need to return false, as cannot get a correct validation based on problem contraints
   let foundNodeFromOther = searchOne === nodeThree || searchTwo === nodeOne;
+  // initialize variable foundNodeTwo, and set equal to a check of whether nodeTwo was found via either search
+  // if so, this is good
   let foundNodeTwo = searchOne === nodeTwo || searchTwo === nodeTwo;
 
+  // check whether foundNodeTwo is false, or whether foundNodeFromOther is true, and if either condition hits, return false, as cannot validate the nodes
   if (!foundNodeTwo || foundNodeFromOther) {
     return false;
   }
 
+  // return a call to the searchForTarget helper function, passing in nodeTwo, and a ternary check to determine whether to pass in nodeThree or nodeOne based on whether searchOne
+  // is equal to nodeTwo or not
   return searchForTarget(nodeTwo, searchOne === nodeTwo ? nodeThree : nodeOne);
 }
 
+// helper function taking in a node and a target, which will search for the target
 function searchForTarget(node, target) {
+  // keep looping so long as not at a null node AND the node is not equal to the target
   while (node !== null && node !== target) {
+    // set node equal to a ternary check determining which subtree to advance down based on BST properties
     node = target.value < node.value ? node.left : node.right;
   }
 
+  // return a check of whether the node is equal to the target for use in main function
   return node === target;
 }
