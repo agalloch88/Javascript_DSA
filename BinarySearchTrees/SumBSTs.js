@@ -124,7 +124,7 @@ function getTreeInfo(tree) {
     }
   }
 
-//   return the following values for use in the main function
+  //   return the following values for use in the main function
   return {
     isBst,
     maxValue,

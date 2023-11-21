@@ -155,7 +155,7 @@ function validateThreeNodes(nodeOne, nodeTwo, nodeThree) {
   let searchOne = nodeOne;
   let searchTwo = nodeThree;
 
-    // set up a while loop  to run indefinitely
+  // set up a while loop  to run indefinitely
   while (true) {
     // set up four break conditions
     // initialize variable foundThreeFromOne and set equal to a check of whether searchOne is equal to the value of nodeThree
