@@ -19,3 +19,18 @@
 // There are 0 integers smaller than 2 which are to the right of 2
 
 // Solution 1:
+
+function rightSmallerThan(array) {
+  return array.map((inputValue, inputIndex) =>
+    array.reduce((numOfSmaller, valueReduce, indexReduce) => {
+      let isLeft = inputIndex > indexReduce;
+
+      if (isLeft) {
+        return numOfSmaller;
+      }
+
+      let isValueSmaller = valueReduce < inputValue;
+      return numOfSmaller + isValueSmaller;
+    }, 0),
+  );
+}
