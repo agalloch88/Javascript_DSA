@@ -20,17 +20,27 @@
 
 // Solution 1:
 
+// iterative solution utilizing the map and reduce methods
+
+// O(n^2) time due to mapping over inputs, then reducing values
+// O(n) space due to returning array of length n for right smaller than values
+
 function rightSmallerThan(array) {
-  return array.map((inputValue, inputIndex) =>
-    array.reduce((numOfSmaller, valueReduce, indexReduce) => {
-      let isLeft = inputIndex > indexReduce;
-
-      if (isLeft) {
-        return numOfSmaller;
-      }
-
-      let isValueSmaller = valueReduce < inputValue;
-      return numOfSmaller + isValueSmaller;
-    }, 0),
+  // Iterate over each element of the array using map, where inputValue is the current element and inputIndex is its index
+  return array.map(
+    (inputValue, inputIndex) =>
+      // Use reduce to accumulate the count of elements to the right of the current element that are smaller
+      array.reduce((numOfSmaller, valueReduce, indexReduce) => {
+        // Check if the current element in reduce (valueReduce) is to the right of the map's current element
+        let isLeft = inputIndex > indexReduce;
+        // If valueReduce is to the left or at the same position, skip it (do not increase the count)
+        if (isLeft) {
+          return numOfSmaller;
+        }
+        // Check if the current element in reduce is smaller than the current element in map
+        let isValueSmaller = valueReduce < inputValue;
+        // Increase the count (numOfSmaller) if valueReduce is smaller, else keep it the same
+        return numOfSmaller + isValueSmaller;
+      }, 0), // Initial count is set to 0
   );
 }
