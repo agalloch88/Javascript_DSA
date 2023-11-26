@@ -47,18 +47,30 @@ function rightSmallerThan(array) {
 
 // Solution 2:
 
+// simplistic but suboptimal solution looking at all remaining values for each index
+
+// O(n^2) time due to nested for loops
+// O(n) space due to returning new array of length n
+
 function rightSmallerThan(array) {
+    // initialize variable rightSmallerCounts which will hold the answers for each index, and set equal to an empty array
   let rightSmallerCounts = [];
 
+//   loop over the input array for every index
   for (let i = 0; i < array.length; i++) {
+    // initialize variable rightSmallerCount, and set equal to 0 at the outset
     let rightSmallerCount = 0;
 
+    // loop over every remaining index for each value of i
     for (let j = i + 1; j < array.length; j++) {
+        // if the value at j in the array is smaller than the value at i in the array, increment rightSmallerCount by 1
       if (array[j] < array[i]) {
         rightSmallerCount++;
       }
     }
+    // once the inner for loop above finishes, push the cumulative value of rightSmallerCount into the rightSmallerCounts array
     rightSmallerCounts.push(rightSmallerCount);
   }
+//   once outer for loop finishes, return the rightSmallerCounts array, which should hold the answers for each index
   return rightSmallerCounts;
 }
