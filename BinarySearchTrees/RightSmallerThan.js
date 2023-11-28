@@ -74,3 +74,67 @@ function rightSmallerThan(array) {
   // once outer for loop finishes, return the rightSmallerCounts array, which should hold the answers for each index
   return rightSmallerCounts;
 }
+
+// Solution 3:
+
+class SpecialBST{
+    constructor(value, idx, numSmallerAtInsertTime) {
+        this.value = value;
+        this.idx = idx;
+        this.numSmallerAtInsertTime = numSmallerAtInsertTime;
+        this.leftSubtreeSize = 0;
+        this.left = null;
+        this.right = null;
+    }
+
+    insert(value, idx, numSmallerAtInsertTime = 0) {
+        if (value < this.value) {
+            this.leftSubtreeSize++;
+
+            if (this.left === null) {
+                this.left = new SpecialBST(value, idx, numSmallerAtInsertTime);
+            } else {
+                this.left.insert(value, idx, numSmallerAtInsertTime);
+            }
+        } else {
+            numSmallerAtInsertTime += this.leftSubtreeSize;
+
+            if (value > this.value) {
+                numSmallerAtInsertTime++;
+            }
+
+            if (this.right === null) {
+                this.right = new SpecialBST(value, idx, numSmallerAtInsertTime)
+            } else {
+                this.right.insert(value, idx, numSmallerAtInsertTime);
+            }
+        }
+    }
+}
+
+function rightSmallerThan(array) {
+    if (array.length === 0) {
+        return [];
+    }
+
+    let lastIdx = array.length - 1;
+    let bst = new SpecialBST(array[lastIdx], lastIdx, 0);
+
+    for (let i = array.length - 2; i >= 0; i--) {
+        bst.insert(array[i], i);
+    }
+
+    let rightSmallerCounts = array.slice();
+    getRightSmallerCounts(bst, rightSmallerCounts);
+    return rightSmallerCounts;
+}
+
+function getRightSmallerCounts(bst, rightSmallerCounts) {
+    if (bst === null) {
+        return;
+    }
+
+    rightSmallerCounts[bst.idx] = bst.numSmallerAtInsertTime;
+    getRightSmallerCounts(bst.left, rightSmallerCounts);
+    getRightSmallerCounts(bst.right, rightSmallerCounts);
+}
