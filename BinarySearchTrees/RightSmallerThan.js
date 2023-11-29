@@ -77,6 +77,12 @@ function rightSmallerThan(array) {
 
 // Solution 3:
 
+// iterative solution starting at the end of the array and utilizing BST structure to determine answer working back to index 0
+
+// O(n(log(n))) time
+// O(n) space
+
+// modified BST class, adding idx to track position, plus the number of nodes smaller than current node at insert time, and the leftSubtreeSize
 class SpecialBST {
   constructor(value, idx, numSmallerAtInsertTime) {
     this.value = value;
@@ -87,24 +93,33 @@ class SpecialBST {
     this.right = null;
   }
 
+//   insert method for this class
   insert(value, idx, numSmallerAtInsertTime = 0) {
+    // if the value passed into insert method is smaller than the current value, execute below
     if (value < this.value) {
+        // this will indicate going left due to BST property, so increment leftSubtreeSize by 1
       this.leftSubtreeSize++;
 
+    //   if the left subtree is null, execute below and create a new SpecialBST under left
       if (this.left === null) {
         this.left = new SpecialBST(value, idx, numSmallerAtInsertTime);
+        // otherwise, insert into left
       } else {
         this.left.insert(value, idx, numSmallerAtInsertTime);
       }
+    // if value passed in is NOT smaller than current value, execute below
     } else {
+        // increment numSmallerAtInsertTime by the leftSubtreeSize value, since this is known to contain nodes all strictly smaller than current value
       numSmallerAtInsertTime += this.leftSubtreeSize;
-
+        // if the value passed in is greater than current value, then increment numSmallerAtInsertTime by 1 because this current value is also one to count
       if (value > this.value) {
         numSmallerAtInsertTime++;
       }
 
+    //   if the right subtree is null, then create a new SpecialBST under right
       if (this.right === null) {
         this.right = new SpecialBST(value, idx, numSmallerAtInsertTime);
+        // otherwise, insert into the right subtree
       } else {
         this.right.insert(value, idx, numSmallerAtInsertTime);
       }
@@ -112,29 +127,44 @@ class SpecialBST {
   }
 }
 
+// main function which takes in the input array of values
 function rightSmallerThan(array) {
+    // edge case
+    // handle if the input array is empty, and if so, simply return an empty array
   if (array.length === 0) {
     return [];
   }
 
+//   initialize variable lastIdx, and set equal to the last value in the input array
+// grabbing this value to work backward from
   let lastIdx = array.length - 1;
+//   initialize variable bst, and set equal to a new SpecialBST, passing in the value of lastIdx in array as the value, the lastIdx itsef as idx, and 0 as numSmallerAtInsertTime
   let bst = new SpecialBST(array[lastIdx], lastIdx, 0);
 
+//   iterate over all the values in the input array from right to left
   for (let i = array.length - 2; i >= 0; i--) {
+    // insert each value into the bst
     bst.insert(array[i], i);
   }
 
+// initialize variable rightSmallerCounts, and set equal to a slice of the input array to use to compare bst against
   let rightSmallerCounts = array.slice();
+//   call helper function getRightSmallerCounts, and pass in both the bst and the rightSmallerCounts slice
   getRightSmallerCounts(bst, rightSmallerCounts);
+//   return the values for rightSmallerCounts once helper function returns
   return rightSmallerCounts;
 }
 
+// helper function to count the values smaller to the right, taking in the bst and rightSmallerCounts arrays to compare
 function getRightSmallerCounts(bst, rightSmallerCounts) {
+    // handle edge case where bst is null/empty, and if so, simply return
   if (bst === null) {
     return;
   }
 
+//   set value in rightSmaller counts at the position of idx in the bst equal to the value of numSmallerAtInsertTime in bst
   rightSmallerCounts[bst.idx] = bst.numSmallerAtInsertTime;
+//   recursively call helper on the left and right subtrees to get those counts
   getRightSmallerCounts(bst.left, rightSmallerCounts);
   getRightSmallerCounts(bst.right, rightSmallerCounts);
 }
