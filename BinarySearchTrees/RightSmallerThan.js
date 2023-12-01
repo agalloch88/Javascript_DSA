@@ -168,3 +168,65 @@ function getRightSmallerCounts(bst, rightSmallerCounts) {
   getRightSmallerCounts(bst.left, rightSmallerCounts);
   getRightSmallerCounts(bst.right, rightSmallerCounts);
 }
+
+// Solution 4:
+
+class SpecialBST {
+  constructor(value) {
+    this.value = value;
+    this.leftSubtreeSize = 0;
+    this.left = null;
+    this.right = null;
+  }
+
+  insert(value, idx, rightSmallerCounts, numSmallerAtInsertTime = 0) {
+    if (value < this.value) {
+      this.leftSubtreeSize++;
+
+      if (this.left === null) {
+        this.left = new SpecialBST(value);
+      } else {
+        this.left.insert(
+          value,
+          idx,
+          rightSmallerCounts,
+          numSmallerAtInsertTime,
+        );
+      }
+    } else {
+      numSmallerAtInsertTime += this.leftSubtreeSize;
+
+      if (value > this.value) {
+        numSmallerAtInsertTime++;
+      }
+      if (this.right === null) {
+        this.right = new SpecialBST(value);
+        rightSmallerCounts[idx] = numSmallerAtInsertTime;
+      } else {
+        this.right.insert(
+          value,
+          idx,
+          rightSmallerCounts,
+          numSmallerAtInsertTime,
+        );
+      }
+    }
+  }
+}
+
+function rightSmallerThan(array) {
+  if (array.length === 0) {
+    return [];
+  }
+
+  let rightSmallerCounts = array.slice();
+  let lastIdx = array.length - 1;
+  let bst = new SpecialBST(aarraay[lastIdx]);
+  rightSmallerCounts[lastIdx] = 0;
+
+  for (let i = array.length - 2; i >= 0; i--) {
+    bst.insert(array[i], i, rightSmallerCounts);
+  }
+
+  return rightSmallerCounts;
+}
