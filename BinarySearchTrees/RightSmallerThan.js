@@ -93,14 +93,14 @@ class SpecialBST {
     this.right = null;
   }
 
-  //   insert method for this class
+  // insert method for this class
   insert(value, idx, numSmallerAtInsertTime = 0) {
     // if the value passed into insert method is smaller than the current value, execute below
     if (value < this.value) {
       // this will indicate going left due to BST property, so increment leftSubtreeSize by 1
       this.leftSubtreeSize++;
 
-      //   if the left subtree is null, execute below and create a new SpecialBST under left
+      // if the left subtree is null, execute below and create a new SpecialBST under left
       if (this.left === null) {
         this.left = new SpecialBST(value, idx, numSmallerAtInsertTime);
         // otherwise, insert into left
@@ -116,7 +116,7 @@ class SpecialBST {
         numSmallerAtInsertTime++;
       }
 
-      //   if the right subtree is null, then create a new SpecialBST under right
+      // if the right subtree is null, then create a new SpecialBST under right
       if (this.right === null) {
         this.right = new SpecialBST(value, idx, numSmallerAtInsertTime);
         // otherwise, insert into the right subtree
@@ -135,13 +135,13 @@ function rightSmallerThan(array) {
     return [];
   }
 
-  //   initialize variable lastIdx, and set equal to the last value in the input array
+  // initialize variable lastIdx, and set equal to the last value in the input array
   // grabbing this value to work backward from
   let lastIdx = array.length - 1;
-  //   initialize variable bst, and set equal to a new SpecialBST, passing in the value of lastIdx in array as the value, the lastIdx itsef as idx, and 0 as numSmallerAtInsertTime
+  // initialize variable bst, and set equal to a new SpecialBST, passing in the value of lastIdx in array as the value, the lastIdx itsef as idx, and 0 as numSmallerAtInsertTime
   let bst = new SpecialBST(array[lastIdx], lastIdx, 0);
 
-  //   iterate over all the values in the input array from right to left
+  // iterate over all the values in the input array from right to left
   for (let i = array.length - 2; i >= 0; i--) {
     // insert each value into the bst
     bst.insert(array[i], i);
@@ -149,9 +149,9 @@ function rightSmallerThan(array) {
 
   // initialize variable rightSmallerCounts, and set equal to a slice of the input array to use to compare bst against
   let rightSmallerCounts = array.slice();
-  //   call helper function getRightSmallerCounts, and pass in both the bst and the rightSmallerCounts slice
+  // call helper function getRightSmallerCounts, and pass in both the bst and the rightSmallerCounts slice
   getRightSmallerCounts(bst, rightSmallerCounts);
-  //   return the values for rightSmallerCounts once helper function returns
+  // return the values for rightSmallerCounts once helper function returns
   return rightSmallerCounts;
 }
 
@@ -162,15 +162,21 @@ function getRightSmallerCounts(bst, rightSmallerCounts) {
     return;
   }
 
-  //   set value in rightSmaller counts at the position of idx in the bst equal to the value of numSmallerAtInsertTime in bst
+  // set value in rightSmaller counts at the position of idx in the bst equal to the value of numSmallerAtInsertTime in bst
   rightSmallerCounts[bst.idx] = bst.numSmallerAtInsertTime;
-  //   recursively call helper on the left and right subtrees to get those counts
+  // recursively call helper on the left and right subtrees to get those counts
   getRightSmallerCounts(bst.left, rightSmallerCounts);
   getRightSmallerCounts(bst.right, rightSmallerCounts);
 }
 
 // Solution 4:
 
+// simplified version of solution 3
+
+// O(n(log(n))) time
+// O(n) space due to returning rightSmallerCounts array of length n
+
+// modified BST class with additional leftSubtreeSize attribute
 class SpecialBST {
   constructor(value) {
     this.value = value;
@@ -179,12 +185,21 @@ class SpecialBST {
     this.right = null;
   }
 
+  // insert method for the SpecialBST class, which takes in value, idx, rightSmallerCounts array,
+  // and numSmallerAtInsertTime counter set to 0 at outset
   insert(value, idx, rightSmallerCounts, numSmallerAtInsertTime = 0) {
+    // if the value passed into insert method is smaller than the current value, execute below
+    // this means inserting to the left in BST
     if (value < this.value) {
+      // increment leftSubtree size by 1 since going left
       this.leftSubtreeSize++;
 
+      // if the left subtree does not exist yet/is null, then create a new subtree in left
+      // with the current value
       if (this.left === null) {
         this.left = new SpecialBST(value);
+      // otherwise, insert a new BST node using the current value, idx, rightSmallerCounts array
+      // and numSmallerAtInsertTime counter
       } else {
         this.left.insert(
           value,
@@ -193,15 +208,25 @@ class SpecialBST {
           numSmallerAtInsertTime,
         );
       }
+    // otherwise, current value should be inserted to the right so execute below
     } else {
+      // increment numSmallerAtInsertTime by the current vaslue of leftSubtreeSize
       numSmallerAtInsertTime += this.leftSubtreeSize;
 
+      // if the value is greater than current value, increment numSmallerAtInsertTime by 1
       if (value > this.value) {
         numSmallerAtInsertTime++;
       }
+
+      // if right subtree does not exist/is null, execute below
       if (this.right === null) {
+        // set right equal to a new SpecialBST node using the current value
         this.right = new SpecialBST(value);
+        // set the value at idx in rightSmallerCounts array equal to the current value of 
+        // numSmallerAtInsertTime
         rightSmallerCounts[idx] = numSmallerAtInsertTime;
+      // otherwise, if a value exists within right, insert into right using the
+      // current value, idx, rightSmallerCounts array, and numSmallerAtInsertTime counter
       } else {
         this.right.insert(
           value,
@@ -214,19 +239,29 @@ class SpecialBST {
   }
 }
 
+// main function which takes in an array of values
 function rightSmallerThan(array) {
+  // handle edge case
+  // if the input array is empty, then simply return an empty array
   if (array.length === 0) {
     return [];
   }
 
+  // initialize variable rightSmallerCounts, and set equal to a slice of the full input array
   let rightSmallerCounts = array.slice();
+  // initialize variable lastIdx, and set equal to the last value in the input array, thus grabbing the end
   let lastIdx = array.length - 1;
-  let bst = new SpecialBST(aarraay[lastIdx]);
+  // initialize variable bst, and set equal to a new SpecialBST object starting from lastIdx
+  let bst = new SpecialBST(array[lastIdx]);
+  // set the value of lastIdx in rightSmallerCounts array equal to 0, since last item cannot
+  // have any values smaller than itself
   rightSmallerCounts[lastIdx] = 0;
 
+  // iterate over the input array starting from the value to the left of lastIdx
   for (let i = array.length - 2; i >= 0; i--) {
+    // insert each value and idx in the input array into the bst object
     bst.insert(array[i], i, rightSmallerCounts);
   }
-
+  // once the for loop completes, return the rightSmallerCounts array which holds the answers
   return rightSmallerCounts;
 }
