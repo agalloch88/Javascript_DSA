@@ -26,29 +26,51 @@
 
 // Solution 1:
 
+// recursive solution calling tree.left until hitting leaf node, then grabbing current node value
+// before calling tree.right for in order traversal
+
+// pre-order simply have the grabbing of the value prior to any left/right calls, and post-order
+// saves the grabbing until after recursive calls to left/right
+
 // O(n) time due to touching every node in tree
 // O(n) space due to storing every node value in array
 
 function inOrderTraverse(tree, array) {
+  // checking to ensure not an empty tree
   if (tree !== null) {
+    // recursive call to left until hitting leaf node
     inOrderTraverse(tree.left, array);
+    // push the current value into the array
     array.push(tree.value);
+    // recursive call to right
     inOrderTraverse(tree.right, array);
   }
+  // return the contents of array
   return array;
 }
 
 function preOrderTraverse(tree, array) {
+  // checking to ensure not an empty tree
   if (tree !== null) {
+    // push the current node's value into the array
     array.push(tree.value);
+    // recursive calls to left and right
     preOrderTraverse(tree.left, array);
     preOrderTraverse(tree.right, array);
   }
+  // return the contents of array
   return array;
 }
 
 function postOrderTraverse(tree, array) {
-  postOrderTraverse(tree.left, array);
-  postOrderTraverse(tree.right, array);
-  array.push(tree.value);
+  // checking to ensure not an empty tree
+  if (tree !== null) {
+    // recursive calls to left and right
+    postOrderTraverse(tree.left, array);
+    postOrderTraverse(tree.right, array);
+    // push the current value into the array
+    array.push(tree.value);
+  }
+  // return the contents of array
+  return array;
 }
