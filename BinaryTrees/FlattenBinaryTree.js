@@ -13,3 +13,20 @@
 
 // Each BinaryTree node has an integer value, a left child node, and a right child node. Children
 // nodes can either be BinaryTree nodes themselves, or None/null.
+
+// Sample Input:
+
+// tree =   1
+//         / \
+//        2   3
+//       / \ /
+//      4  5 6
+//        / \
+//       7   8
+
+// Sample Output:
+
+// 4 <-> 2 <-> 7 <-> 5 <-> 8 <-> 1 <-> 6 <-> 3
+// returns 4, the leftmost node
+
+// Solution 1:
