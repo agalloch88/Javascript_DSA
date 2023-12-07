@@ -30,3 +30,32 @@
 // returns 4, the leftmost node
 
 // Solution 1:
+
+class BinaryTree {
+  constructor(value) {
+    this.value = value;
+    this.right = null;
+    this.left = null;
+  }
+}
+
+function flattenBinaryTree(root) {
+  let inOrderNodes = getNodesInOrder(root, []);
+
+  for (let i = 0; i < inOrderNodes.length - 1; i++) {
+    let leftNode = inOrderNodes[i];
+    let rightNode = inOrderNodes[i + 1];
+    leftNode.right = rightNode;
+    rightNode.left = leftNode;
+  }
+  return inOrderNodes[0];
+}
+
+function getNodesInOrder(tree, array) {
+  if (tree !== null) {
+    getNodesInOrder(tree.left, array);
+    array.push(tree);
+    getNodesInOrder(tree.right, array);
+  }
+  return array;
+}
