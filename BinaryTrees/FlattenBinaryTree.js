@@ -84,42 +84,71 @@ function getNodesInOrder(tree, array) {
 
 // Solution 2:
 
+// optimized solution targeting the leftmost node in right subtree and rightmost node in left subtree, and performing the flattening in place without using an extra data structure
+
+// O(n) time due to flattening all n nodes in the input BinaryTree
+// O(d) time due to at most d nodes on call stack at once, where d is the depth of the tree
+
+// main BinaryTree class, where every node has a value, and potentially a left/right pointer
 class BinaryTree {
-    constructor(value) {
-        this.value = value;
-        this.left = null;
-        this.right = null;
-    }
+  constructor(value) {
+    this.value = value;
+    this.left = null;
+    this.right = null;
+  }
 }
 
+// main function which takes in the root of the BinaryTree to flatten
 function flattenBinaryTree(root) {
-    let [leftMost, _] = flattenTree(root);
-    return leftMost;
+  // destructure leftMost, and empty variable, and set equal to the return value of flattenTree helper passing in the root node
+  let [leftMost, _] = flattenTree(root);
+  // return the leftMost value as the problem requires
+  return leftMost;
 }
 
+// function which actually flattens the BinaryTree, taking in a node to start from
 function flattenTree(node) {
-    let leftMost, rightMost;
+  // initialize variables leftMost and rightMost
+  let leftMost, rightMost;
 
-    if (node.left === null) {
-        leftMost = node;
-    } else {
-        let [leftSubtreeLeftMost, leftSubtreeRightMost] = flattenTree(node.left);
-        connectNodes(leftSubtreeRightMost, node);
-        leftMost = leftSubtreeLeftMost;
-    }
+  // check whether the left subtree of the input node is null, and if so, execute below
+  // this is a base case check, and will occur when at a leaf node already
+  if (node.left === null) {
+    // set leftMost to equal the current node
+    leftMost = node;
+  // otherwise, if the left is NOT null, execute below
+  } else {
+    // destructure variables leftSubtreeLeftMost and leftSubtreeRightMost into the return value of recursive calls to function, passing in the left value of current node
+    let [leftSubtreeLeftMost, leftSubtreeRightMost] = flattenTree(node.left);
+    // call the connectNodes helper to reassign pointer values, passing in the leftSubtreeRightMost and the current node as the left and right values, respectively
+    connectNodes(leftSubtreeRightMost, node);
+    // set leftMost to equal the leftSubtreeLeftMost value
+    leftMost = leftSubtreeLeftMost;
+  }
 
-    if (node.right === null) {
-        rightMost = node;
-    } else {
-        let [rightSubtreeLeftMost, rightSubtreeRightMost] = flattenTree(node.right);
-        connectNodes(node, rightSubtreeLeftMost);
-        rightMost = rightSubtreeRightMost;
-    }
+  // check whether the right subtree of the input node is null, and if so, execute below
+  // this is a base case check, and will occur when at a leaf node already
+  if (node.right === null) {
+    // set rightMost to equal the current node
+    rightMost = node;
+  // otherwise, if the right is NOT null, execute below
+  } else {
+    // destructure variables rightSubtreeLeftMost and rightSubtreeRightMost into the return value of recursive calls to function, passing in the right value of current node
+    let [rightSubtreeLeftMost, rightSubtreeRightMost] = flattenTree(node.right);
+    // call the connectNodes helper to reassign pointer values, passing in the current node and rightSubtreeLeftMost as the left and right values, respectively
+    connectNodes(node, rightSubtreeLeftMost);
+    // set rightMost to equal the rightSubtreeRightMost
+    rightMost = rightSubtreeRightMost;
+  }
 
-    return [leftMost, rightMost];
+  // return pair of values leftMost and rightMost for use in main function
+  return [leftMost, rightMost];
 }
 
+// helper function which reassigns pointer values, taking in a left and right node
 function connectNodes(left, right) {
-    left.right = right;
-    right.left = left;
+  // set the right pointer of the left node to equal the value of right input
+  left.right = right;
+  // set the left pointer of the right node to equal the value of the left input
+  right.left = left;
 }
