@@ -198,8 +198,8 @@ class SpecialBST {
       // with the current value
       if (this.left === null) {
         this.left = new SpecialBST(value);
-      // otherwise, insert a new BST node using the current value, idx, rightSmallerCounts array
-      // and numSmallerAtInsertTime counter
+        // otherwise, insert a new BST node using the current value, idx, rightSmallerCounts array
+        // and numSmallerAtInsertTime counter
       } else {
         this.left.insert(
           value,
@@ -208,7 +208,7 @@ class SpecialBST {
           numSmallerAtInsertTime,
         );
       }
-    // otherwise, current value should be inserted to the right so execute below
+      // otherwise, current value should be inserted to the right so execute below
     } else {
       // increment numSmallerAtInsertTime by the current vaslue of leftSubtreeSize
       numSmallerAtInsertTime += this.leftSubtreeSize;
@@ -222,11 +222,11 @@ class SpecialBST {
       if (this.right === null) {
         // set right equal to a new SpecialBST node using the current value
         this.right = new SpecialBST(value);
-        // set the value at idx in rightSmallerCounts array equal to the current value of 
+        // set the value at idx in rightSmallerCounts array equal to the current value of
         // numSmallerAtInsertTime
         rightSmallerCounts[idx] = numSmallerAtInsertTime;
-      // otherwise, if a value exists within right, insert into right using the
-      // current value, idx, rightSmallerCounts array, and numSmallerAtInsertTime counter
+        // otherwise, if a value exists within right, insert into right using the
+        // current value, idx, rightSmallerCounts array, and numSmallerAtInsertTime counter
       } else {
         this.right.insert(
           value,

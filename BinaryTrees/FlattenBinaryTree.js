@@ -116,7 +116,7 @@ function flattenTree(node) {
   if (node.left === null) {
     // set leftMost to equal the current node
     leftMost = node;
-  // otherwise, if the left is NOT null, execute below
+    // otherwise, if the left is NOT null, execute below
   } else {
     // destructure variables leftSubtreeLeftMost and leftSubtreeRightMost into the return value of recursive calls to function, passing in the left value of current node
     let [leftSubtreeLeftMost, leftSubtreeRightMost] = flattenTree(node.left);
@@ -131,7 +131,7 @@ function flattenTree(node) {
   if (node.right === null) {
     // set rightMost to equal the current node
     rightMost = node;
-  // otherwise, if the right is NOT null, execute below
+    // otherwise, if the right is NOT null, execute below
   } else {
     // destructure variables rightSubtreeLeftMost and rightSubtreeRightMost into the return value of recursive calls to function, passing in the right value of current node
     let [rightSubtreeLeftMost, rightSubtreeRightMost] = flattenTree(node.right);
