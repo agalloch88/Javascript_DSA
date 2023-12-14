@@ -38,30 +38,62 @@
 
 // Solution 1:
 
+// recursive solution using boolean to indicate whether node is a left child,
+// and working from bottom left up to root then bottom right
+
+// O(n) time due to checkin n nodes in input tree
+// O(d) space, where d is the depth of the Binary Tree, as there will be max d calls on call stack
+
+// main function which takes in the root of a Binary Tree
 function rightSiblingTree(root) {
+    // call helper function, passing in root
+    // pass in null for the parent (since root cannot have a parent) and isLeftChild (since root is
+    // not a child node)
     mutate(root, null, null);
+    // as problem requires, return root node  to solve problem
     return root;
 }
 
+// helper function which reassigns pointers, taking in a node, a parent node, and boolean to
+// determine if node is a left child node
 function mutate(node, parent, isLeftChild) {
+    // edge case checjk
+    // check whether node is null, and if so, simply return
     if (node === null) {
         return;
     }
 
+    // destructure a node into initialized left and right parts
     let {left, right} = node;
+    // recursively call mutate, passing in left first, the node itself as the parent argument,
+    // and true since dealing with a left child node
     mutate(left, node, true);
 
+    // edge case check
+    // check whether parent argument is null, which would happen with root node
+    // this may also occur with nodes once their previous parent pointer is removed
     if (parent === null) {
+        // in this case, set the right pointer to null, as there should be no right sibling
+        // to point toward
         node.right = null;
+    // otherwise, if this is a left child node, then set the right pointer of the node
+    // to equal the parent's right child node, which is the node's right sibling
     } else if (isLeftChild) {
         node.right = parent.right;
+    // otherwise, if neither condition above hits, execute below
     } else {
+        // check whether the parent's right child is null, and if so, set node's right pointer
+        // equal to null since there is no right sibling to point toward
         if (parent.right === null) {
             node.right = null;
+        // otherwise, if there is a parental right child, set the node's right pointer
+        // equal to the parent's right child left pointer
         } else {
             node.right = parent.right.left;
         }
     }
 
+    // finally, recursively call mutate on the right, passing in node as parent and false
+    // since this is not a left child node
     mutate(right, node, false);
 }
