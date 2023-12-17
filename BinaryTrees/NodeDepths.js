@@ -22,6 +22,7 @@
 // O(n) time due to iteratively visiting every node once
 // O(h) space due to at most h layers in stack, with h = height of the binary tree
 
+// main BinaryTree class, where every node has a value, and potentially a left/right pointer
 class BinaryTree {
   constructor(value) {
     this.value = value;
@@ -54,6 +55,13 @@ function nodeDepths(root) {
 
 // Solution 2:
 
+// recursive solution which recursively calls function on left and right subtrees, incrementing the depth
+// variable at every step, then simply summing the depths
+
+// O(n) time due to going over n nodes in Binary Tree once
+// O(h) space, where h is the height of the Binary Tree, due to having at most h calls on call stack at once
+
+// main BinaryTree class, where every node has a value, and potentially a left/right pointer
 class BinaryTree {
   constructor(value) {
     this.value = value;
@@ -62,10 +70,17 @@ class BinaryTree {
   }
 }
 
+// main function which takes in a BinaryTree root node, and adding another argument depth
+// to track how deep a given call goes
 function nodeDepths(root, depth = 0) {
+  // base case
+  // check whether root is null, meaning the tree is empty OR hit a leaf node, and if so, return 0
   if (root === null) {
     return 0;
   }
   
+  // return the current total for depth argument, plus the returned value for recursive call
+  // to nodeDepths for the root.left subtree which increments depth by 1, plus a recursive call
+  // to nodeDepths for the root.right subtree which increments depth by 1
   return depth + nodeDepths(root.left, depth + 1) + nodeDepths(root.right, depth + 1);
 }
