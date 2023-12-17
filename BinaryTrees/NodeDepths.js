@@ -78,9 +78,11 @@ function nodeDepths(root, depth = 0) {
   if (root === null) {
     return 0;
   }
-  
+
   // return the current total for depth argument, plus the returned value for recursive call
   // to nodeDepths for the root.left subtree which increments depth by 1, plus a recursive call
   // to nodeDepths for the root.right subtree which increments depth by 1
-  return depth + nodeDepths(root.left, depth + 1) + nodeDepths(root.right, depth + 1);
+  return (
+    depth + nodeDepths(root.left, depth + 1) + nodeDepths(root.right, depth + 1)
+  );
 }
