@@ -17,7 +17,7 @@
 
 // Solution 1:
 
-// iterative approach, which ends up much more verbose and longform
+// iterative approach using a stack, which ends up much more verbose and longform
 
 // O(n) time due to iteratively visiting every node once
 // O(h) space due to at most h layers in stack, with h = height of the binary tree
