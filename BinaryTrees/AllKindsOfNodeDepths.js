@@ -27,3 +27,38 @@
 // in total, these subtrees sum to 26
 
 // Solution 1:
+
+class BinaryTree {
+    constructor(value) {
+        this.value = value;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+function allKindsOfNodeDepths(root) {
+    let sumOfAllDepths = 0;
+    let stack = [root];
+
+    while (stack.length > 0) {
+        let node = stack.pop();
+
+        if (node === null) {
+            continue;
+        }
+
+        sumOfAllDepths += nodeDepths(node);
+        stack.push(node.left);
+        stack.push(node.right);
+    }
+
+    return sumOfAllDepths;
+}
+
+function nodeDepths(node, depth = 0) {
+    if (node === null) {
+        return 0;
+    }
+
+    return depth + nodeDepths(node.left, depth + 1) + nodeDepths(node.right, depth + 1);
+}
