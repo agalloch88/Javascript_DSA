@@ -28,6 +28,12 @@
 
 // Solution 1:
 
+// iterative solution using formula from NodeDepths solution and calling this on every root node
+
+// O(nlog(n)) time in case of balanced binary tree, at worst O(n^2) if linear tree
+// O(h) space, where h is the height of the Binary Tree
+
+// main BinaryTree class where each node has a value, and potentially a left/right child node pointer
 class BinaryTree {
   constructor(value) {
     this.value = value;
@@ -36,30 +42,46 @@ class BinaryTree {
   }
 }
 
+// main function which takes in the root node of the BinaryTree
 function allKindsOfNodeDepths(root) {
+    // initialize variable sumOfAllDepths to keep running count
   let sumOfAllDepths = 0;
+// initialize a stack with the root value inside
   let stack = [root];
 
+// keep looping so long as the stack is not empty
   while (stack.length > 0) {
+    // initialize variable node, and store the top popped value off the stack inside
     let node = stack.pop();
 
+    // if the node is null, so likely a leaf, simply continue
     if (node === null) {
       continue;
     }
 
+    // increment sumOfAllDepths counter by the returned result from nodeDepths helper, passing in
+    // the current node
     sumOfAllDepths += nodeDepths(node);
+    // push the left and right children of current node onto the stack, if applicable
     stack.push(node.left);
     stack.push(node.right);
   }
 
+// return the current total for sumOfAllDepths
   return sumOfAllDepths;
 }
 
+// helper function which finds the depth of a given tree, taking in a node and initializing depth
+// as 0
 function nodeDepths(node, depth = 0) {
+    // check whether node is null, and if so, return 0
   if (node === null) {
     return 0;
   }
 
+//   if node is not null, then return the current value of depth PLUS the return value of a recursive call to
+// nodeDepths, passing in the left child of node and incrementing depth by 1 PLUS the return value of
+// a recursive call to nodeDepths, passing in the right child of node and incrementing depth by 1
   return (
     depth + nodeDepths(node.left, depth + 1) + nodeDepths(node.right, depth + 1)
   );
