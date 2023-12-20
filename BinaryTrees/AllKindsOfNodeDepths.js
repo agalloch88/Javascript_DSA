@@ -44,12 +44,12 @@ class BinaryTree {
 
 // main function which takes in the root node of the BinaryTree
 function allKindsOfNodeDepths(root) {
-    // initialize variable sumOfAllDepths to keep running count
+  // initialize variable sumOfAllDepths to keep running count
   let sumOfAllDepths = 0;
-// initialize a stack with the root value inside
+  // initialize a stack with the root value inside
   let stack = [root];
 
-// keep looping so long as the stack is not empty
+  // keep looping so long as the stack is not empty
   while (stack.length > 0) {
     // initialize variable node, and store the top popped value off the stack inside
     let node = stack.pop();
@@ -67,21 +67,21 @@ function allKindsOfNodeDepths(root) {
     stack.push(node.right);
   }
 
-// return the current total for sumOfAllDepths
+  // return the current total for sumOfAllDepths
   return sumOfAllDepths;
 }
 
 // helper function which finds the depth of a given tree, taking in a node and initializing depth
 // as 0
 function nodeDepths(node, depth = 0) {
-    // check whether node is null, and if so, return 0
+  // check whether node is null, and if so, return 0
   if (node === null) {
     return 0;
   }
 
-//   if node is not null, then return the current value of depth PLUS the return value of a recursive call to
-// nodeDepths, passing in the left child of node and incrementing depth by 1 PLUS the return value of
-// a recursive call to nodeDepths, passing in the right child of node and incrementing depth by 1
+  //   if node is not null, then return the current value of depth PLUS the return value of a recursive call to
+  // nodeDepths, passing in the left child of node and incrementing depth by 1 PLUS the return value of
+  // a recursive call to nodeDepths, passing in the right child of node and incrementing depth by 1
   return (
     depth + nodeDepths(node.left, depth + 1) + nodeDepths(node.right, depth + 1)
   );
