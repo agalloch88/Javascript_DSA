@@ -89,6 +89,12 @@ function nodeDepths(node, depth = 0) {
 
 // Solution 2:
 
+// recursive naive solution 
+
+// O(nlog(n)) time in case of balanced BinaryTree, up to O(n^2) if it is linear
+// O(h) space, where h is the height of the tree, due to that maximum number of calls on call stack
+
+// main BinaryTree class, where each node has a value, and potentially a left/right child node pointer
 class BinaryTree {
   construtor(value) {
     this.value = value;
@@ -97,18 +103,31 @@ class BinaryTree {
   }
 }
 
+// main function which takes in a root node
 function allKindsOfNodeDepths(root) {
+  // base case
+  // check whether the root input is null, meaning tree is empty or beyond leaf nodes
+  // if so, simply return 0
   if (root === null) {
     return 0;
   }
 
+  // recursive case
+  // return recursive calls on left pointer of root PLUS right pointer of root, PLUS call
+  // to nodeDepths helper function on root node
   return allKindsOfNodeDepths(root.left) + allKindsOfNodeDepths(root.right) + nodeDepths(root);
 }
 
+// helper function which calculates the depth on a given BinaryTree
 function nodeDepths(node, depth = 0) {
+  // base case
+  // check whether node is null, and if so, simply return 0
   if (node === null) {
     return 0;
   }
 
+  // recursive case
+  // return the current value of depth argument PLUS a recursive call on node's left pointer plus
+  // depth + 1 and a recursive call on node's right pointer plus depth + 1
   return depth + nodeDepths(node.left, depth + 1) + nodeDepths(node.right, depth + 1);
 }
