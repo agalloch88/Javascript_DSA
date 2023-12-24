@@ -89,7 +89,7 @@ function nodeDepths(node, depth = 0) {
 
 // Solution 2:
 
-// recursive naive solution 
+// recursive naive solution
 
 // O(nlog(n)) time in case of balanced BinaryTree, up to O(n^2) if it is linear
 // O(h) space, where h is the height of the tree, due to that maximum number of calls on call stack
@@ -115,7 +115,11 @@ function allKindsOfNodeDepths(root) {
   // recursive case
   // return recursive calls on left pointer of root PLUS right pointer of root, PLUS call
   // to nodeDepths helper function on root node
-  return allKindsOfNodeDepths(root.left) + allKindsOfNodeDepths(root.right) + nodeDepths(root);
+  return (
+    allKindsOfNodeDepths(root.left) +
+    allKindsOfNodeDepths(root.right) +
+    nodeDepths(root)
+  );
 }
 
 // helper function which calculates the depth on a given BinaryTree
@@ -129,5 +133,7 @@ function nodeDepths(node, depth = 0) {
   // recursive case
   // return the current value of depth argument PLUS a recursive call on node's left pointer plus
   // depth + 1 and a recursive call on node's right pointer plus depth + 1
-  return depth + nodeDepths(node.left, depth + 1) + nodeDepths(node.right, depth + 1);
+  return (
+    depth + nodeDepths(node.left, depth + 1) + nodeDepths(node.right, depth + 1)
+  );
 }
