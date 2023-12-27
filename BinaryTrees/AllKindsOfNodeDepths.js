@@ -140,6 +140,13 @@ function nodeDepths(node, depth = 0) {
 
 // Solution 3:
 
+// improved time complexity solution making three passes over tree to count nodes, depths, then sum
+// all the depths
+
+// O(n) time due to 3 passes, where 3n simplifies to n
+// O(n) space due to storing extra attributes on each node
+
+// main BinaryTree class, where every node has a value, and potentially a left/right child pointer
 class BinaryTree {
   constructor(value) {
     this.value = value;
@@ -148,44 +155,76 @@ class BinaryTree {
   }
 }
 
+// main function taking in root node of a Binary Tree
 function allKindsOfNodeDepths(root) {
+  // first count the nodes, passing in root
+  // next add the depths, passing in root
+  // finally, return a call to sumAllNodeDepths to sum all the depths, passing in root, which will
+  // be the answer
   addNodeCounts(root);
   addNodeDepths(root);
   return sumAllNodeDepths(root);
 }
 
+// helper which makes one last pass through tree to sum all the subtree depths
 function sumAllNodeDepths(node) {
+  // base case
+  // check whether the current node is null, and if so, return 0 since nothing to sum
   if (node === null) {
     return 0;
   }
 
+  // recursive case
+  // return a recursive call for use in main function to sumAllNodeDepths, passing in the left and right subtrees,
+  // if applicable, and adding them together along with the value of _sumOfDepths on current node
   return sumAllNodeDepths(node.left) + sumAllNodeDepths(node.right) + node._sumOfDepths;
 }
 
+// helper which makes a second pass through tree to calculate all the depths
 function addNodeDepths(node) {
+  // set value of _sumOfDepths on the current node equal to 0 at the outset
   node._sumOfDepths = 0;
 
+  // if there is a left node and left is NOT null, execute below
   if (node.left !== null) {
+    // recursively call addNodeDepths, passing in the left child node
     addNodeDepths(node.left);
+    // increment _sumOfDepths on the current node by the value of _sumOfDepths on left which
+    // tells how far this subtree descends, as well as
+    // the _numNodesInTree value on left, since this will be the total number of nodes to reconcile
     node._sumOfDepths += node.left._sumOfDepths + node.left._numNodesInTree;
   }
 
+  // if there is a right node and right is NOT null, execute below
   if (node.right !== null) {
+    // recursively call addNodeDepths, passing in the right child node
     addNodeDepths(node.right);
+    // increment _sumOfDepths on the current node by the value of _sumOfDepths on right which
+    // tells how far this subtree descends, as well as
+    // the _numNodesInTree value on right, since this will be the total number of nodes to reconcile
     node._sumOfDepths += node.right._sumOfDepths + node.right._numNodesInTree
   }
 }
 
+// helper which makes a first pass through tree to count all the nodes in a given left/right subtree
 function addNodeCounts(node) {
+  // set value of _numNodesInTree parameter of node equal to 1, since there is at least one node
+  // in the current tree
   node._numNodesInTree = 1;
 
+  // if there is a left node and left is NOT null, execute below
   if (node.left !== null) {
+    // recursively call addNodeCounts, passing in the left child node
     addNodeCounts(node.left);
+    // add the value of _numNodesInTree parameter on left to the base value on this current node
     node._numNodesInTree += node.left._numNodesInTree;
   }
 
+  // if there is a right node and right is NOT null, execute below
   if (node.right !== null) {
+    // recursively call addNodeCounts, passing in the right child node
     addNodeCounts(node.right);
+    // add the value of _numNodesInTree parameter on left to the base value on this current node
     node._numNodesInTree += node.right._numNodesInTree;
   }
 }
