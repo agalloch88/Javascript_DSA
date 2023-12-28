@@ -228,3 +228,43 @@ function addNodeCounts(node) {
     node._numNodesInTree += node.right._numNodesInTree;
   }
 }
+
+// Solution 4:
+
+class BinaryTree {
+  constructor(value) {
+    this.value = value;
+    this.left = null;
+    this.right = null;
+  }
+}
+
+function allKindsOfNodeDepths(root) {
+  return getTreeInfo(root).sumOfAllDepths;
+}
+
+function getTreeInfo(tree) {
+  if (tree === null) {
+    return {
+      numNodesInTree: 0,
+      sumOfDepths: 0,
+      sumOfAllDepths: 0,
+    };
+  }
+
+  let leftTreeInfo = getTreeInfo(tree.left);
+  let rightTreeInfo = getTreeInfo(tree.right);
+
+  let sumOfLeftDepths = leftTreeInfo.sumOfDepths + leftTreeInfo.numNodesInTree;
+  let sumOfRightDepths = rightTreeInfo.sumOfDepths + rightTreeInfo.numNodesInTree;
+
+  let numNodesInTree = 1 + leftTreeInfo.numNodesInTree + rightTreeInfo.numNodesInTree;
+  let sumOfDepths = sumOfLeftDepths + sumOfRightDepths;
+  let sumOfAllDepths = sumOfDepths + leftTreeInfo.sumOfAllDepths + rightTreeInfo.sumOfAllDepths;
+
+  return {
+    numNodesInTree,
+    sumOfDepths,
+    sumOfAllDepths,
+  };
+}
