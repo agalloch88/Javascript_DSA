@@ -297,3 +297,25 @@ function getTreeInfo(tree) {
     sumOfAllDepths,
   };
 }
+
+// Solution 5:
+
+class BinaryTree {
+  constructor(value) {
+    this.value = value;
+    this.left = left;
+    this.right = right;
+  }
+}
+
+function allKindsOfNodeDepths(root, depthSum = 0, depth = 0) {
+  if (!root) {
+    return 0;
+  }
+
+  depthSum += depth;
+
+  return (
+    depthSum + allKindsOfNodeDepths(root.left, depthSum, depth + 1) + allKindsOfNodeDepths(root.right, depthSum, depth + 1);
+  )
+}
