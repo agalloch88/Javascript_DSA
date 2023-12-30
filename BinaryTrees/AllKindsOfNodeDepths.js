@@ -231,6 +231,12 @@ function addNodeCounts(node) {
 
 // Solution 4:
 
+// simplified elegant recursive solution with a single function tracking and returning needed details
+
+// O(n) time due to traversing over n nodes in Binary Tree
+// O(h) space due to not storing additional info, and at most h calls on call stack at a time
+
+// main BinaryTree class, where every node has a value and potential left/right child node pointer
 class BinaryTree {
   constructor(value) {
     this.value = value;
@@ -239,11 +245,18 @@ class BinaryTree {
   }
 }
 
+// main function which takes in the root of a Binary Tree
 function allKindsOfNodeDepths(root) {
+  // simply return a call to helper function, passing in root node, and accessing the
+  // sumOfAllDepths property to access final answer
   return getTreeInfo(root).sumOfAllDepths;
 }
 
+// helper function which obtains and tracks the tree info
 function getTreeInfo(tree) {
+  // base case
+  // if tree is empty or beyond a leaf node into null territory, return a JS object
+  // with 0 values for numNodesInTree, sumOfDepths, and sumOfAllDepths
   if (tree === null) {
     return {
       numNodesInTree: 0,
@@ -252,16 +265,32 @@ function getTreeInfo(tree) {
     };
   }
 
+  // recursive case
+  // initialize variables leftTreeInfo and rightTreeInfo, and set equal to recursive calls
+  // passing in the left and right subtrees
+  // this will contain info of the left and right subtrees as recursive calls come back
   let leftTreeInfo = getTreeInfo(tree.left);
   let rightTreeInfo = getTreeInfo(tree.right);
 
+  // initialize variables sumOfLeftDepths and sumOfRightDepths to track these values
+  // these variables will hold and track the sums in left and right subtrees as recursive
+  // calls come back
+  // access the sumOfDepths property on each tree, and add it to the numNodesInTree property
+  // to get a total value of the depth
   let sumOfLeftDepths = leftTreeInfo.sumOfDepths + leftTreeInfo.numNodesInTree;
   let sumOfRightDepths = rightTreeInfo.sumOfDepths + rightTreeInfo.numNodesInTree;
 
+  // initialize variable numNodesInTree, and set equal to 1 (for current node) plus
+  // numNodesInTree for both the leftTreeInfo and rightTreeInfo
   let numNodesInTree = 1 + leftTreeInfo.numNodesInTree + rightTreeInfo.numNodesInTree;
+  // initialize variable sumOfDepths, and set equal to the sumOfLeftDepths plus sumOfRightDepths
   let sumOfDepths = sumOfLeftDepths + sumOfRightDepths;
+  // initialize variable sumOfAllDepths, and set equal to sumOfDepths obtained above plus
+  // the sumOfAllDepths from leftTreeInfo and rightTreeInfo
   let sumOfAllDepths = sumOfDepths + leftTreeInfo.sumOfAllDepths + rightTreeInfo.sumOfAllDepths;
 
+  // finally, return a JS object with the three values obtained immediately above for use
+  // in the main function
   return {
     numNodesInTree,
     sumOfDepths,
