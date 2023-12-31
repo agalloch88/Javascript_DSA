@@ -300,6 +300,12 @@ function getTreeInfo(tree) {
 
 // Solution 5:
 
+// simple recursive solution tracking depthSum and depth in one function
+
+// O(n) time due to going over all n nodes in tree
+// O(h) space due to at max h calls on call stack when recursing down subtree
+
+// main BinaryTree class, where every node has a value, and potentially a left/right child node pointer
 class BinaryTree {
   constructor(value) {
     this.value = value;
@@ -308,14 +314,21 @@ class BinaryTree {
   }
 }
 
+// main function which takes in a root node of a BinaryTree, plus adding a depthSum and depth tracker argument
 function allKindsOfNodeDepths(root, depthSum = 0, depth = 0) {
+  // base case
+  // if there is no root node, or the tree is empty, then simply return 0
   if (!root) {
     return 0;
   }
 
+  // recursive case
+  // increment current value of depthSum by the current value of depth
   depthSum += depth;
 
+  // return the current depthSum value PLUS a recursive call to root.left, incrementing the depth by 1
+  // PLUS a recursive call to root.right, incrementing the depth by 1
   return (
     depthSum + allKindsOfNodeDepths(root.left, depthSum, depth + 1) + allKindsOfNodeDepths(root.right, depthSum, depth + 1);
-  )
+  );
 }
