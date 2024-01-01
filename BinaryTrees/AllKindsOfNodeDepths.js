@@ -177,7 +177,11 @@ function sumAllNodeDepths(node) {
   // recursive case
   // return a recursive call for use in main function to sumAllNodeDepths, passing in the left and right subtrees,
   // if applicable, and adding them together along with the value of _sumOfDepths on current node
-  return sumAllNodeDepths(node.left) + sumAllNodeDepths(node.right) + node._sumOfDepths;
+  return (
+    sumAllNodeDepths(node.left) +
+    sumAllNodeDepths(node.right) +
+    node._sumOfDepths
+  );
 }
 
 // helper which makes a second pass through tree to calculate all the depths
@@ -202,7 +206,7 @@ function addNodeDepths(node) {
     // increment _sumOfDepths on the current node by the value of _sumOfDepths on right which
     // tells how far this subtree descends, as well as
     // the _numNodesInTree value on right, since this will be the total number of nodes to reconcile
-    node._sumOfDepths += node.right._sumOfDepths + node.right._numNodesInTree
+    node._sumOfDepths += node.right._sumOfDepths + node.right._numNodesInTree;
   }
 }
 
@@ -278,16 +282,19 @@ function getTreeInfo(tree) {
   // access the sumOfDepths property on each tree, and add it to the numNodesInTree property
   // to get a total value of the depth
   let sumOfLeftDepths = leftTreeInfo.sumOfDepths + leftTreeInfo.numNodesInTree;
-  let sumOfRightDepths = rightTreeInfo.sumOfDepths + rightTreeInfo.numNodesInTree;
+  let sumOfRightDepths =
+    rightTreeInfo.sumOfDepths + rightTreeInfo.numNodesInTree;
 
   // initialize variable numNodesInTree, and set equal to 1 (for current node) plus
   // numNodesInTree for both the leftTreeInfo and rightTreeInfo
-  let numNodesInTree = 1 + leftTreeInfo.numNodesInTree + rightTreeInfo.numNodesInTree;
+  let numNodesInTree =
+    1 + leftTreeInfo.numNodesInTree + rightTreeInfo.numNodesInTree;
   // initialize variable sumOfDepths, and set equal to the sumOfLeftDepths plus sumOfRightDepths
   let sumOfDepths = sumOfLeftDepths + sumOfRightDepths;
   // initialize variable sumOfAllDepths, and set equal to sumOfDepths obtained above plus
   // the sumOfAllDepths from leftTreeInfo and rightTreeInfo
-  let sumOfAllDepths = sumOfDepths + leftTreeInfo.sumOfAllDepths + rightTreeInfo.sumOfAllDepths;
+  let sumOfAllDepths =
+    sumOfDepths + leftTreeInfo.sumOfAllDepths + rightTreeInfo.sumOfAllDepths;
 
   // finally, return a JS object with the three values obtained immediately above for use
   // in the main function
@@ -329,6 +336,8 @@ function allKindsOfNodeDepths(root, depthSum = 0, depth = 0) {
   // return the current depthSum value PLUS a recursive call to root.left, incrementing the depth by 1
   // PLUS a recursive call to root.right, incrementing the depth by 1
   return (
-    depthSum + allKindsOfNodeDepths(root.left, depthSum, depth + 1) + allKindsOfNodeDepths(root.right, depthSum, depth + 1);
+    depthSum +
+    allKindsOfNodeDepths(root.left, depthSum, depth + 1) +
+    allKindsOfNodeDepths(root.right, depthSum, depth + 1)
   );
 }
