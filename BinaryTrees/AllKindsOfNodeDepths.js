@@ -341,3 +341,25 @@ function allKindsOfNodeDepths(root, depthSum = 0, depth = 0) {
     allKindsOfNodeDepths(root.right, depthSum, depth + 1)
   );
 }
+
+// Solution 6:
+
+class BinaryTree {
+  constructor(value) {
+    this.value = value;
+    this.left = null;
+    this.right = null;
+  }
+}
+
+function allKindsOfNodeDepths(root, depth = 0) {
+  if (!root) {
+    return 0;
+  }
+
+  let depthSum = (depth * (depth + 1)) / 2;
+
+  return (
+    depthSum + allKindsOfNodeDepths(root.left, depth + 1) + allKindsOfNodeDepths(root.right, root + 1);+
+  )
+}
