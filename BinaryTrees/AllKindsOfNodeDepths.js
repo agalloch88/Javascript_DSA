@@ -371,6 +371,8 @@ function allKindsOfNodeDepths(root, depth = 0) {
 
   // return the current value for depthSum, PLUS a recursive call to root.left with depth incremented by 1 PLUS a recursive call to root.right with depth incremented by 1
   return (
-    depthSum + allKindsOfNodeDepths(root.left, depth + 1) + allKindsOfNodeDepths(root.right, root + 1)
+    depthSum +
+    allKindsOfNodeDepths(root.left, depth + 1) +
+    allKindsOfNodeDepths(root.right, root + 1)
   );
 }
