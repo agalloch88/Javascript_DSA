@@ -344,6 +344,12 @@ function allKindsOfNodeDepths(root, depthSum = 0, depth = 0) {
 
 // Solution 6:
 
+// further simplified recursive solution utilizing formula to calculate depthSum parameter
+
+// O(n) time due to traversing all n nodes in BinaryTree
+// O(h) space due to at most h calls on call stack during trace down subtree
+
+// main BinaryTree class, where every node has a value, and potentially a left/right child node pointer
 class BinaryTree {
   constructor(value) {
     this.value = value;
@@ -352,14 +358,19 @@ class BinaryTree {
   }
 }
 
+// main function which takes in the root node of a BinaryTree, with an added argument of depth initialized to 0
 function allKindsOfNodeDepths(root, depth = 0) {
+  // base case
+  // if no root node because tree is empty or beyond a leaf node, simply return 0
   if (!root) {
     return 0;
   }
 
+  // formula to calculate depthSum
   let depthSum = (depth * (depth + 1)) / 2;
 
+  // return the current value for depthSum, PLUS a recursive call to root.left with depth incremented by 1 PLUS a recursive call to root.right with depth incremented by 1
   return (
-    depthSum + allKindsOfNodeDepths(root.left, depth + 1) + allKindsOfNodeDepths(root.right, root + 1);+
-  )
+    depthSum + allKindsOfNodeDepths(root.left, depth + 1) + allKindsOfNodeDepths(root.right, root + 1)
+  );
 }
