@@ -36,3 +36,44 @@
 // Sample Output:
 
 // true
+
+// Solution 1:
+
+class BinaryTree {
+    constructor(value) {
+        this.value = value;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+function compareLeafTraversal(tree1, tree2) {
+    leaves1 = [];
+    leaves2 = [];
+
+    leafTraversal(tree1, leaves1);
+    leafTraversal(tree2, leaves2);
+
+    if (leaves1.length !== leaves2.length) {
+        return false;
+    }
+
+    for (let i = 0; i < leaves1.length; i++) {
+        if (leaves1[i] !== leaves2[i]) {
+            return false;
+        }
+        
+    }
+    return true;
+}
+
+function leafTraversal(root, leaves) {
+    if (root !== null) {
+        if (root.left === null && root.right === null) {
+            leaves.push(root.value);
+        } else {
+            leafTraversal(root.left, leaves);
+            leafTraversal(root.right, leaves)
+        }
+    }
+}
