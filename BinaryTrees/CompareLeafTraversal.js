@@ -55,21 +55,21 @@ class BinaryTree {
 
 // main function which takes in two binary trees
 function compareLeafTraversal(tree1, tree2) {
-// initially two empty arrays, leaves1 and leaves2, to hold the leaf nodes to compare
+  // initially two empty arrays, leaves1 and leaves2, to hold the leaf nodes to compare
   leaves1 = [];
   leaves2 = [];
 
-// call helper function, passing in each input tree and each holder array for respective tree
+  // call helper function, passing in each input tree and each holder array for respective tree
   leafTraversal(tree1, leaves1);
   leafTraversal(tree2, leaves2);
 
-// check whether the length of the two leaves arrays are the same
-// if they are not the same length, need to return false since this is not the same leaf traversal
+  // check whether the length of the two leaves arrays are the same
+  // if they are not the same length, need to return false since this is not the same leaf traversal
   if (leaves1.length !== leaves2.length) {
     return false;
   }
 
-// iterate over the leaves1 array
+  // iterate over the leaves1 array
   for (let i = 0; i < leaves1.length; i++) {
     // if the value at i in leaves1 does NOT match the value at i in leaves2, this is not the same leaf traversal so must return false
     if (leaves1[i] !== leaves2[i]) {
@@ -77,22 +77,22 @@ function compareLeafTraversal(tree1, tree2) {
     }
   }
 
-//   if the leaf arrays are the same length, and the values at every index in both arrays are the same, then this is the same leaf traversal, so can return true
+  //   if the leaf arrays are the same length, and the values at every index in both arrays are the same, then this is the same leaf traversal, so can return true
   return true;
 }
 
 // helper function which takes in the root node of a binary tree and an array of leaves
 function leafTraversal(root, leaves) {
-    // base case
-    // if root is NOT null, so not an empty tree or beyond a leaf node, then execute below
+  // base case
+  // if root is NOT null, so not an empty tree or beyond a leaf node, then execute below
   if (root !== null) {
     // if the left and right pointers of current node are null, already at a leaf node so need to capture it
     if (root.left === null && root.right === null) {
-        // push the value of the current node into the leaves array
+      // push the value of the current node into the leaves array
       leaves.push(root.value);
-    // recursive case
+      // recursive case
     } else {
-        // otherwise, recursively call leafTraversal passing in the left and right pointers of current node and the leaves array
+      // otherwise, recursively call leafTraversal passing in the left and right pointers of current node and the leaves array
       leafTraversal(root.left, leaves);
       leafTraversal(root.right, leaves);
     }
