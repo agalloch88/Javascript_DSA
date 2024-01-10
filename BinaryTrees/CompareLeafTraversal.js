@@ -98,3 +98,51 @@ function leafTraversal(root, leaves) {
     }
   }
 }
+
+// Solution 2:
+
+class BinaryTree {
+    constructor(value) {
+        this.value = value;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+function compareLeafTraversal(tree1, tree2) {
+    let tree1TraversalStack = [tree1];
+    let tree2TraversalStack = [tree2];
+
+    while (tree1TraversalStack.length > 0 && tree2TraversalStack.length > 0) {
+        let tree1Leaf = getNextLeafNode(tree1TraversalStack);
+        let tree2Leaf = getNextLeafNode(tree2TraversalStack);
+
+        if (tree1Leaf.value !== tree2Leaf.value) {
+            return false;
+        }
+    }
+
+    return tree1TraversalStack.length === 0 && tree2TraversalStack.length === 0;
+}
+
+function getNextLeafNode(traversalStack) {
+    let currentNode = traversalStack.pop();
+
+    while (!isLeafNode(currentNode)) {
+        if (currentNode.right !== null) {
+            traversalStack.push(currentNode.right);
+        }
+
+        if (currentNode.left !== null) {
+            traversalStack.push(currentNode.left);
+        }
+
+        currentNode = traversalStack.pop();
+    }
+
+    return currentNode;
+}
+
+function isLeafNode(node) {
+    return node.left === null && node.right === null;
+}
