@@ -101,6 +101,12 @@ function leafTraversal(root, leaves) {
 
 // Solution 2:
 
+// iterative preorder traversal solution utilizing two stacks to compare the leaf node values
+
+// O(n + m) time since going through all nodes in both binary trees
+// O(h1 + h2) space since at most will have amount of nodes equal to each tree's height on stack at a time
+
+// main BinaryTree class, where every node has a value and potentially a left/right child node pointer
 class BinaryTree {
     constructor(value) {
         this.value = value;
@@ -109,40 +115,55 @@ class BinaryTree {
     }
 }
 
+// main function which takes in two binary trees
 function compareLeafTraversal(tree1, tree2) {
+    // initialize tree1TraversalStack and tree2TraversalStack variables to store the respective stacks, starting with the root node of each tree
     let tree1TraversalStack = [tree1];
     let tree2TraversalStack = [tree2];
 
+    // keep looping so long as the stacks have 1 or more items in them
     while (tree1TraversalStack.length > 0 && tree2TraversalStack.length > 0) {
+        // initialize variables tree1Leaf and tree2Leaf, and set equal to calls to helper function getNextLeafNode, passing in respective stacks
         let tree1Leaf = getNextLeafNode(tree1TraversalStack);
         let tree2Leaf = getNextLeafNode(tree2TraversalStack);
 
+        // if the value between the two leaves is NOT the same, return false, as the leaf traversal does not match
         if (tree1Leaf.value !== tree2Leaf.value) {
             return false;
         }
     }
 
+    // return a check of whether both stacks are zeroed out and empty, which may not be the case, as the answer
     return tree1TraversalStack.length === 0 && tree2TraversalStack.length === 0;
 }
 
+// helper function to obtain next leaf node from a traversal stack
 function getNextLeafNode(traversalStack) {
+    // initialize variable current node and set equal to the top item on the stack by popping it off
     let currentNode = traversalStack.pop();
 
+    // keep looping so long as the currentNode value is not a leaf node, as determined by helper function
     while (!isLeafNode(currentNode)) {
+        // intentionally handling right child nodes first in order to preserve correct order in stack to pop nodes off
+        // if a right child exists for current node, then push current node onto the traversalStack
         if (currentNode.right !== null) {
             traversalStack.push(currentNode.right);
         }
 
+        // if a left child exists for current node, then push current node onto the traversalStack
         if (currentNode.left !== null) {
             traversalStack.push(currentNode.left);
         }
 
+        // set currentNode equal to the node popped off the top of traversalStack
         currentNode = traversalStack.pop();
     }
 
+    // once while loop breaks, return the current value for currentNode
     return currentNode;
 }
 
+// helper function to determine if a given node is a leaf node
 function isLeafNode(node) {
     return node.left === null && node.right === null;
 }
