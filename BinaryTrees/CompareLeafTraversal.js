@@ -167,3 +167,54 @@ function getNextLeafNode(traversalStack) {
 function isLeafNode(node) {
     return node.left === null && node.right === null;
 }
+
+// Solution 3:
+
+class BinaryTree {
+  constructor(value) {
+    this.value = value;
+    this.left = null;
+    this.right = null;
+  }
+}
+
+function compareLeafTraversal(tree1, tree2) {
+  let [tree1LeafNodesLinkedList, _1] = connectLeafNodes(tree1);
+  let [tree2LeafNodesLinkedList, _2] = connectLeafNodes(tree2);
+
+  let list1CurrentNode = tree1LeafNodesLinkedList;
+  let list2CurrentNode = tree2LeafNodesLinkedList;
+  while (list1CurrentNode !== null && list2CurrentNode !== null) {
+    if (list1CurrentNode.value !== list2CurrentNode.value) {
+      return false;
+    }
+
+    list1CurrentNode = list1CurrentNode.right;
+    list2CurrentNode = list2CurrentNode.right;
+  }
+
+  return list1CurrentNode === null && list2CurrentNode === null;
+}
+
+function connectLeafNodes(currentNode, head = null, previousNode = null) {
+  if (currentNode === null) {
+    return [head, previousNode];
+  }
+
+  if (isLeafNode(currentNode)) {
+    if (previousNode === null) {
+      head = currentNode;
+    } else {
+      previousNode.right = currentNode;
+    }
+
+    previousNode = currentNode;
+  }
+
+  let [leftHead, leftPreviousNode] = connectLeafNodes(currentNode.left, head, previousNode);
+  return connectLeafNodes(currentNode.right, leftHead, leftPreviousNode);
+}
+
+function isLeafNode(node) {
+  return node.left === null && node.right === null;
+}
