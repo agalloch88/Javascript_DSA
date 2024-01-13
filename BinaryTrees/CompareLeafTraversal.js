@@ -170,6 +170,12 @@ function isLeafNode(node) {
 
 // Solution 3:
 
+// clever recurisve solution linking the leaf nodes in a linked list and comparing the linked lists
+
+// O(n + m) time due to going through n and m nodes in the two binary trees
+// O(max(h1, h2)) space due to having at most h1 or h2 calls on call stack at any given point, depending on height of tallest binary tree
+
+// main BinaryTree class, where every node has a value and potentially a left/right child node pointer 
 class BinaryTree {
   constructor(value) {
     this.value = value;
@@ -178,43 +184,62 @@ class BinaryTree {
   }
 }
 
+// main function which takes in the two binary trees
 function compareLeafTraversal(tree1, tree2) {
+  // destructure the return from call to connectLeadNodes for tree1 into tree1LeafNodesLinkedList and throwaway _1 value
   let [tree1LeafNodesLinkedList, _1] = connectLeafNodes(tree1);
+  // destructure the return from call to connectLeadNodes for tree2 into tree2LeafNodesLinkedList and throwaway _2 value
   let [tree2LeafNodesLinkedList, _2] = connectLeafNodes(tree2);
 
+  // initialize variables list1CurrentNode and list2CurrentNode, and set equal tot he LeafNodesLinkedList variables obtained from the returned calls to connectLeafNodes helper
   let list1CurrentNode = tree1LeafNodesLinkedList;
   let list2CurrentNode = tree2LeafNodesLinkedList;
+
+  // keep looping so long as the currentNode for each list is NOT null
   while (list1CurrentNode !== null && list2CurrentNode !== null) {
+    // check whether the value for each node is NOT the same, and if so, return false as these are not the same leaf traversals
     if (list1CurrentNode.value !== list2CurrentNode.value) {
       return false;
     }
 
+    // if condition above does not trigger, set each value to the right value to continue traversing the linked lists
     list1CurrentNode = list1CurrentNode.right;
     list2CurrentNode = list2CurrentNode.right;
   }
 
+  // once while loop breaks, return check of whether each currentNode value is null, meaning traversed through the full list
   return list1CurrentNode === null && list2CurrentNode === null;
 }
 
+// helper function which takes in current node, head node, and previousNode values to connect nodes into a linked list
 function connectLeafNodes(currentNode, head = null, previousNode = null) {
+  // check whether currentNode is null, meaning potentially beyond leafs or looking in empty left/right subtree
   if (currentNode === null) {
+    // return the head and previousNode valuess for use in main function
     return [head, previousNode];
   }
 
+  // check whether the currentNode is a leaf node via call to isLeafNode helper, and if so, execute below
   if (isLeafNode(currentNode)) {
+    // check whether previousNode is null, and if so, likely the first leaf in a linked list, so set head equal to this currentNode
     if (previousNode === null) {
       head = currentNode;
+    // otherwise, if previousNode is NOT null, that means there should be a right child pointer available, so set previousNode.right equal to current node to extend the linked list
     } else {
       previousNode.right = currentNode;
     }
 
+    // set previousNode equal to current node
     previousNode = currentNode;
   }
 
+  // destructure recursive call to connectLeafNodes, passing in currentNode.left, the current head, and previousNode, into the leftHead and leftPreviousNode
   let [leftHead, leftPreviousNode] = connectLeafNodes(currentNode.left, head, previousNode);
+  // return a recursive call to connectLeafNodes, passing in currentNode.right, the leftHead value as head, and leftPreviousNode as previousNode, for use in the main function
   return connectLeafNodes(currentNode.right, leftHead, leftPreviousNode);
 }
 
+// helper function to determine whether a given node is a leaf based on whether the node has no left AND no right pointer
 function isLeafNode(node) {
   return node.left === null && node.right === null;
 }
