@@ -108,64 +108,64 @@ function leafTraversal(root, leaves) {
 
 // main BinaryTree class, where every node has a value and potentially a left/right child node pointer
 class BinaryTree {
-    constructor(value) {
-        this.value = value;
-        this.left = null;
-        this.right = null;
-    }
+  constructor(value) {
+    this.value = value;
+    this.left = null;
+    this.right = null;
+  }
 }
 
 // main function which takes in two binary trees
 function compareLeafTraversal(tree1, tree2) {
-    // initialize tree1TraversalStack and tree2TraversalStack variables to store the respective stacks, starting with the root node of each tree
-    let tree1TraversalStack = [tree1];
-    let tree2TraversalStack = [tree2];
+  // initialize tree1TraversalStack and tree2TraversalStack variables to store the respective stacks, starting with the root node of each tree
+  let tree1TraversalStack = [tree1];
+  let tree2TraversalStack = [tree2];
 
-    // keep looping so long as the stacks have 1 or more items in them
-    while (tree1TraversalStack.length > 0 && tree2TraversalStack.length > 0) {
-        // initialize variables tree1Leaf and tree2Leaf, and set equal to calls to helper function getNextLeafNode, passing in respective stacks
-        let tree1Leaf = getNextLeafNode(tree1TraversalStack);
-        let tree2Leaf = getNextLeafNode(tree2TraversalStack);
+  // keep looping so long as the stacks have 1 or more items in them
+  while (tree1TraversalStack.length > 0 && tree2TraversalStack.length > 0) {
+    // initialize variables tree1Leaf and tree2Leaf, and set equal to calls to helper function getNextLeafNode, passing in respective stacks
+    let tree1Leaf = getNextLeafNode(tree1TraversalStack);
+    let tree2Leaf = getNextLeafNode(tree2TraversalStack);
 
-        // if the value between the two leaves is NOT the same, return false, as the leaf traversal does not match
-        if (tree1Leaf.value !== tree2Leaf.value) {
-            return false;
-        }
+    // if the value between the two leaves is NOT the same, return false, as the leaf traversal does not match
+    if (tree1Leaf.value !== tree2Leaf.value) {
+      return false;
     }
+  }
 
-    // return a check of whether both stacks are zeroed out and empty, which may not be the case, as the answer
-    return tree1TraversalStack.length === 0 && tree2TraversalStack.length === 0;
+  // return a check of whether both stacks are zeroed out and empty, which may not be the case, as the answer
+  return tree1TraversalStack.length === 0 && tree2TraversalStack.length === 0;
 }
 
 // helper function to obtain next leaf node from a traversal stack
 function getNextLeafNode(traversalStack) {
-    // initialize variable current node and set equal to the top item on the stack by popping it off
-    let currentNode = traversalStack.pop();
+  // initialize variable current node and set equal to the top item on the stack by popping it off
+  let currentNode = traversalStack.pop();
 
-    // keep looping so long as the currentNode value is not a leaf node, as determined by helper function
-    while (!isLeafNode(currentNode)) {
-        // intentionally handling right child nodes first in order to preserve correct order in stack to pop nodes off
-        // if a right child exists for current node, then push current node onto the traversalStack
-        if (currentNode.right !== null) {
-            traversalStack.push(currentNode.right);
-        }
-
-        // if a left child exists for current node, then push current node onto the traversalStack
-        if (currentNode.left !== null) {
-            traversalStack.push(currentNode.left);
-        }
-
-        // set currentNode equal to the node popped off the top of traversalStack
-        currentNode = traversalStack.pop();
+  // keep looping so long as the currentNode value is not a leaf node, as determined by helper function
+  while (!isLeafNode(currentNode)) {
+    // intentionally handling right child nodes first in order to preserve correct order in stack to pop nodes off
+    // if a right child exists for current node, then push current node onto the traversalStack
+    if (currentNode.right !== null) {
+      traversalStack.push(currentNode.right);
     }
 
-    // once while loop breaks, return the current value for currentNode
-    return currentNode;
+    // if a left child exists for current node, then push current node onto the traversalStack
+    if (currentNode.left !== null) {
+      traversalStack.push(currentNode.left);
+    }
+
+    // set currentNode equal to the node popped off the top of traversalStack
+    currentNode = traversalStack.pop();
+  }
+
+  // once while loop breaks, return the current value for currentNode
+  return currentNode;
 }
 
 // helper function to determine if a given node is a leaf node
 function isLeafNode(node) {
-    return node.left === null && node.right === null;
+  return node.left === null && node.right === null;
 }
 
 // Solution 3:
@@ -175,7 +175,7 @@ function isLeafNode(node) {
 // O(n + m) time due to going through n and m nodes in the two binary trees
 // O(max(h1, h2)) space due to having at most h1 or h2 calls on call stack at any given point, depending on height of tallest binary tree
 
-// main BinaryTree class, where every node has a value and potentially a left/right child node pointer 
+// main BinaryTree class, where every node has a value and potentially a left/right child node pointer
 class BinaryTree {
   constructor(value) {
     this.value = value;
@@ -224,7 +224,7 @@ function connectLeafNodes(currentNode, head = null, previousNode = null) {
     // check whether previousNode is null, and if so, likely the first leaf in a linked list, so set head equal to this currentNode
     if (previousNode === null) {
       head = currentNode;
-    // otherwise, if previousNode is NOT null, that means there should be a right child pointer available, so set previousNode.right equal to current node to extend the linked list
+      // otherwise, if previousNode is NOT null, that means there should be a right child pointer available, so set previousNode.right equal to current node to extend the linked list
     } else {
       previousNode.right = currentNode;
     }
@@ -234,7 +234,11 @@ function connectLeafNodes(currentNode, head = null, previousNode = null) {
   }
 
   // destructure recursive call to connectLeafNodes, passing in currentNode.left, the current head, and previousNode, into the leftHead and leftPreviousNode
-  let [leftHead, leftPreviousNode] = connectLeafNodes(currentNode.left, head, previousNode);
+  let [leftHead, leftPreviousNode] = connectLeafNodes(
+    currentNode.left,
+    head,
+    previousNode,
+  );
   // return a recursive call to connectLeafNodes, passing in currentNode.right, the leftHead value as head, and leftPreviousNode as previousNode, for use in the main function
   return connectLeafNodes(currentNode.right, leftHead, leftPreviousNode);
 }
