@@ -67,31 +67,31 @@
 
 // main function which takes in the array of block objects, and the array of requirements
 function apartmentHunting(blocks, reqs) {
-    // initialize variable maxDistanceAtBlocks to hold the max value of distance to any single requirement
-    // set this equal to a new array of blocks length, and fill it with -Infinity values so any value will be greater
+  // initialize variable maxDistanceAtBlocks to hold the max value of distance to any single requirement
+  // set this equal to a new array of blocks length, and fill it with -Infinity values so any value will be greater
   let maxDistancesAtBlocks = new Array(blocks.length).fill(-Infinity);
 
-// iterate over the blocks array of objects
+  // iterate over the blocks array of objects
   for (let i = 0; i < blocks.length; i++) {
     // for every block, iterate over the array of requirements
     for (let req of reqs) {
-        // initialize variable closestReqDistance and set equal to Infinity, such that any distance will be smaller
+      // initialize variable closestReqDistance and set equal to Infinity, such that any distance will be smaller
       let closestReqDistance = Infinity;
 
-    //   for every requirement, iterate over the other blocks
+      // for every requirement, iterate over the other blocks
       for (let j = 0; j < blocks.length; j++) {
         // if blocks at position j has the current requirement, execute below
         if (blocks[j][req]) {
-            // set the closestReqDistance equal to the minimum between the current value of closestReqDistance, and the return value from a call to helper function distanceBetween, passing
-            // in the value of i and j currently
+          // set the closestReqDistance equal to the minimum between the current value of closestReqDistance, and the return value from a call to helper function distanceBetween, passing
+          // in the value of i and j currently
           closestReqDistance = Math.min(
             closestReqDistance,
             distanceBetween(i, j),
           );
         }
       }
-    //   set maxDistancesAtBlocks at position i equal to the max between the current value at index i and the closestReqDistance
-    // this will serve as the greatest distance one must travel to a given requirement if this apartment was selected
+      // set maxDistancesAtBlocks at position i equal to the max between the current value at index i and the closestReqDistance
+      // this will serve as the greatest distance one must travel to a given requirement if this apartment was selected
       maxDistancesAtBlocks[i] = Math.max(
         maxDistancesAtBlocks[i],
         closestReqDistance,
@@ -99,37 +99,37 @@ function apartmentHunting(blocks, reqs) {
     }
   }
 
-//   once all for loops finish, return a call to helper getIdxAtMinValue, passing in the completed maxDistancesAtBlocks array
+  // once all for loops finish, return a call to helper getIdxAtMinValue, passing in the completed maxDistancesAtBlocks array
   return getIdxAtMinValue(maxDistancesAtBlocks);
 }
 
 // helper function to retrieve the index of the optimal apartment block, passing in the arraya of maxDistancesAtBlocks
 function getIdxAtMinValue(array) {
-    // initialize variable idxAtMinValue, and set equal to 0 at the outset
+  // initialize variable idxAtMinValue, and set equal to 0 at the outset
   let idxAtMinValue = 0;
-//   initialize variable minValue, and set equal to Infinity, such that any value at first pass will be smaller
+  // initialize variable minValue, and set equal to Infinity, such that any value at first pass will be smaller
   let minValue = Infinity;
 
-//   iterate over the array of maxDistancesAtBlocks
+  //   iterate over the array of maxDistancesAtBlocks
   for (let i = 0; i < array.length; i++) {
     // initialize varaiable currentValue, and set equal to the value at position i in the array
     let currentValue = array[i];
 
     // if the currentValue is smaller than the minValue, execute below
     if (currentValue < minValue) {
-        // found a more ideal apartment block, so set minValue equal to the currentValue
+      // found a more ideal apartment block, so set minValue equal to the currentValue
       minValue = currentValue;
-    //   set the idxAtMinValue equal to the value of i to update the index of the ideal apartment block
+      // set the idxAtMinValue equal to the value of i to update the index of the ideal apartment block
       idxAtMinValue = i;
     }
   }
 
-//   once finished looking at all blocks within the maxDistancesAtBlocks array, return the current value for idxAtMinValue for use in the main function, which will be the answer
+  // once finished looking at all blocks within the maxDistancesAtBlocks array, return the current value for idxAtMinValue for use in the main function, which will be the answer
   return idxAtMinValue;
 }
 
 // helper function which takes in two indices to calculate their absolute distance
 function distanceBetween(a, b) {
-    // simply return the absolute value distance between a minus b
+  // simply return the absolute value distance between a minus b
   return Math.abs(a - b);
 }
