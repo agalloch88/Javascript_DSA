@@ -133,3 +133,63 @@ function distanceBetween(a, b) {
   // simply return the absolute value distance between a minus b
   return Math.abs(a - b);
 }
+
+// Solution 2:
+
+function apartmentHunting(blocks, reqs) {
+    let minDistancesFromBlocks = reqs.map(req => getMinDistances(blocks, req));
+    let maxDistancesAtBlocks = getMaxDistancesAtBlocks(blocks, minDistancesFromBlocks);
+    return getIdxAtMinValue(maxDistancesAtBlocks);
+}
+
+function getMinDistances(blocks, req) {
+    let minDistances = new Array(blocks.length);
+    let closestReqIdx = Infinity;
+
+    for (let i = 0; i < blocks.length; i++) {
+        if (blocks[i][req]) {
+            closestReqIdx = i;
+        }
+        minDistances[i] = distanceBetween(i, closestReqIdx);
+    }
+    
+    for (let i = blocks.length - 1; i >= 0; i--) {
+        if (blocks[i][req]) {
+            closestReqIdx = i;
+        }
+        minDistances[i] = Math.min(minDistances[i], distanceBetween(i, closestReqIdx));
+    }
+
+    return minDistances;
+}
+
+function getMaxDistancesAtBlocks(blocks, minDistancesFromBlocks) {
+    let maxDistancesAtBlocks = new Array(blocks.length);
+    
+    for (let i = 0; i < blocks.length; i++) {
+        let minDistancesAtBlock = minDistancesFromBlocks.map(distances => distances[i]);
+        maxDistancesAtBlocks[i] = Math.max(...minDistancesAtBlock);
+    }
+    
+    return maxDistancesAtBlocks;
+}
+
+function getIdxAtMinValue(array) {
+    let idxAtMinValue = 0;
+    let minValue = Infinity;
+    
+    for (let i = 0; i < array.length; i++) {
+        let currentValue = array[i];
+        
+        if (currentValue < minValue) {
+            minValue = currentValue;
+            idxAtMinValue = i;
+        }
+    }
+
+    return idxAtMinValue;
+}
+
+function distanceBetween(a, b) {
+    return Math.abs(a - b);
+}
