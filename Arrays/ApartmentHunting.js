@@ -143,81 +143,89 @@ function distanceBetween(a, b) {
 
 // main function which takes in array of block objects, and an array of requirements
 function apartmentHunting(blocks, reqs) {
-    // initialize variable minDistancesFromBlocks and set equal to a map over the reqs where, for each req, the value is a call to helper getMinDistances
-    let minDistancesFromBlocks = reqs.map(req => getMinDistances(blocks, req));
-    // initialize variable maxDistancesAtBlocks, and set equal to trhe return of helper function getMaxDistancesAtBlocks, passing in the blocks input and the result stored in minDistancesFromBlocks variable above
-    let maxDistancesAtBlocks = getMaxDistancesAtBlocks(blocks, minDistancesFromBlocks);
-    return getIdxAtMinValue(maxDistancesAtBlocks);
+  // initialize variable minDistancesFromBlocks and set equal to a map over the reqs where, for each req, the value is a call to helper getMinDistances
+  let minDistancesFromBlocks = reqs.map((req) => getMinDistances(blocks, req));
+  // initialize variable maxDistancesAtBlocks, and set equal to trhe return of helper function getMaxDistancesAtBlocks, passing in the blocks input and the result stored in minDistancesFromBlocks variable above
+  let maxDistancesAtBlocks = getMaxDistancesAtBlocks(
+    blocks,
+    minDistancesFromBlocks,
+  );
+  return getIdxAtMinValue(maxDistancesAtBlocks);
 }
 
 // helper function to find the mininmum distance to aa given requirement, taking in the blocks array of block objects and the req array
 function getMinDistances(blocks, req) {
-    // initialize variable minDistances, and set equal to a new array of blocks' length
-    let minDistances = new Array(blocks.length);
-    // initialize variable closestReqIdx, and set equal to Infinity at the outset such that any distance will be smaller
-    let closestReqIdx = Infinity;
+  // initialize variable minDistances, and set equal to a new array of blocks' length
+  let minDistances = new Array(blocks.length);
+  // initialize variable closestReqIdx, and set equal to Infinity at the outset such that any distance will be smaller
+  let closestReqIdx = Infinity;
 
-    // iterate over the blocks input array, doing the left to right first pass
-    for (let i = 0; i < blocks.length; i++) {
-        // if the current block has a given req, execute below
-        if (blocks[i][req]) {
-            // since found the req at i, set closestReqIdx equal to i
-            closestReqIdx = i;
-        }
-        // set the value at i in minDistances equal to a call to helper distanceBetween, passing in the values of i and closestReqIdx to calculate distance from
-        minDistances[i] = distanceBetween(i, closestReqIdx);
+  // iterate over the blocks input array, doing the left to right first pass
+  for (let i = 0; i < blocks.length; i++) {
+    // if the current block has a given req, execute below
+    if (blocks[i][req]) {
+      // since found the req at i, set closestReqIdx equal to i
+      closestReqIdx = i;
     }
-    
-    // iterate over the blocks input array, doing the second right to left pass
-    for (let i = blocks.length - 1; i >= 0; i--) {
-        // if the current block has a given req, execute below
-        if (blocks[i][req]) {
-            // since found the req at i, set closestReqIdx equal to i
-            closestReqIdx = i;
-        }
-        // set the value at i in minDistances equal to the minimum between the current value at i in minDistances (found through the first pass), or the calculated distanceBetween value from i and current closestReqIdx value
-        minDistances[i] = Math.min(minDistances[i], distanceBetween(i, closestReqIdx));
-    }
+    // set the value at i in minDistances equal to a call to helper distanceBetween, passing in the values of i and closestReqIdx to calculate distance from
+    minDistances[i] = distanceBetween(i, closestReqIdx);
+  }
 
-    // return the completed minDistances array for use in main function
-    return minDistances;
+  // iterate over the blocks input array, doing the second right to left pass
+  for (let i = blocks.length - 1; i >= 0; i--) {
+    // if the current block has a given req, execute below
+    if (blocks[i][req]) {
+      // since found the req at i, set closestReqIdx equal to i
+      closestReqIdx = i;
+    }
+    // set the value at i in minDistances equal to the minimum between the current value at i in minDistances (found through the first pass), or the calculated distanceBetween value from i and current closestReqIdx value
+    minDistances[i] = Math.min(
+      minDistances[i],
+      distanceBetween(i, closestReqIdx),
+    );
+  }
+
+  // return the completed minDistances array for use in main function
+  return minDistances;
 }
 
 // helper function to find the maximum distances to any req in a given block, taking in an array of block objects and the minDistancesFromBlocks result generated in main function
 function getMaxDistancesAtBlocks(blocks, minDistancesFromBlocks) {
-    // initialize variable maxDistancesAtBlocks, and set equal to a new array of blocks' length
-    let maxDistancesAtBlocks = new Array(blocks.length);
-    
-    // iterate over the blocks input
-    for (let i = 0; i < blocks.length; i++) {
-        // initialize variable minDistancesAtBlock and set equal to a map over the minDistancesFromBlocks input array
-        let minDistancesAtBlock = minDistancesFromBlocks.map(distances => distances[i]);
-        // set value at i in maxDistancesAtBlocks equal to the maximum value for any req in a block object by spreading the minDistancesAtBlock result above
-        maxDistancesAtBlocks[i] = Math.max(...minDistancesAtBlock);
-    }
-    
-    // return the completed maxDistancesAtBLocks array, which now contains a numerical value of the 
-    return maxDistancesAtBlocks;
+  // initialize variable maxDistancesAtBlocks, and set equal to a new array of blocks' length
+  let maxDistancesAtBlocks = new Array(blocks.length);
+
+  // iterate over the blocks input
+  for (let i = 0; i < blocks.length; i++) {
+    // initialize variable minDistancesAtBlock and set equal to a map over the minDistancesFromBlocks input array
+    let minDistancesAtBlock = minDistancesFromBlocks.map(
+      (distances) => distances[i],
+    );
+    // set value at i in maxDistancesAtBlocks equal to the maximum value for any req in a block object by spreading the minDistancesAtBlock result above
+    maxDistancesAtBlocks[i] = Math.max(...minDistancesAtBlock);
+  }
+
+  // return the completed maxDistancesAtBLocks array, which now contains a numerical value of the
+  return maxDistancesAtBlocks;
 }
 
 function getIdxAtMinValue(array) {
-    let idxAtMinValue = 0;
-    let minValue = Infinity;
-    
-    for (let i = 0; i < array.length; i++) {
-        let currentValue = array[i];
-        
-        if (currentValue < minValue) {
-            minValue = currentValue;
-            idxAtMinValue = i;
-        }
-    }
+  let idxAtMinValue = 0;
+  let minValue = Infinity;
 
-    return idxAtMinValue;
+  for (let i = 0; i < array.length; i++) {
+    let currentValue = array[i];
+
+    if (currentValue < minValue) {
+      minValue = currentValue;
+      idxAtMinValue = i;
+    }
+  }
+
+  return idxAtMinValue;
 }
 
 // helper function to calculate the distance between to iinput indices
 function distanceBetween(a, b) {
-    // returns the absolute value difference between a and b indices
-    return Math.abs(a - b);
+  // returns the absolute value difference between a and b indices
+  return Math.abs(a - b);
 }
