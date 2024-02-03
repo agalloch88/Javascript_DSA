@@ -26,50 +26,55 @@
 // Solution 1:
 
 function minimumAreaRectangle(points) {
-    let minArea = Infinity;
+  let minArea = Infinity;
 
-    for (let i = 0; i < points.length; i++) {
-        for (let j = i + 1; j < points.length; j++) {
-            for (let k = j + 1; k < points.length; k++) {
-                for (let l = k + 1; l < points.length; l++) {
-                    let point1 = points[i];
-                    let point2 = points[j];
-                    let point3 = points[k];
-                    let point4 = points[l];
-                    
-                    if (isRectangle(point1, point2, point3, point4)) {
-                        let area = calculateArea(point1, point2, point3, point4);
-                        minArea = Math.min(minArea, area);
-                    }
-                }
-                
-            }
+  for (let i = 0; i < points.length; i++) {
+    for (let j = i + 1; j < points.length; j++) {
+      for (let k = j + 1; k < points.length; k++) {
+        for (let l = k + 1; l < points.length; l++) {
+          let point1 = points[i];
+          let point2 = points[j];
+          let point3 = points[k];
+          let point4 = points[l];
+
+          if (isRectangle(point1, point2, point3, point4)) {
+            let area = calculateArea(point1, point2, point3, point4);
+            minArea = Math.min(minArea, area);
+          }
         }
-        
+      }
     }
-    return minArea === Infinity ? 0 : minArea;
+  }
+  return minArea === Infinity ? 0 : minArea;
 }
 
 function isRectangle(p1, p2, p3, p4) {
-    let points = [p1, p2, p3, p4];
-    let distances = [];
+  let points = [p1, p2, p3, p4];
+  let distances = [];
 
-    for (let i = 0; i < 4; i++) {
-        for (let j = i + 1; j < 4; j++) {
-            distances.push({
-                distance: Math.sqrt(Math.pow(points[i][0] - points[j][0], 2) + Math.pow(points[i][1] - points[j][1], 2)),
-                pair: [i, j]
-            });
-        }
+  for (let i = 0; i < 4; i++) {
+    for (let j = i + 1; j < 4; j++) {
+      distances.push({
+        distance: Math.sqrt(
+          Math.pow(points[i][0] - points[j][0], 2) +
+            Math.pow(points[i][1] - points[j][1], 2),
+        ),
+        pair: [i, j],
+      });
     }
-    distances.sort((a, b) => a.distance - b.distance);
+  }
+  distances.sort((a, b) => a.distance - b.distance);
 
-    return distances[0].distance === distances[1].distance && distances[2]. distance === distances[3].distance && distances[4].distance === distances[5].distance;
+  return (
+    distances[0].distance === distances[1].distance &&
+    distances[2].distance === distances[3].distance &&
+    distances[4].distance === distances[5].distance
+  );
 }
 
 function calculateArea(p1, p2, p3, p4) {
-    let xCoords = [p1[0], p2[0], p3[0], p4[0]].sort((a, b) => a - b);
-    let yCoords = [p1[1], p2[1], p3[1], p4[1]].sort((a, b) => a - b);
+  let xCoords = [p1[0], p2[0], p3[0], p4[0]].sort((a, b) => a - b);
+  let yCoords = [p1[1], p2[1], p3[1], p4[1]].sort((a, b) => a - b);
 
-    return (xCoords[3] - xCoords[0]) * (yCoords[3] - yCoords[0]);
+  return (xCoords[3] - xCoords[0]) * (yCoords[3] - yCoords[0]);
 }
