@@ -32,23 +32,23 @@
 
 // main function whixh takes in the array of points/coordinate pairs
 function minimumAreaRectangle(points) {
-    // initialize variable minArea to Infinity such that any found area is smaller
+  // initialize variable minArea to Infinity such that any found area is smaller
   let minArea = Infinity;
 
-// begin looping over the points input, starting at position 0 and the next 3 adjacent points
+  // begin looping over the points input, starting at position 0 and the next 3 adjacent points
   for (let i = 0; i < points.length; i++) {
     for (let j = i + 1; j < points.length; j++) {
       for (let k = j + 1; k < points.length; k++) {
         for (let l = k + 1; l < points.length; l++) {
-            // grab the current values at positions i, j, k and l in points, and store values
-            // in variables point1-4
+          // grab the current values at positions i, j, k and l in points, and store values
+          // in variables point1-4
           let point1 = points[i];
           let point2 = points[j];
           let point3 = points[k];
           let point4 = points[l];
 
-        // check whether collection of these 4 points is a rectangle via isRecntagle() helper function
-        // if so, execute below
+          // check whether collection of these 4 points is a rectangle via isRecntagle() helper function
+          // if so, execute below
           if (isRectangle(point1, point2, point3, point4)) {
             // initialize variable area, and store return value from calculateArea helper, passing
             // in 4 points of rectangle
@@ -61,22 +61,22 @@ function minimumAreaRectangle(points) {
       }
     }
   }
-// return a ternary check of whether minArea is still Infinity, in which case should return 0,
-// otherwise can return the value of minArea
+  // return a ternary check of whether minArea is still Infinity, in which case should return 0,
+  // otherwise can return the value of minArea
   return minArea === Infinity ? 0 : minArea;
 }
 
 // helper function to determine whether 4 passed-in points are a rectangle
 // a rectangle is formed if opposite sides are equal and parallel to the x/y axes
 function isRectangle(p1, p2, p3, p4) {
-    // initialize variable points, and store the passed-in point values as an array
+  // initialize variable points, and store the passed-in point values as an array
   let points = [p1, p2, p3, p4];
-// initialize variable distances, and set equal to an empty array which will hold the distances found
+  // initialize variable distances, and set equal to an empty array which will hold the distances found
   let distances = [];
-    // iterate 4 times
+  // iterate 4 times
   for (let i = 0; i < 4; i++) {
     for (let j = i + 1; j < 4; j++) {
-        // push into the distances array a JS object with two keys: distance, and pair
+      // push into the distances array a JS object with two keys: distance, and pair
       distances.push({
         // the distance key is the distance between two points
         distance: Math.sqrt(
@@ -88,11 +88,11 @@ function isRectangle(p1, p2, p3, p4) {
       });
     }
   }
-// once all distances are populated, sort the distances array in ascending order
+  // once all distances are populated, sort the distances array in ascending order
   distances.sort((a, b) => a.distance - b.distance);
 
-// check for the rectangle property: two equal shorter sides and two equal longer sides, not not
-// the diagonal
+  // check for the rectangle property: two equal shorter sides and two equal longer sides, not not
+  // the diagonal
   return (
     distances[0].distance === distances[1].distance &&
     distances[2].distance === distances[3].distance &&
@@ -102,8 +102,8 @@ function isRectangle(p1, p2, p3, p4) {
 
 // helper function to calculate the area of a given set of rectangle points
 function calculateArea(p1, p2, p3, p4) {
-    // initialize variables xCoords and yCoords, and set equal to the respective point pair item,
-    // then sort each array of values
+  // initialize variables xCoords and yCoords, and set equal to the respective point pair item,
+  // then sort each array of values
   let xCoords = [p1[0], p2[0], p3[0], p4[0]].sort((a, b) => a - b);
   let yCoords = [p1[1], p2[1], p3[1], p4[1]].sort((a, b) => a - b);
 
