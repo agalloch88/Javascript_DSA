@@ -111,3 +111,48 @@ function calculateArea(p1, p2, p3, p4) {
   // and the difference between the largest and smallest y-coordinates
   return (xCoords[3] - xCoords[0]) * (yCoords[3] - yCoords[0]);
 }
+
+// Solution 2:
+
+function minimumAreaRectangle(points) {
+  let columns = initializeColumns(points);
+  let minimumAreaFound = Infinity;
+  let edgesParallelToYAxis = {};
+
+  let sortedColumns = Object.keys(columns).map(col => parseInt(col)).sort((a, b) => a - b);
+
+  for (let x of sortedColumns) {
+    let yValuesInCurrentColumn = columns[x].sort((a, b) => a - b);
+
+    for (let currentIdx = 0; currentIdx < yValuesInCurrentColumn.length; currentIdx++) {
+      let y2 = yValuesInCurrentColumn[currentIdx];
+       for (let previousIdx = 0; previousIdx < currentIdx; previousIdx++) {
+        let y1 = yValuesInCurrentColumn[previousIdx];
+        let pointString = y1.toString() + ':' + y2.toString();
+
+        if (pointString in edgesParallelToYAxis) {
+          let currentArea = (x - edgesParallelToYAxis[pointString]) * (y2 - y1);
+          minimumAreaFound = Math.min(minimumAreaFound, currentArea);
+        }
+        edgesParallelToYAxis[pointString] = x;
+       }
+    }
+  }
+  return minimumAreaFound !== Infinity ? minimumAreaFound : 0;
+}
+
+function initializeColumns(points) {
+  let columns = {};
+
+  for (let point of points) {
+    let [x, y] = point;
+    
+    if (!columns[x]) {
+      columns[x] = [];
+    }
+
+    columns[x].push(y);
+  }
+
+  return columns;
+}
