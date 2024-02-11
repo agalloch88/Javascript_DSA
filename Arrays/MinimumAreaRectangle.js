@@ -114,45 +114,75 @@ function calculateArea(p1, p2, p3, p4) {
 
 // Solution 2:
 
+// improved solution looking for values along same parallel y plane
+
+// O(n^2) time due to a series of nlogn and n operations which reduce to n^2
+// O(n) space due to storing a subset of pointsa couple different times
+
+// main function which takes in the array of point/coordinate pairs
 function minimumAreaRectangle(points) {
+  // initialize variable columns and set equal to the return value of helper function initializeColumns, which will build out the columns using the passed-in points array
   let columns = initializeColumns(points);
+  // initialize variable minimumAreaFound to store the answer, and set equal to Infinity at the outset such that any value is smaller
   let minimumAreaFound = Infinity;
+  // initialize variable edgesParallelToYAxis, and set equal to an empty JS object
   let edgesParallelToYAxis = {};
 
+  // initialize variable sortedColumns with the keys of the columns object parsed as integers, then sorted in ascending numerical order
   let sortedColumns = Object.keys(columns).map(col => parseInt(col)).sort((a, b) => a - b);
 
+  // for every x value in the sortedColumns, execute below
   for (let x of sortedColumns) {
+    // initialize variable yValuesInCurrentColumn, and set equal to a sorted ascending array of y values for every x match
     let yValuesInCurrentColumn = columns[x].sort((a, b) => a - b);
 
+    // iterate over every currentIdx in yValuesInCurrentColumn
     for (let currentIdx = 0; currentIdx < yValuesInCurrentColumn.length; currentIdx++) {
+      // initialize variable y2, and set equal to the value at the currentIdx in yValuesInCurrentColumn
       let y2 = yValuesInCurrentColumn[currentIdx];
+
+      // iterate over every previousIdx that came before the currentIdx
        for (let previousIdx = 0; previousIdx < currentIdx; previousIdx++) {
+        // initialize variable y1 and set equal to the value at previousIdx in the yValuesInCurrentColumn
         let y1 = yValuesInCurrentColumn[previousIdx];
+        // initialize variable pointString, and set equal to a stringified version of the y1 : y2
         let pointString = y1.toString() + ':' + y2.toString();
 
+        // check for whether this pointString exists in the edgesParallelToYAxis object, and if so, execute below
         if (pointString in edgesParallelToYAxis) {
+          // initialize variable currentArea, and set equal to the calculated area of the x value minus the pointString value in edgesParallelToYAxis multiplied by the difference between y2 minus y1
           let currentArea = (x - edgesParallelToYAxis[pointString]) * (y2 - y1);
+          // set minimumAreaFound equal to the minimum between current value of this variable and the currentArea
           minimumAreaFound = Math.min(minimumAreaFound, currentArea);
         }
+        // set the value of the pointString in edgesParallelToYAxis equal to x
         edgesParallelToYAxis[pointString] = x;
        }
     }
   }
+  // return the value of a ternary check for whether minimumAreaFound is still Infinity, and if not, return that value, otherwise return 0
   return minimumAreaFound !== Infinity ? minimumAreaFound : 0;
 }
 
+// helper function to create columns/x values from the points input
 function initializeColumns(points) {
+  // initialize variable columns and set equal to an empty JS object
   let columns = {};
 
+  // iterate over every point in the points input
   for (let point of points) {
+    // destructure a given point out into it's x and y coordinates, leaving them as a pair
     let [x, y] = point;
     
+    // if there is no value in the columns object for x, insert a column at x
     if (!columns[x]) {
       columns[x] = [];
     }
 
+    // into every x column, push the value of y
     columns[x].push(y);
   }
 
+  // return the completed columns object
   return columns;
 }
