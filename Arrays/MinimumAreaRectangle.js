@@ -186,3 +186,50 @@ function initializeColumns(points) {
   // return the completed columns object
   return columns;
 }
+
+// Solution 3:
+
+function minimumAreaRectangle(points) {
+  let pointSet = createPointSet(points);
+  let minimumAreaFound = Infinity;
+
+  for (let currentIdx = 0; currentIdx < points.length; currentIdx++) {
+    let [p2x, p2y] = points[currentIdx];
+    
+    for (let previousIdx = 0; previousIdx < currentIdx; previousIdx++) {
+      let [p1x, p1y] = points[previousIdx];
+      let pointsShareValue = p1x === p2x || p1y === p2y;
+
+      if (pointsShareValue) {
+        continue;
+      }
+
+      let point1OnOppositeDiagonalExists = pointSet.has(convertPointToString(p1x, p2y));
+      let point2OnOppositeDiagonalExists = pointSet.has(convertPointToString(p2x, p1y));
+      let oppositeDiagonalExists = point1OnOppositeDiagonalExists && point2OnOppositeDiagonalExists;
+
+      if (oppositeDiagonalExists) {
+        let currentArea = Math.abs(p2x - p1x) * Math.abs(p2y - p1y);
+        minimumAreaFound = Math.min(minimumAreaFound, currentArea);
+      }
+    }
+  }
+
+  return minimumAreaFound !== Infinity ? minimumAreaFound : 0;
+}
+
+function createPointSet(points) {
+  let pointSet = new Set();
+
+  for (let point of points) {
+    let [x, y] = point;
+    let pointString = convertPointToString(x, y);
+    pointSet.add(pointString);
+  }
+
+  return pointSet;
+}
+
+function convertPointToString(x, y) {
+ return x.toString() + ':' + y.toString(); 
+}
