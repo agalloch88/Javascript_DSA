@@ -189,47 +189,76 @@ function initializeColumns(points) {
 
 // Solution 3:
 
+// improved solution using the diagonal principle to find points and a set for storing points
+
+// O(n^2) time due to nested for loops
+// O(n) space due to storing subsets of points
+
+// main function which takes in the array of points/coordinate pairs
 function minimumAreaRectangle(points) {
+  // initialize variable pointSet and set equal to return value of createPointSet helper function which takes in the point array and adds them to a set
   let pointSet = createPointSet(points);
+  // intialize variable minimumAreaFound to hold solution, and set equal to Infinity such that any value is lower on first comparison
   let minimumAreaFound = Infinity;
 
+  // iterate over the points input for every currentIdx
   for (let currentIdx = 0; currentIdx < points.length; currentIdx++) {
+    // destructure the coordinate pair at currentIdx in points into p2x and p2y values
     let [p2x, p2y] = points[currentIdx];
     
+    // for every currentIdx point above, also iterate over every previousIdx value
     for (let previousIdx = 0; previousIdx < currentIdx; previousIdx++) {
+      // destructure the coordinate pair at previousIdx in points into p1x and p1y values
       let [p1x, p1y] = points[previousIdx];
+      // initialize variable pointsShareValues, and check whether the values for p1x and p2x are equal OR whether the values of p1y and p2y are equal, storing this boolean
       let pointsShareValue = p1x === p2x || p1y === p2y;
 
+      // if pointsShareValue is true, simply continue
       if (pointsShareValue) {
         continue;
       }
 
+      // initialize variables to determine whether opposite diagonals exist, using the point set and a check of diagonal coordinates between the two current points
       let point1OnOppositeDiagonalExists = pointSet.has(convertPointToString(p1x, p2y));
       let point2OnOppositeDiagonalExists = pointSet.has(convertPointToString(p2x, p1y));
+      // initialize variable oppositeDiagonalExists and set equal to a check of whether two .has() checks are true
       let oppositeDiagonalExists = point1OnOppositeDiagonalExists && point2OnOppositeDiagonalExists;
 
+      // if the is an opposite diagonal, then execute the below
       if (oppositeDiagonalExists) {
+        // initialize variable currentArea, and set equal to absolute difference between x values multiplied by absolute difference between y values
         let currentArea = Math.abs(p2x - p1x) * Math.abs(p2y - p1y);
+        // update variable minimumAreaFound to be the minimum between current value for that variable and the currentArea
         minimumAreaFound = Math.min(minimumAreaFound, currentArea);
       }
     }
   }
 
+  // return a ternary check of whether minimumAreaFound is still Infinity, and if not, return current value, otherwise return 0
   return minimumAreaFound !== Infinity ? minimumAreaFound : 0;
 }
 
+// helper function which turns the points input array into a set object
 function createPointSet(points) {
+  // initialize variable pointSet and equate to an empty set object
   let pointSet = new Set();
 
+  // for every point in the points array, execute the below
   for (let point of points) {
+    // destructure the given point into it's x and y values
     let [x, y] = point;
+    // initialize variable pointString and set equal to return value of convertPointToString helper function, passing in x and y values
     let pointString = convertPointToString(x, y);
+    // add this pointString into the pointSet
     pointSet.add(pointString);
   }
 
+  // once complete, return the full pointSet
   return pointSet;
 }
 
+// helper function which converts two values, which are x and y coordinates, into a string
 function convertPointToString(x, y) {
+  // return the stringified x value joined to a ':' along with the stringified y value
  return x.toString() + ':' + y.toString(); 
 }
