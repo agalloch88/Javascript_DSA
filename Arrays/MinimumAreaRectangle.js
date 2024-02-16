@@ -129,7 +129,9 @@ function minimumAreaRectangle(points) {
   let edgesParallelToYAxis = {};
 
   // initialize variable sortedColumns with the keys of the columns object parsed as integers, then sorted in ascending numerical order
-  let sortedColumns = Object.keys(columns).map(col => parseInt(col)).sort((a, b) => a - b);
+  let sortedColumns = Object.keys(columns)
+    .map((col) => parseInt(col))
+    .sort((a, b) => a - b);
 
   // for every x value in the sortedColumns, execute below
   for (let x of sortedColumns) {
@@ -137,12 +139,16 @@ function minimumAreaRectangle(points) {
     let yValuesInCurrentColumn = columns[x].sort((a, b) => a - b);
 
     // iterate over every currentIdx in yValuesInCurrentColumn
-    for (let currentIdx = 0; currentIdx < yValuesInCurrentColumn.length; currentIdx++) {
+    for (
+      let currentIdx = 0;
+      currentIdx < yValuesInCurrentColumn.length;
+      currentIdx++
+    ) {
       // initialize variable y2, and set equal to the value at the currentIdx in yValuesInCurrentColumn
       let y2 = yValuesInCurrentColumn[currentIdx];
 
       // iterate over every previousIdx that came before the currentIdx
-       for (let previousIdx = 0; previousIdx < currentIdx; previousIdx++) {
+      for (let previousIdx = 0; previousIdx < currentIdx; previousIdx++) {
         // initialize variable y1 and set equal to the value at previousIdx in the yValuesInCurrentColumn
         let y1 = yValuesInCurrentColumn[previousIdx];
         // initialize variable pointString, and set equal to a stringified version of the y1 : y2
@@ -157,7 +163,7 @@ function minimumAreaRectangle(points) {
         }
         // set the value of the pointString in edgesParallelToYAxis equal to x
         edgesParallelToYAxis[pointString] = x;
-       }
+      }
     }
   }
   // return the value of a ternary check for whether minimumAreaFound is still Infinity, and if not, return that value, otherwise return 0
@@ -173,7 +179,7 @@ function initializeColumns(points) {
   for (let point of points) {
     // destructure a given point out into it's x and y coordinates, leaving them as a pair
     let [x, y] = point;
-    
+
     // if there is no value in the columns object for x, insert a column at x
     if (!columns[x]) {
       columns[x] = [];
@@ -205,7 +211,7 @@ function minimumAreaRectangle(points) {
   for (let currentIdx = 0; currentIdx < points.length; currentIdx++) {
     // destructure the coordinate pair at currentIdx in points into p2x and p2y values
     let [p2x, p2y] = points[currentIdx];
-    
+
     // for every currentIdx point above, also iterate over every previousIdx value
     for (let previousIdx = 0; previousIdx < currentIdx; previousIdx++) {
       // destructure the coordinate pair at previousIdx in points into p1x and p1y values
@@ -219,10 +225,15 @@ function minimumAreaRectangle(points) {
       }
 
       // initialize variables to determine whether opposite diagonals exist, using the point set and a check of diagonal coordinates between the two current points
-      let point1OnOppositeDiagonalExists = pointSet.has(convertPointToString(p1x, p2y));
-      let point2OnOppositeDiagonalExists = pointSet.has(convertPointToString(p2x, p1y));
+      let point1OnOppositeDiagonalExists = pointSet.has(
+        convertPointToString(p1x, p2y),
+      );
+      let point2OnOppositeDiagonalExists = pointSet.has(
+        convertPointToString(p2x, p1y),
+      );
       // initialize variable oppositeDiagonalExists and set equal to a check of whether two .has() checks are true
-      let oppositeDiagonalExists = point1OnOppositeDiagonalExists && point2OnOppositeDiagonalExists;
+      let oppositeDiagonalExists =
+        point1OnOppositeDiagonalExists && point2OnOppositeDiagonalExists;
 
       // if the is an opposite diagonal, then execute the below
       if (oppositeDiagonalExists) {
@@ -260,5 +271,5 @@ function createPointSet(points) {
 // helper function which converts two values, which are x and y coordinates, into a string
 function convertPointToString(x, y) {
   // return the stringified x value joined to a ':' along with the stringified y value
- return x.toString() + ':' + y.toString(); 
+  return x.toString() + ':' + y.toString();
 }
