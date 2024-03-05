@@ -17,3 +17,21 @@
 // There are 3 total units of juice, because the length of prices is 4. To maximize revenue, we split the juice into quantities of 1 and 2, giving a revenue of 1 + 3 = 4
 
 // Solution 1:
+
+function juiceBottling(prices) {
+    let numSizes = prices.length;
+    let maxProfit = new Array(numSizes).fill(0);
+    let solutions = new Array(numSizes).fill(undefined).map(_ => []);
+
+    for (let size = 0; size < numSizes; size++) {
+        for (let dividingPoint = 0; dividingPoint < size + 1; dividingPoint++) {
+            let possibleProfit = maxProfit[size - dividingPoint] + prices[dividingPoint];
+
+            if (possibleProfit > maxProfit[size]) {
+                maxProfit[size] = possibleProfit;
+                solutions[size] = [dividingPoint].concat(solutions[size - dividingPoint]);
+            }
+        }
+    }
+    return solutions[numSizes - 1];
+}
