@@ -61,3 +61,32 @@ function juiceBottling(prices) {
   // as this will be the most profitable option
   return solutions[numSizes - 1];
 }
+
+// Solution 2:
+
+function juiceBottling(prices) {
+  let numSizes = prices.length;
+  let maxProfit = new Array(numSizes).fill(0);
+  let dividingPoints = new Array(numSizes).fill(0);
+
+  for (let size = 0; size < numSizes; size++) {
+    for (let dividingPoint = 0; dividingPoint < size + 1; dividingPoint++) {
+      let possibleProfit = maxProfit[size - dividingPoint] + prices[dividingPoint];
+
+      if (possibleProfit > maxProfit[size]) {
+        maxProfit[size] = possibleProfit;
+        dividingPoints[size] = dividingPoint;
+      }
+    }
+  }
+
+  let solution = [];
+  let currentDividingPoint = numSizes - 1;
+
+  while (currentDividingPoint > 0) {
+    solution.push(dividingPoints[currentDividingPoint]);
+    currentDividingPoint -= dividingPoints[currentDividingPoint];
+  }
+
+  return solution;
+}
