@@ -169,14 +169,21 @@ function getMatchingAvailabilities(calendar, meetingDuration) {
 
   // iterate over the flattened calendar passed in, starting from index 1 as index 0 is midnight
   for (let i = 1; i < calendar.length; i++) {
+    // initialize variable start, and set equal to the item prior to i in calendar and at index 1
     let start = calendar[i - 1][1];
+    // initialize variable end, and set equal to the value at position i in calendar at index 0
     let end = calendar[i][0];
+    // initialize variable availabilityDuration, and set equal to the calculated difference between end and start
     let availabilityDuration = end - start;
 
+    // if the total minutes represented by availabilityDuration is grater than or equal to the desired meetingDuration, execute below
     if (availabilityDuration >= meetingDuration) {
+      // push the start and end value pair into the matchingAvailabilities array
       matchingAvailabilities.push([start, end]);
     }
   }
+
+  // return the matchingAvailabilities array, mapped so that every meeting is now converted back from minutes into a time via helper minutesToTime
   return matchingAvailabilities.map((meeting) => meeting.map(minutesToTime));
 }
 
@@ -190,10 +197,16 @@ function timeToMinutes(time) {
   return hours * 60 + minutes;
 }
 
+// helper function to convert a passed-in amount of minutes into a time
 function minutesToTime(minutes) {
+  // initialize variable hours, and set equal to a floored value of input minutes divided by 60
   let hours = Math.floor(minutes / 60);
+  // initialize variable mins, and set equal to the input minutes modulo 60 to get the remaining minutes outside of whole hours
   let mins = minutes % 60;
+  // initialize variable hoursString, and set equal to a stringified version of the hours variable
   let hoursString = hours.toString();
+  // initialize variable minutes string, and set equal to a stringified version of the minutes variable, with added logic checks to ensure a 0 is placed for single-digit minutes
   let minutesString = mins < 10 ? '0' + mins.toString() : mins.toString();
+  // return the hoursString plus : and plus the minutesString
   return hoursString + ':' + minutesString;
 }
