@@ -97,7 +97,7 @@ function mergeCalendars(calendar1, calendar2) {
       // push meeting1 into the merged array, and increment the value of i by 1
       merged.push(meeting1);
       i++;
-    // otherwise, if meeting2 starts before meeting1, execute below
+      // otherwise, if meeting2 starts before meeting1, execute below
     } else {
       // push meeting2 into the merged array, and increment j by 1
       merged.push(meeting2);
@@ -109,8 +109,8 @@ function mergeCalendars(calendar1, calendar2) {
   // as the calendars may be different lengths, so as long as i is less than
   // calendar1's length, continue pushing the remaining meetings into the merged array
   while (i < calendar1.length) {
-    merged.push(calendar1[i++]);  
-  } 
+    merged.push(calendar1[i++]);
+  }
 
   // need to handle edge cases here, which may not catch every meeting
   // as the calendars may be different lengths, so as long as j is less than
@@ -151,8 +151,8 @@ function flattenCalendar(calendar) {
       ];
       // set the last value in the flattened array as the newPreviousMeeting
       flattened[flattened.length - 1] = newPreviousMeeting;
-    // otherwise, if the currentStart is greater than the previousEnd, push the sliced currentMeeting
-    // into the flattened array as a new meeting value
+      // otherwise, if the currentStart is greater than the previousEnd, push the sliced currentMeeting
+      // into the flattened array as a new meeting value
     } else {
       flattened.push(currentMeeting.slice());
     }

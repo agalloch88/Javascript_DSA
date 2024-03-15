@@ -22,7 +22,7 @@
 
 // O(n^3) time due to nested for loops and additional n concat operation inside
 // O(n^2) space due to two additional arrays of n length
- 
+
 function juiceBottling(prices) {
   // initialize variable numSizes to set how many possible
   // sizes there may be, and set equal to the length of the prices input
@@ -44,12 +44,12 @@ function juiceBottling(prices) {
       let possibleProfit =
         maxProfit[size - dividingPoint] + prices[dividingPoint];
 
-        // if the value at the current possibleProfit amount is GREATER than the value at the index of
-        // current size in maxProfit, then execute below
+      // if the value at the current possibleProfit amount is GREATER than the value at the index of
+      // current size in maxProfit, then execute below
       if (possibleProfit > maxProfit[size]) {
         // set the value at current size in maxProfit equal to the value of possibleProfit
         maxProfit[size] = possibleProfit;
-        // set the value at size in the solutions array equal to the value at the current 
+        // set the value at size in the solutions array equal to the value at the current
         // dividingPoint, concatenating the value at current size minus the dividingPoint in solutions array
         solutions[size] = [dividingPoint].concat(
           solutions[size - dividingPoint],
@@ -71,7 +71,8 @@ function juiceBottling(prices) {
 
   for (let size = 0; size < numSizes; size++) {
     for (let dividingPoint = 0; dividingPoint < size + 1; dividingPoint++) {
-      let possibleProfit = maxProfit[size - dividingPoint] + prices[dividingPoint];
+      let possibleProfit =
+        maxProfit[size - dividingPoint] + prices[dividingPoint];
 
       if (possibleProfit > maxProfit[size]) {
         maxProfit[size] = possibleProfit;
