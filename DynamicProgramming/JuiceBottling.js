@@ -64,30 +64,52 @@ function juiceBottling(prices) {
 
 // Solution 2:
 
+// optimized solution which relies on the dividingPoints rather than building out the whole solutions array
+// and concatenating at every iteration of internal for loop
+
 function juiceBottling(prices) {
+  // initialize variable numSizes to set how many possible
+  // sizes there may be, and set equal to the length of the prices input
   let numSizes = prices.length;
+  // initialize variable maxProfit and set equal to a new array of numSizes length, filled with 0's
   let maxProfit = new Array(numSizes).fill(0);
+  // initialize variable dividingPoints, and set equal to a new array of numSizes length, filled with 0's
   let dividingPoints = new Array(numSizes).fill(0);
 
+  // iterate over every size in numSizes
   for (let size = 0; size < numSizes; size++) {
+    // for every size, iterate over every dividing point smaller than curent size plus 1
     for (let dividingPoint = 0; dividingPoint < size + 1; dividingPoint++) {
+      // initialize variable possibleProfit, and set equal to the position in maxProfit representing the value of current size minus
+      // the current dividingPoint value PLUS the value at dividingPoint in the prices input
       let possibleProfit =
         maxProfit[size - dividingPoint] + prices[dividingPoint];
 
+      // check whether the current value of possibleProfit is greater than the value in maxProfit array
+      // at the current size, and if so, execute below
       if (possibleProfit > maxProfit[size]) {
+        // set the value at current size in maxProfit array equal to the current value of possibleProfit
         maxProfit[size] = possibleProfit;
+        // set the value at current size in dividingPoint equal to the current value of dividingPoint
         dividingPoints[size] = dividingPoint;
       }
     }
   }
 
+  // initialize variable solution and set equal to an empty array/list
   let solution = [];
+  // initialize variable currentDividingPoint, and set equal to numSizes minus 1
   let currentDividingPoint = numSizes - 1;
 
+  // so long as currentDividingPoint is greater than 0, continue looping
   while (currentDividingPoint > 0) {
+    // push the value at the currentDividingPoint index in dividingPoints array into the solution array
     solution.push(dividingPoints[currentDividingPoint]);
+    // subtract the value at the index of currentDividingPoint in dividing points from the currentDividingPoint
     currentDividingPoint -= dividingPoints[currentDividingPoint];
   }
 
+  // once currentDividingPoint is less than or equal to zero, the while loop above will break and the
+  // solution array should be complete, so return the solution array
   return solution;
 }
