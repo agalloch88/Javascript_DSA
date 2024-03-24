@@ -22,13 +22,23 @@
 
 // Solution 1:
 
+// recursive solution building out a possibility tree
+
+// O(d * s * t) time, as must consider every die, plus the sides per die, plus the target
+// O(d * t) space, due to storing die times target possibilities
+
+// main function, which takes in the numDice, numSides, and target inputs
 function diceThrows(numDice, numSides, target) {
+    // initialize variable storedResults, which will be a 2D array. and set equal to a new array of numDice + 1 length, filled with undefined
+    // , then mapped for every undefined value to a new array of target + 1 length and filled with -1's
   let storedResults = new Array(numDice + 1)
     .fill(undefined)
     .map((_) => new Array(target + 1).fill(-1));
+    // return a call to helper function diceThrowsHelper, passing in the three main inputs plus the storedResults 2D array
   return diceThrowsHelper(numDice, numSides, target, storedResults);
 }
 
+// helper function to abstract the recursive logic, taking in additional input of storedResults 2D array
 function diceThrowsHelper(numDice, numSides, target, storedResults) {
   if (numDice === 0) {
     return target === 0 ? 1 : 0;
