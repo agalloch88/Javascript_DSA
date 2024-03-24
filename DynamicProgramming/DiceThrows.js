@@ -6,7 +6,7 @@
 // All three input values will always be positive integers. Each of the dice has an equal probability
 // of landing on any number from 1 to numSides. Identical total dice rolls obtained from different
 // individual dice rolls (for example, [2, 3] and [3, 2]) count as different dice roll permutations.
-// If there are no possible dice roll combinations which sum up to the target given the 
+// If there are no possible dice roll combinations which sum up to the target given the
 // input dice options, the function should return 0.
 
 // Sample Input:
@@ -23,25 +23,36 @@
 // Solution 1:
 
 function diceThrows(numDice, numSides, target) {
-    let storedResults = new Array(numDice + 1).fill(undefined).map(_ => new Array(target + 1).fill(-1));
-    return diceThrowsHelper(numDice, numSides, target, storedResults);
+  let storedResults = new Array(numDice + 1)
+    .fill(undefined)
+    .map((_) => new Array(target + 1).fill(-1));
+  return diceThrowsHelper(numDice, numSides, target, storedResults);
 }
 
 function diceThrowsHelper(numDice, numSides, target, storedResults) {
-    if (numDice === 0) {
-        return target === 0 ? 1 : 0;
-    }
+  if (numDice === 0) {
+    return target === 0 ? 1 : 0;
+  }
 
-    if (storedResults[numDice][target] > -1) {
-        return storedResults[numDice][target];
-    }
+  if (storedResults[numDice][target] > -1) {
+    return storedResults[numDice][target];
+  }
 
-    let numWaysToReachTarget = 0;
+  let numWaysToReachTarget = 0;
 
-    for (let currentTarget = Math.max(0, target - numSides); currentTarget < target; currentTarget++) {
-        numWaysToReachTarget += diceThrowsHelper(numDice - 1, numSides, currentTarget, storedResults);
-    }
+  for (
+    let currentTarget = Math.max(0, target - numSides);
+    currentTarget < target;
+    currentTarget++
+  ) {
+    numWaysToReachTarget += diceThrowsHelper(
+      numDice - 1,
+      numSides,
+      currentTarget,
+      storedResults,
+    );
+  }
 
-    storedResults[numDice][target] = numWaysToReachTarget;
-    return numWaysToReachTarget;
+  storedResults[numDice][target] = numWaysToReachTarget;
+  return numWaysToReachTarget;
 }
