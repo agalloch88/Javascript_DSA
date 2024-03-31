@@ -29,12 +29,12 @@
 
 // main function, which takes in the numDice, numSides, and target inputs
 function diceThrows(numDice, numSides, target) {
-    // initialize variable storedResults, which will be a 2D array. and set equal to a new array of numDice + 1 length, filled with undefined
-    // , then mapped for every undefined value to a new array of target + 1 length and filled with -1's
+  // initialize variable storedResults, which will be a 2D array. and set equal to a new array of numDice + 1 length, filled with undefined
+  // , then mapped for every undefined value to a new array of target + 1 length and filled with -1's
   let storedResults = new Array(numDice + 1)
     .fill(undefined)
     .map((_) => new Array(target + 1).fill(-1));
-    // return a call to helper function diceThrowsHelper, passing in the three main inputs plus the storedResults 2D array
+  // return a call to helper function diceThrowsHelper, passing in the three main inputs plus the storedResults 2D array
   return diceThrowsHelper(numDice, numSides, target, storedResults);
 }
 
