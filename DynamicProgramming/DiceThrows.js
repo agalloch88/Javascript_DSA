@@ -53,16 +53,19 @@ function diceThrowsHelper(numDice, numSides, target, storedResults) {
     return storedResults[numDice][target];
   }
 
-//   initialize variable numWaysToReachTarget, and set to 0
+// recursive case
+// initialize variable numWaysToReachTarget, and set to 0
 // for every value of remaining dice and integer needed to reach target, will calculate the possible number of ways to reach it and store in this var
   let numWaysToReachTarget = 0;
 
-//   
+// for every currentTarget, execute the following  
   for (
     let currentTarget = Math.max(0, target - numSides);
     currentTarget < target;
     currentTarget++
   ) {
+    // increment numWaysToReachTarget by the recursive return value from call to diceThrowsHelper
+    // decrement numDice by 1 to account for current throw, and pass in numSides, the currentTarget, and the storedResults
     numWaysToReachTarget += diceThrowsHelper(
       numDice - 1,
       numSides,
@@ -71,6 +74,7 @@ function diceThrowsHelper(numDice, numSides, target, storedResults) {
     );
   }
 
+//   set the value of target at numDice in storedResults equal to the numWaysToReachTarget, then return this value
   storedResults[numDice][target] = numWaysToReachTarget;
   return numWaysToReachTarget;
 }
