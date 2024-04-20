@@ -40,25 +40,25 @@ function diceThrows(numDice, numSides, target) {
 
 // helper function to abstract the recursive logic, taking in additional input of storedResults 2D array
 function diceThrowsHelper(numDice, numSides, target, storedResults) {
-    // base cases
-    // check for edge case where numDice is 0
+  // base cases
+  // check for edge case where numDice is 0
   if (numDice === 0) {
     // if so, return a ternary check of whether target is also 0, in which case return 1 as the answer, otherwise return 0
     return target === 0 ? 1 : 0;
   }
 
-// check whether the result at target value for numDice in the stored results is greater than -1, and if so, execute below
+  // check whether the result at target value for numDice in the stored results is greater than -1, and if so, execute below
   if (storedResults[numDice][target] > -1) {
     // return the value at target for numDice in storedResults
     return storedResults[numDice][target];
   }
 
-// recursive case
-// initialize variable numWaysToReachTarget, and set to 0
-// for every value of remaining dice and integer needed to reach target, will calculate the possible number of ways to reach it and store in this var
+  // recursive case
+  // initialize variable numWaysToReachTarget, and set to 0
+  // for every value of remaining dice and integer needed to reach target, will calculate the possible number of ways to reach it and store in this var
   let numWaysToReachTarget = 0;
 
-// for every currentTarget, execute the following  
+  // for every currentTarget, execute the following
   for (
     let currentTarget = Math.max(0, target - numSides);
     currentTarget < target;
@@ -74,7 +74,7 @@ function diceThrowsHelper(numDice, numSides, target, storedResults) {
     );
   }
 
-//   set the value of target at numDice in storedResults equal to the numWaysToReachTarget, then return this value
+  //   set the value of target at numDice in storedResults equal to the numWaysToReachTarget, then return this value
   storedResults[numDice][target] = numWaysToReachTarget;
   return numWaysToReachTarget;
 }
