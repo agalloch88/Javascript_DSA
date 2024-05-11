@@ -79,18 +79,34 @@ function diceThrowsHelper(numDice, numSides, target, storedResults) {
   return numWaysToReachTarget;
 }
 
-// solution 2:
+// Solution 2:
+// Space Complexity: O(numDice * target)
+// We use a 2D array `storedResults` with dimensions (numDice + 1) x (target + 1).
+// Hence, the space complexity is O(numDice * target).
+
+// Time Complexity: O(numDice * target * numSides)
+// We iterate over the number of dice (numDice), the possible target sums (target),
+// and for each combination, we iterate over the number of sides on the dice (numSides).
+// Thus, the time complexity is O(numDice * target * numSides).
 
 function diceThrows(numDice, numSides, target) {
+  // Create a 2D array to store the results of subproblems
+  // storedResults[d][t] will be the number of ways to achieve target 't' using 'd' dice
   let storedResults = new Array(numDice + 1)
     .fill(undefined)
     .map((_) => new Array(target + 1).fill(0));
+  
+  // Base case: There is 1 way to achieve a target sum of 0 with 0 dice
   storedResults[0][0] = 1;
 
+  // Iterate over the number of dice from 1 to numDice
   for (let currentNumDice = 1; currentNumDice < numDice + 1; currentNumDice++) {
+    // Iterate over all possible target sums from 0 to the desired target
     for (let currentTarget = 0; currentTarget < target + 1; currentTarget++) {
       let numWaysToReachTarget = 0;
 
+      // Consider each face of the dice and add the ways to reach the current target
+      // from the previous number of dice and the current face value
       for (
         let currentNumSides = 1;
         currentNumSides < Math.min(currentTarget, numSides) + 1;
@@ -99,8 +115,10 @@ function diceThrows(numDice, numSides, target) {
         numWaysToReachTarget +=
           storedResults[currentNumDice - 1][currentTarget - currentNumSides];
       }
+      // Store the number of ways to achieve the current target with the current number of dice
       storedResults[currentNumDice][currentTarget] = numWaysToReachTarget;
     }
   }
+  // Return the number of ways to achieve the target sum with the given number of dice
   return storedResults[numDice][target];
 }
