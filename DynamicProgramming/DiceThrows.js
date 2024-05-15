@@ -124,26 +124,45 @@ function diceThrows(numDice, numSides, target) {
 }
 
 // Solution 3
+// Space Complexity: O(target)
+// We use two arrays of size (target + 1) to store the results of subproblems.
+// Hence, the space complexity is O(target).
+
+// Time Complexity: O(numDice * target * numSides)
+// We iterate over the number of dice (numDice), the possible target sums (target),
+// and for each combination, we iterate over the number of sides on the dice (numSides).
+// Thus, the time complexity is O(numDice * target * numSides).
 
 function diceThrows(numDice, numSides, target) {
+  // Initialize two arrays to store the results of subproblems for two consecutive numbers of dice
+  // Each array has dimensions (target + 1)
   let storedResults = [new Array(target + 1).fill(0), new Array(target + 1).fill(0)];
+  // Base case: There is 1 way to achieve a target sum of 0 with 0 dice
   storedResults[0][0] = 1;
 
+  // Indices to keep track of the previous and current dice results arrays
   let previousNumDiceIndex = 0;
   let newNumDiceIndex = 1;
 
+  // Iterate over the number of dice from 0 to numDice - 1
   for (let i = 0; i < numDice; i++) {
+    // Iterate over all possible target sums from 0 to the desired target
     for (let currentTarget = 0; currentTarget < target + 1; currentTarget++) {
       let numWaysToReachTarget = 0;
 
+      // Consider each face of the dice and add the ways to reach the current target
+      // from the previous number of dice and the current face value
       for (let currentNumSides = 1; currentNumSides < Math.min(currentTarget, numSides) + 1; currentNumSides++) {
         numWaysToReachTarget += storedResults[previousNumDiceIndex][currentTarget - currentNumSides];
       }
+      // Store the number of ways to achieve the current target with the current number of dice
       storedResults[newNumDiceIndex][currentTarget] = numWaysToReachTarget;
     }
+    // Swap the indices for the next iteration
     let temp = previousNumDiceIndex;
     previousNumDiceIndex = newNumDiceIndex;
     newNumDiceIndex = temp;
   }
+  // Return the number of ways to achieve the target sum with the given number of dice
   return storedResults[previousNumDiceIndex][target];
 }
