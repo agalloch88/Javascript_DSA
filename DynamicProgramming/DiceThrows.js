@@ -95,7 +95,7 @@ function diceThrows(numDice, numSides, target) {
   let storedResults = new Array(numDice + 1)
     .fill(undefined)
     .map((_) => new Array(target + 1).fill(0));
-  
+
   // Base case: There is 1 way to achieve a target sum of 0 with 0 dice
   storedResults[0][0] = 1;
 
@@ -136,7 +136,10 @@ function diceThrows(numDice, numSides, target) {
 function diceThrows(numDice, numSides, target) {
   // Initialize two arrays to store the results of subproblems for two consecutive numbers of dice
   // Each array has dimensions (target + 1)
-  let storedResults = [new Array(target + 1).fill(0), new Array(target + 1).fill(0)];
+  let storedResults = [
+    new Array(target + 1).fill(0),
+    new Array(target + 1).fill(0),
+  ];
   // Base case: There is 1 way to achieve a target sum of 0 with 0 dice
   storedResults[0][0] = 1;
 
@@ -152,8 +155,13 @@ function diceThrows(numDice, numSides, target) {
 
       // Consider each face of the dice and add the ways to reach the current target
       // from the previous number of dice and the current face value
-      for (let currentNumSides = 1; currentNumSides < Math.min(currentTarget, numSides) + 1; currentNumSides++) {
-        numWaysToReachTarget += storedResults[previousNumDiceIndex][currentTarget - currentNumSides];
+      for (
+        let currentNumSides = 1;
+        currentNumSides < Math.min(currentTarget, numSides) + 1;
+        currentNumSides++
+      ) {
+        numWaysToReachTarget +=
+          storedResults[previousNumDiceIndex][currentTarget - currentNumSides];
       }
       // Store the number of ways to achieve the current target with the current number of dice
       storedResults[newNumDiceIndex][currentTarget] = numWaysToReachTarget;
