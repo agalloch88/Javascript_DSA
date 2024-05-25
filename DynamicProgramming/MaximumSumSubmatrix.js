@@ -39,48 +39,53 @@
 // Solution 1:
 
 function maximumSumSubmatrix(matrix, size) {
-    let sums = createSumMatrix(matrix);
-    let maxSubMatrixSum = -Infinity;
-  
-    for (let row = size - 1; row < matrix.length; row++) {
-      for (let col = size - 1; col < matrix[row].length; col++) {
-        let total = sums[row][col];
-  
-        if (row - size >= 0) {
-          total -= sums[row - size][col];
-        }
-  
-        if (col - size >= 0) {
-          total -= sums[row][col - size];
-        }
-  
-        if (row - size >= 0 && col - size >= 0) {
-          total += sums[row - size][col - size];
-        }
-  
-        maxSubMatrixSum = Math.max(maxSubMatrixSum, total);
+  let sums = createSumMatrix(matrix);
+  let maxSubMatrixSum = -Infinity;
+
+  for (let row = size - 1; row < matrix.length; row++) {
+    for (let col = size - 1; col < matrix[row].length; col++) {
+      let total = sums[row][col];
+
+      if (row - size >= 0) {
+        total -= sums[row - size][col];
       }
-    }
-    return maxSubMatrixSum;
-  }
-  
-  function createSumMatrix(matrix) {
-    let sums = Array(matrix.length).fill().map(() => Array(matrix[0].length).fill(0));
-    sums[0][0] = matrix[0][0];
-  
-    for (let idx = 1; idx < matrix[0].length; idx++) {
-      sums[0][idx] = sums[0][idx - 1] + matrix[0][idx];
-    }
-  
-    for (let idx = 1; idx < matrix.length; idx++) {
-      sums[idx][0] = sums[idx - 1][0] + matrix[idx][0];
-    }
-  
-    for (let row = 1; row < matrix.length; row++) {
-      for (let col = 1; col < matrix[row].length; col++) {
-        sums[row][col] = sums[row - 1][col] + sums[row][col - 1] - sums[row - 1][col - 1] + matrix[row][col];
+
+      if (col - size >= 0) {
+        total -= sums[row][col - size];
       }
+
+      if (row - size >= 0 && col - size >= 0) {
+        total += sums[row - size][col - size];
+      }
+
+      maxSubMatrixSum = Math.max(maxSubMatrixSum, total);
     }
-    return sums;
   }
-  
+  return maxSubMatrixSum;
+}
+
+function createSumMatrix(matrix) {
+  let sums = Array(matrix.length)
+    .fill()
+    .map(() => Array(matrix[0].length).fill(0));
+  sums[0][0] = matrix[0][0];
+
+  for (let idx = 1; idx < matrix[0].length; idx++) {
+    sums[0][idx] = sums[0][idx - 1] + matrix[0][idx];
+  }
+
+  for (let idx = 1; idx < matrix.length; idx++) {
+    sums[idx][0] = sums[idx - 1][0] + matrix[idx][0];
+  }
+
+  for (let row = 1; row < matrix.length; row++) {
+    for (let col = 1; col < matrix[row].length; col++) {
+      sums[row][col] =
+        sums[row - 1][col] +
+        sums[row][col - 1] -
+        sums[row - 1][col - 1] +
+        matrix[row][col];
+    }
+  }
+  return sums;
+}
