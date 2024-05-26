@@ -38,54 +38,76 @@
 
 // Solution 1:
 
+// Time Complexity:
+// The createSumMatrix function runs in O(n*m) time, where n is the number of rows and m is the number of columns in the matrix.
+// The maximumSumSubmatrix function also runs in O(n*m) time as it iterates over the entire matrix to calculate the submatrix sums.
+  
+// Space Complexity:
+// The space complexity is O(n*m) due to the storage of the summed area table.
+
 function maximumSumSubmatrix(matrix, size) {
-  let sums = createSumMatrix(matrix);
-  let maxSubMatrixSum = -Infinity;
-
-  for (let row = size - 1; row < matrix.length; row++) {
-    for (let col = size - 1; col < matrix[row].length; col++) {
-      let total = sums[row][col];
-
-      if (row - size >= 0) {
-        total -= sums[row - size][col];
+    // Create a summed area table for the given matrix
+    let sums = createSumMatrix(matrix);
+    let maxSubMatrixSum = -Infinity;
+  
+    // Iterate through each possible bottom-right corner of the submatrices of the given size
+    for (let row = size - 1; row < matrix.length; row++) {
+      for (let col = size - 1; col < matrix[row].length; col++) {
+        // Calculate the sum of the current submatrix using the summed area table
+        let total = sums[row][col];
+  
+        // Subtract the sum of the area above the submatrix if it exists
+        if (row - size >= 0) {
+          total -= sums[row - size][col];
+        }
+  
+        // Subtract the sum of the area to the left of the submatrix if it exists
+        if (col - size >= 0) {
+          total -= sums[row][col - size];
+        }
+  
+        // Add the sum of the overlapping area (top-left of the submatrix) if both subtractions were done
+        if (row - size >= 0 && col - size >= 0) {
+          total += sums[row - size][col - size];
+        }
+  
+        // Update the maximum submatrix sum found so far
+        maxSubMatrixSum = Math.max(maxSubMatrixSum, total);
       }
-
-      if (col - size >= 0) {
-        total -= sums[row][col - size];
-      }
-
-      if (row - size >= 0 && col - size >= 0) {
-        total += sums[row - size][col - size];
-      }
-
-      maxSubMatrixSum = Math.max(maxSubMatrixSum, total);
     }
+    return maxSubMatrixSum;
   }
-  return maxSubMatrixSum;
-}
-
-function createSumMatrix(matrix) {
-  let sums = Array(matrix.length)
-    .fill()
-    .map(() => Array(matrix[0].length).fill(0));
-  sums[0][0] = matrix[0][0];
-
-  for (let idx = 1; idx < matrix[0].length; idx++) {
-    sums[0][idx] = sums[0][idx - 1] + matrix[0][idx];
-  }
-
-  for (let idx = 1; idx < matrix.length; idx++) {
-    sums[idx][0] = sums[idx - 1][0] + matrix[idx][0];
-  }
-
-  for (let row = 1; row < matrix.length; row++) {
-    for (let col = 1; col < matrix[row].length; col++) {
-      sums[row][col] =
-        sums[row - 1][col] +
-        sums[row][col - 1] -
-        sums[row - 1][col - 1] +
-        matrix[row][col];
+  
+  function createSumMatrix(matrix) {
+    // Initialize the summed area table with the same dimensions as the input matrix
+    let sums = Array(matrix.length)
+      .fill()
+      .map(() => Array(matrix[0].length).fill(0));
+    
+    // Set the value of the top-left cell
+    sums[0][0] = matrix[0][0];
+  
+    // Fill the first row of the summed area table
+    for (let idx = 1; idx < matrix[0].length; idx++) {
+      sums[0][idx] = sums[0][idx - 1] + matrix[0][idx];
     }
+  
+    // Fill the first column of the summed area table
+    for (let idx = 1; idx < matrix.length; idx++) {
+      sums[idx][0] = sums[idx - 1][0] + matrix[idx][0];
+    }
+  
+    // Fill the rest of the summed area table
+    for (let row = 1; row < matrix.length; row++) {
+      for (let col = 1; col < matrix[row].length; col++) {
+        // Each cell is calculated as the sum of the current cell in the matrix,
+        // the sum above it, the sum to the left of it, minus the overlapping top-left area
+        sums[row][col] =
+          sums[row - 1][col] +
+          sums[row][col - 1] -
+          sums[row - 1][col - 1] +
+          matrix[row][col];
+      }
+    }
+    return sums;
   }
-  return sums;
-}
