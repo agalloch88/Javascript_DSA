@@ -24,3 +24,64 @@
 // the new head is node with value 0. Note that all nodes have maintained their relative ordering, even while being ordered around `k` relative to their number values
 
 // Solution 1:
+
+class LinkedList {
+    constructor(value) {
+        this.value = value;
+        this.next = null;
+    }
+}
+
+function rearrangeLinkedList(head, k) {
+    let smallerListHead = null;
+    let smallerListTail = null;
+    let equalListHead = null;
+    let equalListTail = null;
+    let greaterListHead = null;
+    let greaterListTail = null;
+
+    let node = head;
+
+    while (node !== null) {
+        let nextNode = node.next;
+        node.next = null;  // Detach the node from the original list
+
+        if (node.value < k) {
+            [smallerListHead, smallerListTail] = growLinkedList(smallerListHead, smallerListTail, node);
+        } else if (node.value > k) {
+            [greaterListHead, greaterListTail] = growLinkedList(greaterListHead, greaterListTail, node);
+        } else {
+            [equalListHead, equalListTail] = growLinkedList(equalListHead, equalListTail, node);
+        }
+
+        node = nextNode;
+    }
+
+    let [firstHead, firstTail] = connectLinkedLists(smallerListHead, smallerListTail, equalListHead, equalListTail);
+    let [finalHead, _] = connectLinkedLists(firstHead, firstTail, greaterListHead, greaterListTail);
+    return finalHead;
+}
+
+function growLinkedList(head, tail, node) {
+    let newHead = head;
+    let newTail = node;  // Set the new tail to the current node
+
+    if (newHead === null) {
+        newHead = node;
+    } else {
+        tail.next = node;  // Link the current tail to the new node
+    }
+
+    return [newHead, newTail];
+}
+
+function connectLinkedLists(headOne, tailOne, headTwo, tailTwo) {
+    let newHead = headOne === null ? headTwo : headOne;
+    let newTail = headTwo === null ? tailOne : tailTwo;
+
+    if (tailOne !== null) {
+        tailOne.next = headTwo;
+    }
+
+    return [newHead, newTail];
+}
