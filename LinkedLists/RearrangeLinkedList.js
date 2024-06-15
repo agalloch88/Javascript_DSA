@@ -1,4 +1,4 @@
-// Write a function which takes in the ehad of a Singly Linked List, and an integer `k`, rearranges the list in place (meaning, does not created a brand new Linked List) around nodes 
+// Write a function which takes in the ehad of a Singly Linked List, and an integer `k`, rearranges the list in place (meaning, does not created a brand new Linked List) around nodes
 // with the value `k`, and returns its new head.
 
 // Rearranging a Linked List around nodes with the value `k` means moving all nodes with a value smaller than `k` before all nodes with the value of `k`, and moving all
@@ -26,62 +26,84 @@
 // Solution 1:
 
 class LinkedList {
-    constructor(value) {
-        this.value = value;
-        this.next = null;
-    }
+  constructor(value) {
+    this.value = value;
+    this.next = null;
+  }
 }
 
 function rearrangeLinkedList(head, k) {
-    let smallerListHead = null;
-    let smallerListTail = null;
-    let equalListHead = null;
-    let equalListTail = null;
-    let greaterListHead = null;
-    let greaterListTail = null;
+  let smallerListHead = null;
+  let smallerListTail = null;
+  let equalListHead = null;
+  let equalListTail = null;
+  let greaterListHead = null;
+  let greaterListTail = null;
 
-    let node = head;
+  let node = head;
 
-    while (node !== null) {
-        let nextNode = node.next;
-        node.next = null;  // Detach the node from the original list
+  while (node !== null) {
+    let nextNode = node.next;
+    node.next = null; // Detach the node from the original list
 
-        if (node.value < k) {
-            [smallerListHead, smallerListTail] = growLinkedList(smallerListHead, smallerListTail, node);
-        } else if (node.value > k) {
-            [greaterListHead, greaterListTail] = growLinkedList(greaterListHead, greaterListTail, node);
-        } else {
-            [equalListHead, equalListTail] = growLinkedList(equalListHead, equalListTail, node);
-        }
-
-        node = nextNode;
+    if (node.value < k) {
+      [smallerListHead, smallerListTail] = growLinkedList(
+        smallerListHead,
+        smallerListTail,
+        node,
+      );
+    } else if (node.value > k) {
+      [greaterListHead, greaterListTail] = growLinkedList(
+        greaterListHead,
+        greaterListTail,
+        node,
+      );
+    } else {
+      [equalListHead, equalListTail] = growLinkedList(
+        equalListHead,
+        equalListTail,
+        node,
+      );
     }
 
-    let [firstHead, firstTail] = connectLinkedLists(smallerListHead, smallerListTail, equalListHead, equalListTail);
-    let [finalHead, _] = connectLinkedLists(firstHead, firstTail, greaterListHead, greaterListTail);
-    return finalHead;
+    node = nextNode;
+  }
+
+  let [firstHead, firstTail] = connectLinkedLists(
+    smallerListHead,
+    smallerListTail,
+    equalListHead,
+    equalListTail,
+  );
+  let [finalHead, _] = connectLinkedLists(
+    firstHead,
+    firstTail,
+    greaterListHead,
+    greaterListTail,
+  );
+  return finalHead;
 }
 
 function growLinkedList(head, tail, node) {
-    let newHead = head;
-    let newTail = node;  // Set the new tail to the current node
+  let newHead = head;
+  let newTail = node; // Set the new tail to the current node
 
-    if (newHead === null) {
-        newHead = node;
-    } else {
-        tail.next = node;  // Link the current tail to the new node
-    }
+  if (newHead === null) {
+    newHead = node;
+  } else {
+    tail.next = node; // Link the current tail to the new node
+  }
 
-    return [newHead, newTail];
+  return [newHead, newTail];
 }
 
 function connectLinkedLists(headOne, tailOne, headTwo, tailTwo) {
-    let newHead = headOne === null ? headTwo : headOne;
-    let newTail = headTwo === null ? tailOne : tailTwo;
+  let newHead = headOne === null ? headTwo : headOne;
+  let newTail = headTwo === null ? tailOne : tailTwo;
 
-    if (tailOne !== null) {
-        tailOne.next = headTwo;
-    }
+  if (tailOne !== null) {
+    tailOne.next = headTwo;
+  }
 
-    return [newHead, newTail];
+  return [newHead, newTail];
 }
