@@ -22,3 +22,35 @@
 // true
 
 // Solution 1:
+
+class LinkedList {
+    constructor(value) {
+        this.value = value;
+        this.next= null;
+    }
+}
+
+class LinkedListInfo {
+    constructor(outerNodesAreEqual, leftNodeToCompare) {
+        this.outerNodesAreEqual = outerNodesAreEqual;
+        this.leftNodeToCompare = leftNodeToCompare;
+    }
+}
+
+function linkedListPalindrome(head) {
+    let isPalindromeResults = isPalindrome(head, head);
+    return isPalindromeResults.outerNodesAreEqual;
+}
+
+function isPalindrome(leftNode, rightNode) {
+    if (rightNode === null) {
+        return new LinkedListInfo(true, leftNode);
+    }
+
+    let recursiveCallResults = isPalindrome(leftNode, rightNode.next);
+    let {leftNodeToCompare, outerNodesAreEqual} = recursiveCallResults;
+    let recursiveIsEqual = outerNodesAreEqual && leftNodeToCompare.value === rightNode.value;
+    let nextLeftNodeToCompare = leftNodeToCompare.next;
+    
+    return new LinkedListInfo(recursiveIsEqual, nextLeftNodeToCompare);
+}
