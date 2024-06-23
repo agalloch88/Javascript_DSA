@@ -23,35 +23,76 @@
 
 // Solution 1:
 
+// iterative solution rearranging a linked list by using other smaller linked lists, growing them, then connecting
+
+// O(n) time due to iterating through the entire structure, and processing each node in constant time
+// O(n) space due to storing n values in separate linked lists then joining them
+
 class LinkedList {
   constructor(value) {
-    this.value = value;
-    this.next = null;
+      this.value = value;
+      this.next = null;
   }
 }
 
-class LinkedListInfo {
-  constructor(outerNodesAreEqual, leftNodeToCompare) {
-    this.outerNodesAreEqual = outerNodesAreEqual;
-    this.leftNodeToCompare = leftNodeToCompare;
+function rearrangeLinkedList(head, k) {
+  // Initialize the heads and tails for three separate lists
+  let smallerListHead = null;
+  let smallerListTail = null;
+  let equalListHead = null;
+  let equalListTail = null;
+  let greaterListHead = null;
+  let greaterListTail = null;
+
+  // Traverse the original linked list
+  let node = head;
+
+  while (node !== null) {
+      let nextNode = node.next; // Store the next node
+      node.next = null;  // Detach the current node from the original list
+
+      // Append the current node to the appropriate list based on its value
+      if (node.value < k) {
+          [smallerListHead, smallerListTail] = growLinkedList(smallerListHead, smallerListTail, node);
+      } else if (node.value > k) {
+          [greaterListHead, greaterListTail] = growLinkedList(greaterListHead, greaterListTail, node);
+      } else {
+          [equalListHead, equalListTail] = growLinkedList(equalListHead, equalListTail, node);
+      }
+
+      node = nextNode; // Move to the next node
   }
+
+  // Connect the smaller and equal lists
+  let [firstHead, firstTail] = connectLinkedLists(smallerListHead, smallerListTail, equalListHead, equalListTail);
+  // Connect the resulting list with the greater list
+  let [finalHead, _] = connectLinkedLists(firstHead, firstTail, greaterListHead, greaterListTail);
+
+  return finalHead; // Return the head of the rearranged list
 }
 
-function linkedListPalindrome(head) {
-  let isPalindromeResults = isPalindrome(head, head);
-  return isPalindromeResults.outerNodesAreEqual;
-}
+// Function to add a node to the end of a linked list
+function growLinkedList(head, tail, node) {
+  let newHead = head;
+  let newTail = node;  // Set the new tail to the current node
 
-function isPalindrome(leftNode, rightNode) {
-  if (rightNode === null) {
-    return new LinkedListInfo(true, leftNode);
+  if (newHead === null) {
+      newHead = node; // If the list is empty, set the head to the new node
+  } else {
+      tail.next = node;  // Link the current tail to the new node
   }
 
-  let recursiveCallResults = isPalindrome(leftNode, rightNode.next);
-  let { leftNodeToCompare, outerNodesAreEqual } = recursiveCallResults;
-  let recursiveIsEqual =
-    outerNodesAreEqual && leftNodeToCompare.value === rightNode.value;
-  let nextLeftNodeToCompare = leftNodeToCompare.next;
+  return [newHead, newTail]; // Return the new head and tail of the list
+}
 
-  return new LinkedListInfo(recursiveIsEqual, nextLeftNodeToCompare);
+// Function to connect two linked lists
+function connectLinkedLists(headOne, tailOne, headTwo, tailTwo) {
+  let newHead = headOne === null ? headTwo : headOne; // Determine the new head
+  let newTail = headTwo === null ? tailOne : tailTwo; // Determine the new tail
+
+  if (tailOne !== null) {
+      tailOne.next = headTwo; // Connect the tail of the first list to the head of the second list
+  }
+
+  return [newHead, newTail]; // Return the new head and tail of the connected lists
 }
