@@ -30,8 +30,8 @@
 
 class LinkedList {
   constructor(value) {
-      this.value = value;
-      this.next = null;
+    this.value = value;
+    this.next = null;
   }
 }
 
@@ -48,25 +48,47 @@ function rearrangeLinkedList(head, k) {
   let node = head;
 
   while (node !== null) {
-      let nextNode = node.next; // Store the next node
-      node.next = null;  // Detach the current node from the original list
+    let nextNode = node.next; // Store the next node
+    node.next = null; // Detach the current node from the original list
 
-      // Append the current node to the appropriate list based on its value
-      if (node.value < k) {
-          [smallerListHead, smallerListTail] = growLinkedList(smallerListHead, smallerListTail, node);
-      } else if (node.value > k) {
-          [greaterListHead, greaterListTail] = growLinkedList(greaterListHead, greaterListTail, node);
-      } else {
-          [equalListHead, equalListTail] = growLinkedList(equalListHead, equalListTail, node);
-      }
+    // Append the current node to the appropriate list based on its value
+    if (node.value < k) {
+      [smallerListHead, smallerListTail] = growLinkedList(
+        smallerListHead,
+        smallerListTail,
+        node,
+      );
+    } else if (node.value > k) {
+      [greaterListHead, greaterListTail] = growLinkedList(
+        greaterListHead,
+        greaterListTail,
+        node,
+      );
+    } else {
+      [equalListHead, equalListTail] = growLinkedList(
+        equalListHead,
+        equalListTail,
+        node,
+      );
+    }
 
-      node = nextNode; // Move to the next node
+    node = nextNode; // Move to the next node
   }
 
   // Connect the smaller and equal lists
-  let [firstHead, firstTail] = connectLinkedLists(smallerListHead, smallerListTail, equalListHead, equalListTail);
+  let [firstHead, firstTail] = connectLinkedLists(
+    smallerListHead,
+    smallerListTail,
+    equalListHead,
+    equalListTail,
+  );
   // Connect the resulting list with the greater list
-  let [finalHead, _] = connectLinkedLists(firstHead, firstTail, greaterListHead, greaterListTail);
+  let [finalHead, _] = connectLinkedLists(
+    firstHead,
+    firstTail,
+    greaterListHead,
+    greaterListTail,
+  );
 
   return finalHead; // Return the head of the rearranged list
 }
@@ -74,12 +96,12 @@ function rearrangeLinkedList(head, k) {
 // Function to add a node to the end of a linked list
 function growLinkedList(head, tail, node) {
   let newHead = head;
-  let newTail = node;  // Set the new tail to the current node
+  let newTail = node; // Set the new tail to the current node
 
   if (newHead === null) {
-      newHead = node; // If the list is empty, set the head to the new node
+    newHead = node; // If the list is empty, set the head to the new node
   } else {
-      tail.next = node;  // Link the current tail to the new node
+    tail.next = node; // Link the current tail to the new node
   }
 
   return [newHead, newTail]; // Return the new head and tail of the list
@@ -91,7 +113,7 @@ function connectLinkedLists(headOne, tailOne, headTwo, tailTwo) {
   let newTail = headTwo === null ? tailOne : tailTwo; // Determine the new tail
 
   if (tailOne !== null) {
-      tailOne.next = headTwo; // Connect the tail of the first list to the head of the second list
+    tailOne.next = headTwo; // Connect the tail of the first list to the head of the second list
   }
 
   return [newHead, newTail]; // Return the new head and tail of the connected lists
