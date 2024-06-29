@@ -31,16 +31,16 @@
 // Definition of the LinkedList node
 class LinkedList {
   constructor(value) {
-      this.value = value;
-      this.next = null;
+    this.value = value;
+    this.next = null;
   }
 }
 
 // Helper class to store the results of the palindrome check
 class LinkedListInfo {
   constructor(outerNodesAreEqual, leftNodeToCompare) {
-      this.outerNodesAreEqual = outerNodesAreEqual;
-      this.leftNodeToCompare = leftNodeToCompare;
+    this.outerNodesAreEqual = outerNodesAreEqual;
+    this.leftNodeToCompare = leftNodeToCompare;
   }
 }
 
@@ -56,18 +56,19 @@ function linkedListPalindrome(head) {
 function isPalindrome(leftNode, rightNode) {
   // Base case: if the right node reaches the end, return true and the left node
   if (rightNode === null) {
-      return new LinkedListInfo(true, leftNode);
+    return new LinkedListInfo(true, leftNode);
   }
 
   // Recursive call to move rightNode to the end of the list
   let recursiveCallResults = isPalindrome(leftNode, rightNode.next);
   // Destructure the results of the recursive call
-  let {leftNodeToCompare, outerNodesAreEqual} = recursiveCallResults;
+  let { leftNodeToCompare, outerNodesAreEqual } = recursiveCallResults;
   // Check if the current nodes are equal and previous comparisons were equal
-  let recursiveIsEqual = outerNodesAreEqual && leftNodeToCompare.value === rightNode.value;
+  let recursiveIsEqual =
+    outerNodesAreEqual && leftNodeToCompare.value === rightNode.value;
   // Move the left node to the next node for the next comparison
   let nextLeftNodeToCompare = leftNodeToCompare.next;
-  
+
   // Return the comparison result and the next left node to compare
   return new LinkedListInfo(recursiveIsEqual, nextLeftNodeToCompare);
 }
