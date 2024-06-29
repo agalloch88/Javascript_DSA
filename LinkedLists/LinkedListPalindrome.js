@@ -23,98 +23,51 @@
 
 // Solution 1:
 
-// iterative solution rearranging a linked list by using other smaller linked lists, growing them, then connecting
+// recurisve solution checking for palindrome characteristics
 
-// O(n) time due to iterating through the entire structure, and processing each node in constant time
-// O(n) space due to storing n values in separate linked lists then joining them
+// O(n) time due to visiting each node once during recursive execution
+// O(n) space due to storing n values on the call stack
 
+// Definition of the LinkedList node
 class LinkedList {
   constructor(value) {
-    this.value = value;
-    this.next = null;
+      this.value = value;
+      this.next = null;
   }
 }
 
-function rearrangeLinkedList(head, k) {
-  // Initialize the heads and tails for three separate lists
-  let smallerListHead = null;
-  let smallerListTail = null;
-  let equalListHead = null;
-  let equalListTail = null;
-  let greaterListHead = null;
-  let greaterListTail = null;
-
-  // Traverse the original linked list
-  let node = head;
-
-  while (node !== null) {
-    let nextNode = node.next; // Store the next node
-    node.next = null; // Detach the current node from the original list
-
-    // Append the current node to the appropriate list based on its value
-    if (node.value < k) {
-      [smallerListHead, smallerListTail] = growLinkedList(
-        smallerListHead,
-        smallerListTail,
-        node,
-      );
-    } else if (node.value > k) {
-      [greaterListHead, greaterListTail] = growLinkedList(
-        greaterListHead,
-        greaterListTail,
-        node,
-      );
-    } else {
-      [equalListHead, equalListTail] = growLinkedList(
-        equalListHead,
-        equalListTail,
-        node,
-      );
-    }
-
-    node = nextNode; // Move to the next node
+// Helper class to store the results of the palindrome check
+class LinkedListInfo {
+  constructor(outerNodesAreEqual, leftNodeToCompare) {
+      this.outerNodesAreEqual = outerNodesAreEqual;
+      this.leftNodeToCompare = leftNodeToCompare;
   }
-
-  // Connect the smaller and equal lists
-  let [firstHead, firstTail] = connectLinkedLists(
-    smallerListHead,
-    smallerListTail,
-    equalListHead,
-    equalListTail,
-  );
-  // Connect the resulting list with the greater list
-  let [finalHead, _] = connectLinkedLists(
-    firstHead,
-    firstTail,
-    greaterListHead,
-    greaterListTail,
-  );
-
-  return finalHead; // Return the head of the rearranged list
 }
 
-// Function to add a node to the end of a linked list
-function growLinkedList(head, tail, node) {
-  let newHead = head;
-  let newTail = node; // Set the new tail to the current node
-
-  if (newHead === null) {
-    newHead = node; // If the list is empty, set the head to the new node
-  } else {
-    tail.next = node; // Link the current tail to the new node
-  }
-
-  return [newHead, newTail]; // Return the new head and tail of the list
+// Main function to check if the linked list is a palindrome
+function linkedListPalindrome(head) {
+  // Call the recursive helper function
+  let isPalindromeResults = isPalindrome(head, head);
+  // Return the final result indicating if the linked list is a palindrome
+  return isPalindromeResults.outerNodesAreEqual;
 }
 
-// Function to connect two linked lists
-function connectLinkedLists(headOne, tailOne, headTwo, tailTwo) {
-  let newHead = headOne === null ? headTwo : headOne; // Determine the new head
-  let newTail = headTwo === null ? tailOne : tailTwo; // Determine the new tail
-
-  if (tailOne !== null) {
-    tailOne.next = headTwo; // Connect the tail of the first list to the head of the second list
+// Recursive function to check if the linked list is a palindrome
+function isPalindrome(leftNode, rightNode) {
+  // Base case: if the right node reaches the end, return true and the left node
+  if (rightNode === null) {
+      return new LinkedListInfo(true, leftNode);
   }
 
-  return [newHead, newTail]; // Return the new head and tail of the connected lists
+  // Recursive call to move rightNode to the end of the list
+  let recursiveCallResults = isPalindrome(leftNode, rightNode.next);
+  // Destructure the results of the recursive call
+  let {leftNodeToCompare, outerNodesAreEqual} = recursiveCallResults;
+  // Check if the current nodes are equal and previous comparisons were equal
+  let recursiveIsEqual = outerNodesAreEqual && leftNodeToCompare.value === rightNode.value;
+  // Move the left node to the next node for the next comparison
+  let nextLeftNodeToCompare = leftNodeToCompare.next;
+  
+  // Return the comparison result and the next left node to compare
+  return new LinkedListInfo(recursiveIsEqual, nextLeftNodeToCompare);
 }
