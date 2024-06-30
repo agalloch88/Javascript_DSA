@@ -72,3 +72,50 @@ function isPalindrome(leftNode, rightNode) {
   // Return the comparison result and the next left node to compare
   return new LinkedListInfo(recursiveIsEqual, nextLeftNodeToCompare);
 }
+
+// Solution 2:
+
+class LinkedList {
+  constructor(value) {
+    this.value = value;
+    this.next = null;
+  }
+}
+
+function linkedListPalindrome(head) {
+  let slowNode = head;
+  let fastNode = head;
+
+  while (fastNode !== null && fastNode.next != null) {
+    slowNode = slowNode.next;
+    fastNode = fastNode.next.next;
+  }
+
+  let reversedSecondHalfNode = reverseLinkedList(slowNode);
+  let firstHalfNode = head;
+
+  while (reversedSecondHalfNode !== null) {
+    if (reversedSecondHalfNode.value !== firstHalfNode.value) {
+      return false;
+    }
+
+    reversedSecondHalfNode = reversedSecondHalfNode.next;
+    firstHalfNode = firstHalfNode.next;
+  }
+
+  return true;
+}
+
+function reverseLinkedList(head) {
+  let previousNode = null;
+  let currentNode = head;
+
+  while (currentNode !== null) {
+    let nextNode = currentNode.next;
+    currentNode.next = previousNode;
+    previousNode = currentNode;
+    currentNode = nextNode;
+  }
+
+  return previousNode;
+}
