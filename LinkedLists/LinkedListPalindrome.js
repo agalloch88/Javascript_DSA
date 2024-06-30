@@ -75,6 +75,10 @@ function isPalindrome(leftNode, rightNode) {
 
 // Solution 2:
 
+// O(n) time due to traversing the list to find the middle, then reversing the second half, and comparing the halves
+// O(1) space due to only using a couple pointers and variables, and reversing the list in place
+
+// Definition of the LinkedList node
 class LinkedList {
   constructor(value) {
     this.value = value;
@@ -82,40 +86,48 @@ class LinkedList {
   }
 }
 
+// Function to check if the linked list is a palindrome
 function linkedListPalindrome(head) {
+  // Initialize two pointers: slowNode and fastNode
   let slowNode = head;
   let fastNode = head;
 
+  // Move slowNode one step and fastNode two steps until fastNode reaches the end
   while (fastNode !== null && fastNode.next != null) {
     slowNode = slowNode.next;
     fastNode = fastNode.next.next;
   }
 
+  // Reverse the second half of the linked list
   let reversedSecondHalfNode = reverseLinkedList(slowNode);
   let firstHalfNode = head;
 
+  // Compare the first half and the reversed second half
   while (reversedSecondHalfNode !== null) {
     if (reversedSecondHalfNode.value !== firstHalfNode.value) {
-      return false;
+      return false; // Return false if any values do not match
     }
 
+    // Move both pointers to the next nodes
     reversedSecondHalfNode = reversedSecondHalfNode.next;
     firstHalfNode = firstHalfNode.next;
   }
 
-  return true;
+  return true; // Return true if all values match
 }
 
+// Function to reverse a linked list
 function reverseLinkedList(head) {
   let previousNode = null;
   let currentNode = head;
 
+  // Iterate through the linked list and reverse the links
   while (currentNode !== null) {
-    let nextNode = currentNode.next;
-    currentNode.next = previousNode;
-    previousNode = currentNode;
-    currentNode = nextNode;
+    let nextNode = currentNode.next; // Temporarily store the next node
+    currentNode.next = previousNode; // Reverse the current node's link
+    previousNode = currentNode; // Move previousNode to the current node
+    currentNode = nextNode; // Move currentNode to the next node
   }
 
-  return previousNode;
+  return previousNode; // Return the new head of the reversed list
 }
