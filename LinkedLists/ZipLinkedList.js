@@ -1,5 +1,5 @@
 // The problem presents the head of a Singly Linked List with an arbitrary length, `k`. Write
-// a function which zips the Linked List in place (meaning, which does not create a 
+// a function which zips the Linked List in place (meaning, which does not create a
 // brand new Linked List) and returns its head.
 
 // A Linked List is zipped if its nodes are in the following order, where `k` is the length
@@ -24,67 +24,67 @@
 // Solution 1:
 
 class LinkedList {
-    constructor(value) {
-        this.value = value;
-        this.next = null;
-    }
+  constructor(value) {
+    this.value = value;
+    this.next = null;
+  }
 }
 
 function zipLinkedList(linkedList) {
-    if (linkedList.next === null || linkedList.next.next === null) {
-        return linkedList;
-    }
+  if (linkedList.next === null || linkedList.next.next === null) {
+    return linkedList;
+  }
 
-    let firstHalfHead = linkedList;
-    let secondHalfHead = splitLinkedList(linkedList);
+  let firstHalfHead = linkedList;
+  let secondHalfHead = splitLinkedList(linkedList);
 
-    let reversedSecondHalfHead = reverseLinkedList(secondHalfHead);
-    
-    return interweaveLinkedLists(firstHalfHead, reversedSecondHalfHead);
+  let reversedSecondHalfHead = reverseLinkedList(secondHalfHead);
+
+  return interweaveLinkedLists(firstHalfHead, reversedSecondHalfHead);
 }
 
 function splitLinkedList(linkedList) {
-    let slowIterator = linkedList;
-    let fastIterator = linkedList;
+  let slowIterator = linkedList;
+  let fastIterator = linkedList;
 
-    while (fastIterator !== null && fastIterator.next !== null) {
-        slowIterator = slowIterator.next;
-        fastIterator = fastIterator.next.next;
-    }
+  while (fastIterator !== null && fastIterator.next !== null) {
+    slowIterator = slowIterator.next;
+    fastIterator = fastIterator.next.next;
+  }
 
-    let secondHalfHead = slowIterator.next;
-    slowIterator.next = null;
-    return secondHalfHead;
+  let secondHalfHead = slowIterator.next;
+  slowIterator.next = null;
+  return secondHalfHead;
 }
 
 function interweaveLinkedLists(linkedList1, linkedList2) {
-    let linkedList1Interator = linkedList1;
-    let linkedList2Iterator = linkedList2;
+  let linkedList1Interator = linkedList1;
+  let linkedList2Iterator = linkedList2;
 
-    while (linkedList1Interator !== null && linkedList2Iterator !== null) {
-        let linkedList1InteratorNext = linkedList1Interator.next;
-        let linkedList2IteratorNext = linkedList2Iterator.next;
+  while (linkedList1Interator !== null && linkedList2Iterator !== null) {
+    let linkedList1InteratorNext = linkedList1Interator.next;
+    let linkedList2IteratorNext = linkedList2Iterator.next;
 
-        linkedList1Interator.next = linkedList2Iterator;
-        linkedList2Iterator.next = linkedList1InteratorNext;
+    linkedList1Interator.next = linkedList2Iterator;
+    linkedList2Iterator.next = linkedList1InteratorNext;
 
-        linkedList1Interator = linkedList1InteratorNext;
-        linkedList2Iterator = linkedList2IteratorNext;
-    }
+    linkedList1Interator = linkedList1InteratorNext;
+    linkedList2Iterator = linkedList2IteratorNext;
+  }
 
-    return linkedList1;
+  return linkedList1;
 }
 
 function reverseLinkedList(head) {
-    let previousNode = null;
-    let currentNode = head;
+  let previousNode = null;
+  let currentNode = head;
 
-    while (currentNode !== null) {
-        let nextNode = currentNode.next;
-        currentNode.next = previousNode;
-        previousNode = currentNode;
-        currentNode = nextNode;
-    }
-    
-    return previousNode;
+  while (currentNode !== null) {
+    let nextNode = currentNode.next;
+    currentNode.next = previousNode;
+    previousNode = currentNode;
+    currentNode = nextNode;
+  }
+
+  return previousNode;
 }
