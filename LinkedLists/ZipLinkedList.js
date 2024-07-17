@@ -23,6 +23,12 @@
 
 // Solution 1:
 
+// iterative approach splitting the list into two halves, reversing the second half, and interweaving the two halves to "zip" the list
+
+// O(n) time complexity due to iterating over the full list of n values twice, so 2n converges to n
+// O(1) space complexity since only using a few variables, and performing the zip in place so not using extra data structures
+
+// Definition for singly-linked list
 class LinkedList {
   constructor(value) {
     this.value = value;
@@ -30,37 +36,47 @@ class LinkedList {
   }
 }
 
+// Main function to zip the linked list
 function zipLinkedList(linkedList) {
+  // Base case: if the list has less than 3 nodes, no zipping is needed
   if (linkedList.next === null || linkedList.next.next === null) {
     return linkedList;
   }
 
+  // Step 1: Split the list into two halves
   let firstHalfHead = linkedList;
   let secondHalfHead = splitLinkedList(linkedList);
 
+  // Step 2: Reverse the second half of the list
   let reversedSecondHalfHead = reverseLinkedList(secondHalfHead);
 
+  // Step 3: Interweave the two halves
   return interweaveLinkedLists(firstHalfHead, reversedSecondHalfHead);
 }
 
+// Function to split the linked list into two halves
 function splitLinkedList(linkedList) {
   let slowIterator = linkedList;
   let fastIterator = linkedList;
 
+  // Use slow and fast pointers to find the middle of the list
   while (fastIterator !== null && fastIterator.next !== null) {
     slowIterator = slowIterator.next;
     fastIterator = fastIterator.next.next;
   }
 
+  // Split the list into two halves
   let secondHalfHead = slowIterator.next;
-  slowIterator.next = null;
+  slowIterator.next = null; // Break the list into two parts
   return secondHalfHead;
 }
 
+// Function to interweave two linked lists
 function interweaveLinkedLists(linkedList1, linkedList2) {
   let linkedList1Interator = linkedList1;
   let linkedList2Iterator = linkedList2;
 
+  // Interweave nodes from the two lists
   while (linkedList1Interator !== null && linkedList2Iterator !== null) {
     let linkedList1InteratorNext = linkedList1Interator.next;
     let linkedList2IteratorNext = linkedList2Iterator.next;
@@ -75,10 +91,12 @@ function interweaveLinkedLists(linkedList1, linkedList2) {
   return linkedList1;
 }
 
+// Function to reverse a linked list
 function reverseLinkedList(head) {
   let previousNode = null;
   let currentNode = head;
 
+  // Reverse the list by changing the next pointers
   while (currentNode !== null) {
     let nextNode = currentNode.next;
     currentNode.next = previousNode;
@@ -86,5 +104,5 @@ function reverseLinkedList(head) {
     currentNode = nextNode;
   }
 
-  return previousNode;
+  return previousNode; // Return new head of the reversed list
 }
