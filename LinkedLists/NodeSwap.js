@@ -16,3 +16,21 @@
 // 1 -> 0 -> 3 -> 2 -> 5 -> 4
 
 // Solution 1:
+
+class LinkedList {
+    constructor(value) {
+        this.value = value;
+        this.next = null;
+    }
+}
+
+function nodeSwap(head) {
+    if (head === null || head.next === null) {
+        return head;
+    }
+
+    let nextNode = head.next;
+    head.next = nodeSwap(head.next.next);
+    nextNode.next = head;
+    return nextNode;
+}
