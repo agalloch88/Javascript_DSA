@@ -18,19 +18,19 @@
 // Solution 1:
 
 class LinkedList {
-    constructor(value) {
-        this.value = value;
-        this.next = null;
-    }
+  constructor(value) {
+    this.value = value;
+    this.next = null;
+  }
 }
 
 function nodeSwap(head) {
-    if (head === null || head.next === null) {
-        return head;
-    }
+  if (head === null || head.next === null) {
+    return head;
+  }
 
-    let nextNode = head.next;
-    head.next = nodeSwap(head.next.next);
-    nextNode.next = head;
-    return nextNode;
+  let nextNode = head.next;
+  head.next = nodeSwap(head.next.next);
+  nextNode.next = head;
+  return nextNode;
 }
