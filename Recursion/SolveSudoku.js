@@ -54,65 +54,65 @@
 // Solution 1:
 
 function solveSudoku(board) {
-    solvePartialSudoku(0, 0, board);
-    return board;
+  solvePartialSudoku(0, 0, board);
+  return board;
 }
 
 function solvePartialSudoku(row, col, board) {
-    let currentRow = row;
-    let currentCol = col;
+  let currentRow = row;
+  let currentCol = col;
 
-    if (currentCol === board[currentRow].length) {
-        currentRow++;
-        currentCol = 0;
+  if (currentCol === board[currentRow].length) {
+    currentRow++;
+    currentCol = 0;
 
-        if (currentRow === board.length) {
-            return true;
-        }
+    if (currentRow === board.length) {
+      return true;
     }
+  }
 
-    if (board[currentRow][currentCol] === 0) {
-        return tryDigitsAtPosition(currentRow, currentCol, board);
-    }
-    return solvePartialSudoku(currentRow, currentCol + 1, board);
+  if (board[currentRow][currentCol] === 0) {
+    return tryDigitsAtPosition(currentRow, currentCol, board);
+  }
+  return solvePartialSudoku(currentRow, currentCol + 1, board);
 }
 
 function tryDigitsAtPosition(row, col, board) {
-    for (let digit = 1; digit < 10; digit++) {
-        if (isValidAtPosition(digit, row, col, board)) {
-            board[row][col] = digit;
+  for (let digit = 1; digit < 10; digit++) {
+    if (isValidAtPosition(digit, row, col, board)) {
+      board[row][col] = digit;
 
-            if (solvePartialSudoku(row, col + 1, board)) {
-                return true;
-            }
-        }
+      if (solvePartialSudoku(row, col + 1, board)) {
+        return true;
+      }
     }
+  }
 
-    board[row][col] = 0;
-    return false;
+  board[row][col] = 0;
+  return false;
 }
 
 function isValidAtPosition(value, row, col, board) {
-    let rowIsValid = !board[row].includes(value);
-    let colIsValid = !board.map(row => row[col]).includes(value);
+  let rowIsValid = !board[row].includes(value);
+  let colIsValid = !board.map((row) => row[col]).includes(value);
 
-    if (!rowIsValid || !colIsValid) {
+  if (!rowIsValid || !colIsValid) {
+    return false;
+  }
+
+  let subgridRowStart = Math.floor(row / 3) * 3;
+  let subgridColStart = Math.floor(col / 3) * 3;
+
+  for (let rowIdx = 0; rowIdx < 3; rowIdx++) {
+    for (let colIdx = 0; colIdx < 3; colIdx++) {
+      let rowToCheck = subgridRowStart + rowIdx;
+      let coldToCheck = subgridColStart + colIdx;
+      let existingValue = board[rowToCheck][coldToCheck];
+
+      if (existingValue === value) {
         return false;
+      }
     }
-
-    let subgridRowStart = Math.floor(row / 3) * 3;
-    let subgridColStart = Math.floor(col / 3) * 3;
-
-    for (let rowIdx = 0; rowIdx < 3; rowIdx++) {
-        for (let colIdx = 0; colIdx < 3; colIdx++) {
-            let rowToCheck = subgridRowStart + rowIdx;
-            let coldToCheck = subgridColStart + colIdx;
-            let existingValue = board[rowToCheck][coldToCheck];
-
-            if (existingValue === value) {
-                return false;
-            }
-        }
-    }
-    return true;
+  }
+  return true;
 }
