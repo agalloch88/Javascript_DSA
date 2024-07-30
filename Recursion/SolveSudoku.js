@@ -53,66 +53,92 @@
 
 // Solution 1:
 
+// recursive solution employing backtracking to try digits in a particular position/subgrid, then circle back in case of errors
+
+// O(1) time in the average case due to finite number of squares and possibilities, but could be up to O(9(n^2)) in worst case scenario
+// O(1) space since modifying the two-dimensional array in place and not using extra data structures
+
+// Main function to solve the Sudoku puzzle
 function solveSudoku(board) {
+  // Start solving the Sudoku from the top-left corner (0, 0) and pass in the board
   solvePartialSudoku(0, 0, board);
   return board;
 }
 
+// Recursive function to solve the Sudoku puzzle from a given position
 function solvePartialSudoku(row, col, board) {
+  // save the passed-in row and col in new variables to manipulated
   let currentRow = row;
   let currentCol = col;
 
+  // If we reach the end of the column, move to the next row
   if (currentCol === board[currentRow].length) {
     currentRow++;
     currentCol = 0;
 
+    // If we reach the end of the board, the puzzle is solved, so return true
     if (currentRow === board.length) {
       return true;
     }
   }
 
+  // If the current cell is empty/contains a 0, try placing digits between 1 and 9 by calling helper
   if (board[currentRow][currentCol] === 0) {
     return tryDigitsAtPosition(currentRow, currentCol, board);
   }
+
+  // Move to the next cell
   return solvePartialSudoku(currentRow, currentCol + 1, board);
 }
 
+// Function to try placing digits 1 to 9 in the given position
 function tryDigitsAtPosition(row, col, board) {
   for (let digit = 1; digit < 10; digit++) {
+    // Check if placing the digit is valid
     if (isValidAtPosition(digit, row, col, board)) {
+      // if so, set current position equal to the current digit being checked
       board[row][col] = digit;
 
+      // If placing the digit solves the puzzle, return true
       if (solvePartialSudoku(row, col + 1, board)) {
         return true;
       }
     }
   }
-
+  // If no digit can be placed, reset the cell and backtrack
   board[row][col] = 0;
   return false;
 }
 
+// Function to check if placing a value in a position is valid
 function isValidAtPosition(value, row, col, board) {
+  // Check if the value is not present in the current row
   let rowIsValid = !board[row].includes(value);
+  // Check if the value is not present in the current column
   let colIsValid = !board.map((row) => row[col]).includes(value);
 
+  // If the value is present in the row or column, it's invalid
   if (!rowIsValid || !colIsValid) {
     return false;
   }
 
+  // Calculate the start of the 3x3 subgrid
   let subgridRowStart = Math.floor(row / 3) * 3;
   let subgridColStart = Math.floor(col / 3) * 3;
 
+  // Check if the value is not present in the 3x3 subgrid
   for (let rowIdx = 0; rowIdx < 3; rowIdx++) {
     for (let colIdx = 0; colIdx < 3; colIdx++) {
       let rowToCheck = subgridRowStart + rowIdx;
-      let coldToCheck = subgridColStart + colIdx;
-      let existingValue = board[rowToCheck][coldToCheck];
+      let colToCheck = subgridColStart + colIdx;
+      let existingValue = board[rowToCheck][colToCheck];
 
       if (existingValue === value) {
         return false;
       }
     }
   }
+
+  // If all checks pass, the position is valid
   return true;
 }
