@@ -22,3 +22,25 @@
 // ]
 
 // Solution 1:
+
+function generateDivTags(numberOfTags) {
+    let matchedDivTags = [];
+    generateDivTagsFromPrefix(numberOfTags, numberOfTags, '', matchedDivTags);
+    return matchedDivTags;
+}
+
+function generateDivTagsFromPrefix(openingTagsNeeded, closingTagsNeeded, prefix, result) {
+    if (openingTagsNeeded > 0) {
+        let newPrefix = prefix + '<div>';
+        generateDivTagsFromPrefix(openingTagsNeeded - 1, closingTagsNeeded, newPrefix, result);
+    }
+
+    if (openingTagsNeeded < closingTagsNeeded) {
+        let newPrefix = prefix + '</div>';
+        generateDivTagsFromPrefix(openingTagsNeeded, closingTagsNeeded - 1, newPrefix, result);
+    }
+
+    if (closingTagsNeeded === 0) {
+        result.push(prefix);
+    }
+}
