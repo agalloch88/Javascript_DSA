@@ -47,40 +47,40 @@
 // Solution 1:
 
 function ambiguousMeasurements(measuringCups, low, high) {
-    let memoization = {};
-    return canMeasureInRange(measuringCups, low, high, memoization);
+  let memoization = {};
+  return canMeasureInRange(measuringCups, low, high, memoization);
 }
 
 function canMeasureInRange(measuringCups, low, high, memoization) {
-    let memoizeKey = createHashableKey(low, high);
-    if (memoizeKey in memoization) {
-        return memoization[memoizeKey];
+  let memoizeKey = createHashableKey(low, high);
+  if (memoizeKey in memoization) {
+    return memoization[memoizeKey];
+  }
+
+  if (low <= 0 && high <= 0) {
+    return false;
+  }
+
+  let canMeasure = false;
+  for (let cup of measuringCups) {
+    let [cupLow, cupHigh] = cup;
+    if (low <= cupLow && cupHigh <= high) {
+      canMeasure = true;
+      break;
     }
 
-    if (low <= 0 && high <= 0) {
-        return false;
+    let newLow = Math.max(0, low - cupLow);
+    let newHigh = Math.max(0, high - cupHigh);
+    canMeasure = canMeasureInRange(measuringCups, newLow, newHigh, memoization);
+    if (canMeasure) {
+      break;
     }
+  }
 
-    let canMeasure = false;
-    for (let cup of measuringCups) {
-        let [cupLow, cupHigh] = cup;
-        if (low <= cupLow && cupHigh <= high) {
-            canMeasure = true;
-            break;
-        }
-
-        let newLow = Math.max(0, low - cupLow);
-        let newHigh = Math.max(0, high - cupHigh);
-        canMeasure = canMeasureInRange(measuringCups, newLow, newHigh, memoization);
-        if (canMeasure) {
-            break;
-        }
-    }
-
-    memoization[memoizeKey] = canMeasure;
-    return canMeasure;
+  memoization[memoizeKey] = canMeasure;
+  return canMeasure;
 }
 
 function createHashableKey(low, high) {
-    return low.toString() + ':' + high.toString();
+  return low.toString() + ':' + high.toString();
 }
