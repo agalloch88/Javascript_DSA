@@ -46,41 +46,53 @@
 
 // Solution 1:
 
+// recursive solution utilizing the range to determine the appropriate solution
+
+// O(l * h * n) time due to needing to check low and high for each n value, and using memoization
+// O(l * h) space due to recursive calls on the stack and the memoization storage
+
+// Main function to initiate the measurement checking process.
 function ambiguousMeasurements(measuringCups, low, high) {
-  let memoization = {};
-  return canMeasureInRange(measuringCups, low, high, memoization);
+  let memoization = {}; // Initialize a memoization object to store previously computed results.
+  return canMeasureInRange(measuringCups, low, high, memoization); // Start the recursive checking function.
 }
 
+// Recursive function to check if it's possible to measure within the range [low, high].
 function canMeasureInRange(measuringCups, low, high, memoization) {
-  let memoizeKey = createHashableKey(low, high);
+  let memoizeKey = createHashableKey(low, high); // Create a unique key for the current state.
   if (memoizeKey in memoization) {
-    return memoization[memoizeKey];
+    // Check if the result for the current state has already been computed.
+    return memoization[memoizeKey]; // Return the cached result.
   }
 
   if (low <= 0 && high <= 0) {
+    // Base case: if both low and high are non-positive, measuring is not possible.
     return false;
   }
 
-  let canMeasure = false;
+  let canMeasure = false; // Initialize the result as false.
   for (let cup of measuringCups) {
-    let [cupLow, cupHigh] = cup;
+    // Iterate through each measuring cup.
+    let [cupLow, cupHigh] = cup; // Destructure the range of the current cup.
     if (low <= cupLow && cupHigh <= high) {
+      // Check if the current cup can directly satisfy the range.
       canMeasure = true;
-      break;
+      break; // Break the loop as we've found a direct match.
     }
 
-    let newLow = Math.max(0, low - cupLow);
-    let newHigh = Math.max(0, high - cupHigh);
-    canMeasure = canMeasureInRange(measuringCups, newLow, newHigh, memoization);
+    let newLow = Math.max(0, low - cupLow); // Calculate new low value for the next recursive call.
+    let newHigh = Math.max(0, high - cupHigh); // Calculate new high value for the next recursive call.
+    canMeasure = canMeasureInRange(measuringCups, newLow, newHigh, memoization); // Recurse with the updated range.
     if (canMeasure) {
-      break;
+      break; // If we can measure with the updated range, break the loop.
     }
   }
 
-  memoization[memoizeKey] = canMeasure;
-  return canMeasure;
+  memoization[memoizeKey] = canMeasure; // Store the result in the memoization object.
+  return canMeasure; // Return whether it is possible to measure the range.
 }
 
+// Helper function to create a unique key for memoization.
 function createHashableKey(low, high) {
-  return low.toString() + ':' + high.toString();
+  return low.toString() + ':' + high.toString(); // Convert the range into a string format to use as a key.
 }
