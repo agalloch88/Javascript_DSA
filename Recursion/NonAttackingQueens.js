@@ -27,3 +27,36 @@
 // 2
 
 // Solution 1:
+
+function nonAttackingQueens(n) {
+    let columnPlacements = new Array(n).fill(0);
+    return getNumberOfNonAttackingQueenPlacements(0, columnPlacements, n);
+}
+
+function getNumberOfNonAttackingQueenPlacements(row, columnPlacements, boardSize) {
+    if (row === boardSize) {
+        return 1;
+    }
+
+    let validPlacements = 0;
+    for (let col = 0; col < boardSize; col++) {
+        if (isNonAttackingPlacement(row, col, columnPlacements)) {
+            columnPlacements[row] = col;
+            validPlacements += getNumberOfNonAttackingQueenPlacements(row + 1, columnPlacements, boardSize);
+        }
+    }
+    return validPlacements;
+}
+
+function isNonAttackingPlacement(row, col, columnPlacements) {
+    for (let previousRow = 0; previousRow < row; previousRow++) {
+        let columnToCheck = columnPlacements[previousRow];
+        let sameColumn = columnToCheck === col;
+        let onDiagonal = Math.abs(columnToCheck - col) === row - previousRow;
+
+        if (sameColumn || onDiagonal) {
+            return false;
+        }
+    }
+    return true;
+}
