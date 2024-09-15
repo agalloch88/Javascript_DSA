@@ -31,31 +31,39 @@
 function nonAttackingQueens(n) {
   // Create an array to hold the column placements of queens. Initially, all columns are 0.
   let columnPlacements = new Array(n).fill(0);
-  
+
   // Start the recursive function to calculate the number of valid placements.
   return getNumberOfNonAttackingQueenPlacements(0, columnPlacements, n);
 }
 
-function getNumberOfNonAttackingQueenPlacements(row, columnPlacements, boardSize) {
+function getNumberOfNonAttackingQueenPlacements(
+  row,
+  columnPlacements,
+  boardSize,
+) {
   // Base case: If we've placed queens in all rows, we have a valid solution.
   if (row === boardSize) {
     return 1;
   }
 
   let validPlacements = 0;
-  
+
   // Try placing the queen in every column of the current row.
   for (let col = 0; col < boardSize; col++) {
     // Check if placing the queen in this column leads to a non-attacking configuration.
     if (isNonAttackingPlacement(row, col, columnPlacements)) {
       // Place the queen in the current column.
       columnPlacements[row] = col;
-      
+
       // Recur to place queens in the next rows and add up valid placements.
-      validPlacements += getNumberOfNonAttackingQueenPlacements(row + 1, columnPlacements, boardSize);
+      validPlacements += getNumberOfNonAttackingQueenPlacements(
+        row + 1,
+        columnPlacements,
+        boardSize,
+      );
     }
   }
-  
+
   // Return the total number of valid queen placements for this configuration.
   return validPlacements;
 }
@@ -64,10 +72,10 @@ function isNonAttackingPlacement(row, col, columnPlacements) {
   // Check all previous rows to ensure no queens are attacking the new one.
   for (let previousRow = 0; previousRow < row; previousRow++) {
     let columnToCheck = columnPlacements[previousRow];
-    
+
     // Check if any queen is in the same column.
     let sameColumn = columnToCheck === col;
-    
+
     // Check if any queen is on the same diagonal.
     let onDiagonal = Math.abs(columnToCheck - col) === row - previousRow;
 
@@ -76,7 +84,7 @@ function isNonAttackingPlacement(row, col, columnPlacements) {
       return false;
     }
   }
-  
+
   // If no queen attacks the new one, return true.
   return true;
 }
