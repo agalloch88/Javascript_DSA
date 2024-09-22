@@ -28,6 +28,11 @@
 
 // Solution 1:
 
+// recursive solution attempting to place queens row by row, checking each placement
+
+// O(n!) time due to factorial complexity of n * (n - 1) * (n - 2)... checks
+// O(n) space due to recursive call son the call stack, using array to hold columnPlacements
+
 function nonAttackingQueens(n) {
   // Create an array to hold the column placements of queens. Initially, all columns are 0.
   let columnPlacements = new Array(n).fill(0);
