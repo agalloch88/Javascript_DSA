@@ -16,3 +16,19 @@
 // 5
 
 // Solution 1:
+
+function numberOfBinaryTreeTopologies(n) {
+    if (n === 0) {
+        return 1;
+    }
+
+    let numberOfTrees = 0;
+
+    for (let leftTreeSize = 0; leftTreeSize < n; leftTreeSize++) {
+        let rightTreeSize = n - 1 - leftTreeSize;
+        let numberOfLeftTrees = numberOfBinaryTreeTopologies(leftTreeSize);
+        let numberOfRightTrees = numberOfBinaryTreeTopologies(rightTreeSize);
+        numberOfTrees += numberOfLeftTrees * numberOfRightTrees;
+    }
+    return numberOfTrees;
+}
