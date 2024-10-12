@@ -106,12 +106,24 @@ function nonAttackingQueens(n) {
   let blockedColumns = new Set(); // Tracks which columns are blocked by existing queens.
   let blockedUpDiagonals = new Set(); // Tracks upward diagonals blocked by queens. Calculated as row + col.
   let blockedDownDiagonals = new Set(); // Tracks downward diagonals blocked by queens. Calculated as row - col.
-  
+
   // Start the recursive function to find valid queen placements.
-  return getNumberOfNonAttackingQueenPlacements(0, blockedColumns, blockedUpDiagonals, blockedDownDiagonals, n);
+  return getNumberOfNonAttackingQueenPlacements(
+    0,
+    blockedColumns,
+    blockedUpDiagonals,
+    blockedDownDiagonals,
+    n,
+  );
 }
 
-function getNumberOfNonAttackingQueenPlacements(row, blockedColumns, blockedUpDiagonals, blockedDownDiagonals, boardSize) {
+function getNumberOfNonAttackingQueenPlacements(
+  row,
+  blockedColumns,
+  blockedUpDiagonals,
+  blockedDownDiagonals,
+  boardSize,
+) {
   // Base case: If we've placed queens on all rows, we have a valid solution.
   if (row === boardSize) {
     return 1;
@@ -123,15 +135,41 @@ function getNumberOfNonAttackingQueenPlacements(row, blockedColumns, blockedUpDi
   // Iterate through each column in the current row to try placing a queen.
   for (let col = 0; col < boardSize; col++) {
     // Check if placing a queen in this column is valid (i.e., it does not conflict with other queens).
-    if (isNonAttackingPlacement(row, col, blockedColumns, blockedUpDiagonals, blockedDownDiagonals)) {
+    if (
+      isNonAttackingPlacement(
+        row,
+        col,
+        blockedColumns,
+        blockedUpDiagonals,
+        blockedDownDiagonals,
+      )
+    ) {
       // Place the queen and mark the column and diagonals as blocked.
-      placeQueen(row, col, blockedColumns, blockedUpDiagonals, blockedDownDiagonals);
-      
+      placeQueen(
+        row,
+        col,
+        blockedColumns,
+        blockedUpDiagonals,
+        blockedDownDiagonals,
+      );
+
       // Recur to place queens in the next rows.
-      validPlacements += getNumberOfNonAttackingQueenPlacements(row + 1, blockedColumns, blockedUpDiagonals, blockedDownDiagonals, boardSize);
-      
+      validPlacements += getNumberOfNonAttackingQueenPlacements(
+        row + 1,
+        blockedColumns,
+        blockedUpDiagonals,
+        blockedDownDiagonals,
+        boardSize,
+      );
+
       // Backtrack by removing the queen and unblocking the column and diagonals.
-      removeQueen(row, col, blockedColumns, blockedUpDiagonals, blockedDownDiagonals);
+      removeQueen(
+        row,
+        col,
+        blockedColumns,
+        blockedUpDiagonals,
+        blockedDownDiagonals,
+      );
     }
   }
 
@@ -139,12 +177,18 @@ function getNumberOfNonAttackingQueenPlacements(row, blockedColumns, blockedUpDi
   return validPlacements;
 }
 
-function isNonAttackingPlacement(row, col, blockedColumns, blockedUpDiagonals, blockedDownDiagonals) {
+function isNonAttackingPlacement(
+  row,
+  col,
+  blockedColumns,
+  blockedUpDiagonals,
+  blockedDownDiagonals,
+) {
   // Check if this column is blocked.
   if (blockedColumns.has(col)) {
     return false;
   }
-  
+
   // Check if the upward diagonal (row + col) is blocked.
   if (blockedUpDiagonals.has(row + col)) {
     return false;
@@ -159,14 +203,26 @@ function isNonAttackingPlacement(row, col, blockedColumns, blockedUpDiagonals, b
   return true;
 }
 
-function placeQueen(row, col, blockedColumns, blockedUpDiagonals, blockedDownDiagonals) {
+function placeQueen(
+  row,
+  col,
+  blockedColumns,
+  blockedUpDiagonals,
+  blockedDownDiagonals,
+) {
   // Block the column and diagonals where the queen was placed.
   blockedColumns.add(col);
   blockedUpDiagonals.add(row + col);
   blockedDownDiagonals.add(row - col);
 }
 
-function removeQueen(row, col, blockedColumns, blockedUpDiagonals, blockedDownDiagonals) {
+function removeQueen(
+  row,
+  col,
+  blockedColumns,
+  blockedUpDiagonals,
+  blockedDownDiagonals,
+) {
   // Unblock the column and diagonals when the queen is removed (backtracking).
   blockedColumns.delete(col);
   blockedUpDiagonals.delete(row + col);
