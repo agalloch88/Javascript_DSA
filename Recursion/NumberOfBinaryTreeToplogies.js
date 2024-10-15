@@ -46,3 +46,20 @@ function numberOfBinaryTreeTopologies(n) {
   // Return the total number of valid binary tree topologies for n nodes.
   return numberOfTrees;
 }
+
+function numberOfBinaryTreeTopologies(n, cache = {0: 1}) {
+    if (n in cache) {
+        return cache[n];
+    }
+
+    let numberOfTrees = 0;
+
+    for (let leftTreeSize = 0; leftTreeSize < n; leftTreeSize++) {
+        let rightTreeSize = n - 1 - leftTreeSize;
+        let numberOfLeftTrees = numberOfBinaryTreeTopologies(leftTreeSize, cache);
+        let numberOfRightTrees = numberOfBinaryTreeTopologies(rightTreeSize, cache);
+        numberOfTrees += numberOfLeftTrees * numberOfRightTrees;
+    }
+    cache[n] = numberOfTrees;
+    return numberOfTrees;
+}
