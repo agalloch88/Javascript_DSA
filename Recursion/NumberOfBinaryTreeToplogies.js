@@ -47,6 +47,8 @@ function numberOfBinaryTreeTopologies(n) {
   return numberOfTrees;
 }
 
+// Solution 2:
+
 function numberOfBinaryTreeTopologies(n, cache = {0: 1}) {
     if (n in cache) {
         return cache[n];
