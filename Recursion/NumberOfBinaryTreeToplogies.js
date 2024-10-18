@@ -54,10 +54,10 @@ function numberOfBinaryTreeTopologies(n) {
 // O(n^2) time due to caching so that each value of n is calculated only once
 // O(n) space due to storing the cache and recursive calls on the call stack
 
-function numberOfBinaryTreeTopologies(n, cache = {0: 1}) {
+function numberOfBinaryTreeTopologies(n, cache = { 0: 1 }) {
   // Check if the number of binary tree topologies for n nodes is already cached.
   if (n in cache) {
-      return cache[n];  // Return the cached value to avoid recomputation.
+    return cache[n]; // Return the cached value to avoid recomputation.
   }
 
   let numberOfTrees = 0;
@@ -65,21 +65,21 @@ function numberOfBinaryTreeTopologies(n, cache = {0: 1}) {
   // Iterate over all possible left subtree sizes.
   // For each left subtree size, the right subtree size is determined as (n - 1 - leftTreeSize).
   for (let leftTreeSize = 0; leftTreeSize < n; leftTreeSize++) {
-      let rightTreeSize = n - 1 - leftTreeSize;
+    let rightTreeSize = n - 1 - leftTreeSize;
 
-      // Recursively calculate the number of topologies for left and right subtrees, 
-      // leveraging the cache to avoid redundant calculations.
-      let numberOfLeftTrees = numberOfBinaryTreeTopologies(leftTreeSize, cache);
-      let numberOfRightTrees = numberOfBinaryTreeTopologies(rightTreeSize, cache);
+    // Recursively calculate the number of topologies for left and right subtrees,
+    // leveraging the cache to avoid redundant calculations.
+    let numberOfLeftTrees = numberOfBinaryTreeTopologies(leftTreeSize, cache);
+    let numberOfRightTrees = numberOfBinaryTreeTopologies(rightTreeSize, cache);
 
-      // Multiply the number of possible left and right subtree combinations to get
-      // the total number of topologies for this specific combination.
-      numberOfTrees += numberOfLeftTrees * numberOfRightTrees;
+    // Multiply the number of possible left and right subtree combinations to get
+    // the total number of topologies for this specific combination.
+    numberOfTrees += numberOfLeftTrees * numberOfRightTrees;
   }
 
   // Cache the result for n nodes to avoid recomputing it in future calls.
   cache[n] = numberOfTrees;
-  
+
   // Return the computed number of binary tree topologies for n nodes.
   return numberOfTrees;
 }
