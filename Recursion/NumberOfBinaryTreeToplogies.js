@@ -86,18 +86,38 @@ function numberOfBinaryTreeTopologies(n, cache = { 0: 1 }) {
 
 // Solution 3:
 
+// iterative solution calculating topologies for 1 to n nodes
+
+// O(n^2) time due to nested for loops
+// O(n) space due to cache array, but slightly improved as no recursive call stack storage
+
 function numberOfBinaryTreeTopologies(n) {
+  // Initialize a cache array where cache[m] will store the number of topologies for m nodes.
+  // We know there is exactly 1 topology for 0 nodes (the empty tree).
   let cache = [1];
 
-  for (let m = 0; m < n + 1; m++) {
+  // Iterate from 1 to n to calculate the number of topologies for each number of nodes.
+  for (let m = 1; m < n + 1; m++) {
     let numberOfTrees = 0;
+
+    // For each m, consider all possible sizes of the left subtree.
     for (let leftTreeSize = 0; leftTreeSize < m; leftTreeSize++) {
+      // Calculate the size of the right subtree given the left subtree size.
       let rightTreeSize = m - 1 - leftTreeSize;
+
+      // Use cached values to get the number of topologies for left and right subtrees.
       let numberOfLeftTrees = cache[leftTreeSize];
       let numberOfRightTrees = cache[rightTreeSize];
+
+      // Multiply the number of possible left and right subtree combinations
+      // and add to the total for m nodes.
       numberOfTrees += numberOfLeftTrees * numberOfRightTrees;
     }
+
+    // Store the calculated number of topologies for m nodes in the cache.
     cache.push(numberOfTrees);
   }
+
+  // Return the result for n nodes, which is now cached.
   return cache[n];
 }
