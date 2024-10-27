@@ -70,32 +70,49 @@ function maxProfitWithKTransactions(prices, k) {
 
 // Solution 2:
 
+// iterative solution reducing space complexity since only using two arrays
+
+// O(nk) time for running each transaction k times and each day n times
+// O(n) space due to only storing two arrays of n, so 2n reduces to n
+
 function maxProfitWithKTransactions(prices, k) {
-    if (!prices.length) {
-        return 0;
-    }
+  // If there are no prices, we can't make any profit.
+  if (!prices.length) {
+      return 0;
+  }
 
-    let evenProfits = new Array(prices.length).fill(0);
-    let oddProfits = new Array(prices.length).fill(0);
+  // Initialize two arrays to store profits for the current and previous transactions.
+  // We use only two arrays (evenProfits and oddProfits) to save space.
+  let evenProfits = new Array(prices.length).fill(0);
+  let oddProfits = new Array(prices.length).fill(0);
 
-    for (let t = 1; t < k + 1; t++) {
-        let maxThusFar = -Infinity;
-        let currentProfits, previousProfits;
+  // Loop through the number of transactions.
+  for (let t = 1; t < k + 1; t++) {
+      // Initialize maxThusFar to track the maximum difference for the current transaction level.
+      let maxThusFar = -Infinity;
+      
+      // Decide which array will be current and which will be previous based on the transaction number `t`.
+      let currentProfits, previousProfits;
+      if (t % 2 === 1) {
+          currentProfits = oddProfits;
+          previousProfits = evenProfits;
+      } else {
+          currentProfits = evenProfits;
+          previousProfits = oddProfits;
+      }
 
-        if (t % 2 === 1) {
-            currentProfits = oddProfits;
-            previousProfits = evenProfits;
-        } else {
-            currentProfits = evenProfits;
-            previousProfits = oddProfits;
-        }
+      // Loop through each day, calculating the maximum profit possible with `t` transactions up to day `d`.
+      for (let d = 1; d < prices.length; d++) {
+          // Update maxThusFar with the best profit from the previous transaction up to the previous day.
+          maxThusFar = Math.max(maxThusFar, previousProfits[d - 1] - prices[d - 1]);
 
-        for (let d = 1; d < prices.length; d++) {
-            maxThusFar = Math.max(maxThusFar, previousProfits[d - 1] - prices[d - 1]);
-            currentProfits[d] = Math.max(currentProfits[d - 1], maxThusFar + prices[d]);
-            
-        }
-    }
+          // The profit at currentProfits[d] is the max of:
+          // 1. Not selling on day `d`, which keeps the profit the same as the previous day.
+          // 2. Selling on day `d`, which is maxThusFar plus the price on day `d`.
+          currentProfits[d] = Math.max(currentProfits[d - 1], maxThusFar + prices[d]);
+      }
+  }
 
-    return k % 2 === 0 ? evenProfits[prices.length - 1] : oddProfits[prices.length - 1];
+  // Return the maximum profit achievable with at most `k` transactions on the last day.
+  return k % 2 === 0 ? evenProfits[prices.length - 1] : oddProfits[prices.length - 1];
 }
