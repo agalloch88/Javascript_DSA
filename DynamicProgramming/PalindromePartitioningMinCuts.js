@@ -122,5 +122,5 @@ function palindromePartitioningMinCuts(string) {
         
     }
 
-    return cuts.[cuts.length - 1];
+    return cuts[cuts.length - 1];
 }
