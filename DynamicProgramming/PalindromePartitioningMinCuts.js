@@ -76,51 +76,66 @@ function isPalindrome(string) {
 
 // Solution 2:
 
+// solution using two arrays, iterating over all portions of string to dynamically find number of cuts
+
+// O(n^2) time due to filling 2D array with nested for loops and calculating minimum cuts
+// O(n^2) space due to storing 2D array of string possibilities
+
 function palindromePartitioningMinCuts(string) {
-    let palindromes = [];
+  // Initialize a 2D array `palindromes` where palindromes[i][j] is true if substring(i, j) is a palindrome
+  let palindromes = [];
 
-    for (let i = 0; i < string.length; i++) {
-        let row = [];
-
-        for (let j = 0; j < string.length; j++) {
-            if (i === j) {
-                row.push(true);
-            } else {
-                row.push(false);
-            }
-        }
-        palindromes.push(row);
+  // Fill the `palindromes` array with `true` for single characters and `false` for the rest
+  for (let i = 0; i < string.length; i++) {
+    let row = [];
+    for (let j = 0; j < string.length; j++) {
+      // A single character is always a palindrome
+      if (i === j) {
+        row.push(true);
+      } else {
+        row.push(false);
+      }
     }
+    palindromes.push(row);
+  }
 
-    for (let length = 2; length < string.length; length++) {
-        for (let i = 0; i < string.length - length + 1; i++) {
-            let j = i + length - 1;
+  // Fill the `palindromes` array for substrings longer than one character
+  for (let length = 2; length <= string.length; length++) {
+    for (let i = 0; i < string.length - length + 1; i++) {
+      let j = i + length - 1;
 
-            if (length === 2) {
-                palindromes[i][j] = string[i] === string[j];
-            } else {
-                palindromes[i][j] = string[i] === string[j] && palindromes[i + 1][j - 1];
-            }
-        }
+      if (length === 2) {
+        // Check two-character substrings
+        palindromes[i][j] = string[i] === string[j];
+      } else {
+        // Check longer substrings using previously calculated values
+        palindromes[i][j] =
+          string[i] === string[j] && palindromes[i + 1][j - 1];
+      }
     }
+  }
 
-    let cuts = new Array(string.length).fill(Infinity);
+  // Initialize `cuts` array to store the minimum number of cuts for substring(0, i)
+  let cuts = new Array(string.length).fill(Infinity);
 
-    for (let i = 0; i < string.length; i++) {
-        if (palindromes[0][i]) {
-            cuts[i] = 0;
-        } else {
-            cuts[i] = cuts[i - 1] + 1;
+  // Calculate the minimum cuts needed
+  for (let i = 0; i < string.length; i++) {
+    // If the substring from the start to `i` is a palindrome, no cuts are needed
+    if (palindromes[0][i]) {
+      cuts[i] = 0;
+    } else {
+      // Otherwise, start with one more cut than the previous character's cuts
+      cuts[i] = cuts[i - 1] + 1;
 
-            for (let j = 1; j < i; j++) {
-                if (palinderomes[j][i] && cuts[j - 1] + 1 < cuts[i]) {
-                    cuts[i] = cuts[j - 1] + 1 
-                }
-                
-            }
+      // Iterate over possible partitions to minimize cuts
+      for (let j = 1; j < i; j++) {
+        if (palindromes[j][i] && cuts[j - 1] + 1 < cuts[i]) {
+          cuts[i] = cuts[j - 1] + 1;
         }
-        
+      }
     }
+  }
 
-    return cuts[cuts.length - 1];
+  // Return the minimum cuts needed for the entire string
+  return cuts[cuts.length - 1];
 }
