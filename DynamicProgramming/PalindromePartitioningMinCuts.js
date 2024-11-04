@@ -20,7 +20,7 @@
 // O(n^3) time due to having n^2 pairs and using helper function adds another n
 // O(n^2) space due to storing n^2 values in `palindromes` 2D array, plus another n for `cuts`
 
-function plaindromPartitioningMinCuts(string) {
+function palindromePartitioningMinCuts(string) {
   // Initialize a 2D array `palindromes` where palindromes[i][j] will be true if the substring from i to j is a palindrome
   let palindromes = new Array(string.length).fill(1).map((row) => []);
 
