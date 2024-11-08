@@ -19,34 +19,34 @@
 // Solution 1:
 
 function longestIncreasingSubsequence(array) {
-    let sequences = new Array(array.length);
-    let lengths = array.map(num => 1);
-    let maxLengthIdx = 0;
+  let sequences = new Array(array.length);
+  let lengths = array.map((num) => 1);
+  let maxLengthIdx = 0;
 
-    for (let i = 0; i < array.length; i++) {
-        let currentNum = array[i];
+  for (let i = 0; i < array.length; i++) {
+    let currentNum = array[i];
 
-        for (let j = 0; j < i; j++) {
-            let otherNum = array[j];
-            
-            if (otherNum < currentNum && lengths[j] + 1 >= lengths[i]) {
-                lengths[i] = lengths[j] + 1;
-                sequences[i] = j;
-            }
-        }
-        if (lengths[i] >= lengths[maxLengthIdx]) {
-            maxLengthIdx = i;
-        }
+    for (let j = 0; j < i; j++) {
+      let otherNum = array[j];
+
+      if (otherNum < currentNum && lengths[j] + 1 >= lengths[i]) {
+        lengths[i] = lengths[j] + 1;
+        sequences[i] = j;
+      }
     }
-    return buildSequence(array, sequences, maxLengthIdx);
+    if (lengths[i] >= lengths[maxLengthIdx]) {
+      maxLengthIdx = i;
+    }
+  }
+  return buildSequence(array, sequences, maxLengthIdx);
 }
 
 function buildSequence(array, sequences, currentIdx) {
-    let sequence = [];
+  let sequence = [];
 
-    while (currentIdx != undefined) {
-        sequence.unshift(array[currentIdx]);
-        currentIdx = sequences[currentIdx];
-    }
-    return sequence;
+  while (currentIdx != undefined) {
+    sequence.unshift(array[currentIdx]);
+    currentIdx = sequences[currentIdx];
+  }
+  return sequence;
 }
