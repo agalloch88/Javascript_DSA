@@ -74,3 +74,46 @@ function buildSequence(array, sequences, currentIdx) {
 
   return sequence;
 }
+
+// Solution 2:
+
+function longestIncreasingSubsequence(array) {
+    let sequences = new Array(array.length);
+    let indices = new Array(array.length + 1);
+    let length = 0;
+
+    for (let i = 0; i < array.length; i++) {
+        let num = array[i];
+        let newLength = binarySearch(1, length, indices, array, num);
+        sequences[i] = indices[newLength - 1];
+        indices[newLength] = i;
+        length = Math.max(length, newLength);
+    }
+    return buildSequence(array, sequences, indices[length]);
+}
+
+function binarySearch(startIdx, endIdx, indices, array, num) {
+    if (startIdx > endIdx) {
+        return startIdx;
+    }
+
+    let middleIdx = Math.floor((startIdx + endIdx) / 2);
+
+    if (array[indices[middleIdx]] < num) {
+        startIdx = middleIdx + 1;
+    } else {
+        endIdx = middleIdx - 1;
+    }
+
+    return binarySearch(startIdx, endIdx, indices, array, num);
+}
+
+function buildSequence(array, sequences, currentIdx) {
+    let sequence = [];
+
+    while (currentIdx !== undefined) {
+        sequence.unshift(array[currentIdx]);
+        currentIdx = sequences[currentIdx];
+    }
+    return sequence;
+}
