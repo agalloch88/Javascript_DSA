@@ -33,6 +33,8 @@ function longestStringChain(strings) {
    for (let string of sortedStrings) {
     findLongestStringChain(string, stringChains);
    }
+
+   return buildLongestStringChain(strings, stringChains);
 }
 
 function findLongestStringChain(string, stringChains) {
