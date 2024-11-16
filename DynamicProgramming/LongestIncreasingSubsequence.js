@@ -83,62 +83,62 @@ function buildSequence(array, sequences, currentIdx) {
 // O(n) space due to storing the sequences, indices, and buildSequence values
 
 function longestIncreasingSubsequence(array) {
-    // `sequences` tracks the previous indices to rebuild the subsequence
-    let sequences = new Array(array.length);
+  // `sequences` tracks the previous indices to rebuild the subsequence
+  let sequences = new Array(array.length);
 
-    // `indices` stores the indices of the smallest end elements of increasing subsequences
-    let indices = new Array(array.length + 1);
+  // `indices` stores the indices of the smallest end elements of increasing subsequences
+  let indices = new Array(array.length + 1);
 
-    // `length` tracks the length of the longest subsequence found
-    let length = 0;
+  // `length` tracks the length of the longest subsequence found
+  let length = 0;
 
-    // Iterate over the array to build the increasing subsequences
-    for (let i = 0; i < array.length; i++) {
-        let num = array[i];
+  // Iterate over the array to build the increasing subsequences
+  for (let i = 0; i < array.length; i++) {
+    let num = array[i];
 
-        // Find the position in the `indices` array where `num` can extend or replace
-        let newLength = binarySearch(1, length, indices, array, num);
+    // Find the position in the `indices` array where `num` can extend or replace
+    let newLength = binarySearch(1, length, indices, array, num);
 
-        // Store the previous index for reconstruction of the sequence
-        sequences[i] = indices[newLength - 1];
+    // Store the previous index for reconstruction of the sequence
+    sequences[i] = indices[newLength - 1];
 
-        // Update the `indices` array with the current index at the correct position
-        indices[newLength] = i;
+    // Update the `indices` array with the current index at the correct position
+    indices[newLength] = i;
 
-        // Update `length` if a new maximum length is found
-        length = Math.max(length, newLength);
-    }
+    // Update `length` if a new maximum length is found
+    length = Math.max(length, newLength);
+  }
 
-    // Rebuild and return the longest increasing subsequence using the `buildSequence` function
-    return buildSequence(array, sequences, indices[length]);
+  // Rebuild and return the longest increasing subsequence using the `buildSequence` function
+  return buildSequence(array, sequences, indices[length]);
 }
 
 function binarySearch(startIdx, endIdx, indices, array, num) {
-    // Recursive binary search to find the correct position in `indices`
-    if (startIdx > endIdx) {
-        return startIdx;
-    }
+  // Recursive binary search to find the correct position in `indices`
+  if (startIdx > endIdx) {
+    return startIdx;
+  }
 
-    let middleIdx = Math.floor((startIdx + endIdx) / 2);
+  let middleIdx = Math.floor((startIdx + endIdx) / 2);
 
-    // Compare the value at `middleIdx` in `indices` with `num`
-    if (array[indices[middleIdx]] < num) {
-        startIdx = middleIdx + 1; // Search in the right half
-    } else {
-        endIdx = middleIdx - 1; // Search in the left half
-    }
+  // Compare the value at `middleIdx` in `indices` with `num`
+  if (array[indices[middleIdx]] < num) {
+    startIdx = middleIdx + 1; // Search in the right half
+  } else {
+    endIdx = middleIdx - 1; // Search in the left half
+  }
 
-    return binarySearch(startIdx, endIdx, indices, array, num);
+  return binarySearch(startIdx, endIdx, indices, array, num);
 }
 
 function buildSequence(array, sequences, currentIdx) {
-    let sequence = [];
+  let sequence = [];
 
-    // Follow `sequences` array to build the actual subsequence from the end to the start
-    while (currentIdx !== undefined) {
-        sequence.unshift(array[currentIdx]); // Add current element to the start of the sequence
-        currentIdx = sequences[currentIdx]; // Move to the previous index in the subsequence
-    }
+  // Follow `sequences` array to build the actual subsequence from the end to the start
+  while (currentIdx !== undefined) {
+    sequence.unshift(array[currentIdx]); // Add current element to the start of the sequence
+    currentIdx = sequences[currentIdx]; // Move to the previous index in the subsequence
+  }
 
-    return sequence;
+  return sequence;
 }

@@ -22,65 +22,69 @@
 // Solution 1:
 
 function longestStringChain(strings) {
-   let stringChains = {};
-   
-   for (let string of strings) {
-    stringChains[string] = {nextString: '', maxChainLength: 1};
-   }
+  let stringChains = {};
 
-   let sortedStrings = strings.sort((a, b) => a.length - b.length);
+  for (let string of strings) {
+    stringChains[string] = { nextString: '', maxChainLength: 1 };
+  }
 
-   for (let string of sortedStrings) {
+  let sortedStrings = strings.sort((a, b) => a.length - b.length);
+
+  for (let string of sortedStrings) {
     findLongestStringChain(string, stringChains);
-   }
+  }
 
-   return buildLongestStringChain(strings, stringChains);
+  return buildLongestStringChain(strings, stringChains);
 }
 
 function findLongestStringChain(string, stringChains) {
-    for (let i = 0; i < string.length; i++) {
-        let smallerString = getSmallerString(string, i);
-        
-        if (!(smallerString in stringChains)) {
-            continue;
-        }
+  for (let i = 0; i < string.length; i++) {
+    let smallerString = getSmallerString(string, i);
 
-        tryUpdateLongestStringChain(string, smallerString, stringChains);
+    if (!(smallerString in stringChains)) {
+      continue;
     }
+
+    tryUpdateLongestStringChain(string, smallerString, stringChains);
+  }
 }
 
 function getSmallerString(string, index) {
-    return string.slice(0, index) + string.slice(index + 1);
+  return string.slice(0, index) + string.slice(index + 1);
 }
 
-function tryUpdateLongestStringChain(currentString, smallerString, stringChains) {
-    let smallerStringChainLength = stringChains[smallerString].maxChainLength;
-    let currentStringChainLength = stringChains[currentString].maxChainLength;
+function tryUpdateLongestStringChain(
+  currentString,
+  smallerString,
+  stringChains,
+) {
+  let smallerStringChainLength = stringChains[smallerString].maxChainLength;
+  let currentStringChainLength = stringChains[currentString].maxChainLength;
 
-    if (smallerStringChainLength + 1 > currentStringChainLength) {
-        stringChains[currentString].maxChainLength = smallerStringChainLength + 1;
-        stringChains[currentString].nextString = smallerString;
-    }
+  if (smallerStringChainLength + 1 > currentStringChainLength) {
+    stringChains[currentString].maxChainLength = smallerStringChainLength + 1;
+    stringChains[currentString].nextString = smallerString;
+  }
 }
 
 function buildLongestStringChain(strings, stringChains) {
-    let maxChainLength = 0;
-    let chainStartingString = '';
+  let maxChainLength = 0;
+  let chainStartingString = '';
 
-    for (let string of strings) {
-        if (stringChains[string].maxChainLength > maxChainLength) {
-            maxChainLength = stringChains[string].maxChainLength;
-            chainStartingString = string;
-        }
+  for (let string of strings) {
+    if (stringChains[string].maxChainLength > maxChainLength) {
+      maxChainLength = stringChains[string].maxChainLength;
+      chainStartingString = string;
     }
+  }
 
-    let ourLongestStringChain = [];
-    let currentString = chainStartingString;
-    
-    while (currentString !== '') {
-        ourLongestStringChain.push(currentString);
-        currentString = stringChains[currentString].nextString;
-    }
+  let ourLongestStringChain = [];
+  let currentString = chainStartingString;
 
-    return ourLongestStringChain.length === 1 ? [] : ourLongestStringChain;
+  while (currentString !== '') {
+    ourLongestStringChain.push(currentString);
+    currentString = stringChains[currentString].nextString;
+  }
+
+  return ourLongestStringChain.length === 1 ? [] : ourLongestStringChain;
 }
