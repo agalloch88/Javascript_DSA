@@ -21,35 +21,49 @@
 
 // Solution 1:
 
+// dynamic programming approach using hash map which sorts strings by length, builds the chains, then reconstructs the longest string chain as the answer
+
+// O(n * m^2 + nlog(n)) time due to sorting the strings by length in nlog(n) time plus other operations, plus processing longest string m
+// O(nm) space due to strong stringChains hash map
+
 function longestStringChain(strings) {
+  // Initialize a dictionary to store string chains
   let stringChains = {};
 
+  // Assign each string an initial chain structure
   for (let string of strings) {
     stringChains[string] = { nextString: '', maxChainLength: 1 };
   }
 
+  // Sort strings by their lengths to process smaller strings first
   let sortedStrings = strings.sort((a, b) => a.length - b.length);
 
+  // Iterate through the sorted strings to build chains
   for (let string of sortedStrings) {
     findLongestStringChain(string, stringChains);
   }
 
+  // Reconstruct and return the longest string chain
   return buildLongestStringChain(strings, stringChains);
 }
 
 function findLongestStringChain(string, stringChains) {
+  // Try to build a chain by removing each character from the string
   for (let i = 0; i < string.length; i++) {
     let smallerString = getSmallerString(string, i);
 
+    // Skip if the smaller string is not in the dictionary
     if (!(smallerString in stringChains)) {
       continue;
     }
 
+    // Update the chain if including the smaller string extends it
     tryUpdateLongestStringChain(string, smallerString, stringChains);
   }
 }
 
 function getSmallerString(string, index) {
+  // Generate a smaller string by removing the character at the given index
   return string.slice(0, index) + string.slice(index + 1);
 }
 
@@ -58,9 +72,13 @@ function tryUpdateLongestStringChain(
   smallerString,
   stringChains,
 ) {
+  // Get the chain length of the smaller string
   let smallerStringChainLength = stringChains[smallerString].maxChainLength;
+
+  // Get the current chain length of the current string
   let currentStringChainLength = stringChains[currentString].maxChainLength;
 
+  // Update if including the smaller string forms a longer chain
   if (smallerStringChainLength + 1 > currentStringChainLength) {
     stringChains[currentString].maxChainLength = smallerStringChainLength + 1;
     stringChains[currentString].nextString = smallerString;
@@ -71,6 +89,7 @@ function buildLongestStringChain(strings, stringChains) {
   let maxChainLength = 0;
   let chainStartingString = '';
 
+  // Find the string with the longest chain
   for (let string of strings) {
     if (stringChains[string].maxChainLength > maxChainLength) {
       maxChainLength = stringChains[string].maxChainLength;
@@ -78,6 +97,7 @@ function buildLongestStringChain(strings, stringChains) {
     }
   }
 
+  // Reconstruct the chain starting from the string with the longest chain
   let ourLongestStringChain = [];
   let currentString = chainStartingString;
 
@@ -86,5 +106,6 @@ function buildLongestStringChain(strings, stringChains) {
     currentString = stringChains[currentString].nextString;
   }
 
+  // If the longest chain contains only one string, return an empty array
   return ourLongestStringChain.length === 1 ? [] : ourLongestStringChain;
 }
