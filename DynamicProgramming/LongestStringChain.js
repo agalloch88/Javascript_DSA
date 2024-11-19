@@ -109,3 +109,65 @@ function buildLongestStringChain(strings, stringChains) {
   // If the longest chain contains only one string, return an empty array
   return ourLongestStringChain.length === 1 ? [] : ourLongestStringChain;
 }
+
+// Solution 2:
+
+function longestStringChain(strings) {
+  // Memoization map to store the maximum chain length for each string
+  let memo = {};
+  let stringSet = new Set(strings); // Use a set for O(1) lookups
+  let longestChain = []; // To store the final chain
+
+  // Helper function to find the maximum chain length starting from a word
+  function findLongestStringChain(word) {
+    if (memo[word]) return memo[word]; // Return memoized result if available
+
+    let maxLength = 1; // Minimum chain length is 1 (the word itself)
+    for (let i = 0; i < word.length; i++) {
+      // Remove the i-th character to form a smaller string
+      let smallerString = word.slice(0, i) + word.slice(i + 1);
+
+      if (stringSet.has(smallerString)) {
+        let currentLength = 1 + findLongestStringChain(smallerString);
+        maxLength = Math.max(maxLength, currentLength);
+      }
+    }
+
+    memo[word] = maxLength; // Store the result in memo
+    return maxLength;
+  }
+
+  // Find the longest chain for each word
+  let globalMax = 0;
+  let chainStart = null;
+
+  for (let word of strings) {
+    let chainLength = findLongestStringChain(word);
+    if (chainLength > globalMax) {
+      globalMax = chainLength;
+      chainStart = word;
+    }
+  }
+
+  // Rebuild the longest chain
+  function buildChain(startWord) {
+    let chain = [];
+    while (startWord) {
+      chain.push(startWord);
+      let nextWord = null;
+      for (let i = 0; i < startWord.length; i++) {
+        let smallerString = startWord.slice(0, i) + startWord.slice(i + 1);
+        if (memo[smallerString] === memo[startWord] - 1) {
+          nextWord = smallerString;
+          break;
+        }
+      }
+      startWord = nextWord;
+    }
+    return chain;
+  }
+
+  if (chainStart) longestChain = buildChain(chainStart);
+
+  return longestChain.length > 1 ? longestChain : [];
+}
