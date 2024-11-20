@@ -112,6 +112,11 @@ function buildLongestStringChain(strings, stringChains) {
 
 // Solution 2:
 
+// dynamic programming approach using a Set for fast lookups, finding the max chain length, the rebuilding and outputting the longest chain
+
+// O(n * m^2) time due to checking n words for m characters, then rebuilding the longest chain
+// O(n + m) space accounting for the memoization of n words and set of n strings, plus recursive calls
+
 function longestStringChain(strings) {
   // Memoization map to store the maximum chain length for each string
   let memo = {};
@@ -127,9 +132,11 @@ function longestStringChain(strings) {
       // Remove the i-th character to form a smaller string
       let smallerString = word.slice(0, i) + word.slice(i + 1);
 
+      // Check if the smaller string is part of the input strings
       if (stringSet.has(smallerString)) {
+        // Recursively find the chain length for the smaller string
         let currentLength = 1 + findLongestStringChain(smallerString);
-        maxLength = Math.max(maxLength, currentLength);
+        maxLength = Math.max(maxLength, currentLength); // Update the max length
       }
     }
 
@@ -142,10 +149,10 @@ function longestStringChain(strings) {
   let chainStart = null;
 
   for (let word of strings) {
-    let chainLength = findLongestStringChain(word);
+    let chainLength = findLongestStringChain(word); // Find chain length for the word
     if (chainLength > globalMax) {
-      globalMax = chainLength;
-      chainStart = word;
+      globalMax = chainLength; // Update global maximum chain length
+      chainStart = word; // Update starting word for the longest chain
     }
   }
 
@@ -153,21 +160,25 @@ function longestStringChain(strings) {
   function buildChain(startWord) {
     let chain = [];
     while (startWord) {
-      chain.push(startWord);
+      chain.push(startWord); // Add the current word to the chain
       let nextWord = null;
       for (let i = 0; i < startWord.length; i++) {
+        // Form the next smaller string by removing one character
         let smallerString = startWord.slice(0, i) + startWord.slice(i + 1);
+        // Check if the smaller string has the correct chain length
         if (memo[smallerString] === memo[startWord] - 1) {
           nextWord = smallerString;
           break;
         }
       }
-      startWord = nextWord;
+      startWord = nextWord; // Move to the next word in the chain
     }
     return chain;
   }
 
   if (chainStart) longestChain = buildChain(chainStart);
 
+  // Return the chain if it has more than one word, otherwise return an empty array
   return longestChain.length > 1 ? longestChain : [];
 }
+
