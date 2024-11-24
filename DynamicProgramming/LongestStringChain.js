@@ -181,4 +181,3 @@ function longestStringChain(strings) {
   // Return the chain if it has more than one word, otherwise return an empty array
   return longestChain.length > 1 ? longestChain : [];
 }
-
