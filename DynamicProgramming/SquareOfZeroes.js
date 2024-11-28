@@ -125,7 +125,7 @@ function isSquareOfZeroes(matrix, r1, c1, r2, c2) {
         }
     }
 
-    for (let col = 0; col < c2 + 1; col++) {
+    for (let col = c1; col < c2 + 1; col++) {
         if (matrix[r1][col] !== 0 || matrix[r2][col] !== 0) {
             return false;
         }
