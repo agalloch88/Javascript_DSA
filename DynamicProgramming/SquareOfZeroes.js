@@ -96,40 +96,51 @@ function isSquareOfZeroes(matrix, r1, c1, r2, c2) {
 
 // Solution 2:
 
+// dynamic programming solution using iterative approach to improve space complexity
+
+// O(n^4) time due to nested for loops and all n^2 potential squares
+// O(1) space since not storing anything other than a few variables
+
 function squareOfZeroes(matrix) {
-  let n = matrix.length;
-
-  for (let topRow = 0; topRow < n; topRow++) {
-    for (let leftCol = 0; leftCol < n; leftCol++) {
-      let squareLength = 2;
-
-      while (squareLength <= n - leftCol && squareLength <= n - topRow) {
-        let bottomRow = topRow + squareLength - 1;
-        let rightCol = leftCol + squareLength - 1;
-
-        if (isSquareOfZeroes(matrix, topRow, leftCol, bottomRow, rightCol)) {
-          return true;
+    let n = matrix.length; // Dimension of the matrix
+  
+    // Iterate through all possible top-left corners of squares
+    for (let topRow = 0; topRow < n; topRow++) {
+      for (let leftCol = 0; leftCol < n; leftCol++) {
+        let squareLength = 2; // Start with the smallest possible square (2x2)
+  
+        // Expand the square size while staying within matrix bounds
+        while (squareLength <= n - leftCol && squareLength <= n - topRow) {
+          let bottomRow = topRow + squareLength - 1; // Bottom boundary of the square
+          let rightCol = leftCol + squareLength - 1; // Right boundary of the square
+  
+          // Check if the current square is made entirely of zeroes
+          if (isSquareOfZeroes(matrix, topRow, leftCol, bottomRow, rightCol)) {
+            return true; // Return true if a square of zeroes is found
+          }
+  
+          squareLength++; // Increment square size
         }
-
-        squareLength++;
       }
     }
+    return false; // Return false if no square of zeroes is found
   }
-  return false;
-}
-
-function isSquareOfZeroes(matrix, r1, c1, r2, c2) {
-    for (let row = r1; row < r2 + 1; row++) {
-        if (matrix[row][c1] !== 0 || matrix[row][c2] !== 0) {
-            return false;
-        }
-    }
-
-    for (let col = c1; col < c2 + 1; col++) {
-        if (matrix[r1][col] !== 0 || matrix[r2][col] !== 0) {
-            return false;
-        }
-    }
-
-    return true;
-}
+  
+  function isSquareOfZeroes(matrix, r1, c1, r2, c2) {
+      // Check all rows on the left and right borders of the square
+      for (let row = r1; row < r2 + 1; row++) {
+          if (matrix[row][c1] !== 0 || matrix[row][c2] !== 0) {
+              return false; // Return false if any border element is not zero
+          }
+      }
+  
+      // Check all columns on the top and bottom borders of the square
+      for (let col = c1; col < c2 + 1; col++) {
+          if (matrix[r1][col] !== 0 || matrix[r2][col] !== 0) {
+              return false; // Return false if any border element is not zero
+          }
+      }
+  
+      return true; // Return true if all borders are zero
+  }
+  
