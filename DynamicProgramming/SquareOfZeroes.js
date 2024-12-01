@@ -144,3 +144,72 @@ function squareOfZeroes(matrix) {
       return true; // Return true if all borders are zero
   }
   
+// Solution 3:
+
+function squareOfZeroes(matrix) {
+    let infoMatrix = preComputeNumOfZeroes(matrix);
+    let lastIdx = matrix.length - 1;
+    return hasSquareOfZeroes(infoMatrix, 0, 0, lastIdx, lastIdx, {});
+}
+
+function hasSquareOfZeroes(infoMatrix, r1, c1, r2, c2, cache) {
+    if (r1 >= r2 || c1 >= c2) {
+        return false;
+    }
+
+    let key =
+    r1.toString() +
+    '-' +
+    c1.toString() +
+    '-' +
+    r2.toString() +
+    '-' +
+    c2.toString();
+
+    cache[key] =
+    isSquareOfZeroes(matrix, r1, c1, r2, c2) ||
+    hasSquareOfZeroes(matrix, r1 + 1, c1 + 1, r2 - 1, c2 - 1, cache) || // Inner square
+    hasSquareOfZeroes(matrix, r1, c1 + 1, r2 - 1, c2, cache) || // Top-left to bottom-right diagonal reduction
+    hasSquareOfZeroes(matrix, r1 + 1, c1, r2, c2 - 1, cache) || // Bottom-left to top-right diagonal reduction
+    hasSquareOfZeroes(matrix, r1 + 1, c1 + 1, r2, c2, cache) || // Trim top-left
+    hasSquareOfZeroes(matrix, r1, c1, r2 - 1, c2 - 1, cache); // Trim bottom-right
+
+    return cache[key];
+}
+
+function isSquareOfZeroes(infoMatrix, r1, c1, r2, c2) {
+    let squareLength = c2 - c1 + 1;
+    let hasTopBorder = infoMatrix[r1][c1].numZeroesRight >= squareLength;
+    let hasLeftBorder = infoMatrix[r1][c1].numZeroesBelow >= squareLength;
+    let hasBottomBorder = infoMatrix[r2][c1].numZeroesRight >= squareLength;
+    let hasRightBorder = infoMatrix[r1][c2].numZeroesBelow >= squareLength;
+
+    return hasTopBorder && hasLeftBorder && hasBottomBorder && hasRightBorder;
+}
+
+function preComputeNumOfZeroes(matrix) {
+    let infoMatrix = matrix.map(row => row.map(value => {
+        let numZeroes = value === 0 ? 1 : 0;
+
+        return {numZeroesBelow: numZeroes, numZeroesRight: numZeroes};
+    }),);
+
+    let lastIdx = matrix.length - 1;
+    for (let row = lastIdx; row >= 0; row--) {
+        for (let col = lastIdx; col >= 0; col--) {
+            if (matrix[row][col] === 1) {
+                continue;
+            }
+
+            if (row < lastIdx) {
+                infoMatrix[row][col].numZeroesBelow += infoMatrix[row + 1][col].numZeroesBelow;
+            }
+
+            if (col < lastIdx) {
+                infoMatrix[row][col].numZeroesRight += infoMatrix[row][col + 1].numZeroesRight;
+            }
+        }
+        
+    }
+    return infoMatrix;
+}
