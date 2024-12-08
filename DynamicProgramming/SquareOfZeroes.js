@@ -241,69 +241,71 @@ function preComputeNumOfZeroes(matrix) {
 // Solution 4:
 
 function squareOfZeroes(matrix) {
-    let infoMatrix = preComputeNumOfZeroes(matrix);
-    let n = matrix.length;
+  let infoMatrix = preComputeNumOfZeroes(matrix);
+  let n = matrix.length;
 
-    for (let topRow = 0; topRow < n; topRow++) {
-        for (let leftCol = 0; leftCol < n; leftCol++) {
-            let squareLength = 2;
+  for (let topRow = 0; topRow < n; topRow++) {
+    for (let leftCol = 0; leftCol < n; leftCol++) {
+      let squareLength = 2;
 
-            while (squareLength <= n - leftCol && squareLength <= n - topRow) {
-                let bottomRow = topRow + squareLength - 1;
-                let rightCol = leftCol + squareLength - 1;
+      while (squareLength <= n - leftCol && squareLength <= n - topRow) {
+        let bottomRow = topRow + squareLength - 1;
+        let rightCol = leftCol + squareLength - 1;
 
-                if (isSquareOfZeroes(infoMatrix, topRow, leftCol, bottomRow, rightCol)) {
-                    return true;
-                }
-
-                squareLength++;
-            }
+        if (
+          isSquareOfZeroes(infoMatrix, topRow, leftCol, bottomRow, rightCol)
+        ) {
+          return true;
         }
+
+        squareLength++;
+      }
     }
-    return false;
+  }
+  return false;
 }
 
 function isSquareOfZeroes(infoMatrix, r1, c1, r2, c2) {
-    let squareLength = c2 - c1 + 1; // Length of the square's side
-  
-    // Check if all borders of the square have enough contiguous zeroes
-    let hasTopBorder = infoMatrix[r1][c1].numZeroesRight >= squareLength;
-    let hasLeftBorder = infoMatrix[r1][c1].numZeroesBelow >= squareLength;
-    let hasBottomBorder = infoMatrix[r2][c1].numZeroesRight >= squareLength;
-    let hasRightBorder = infoMatrix[r1][c2].numZeroesBelow >= squareLength;
-  
-    return hasTopBorder && hasLeftBorder && hasBottomBorder && hasRightBorder;
-  }
+  let squareLength = c2 - c1 + 1; // Length of the square's side
+
+  // Check if all borders of the square have enough contiguous zeroes
+  let hasTopBorder = infoMatrix[r1][c1].numZeroesRight >= squareLength;
+  let hasLeftBorder = infoMatrix[r1][c1].numZeroesBelow >= squareLength;
+  let hasBottomBorder = infoMatrix[r2][c1].numZeroesRight >= squareLength;
+  let hasRightBorder = infoMatrix[r1][c2].numZeroesBelow >= squareLength;
+
+  return hasTopBorder && hasLeftBorder && hasBottomBorder && hasRightBorder;
+}
 
 function preComputeNumOfZeroes(matrix) {
-    // Create a matrix to store the number of contiguous zeroes below and to the right of each cell
-    let infoMatrix = matrix.map((row) =>
-      row.map((value) => {
-        let numZeroes = value === 0 ? 1 : 0;
-        return { numZeroesBelow: numZeroes, numZeroesRight: numZeroes };
-      }),
-    );
-  
-    let lastIdx = matrix.length - 1;
-  
-    // Populate the infoMatrix with contiguous zero counts
-    for (let row = lastIdx; row >= 0; row--) {
-      for (let col = lastIdx; col >= 0; col--) {
-        // Skip cells with a value of 1
-        if (matrix[row][col] === 1) {
-          continue;
-        }
-  
-        // Accumulate counts from the cell below and to the right
-        if (row < lastIdx) {
-          infoMatrix[row][col].numZeroesBelow +=
-            infoMatrix[row + 1][col].numZeroesBelow;
-        }
-        if (col < lastIdx) {
-          infoMatrix[row][col].numZeroesRight +=
-            infoMatrix[row][col + 1].numZeroesRight;
-        }
+  // Create a matrix to store the number of contiguous zeroes below and to the right of each cell
+  let infoMatrix = matrix.map((row) =>
+    row.map((value) => {
+      let numZeroes = value === 0 ? 1 : 0;
+      return { numZeroesBelow: numZeroes, numZeroesRight: numZeroes };
+    }),
+  );
+
+  let lastIdx = matrix.length - 1;
+
+  // Populate the infoMatrix with contiguous zero counts
+  for (let row = lastIdx; row >= 0; row--) {
+    for (let col = lastIdx; col >= 0; col--) {
+      // Skip cells with a value of 1
+      if (matrix[row][col] === 1) {
+        continue;
+      }
+
+      // Accumulate counts from the cell below and to the right
+      if (row < lastIdx) {
+        infoMatrix[row][col].numZeroesBelow +=
+          infoMatrix[row + 1][col].numZeroesBelow;
+      }
+      if (col < lastIdx) {
+        infoMatrix[row][col].numZeroesRight +=
+          infoMatrix[row][col + 1].numZeroesRight;
       }
     }
-    return infoMatrix;
+  }
+  return infoMatrix;
 }
