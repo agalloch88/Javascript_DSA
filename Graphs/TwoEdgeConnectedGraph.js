@@ -33,3 +33,46 @@
 // true
 
 // Solution 1:
+
+function twoEdgeConnectedGraph(edges) {
+    if (edges.length === 0) {
+        return true;
+    }
+
+    let arrivalTimes = new Array(edges.length).fill(-1);
+    let startVertex = 0;
+
+    if (getMinimumArrivalTimeOfAncestors(startVertex, -1, 0, arrivalTimes, edges) === -1) {
+        return false;
+    }
+
+    return areAllVerticesVisited(arrivalTimes);
+}
+
+function areAllVerticesVisited(arrivalTimes) {
+    for ( let time of arrivalTimes) {
+        if (time === -1) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function getMinimumArrivalTimeOfAncestors(currentVertex, parent, currentTime, arrivalTimes, edges) {
+    arrivalTimes[currentVertex] = currentTime;
+
+    let minimumArrivalTime = currentTime;
+
+    for (let destination of edges[currentVertex]) {
+        if (arrivalTimes[destination] === -1) {
+            minimumArrivalTime = Math.min(minimumArrivalTime, getMinimumArrivalTimeOfAncestors(destination, currentVertex, currentTime + 1, arrivalTimes, edges),);
+        } else if (destination !== parent) {
+            minimumArrivalTime = Math.min(minimumArrivalTime, arrivalTimes[destination]);
+        }
+    }
+    if (minimumArrivalTime === currentTime && parent !== -1) {
+        return -1;
+    }
+
+    return minimumArrivalTime;
+}
