@@ -10,7 +10,7 @@
 
 // The input list/array is what's called an adjacency list, and it represents a graph. The number of vertices in the graph is equal to the length of `edges`, where each index `i`
 // in `edges` contains vertex `i`'s outbound edges, in no particular order. Each outbound edge is represented by a positive integer which denotes an index (a destination vertex) in
-// the list/array  that this vertex is connected to. Note that these edges are undirected, meaning that one can travel from a particular vertex to its destination, and from the 
+// the list/array  that this vertex is connected to. Note that these edges are undirected, meaning that one can travel from a particular vertex to its destination, and from the
 // destination back to that originating vertex. Since these edges are undirected, if vertex `i` has an outbound edge to vertex `j`, then vertex `j` is guaranteed to have an outbound
 // edge to vertex `i`. For example, an undirected graph with two vertices and one edge would be represented by the following adjacency list `edges = [[1], [0]].
 
@@ -40,63 +40,86 @@
 // O(v) space due to storing arrivalTimes array and call stack recursion via DFS
 
 function twoEdgeConnectedGraph(edges) {
-    // If the graph has no edges (is empty), it's trivially two-edge-connected
-    if (edges.length === 0) {
-        return true;
-    }
+  // If the graph has no edges (is empty), it's trivially two-edge-connected
+  if (edges.length === 0) {
+    return true;
+  }
 
-    // Initialize arrivalTimes array to keep track of discovery times of vertices during DFS
-    let arrivalTimes = new Array(edges.length).fill(-1);
+  // Initialize arrivalTimes array to keep track of discovery times of vertices during DFS
+  let arrivalTimes = new Array(edges.length).fill(-1);
 
-    // Start the DFS from vertex 0
-    let startVertex = 0;
+  // Start the DFS from vertex 0
+  let startVertex = 0;
 
-    // Perform DFS and check if there's a bridge (a critical edge whose removal disconnects the graph)
-    if (getMinimumArrivalTimeOfAncestors(startVertex, -1, 0, arrivalTimes, edges) === -1) {
-        // If any bridge is found, the graph is not two-edge-connected
-        return false;
-    }
+  // Perform DFS and check if there's a bridge (a critical edge whose removal disconnects the graph)
+  if (
+    getMinimumArrivalTimeOfAncestors(
+      startVertex,
+      -1,
+      0,
+      arrivalTimes,
+      edges,
+    ) === -1
+  ) {
+    // If any bridge is found, the graph is not two-edge-connected
+    return false;
+  }
 
-    // Ensure all vertices are visited, confirming the graph is connected
-    return areAllVerticesVisited(arrivalTimes);
+  // Ensure all vertices are visited, confirming the graph is connected
+  return areAllVerticesVisited(arrivalTimes);
 }
 
 function areAllVerticesVisited(arrivalTimes) {
-    // Check if all vertices were visited during the DFS
-    for (let time of arrivalTimes) {
-        if (time === -1) {
-            return false; // If any vertex wasn't visited, the graph is not connected
-        }
+  // Check if all vertices were visited during the DFS
+  for (let time of arrivalTimes) {
+    if (time === -1) {
+      return false; // If any vertex wasn't visited, the graph is not connected
     }
-    return true;
+  }
+  return true;
 }
 
-function getMinimumArrivalTimeOfAncestors(currentVertex, parent, currentTime, arrivalTimes, edges) {
-    // Set the current vertex's discovery time
-    arrivalTimes[currentVertex] = currentTime;
+function getMinimumArrivalTimeOfAncestors(
+  currentVertex,
+  parent,
+  currentTime,
+  arrivalTimes,
+  edges,
+) {
+  // Set the current vertex's discovery time
+  arrivalTimes[currentVertex] = currentTime;
 
-    // Initialize the minimum arrival time for this vertex
-    let minimumArrivalTime = currentTime;
+  // Initialize the minimum arrival time for this vertex
+  let minimumArrivalTime = currentTime;
 
-    // Explore all neighbors of the current vertex
-    for (let destination of edges[currentVertex]) {
-        // If the neighbor hasn't been visited, perform DFS recursively
-        if (arrivalTimes[destination] === -1) {
-            minimumArrivalTime = Math.min(
-                minimumArrivalTime,
-                getMinimumArrivalTimeOfAncestors(destination, currentVertex, currentTime + 1, arrivalTimes, edges),
-            );
-        } 
-        // If the neighbor is not the parent, update the minimum arrival time
-        else if (destination !== parent) {
-            minimumArrivalTime = Math.min(minimumArrivalTime, arrivalTimes[destination]);
-        }
+  // Explore all neighbors of the current vertex
+  for (let destination of edges[currentVertex]) {
+    // If the neighbor hasn't been visited, perform DFS recursively
+    if (arrivalTimes[destination] === -1) {
+      minimumArrivalTime = Math.min(
+        minimumArrivalTime,
+        getMinimumArrivalTimeOfAncestors(
+          destination,
+          currentVertex,
+          currentTime + 1,
+          arrivalTimes,
+          edges,
+        ),
+      );
     }
-
-    // If the current vertex is a bridge (disconnects the graph), return -1
-    if (minimumArrivalTime === currentTime && parent !== -1) {
-        return -1;
+    // If the neighbor is not the parent, update the minimum arrival time
+    else if (destination !== parent) {
+      minimumArrivalTime = Math.min(
+        minimumArrivalTime,
+        arrivalTimes[destination],
+      );
     }
+  }
 
-    return minimumArrivalTime;
+  // If the current vertex is a bridge (disconnects the graph), return -1
+  if (minimumArrivalTime === currentTime && parent !== -1) {
+    return -1;
+  }
+
+  return minimumArrivalTime;
 }

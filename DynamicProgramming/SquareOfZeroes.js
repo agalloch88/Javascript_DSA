@@ -246,76 +246,75 @@ function preComputeNumOfZeroes(matrix) {
 // O(n^2) space due to storing the infoMatrix, but improved space complexity due to no recursion
 
 function squareOfZeroes(matrix) {
-    // Precompute information about contiguous zero counts in the matrix
-    let infoMatrix = preComputeNumOfZeroes(matrix);
-    let n = matrix.length; // Size of the matrix
-  
-    // Iterate through all possible top-left corners of squares
-    for (let topRow = 0; topRow < n; topRow++) {
-      for (let leftCol = 0; leftCol < n; leftCol++) {
-        let squareLength = 2; // Start with the smallest square size (2x2)
-  
-        // Expand the square size while staying within matrix bounds
-        while (squareLength <= n - leftCol && squareLength <= n - topRow) {
-          let bottomRow = topRow + squareLength - 1; // Bottom boundary of the square
-          let rightCol = leftCol + squareLength - 1; // Right boundary of the square
-  
-          // Check if the current square is made entirely of zeroes
-          if (
-            isSquareOfZeroes(infoMatrix, topRow, leftCol, bottomRow, rightCol)
-          ) {
-            return true; // Return true if a square of zeroes is found
-          }
-  
-          squareLength++; // Increment the size of the square
+  // Precompute information about contiguous zero counts in the matrix
+  let infoMatrix = preComputeNumOfZeroes(matrix);
+  let n = matrix.length; // Size of the matrix
+
+  // Iterate through all possible top-left corners of squares
+  for (let topRow = 0; topRow < n; topRow++) {
+    for (let leftCol = 0; leftCol < n; leftCol++) {
+      let squareLength = 2; // Start with the smallest square size (2x2)
+
+      // Expand the square size while staying within matrix bounds
+      while (squareLength <= n - leftCol && squareLength <= n - topRow) {
+        let bottomRow = topRow + squareLength - 1; // Bottom boundary of the square
+        let rightCol = leftCol + squareLength - 1; // Right boundary of the square
+
+        // Check if the current square is made entirely of zeroes
+        if (
+          isSquareOfZeroes(infoMatrix, topRow, leftCol, bottomRow, rightCol)
+        ) {
+          return true; // Return true if a square of zeroes is found
         }
+
+        squareLength++; // Increment the size of the square
       }
     }
-    return false; // Return false if no square of zeroes is found
   }
-  
-  function isSquareOfZeroes(infoMatrix, r1, c1, r2, c2) {
-    let squareLength = c2 - c1 + 1; // Length of the square's side
-  
-    // Check if all borders of the square have enough contiguous zeroes
-    let hasTopBorder = infoMatrix[r1][c1].numZeroesRight >= squareLength;
-    let hasLeftBorder = infoMatrix[r1][c1].numZeroesBelow >= squareLength;
-    let hasBottomBorder = infoMatrix[r2][c1].numZeroesRight >= squareLength;
-    let hasRightBorder = infoMatrix[r1][c2].numZeroesBelow >= squareLength;
-  
-    return hasTopBorder && hasLeftBorder && hasBottomBorder && hasRightBorder;
-  }
-  
-  function preComputeNumOfZeroes(matrix) {
-    // Create a matrix to store the number of contiguous zeroes below and to the right of each cell
-    let infoMatrix = matrix.map((row) =>
-      row.map((value) => {
-        let numZeroes = value === 0 ? 1 : 0;
-        return { numZeroesBelow: numZeroes, numZeroesRight: numZeroes };
-      }),
-    );
-  
-    let lastIdx = matrix.length - 1;
-  
-    // Populate the infoMatrix with contiguous zero counts
-    for (let row = lastIdx; row >= 0; row--) {
-      for (let col = lastIdx; col >= 0; col--) {
-        // Skip cells with a value of 1
-        if (matrix[row][col] === 1) {
-          continue;
-        }
-  
-        // Accumulate counts from the cell below and to the right
-        if (row < lastIdx) {
-          infoMatrix[row][col].numZeroesBelow +=
-            infoMatrix[row + 1][col].numZeroesBelow;
-        }
-        if (col < lastIdx) {
-          infoMatrix[row][col].numZeroesRight +=
-            infoMatrix[row][col + 1].numZeroesRight;
-        }
+  return false; // Return false if no square of zeroes is found
+}
+
+function isSquareOfZeroes(infoMatrix, r1, c1, r2, c2) {
+  let squareLength = c2 - c1 + 1; // Length of the square's side
+
+  // Check if all borders of the square have enough contiguous zeroes
+  let hasTopBorder = infoMatrix[r1][c1].numZeroesRight >= squareLength;
+  let hasLeftBorder = infoMatrix[r1][c1].numZeroesBelow >= squareLength;
+  let hasBottomBorder = infoMatrix[r2][c1].numZeroesRight >= squareLength;
+  let hasRightBorder = infoMatrix[r1][c2].numZeroesBelow >= squareLength;
+
+  return hasTopBorder && hasLeftBorder && hasBottomBorder && hasRightBorder;
+}
+
+function preComputeNumOfZeroes(matrix) {
+  // Create a matrix to store the number of contiguous zeroes below and to the right of each cell
+  let infoMatrix = matrix.map((row) =>
+    row.map((value) => {
+      let numZeroes = value === 0 ? 1 : 0;
+      return { numZeroesBelow: numZeroes, numZeroesRight: numZeroes };
+    }),
+  );
+
+  let lastIdx = matrix.length - 1;
+
+  // Populate the infoMatrix with contiguous zero counts
+  for (let row = lastIdx; row >= 0; row--) {
+    for (let col = lastIdx; col >= 0; col--) {
+      // Skip cells with a value of 1
+      if (matrix[row][col] === 1) {
+        continue;
+      }
+
+      // Accumulate counts from the cell below and to the right
+      if (row < lastIdx) {
+        infoMatrix[row][col].numZeroesBelow +=
+          infoMatrix[row + 1][col].numZeroesBelow;
+      }
+      if (col < lastIdx) {
+        infoMatrix[row][col].numZeroesRight +=
+          infoMatrix[row][col + 1].numZeroesRight;
       }
     }
-    return infoMatrix;
   }
-  
+  return infoMatrix;
+}
