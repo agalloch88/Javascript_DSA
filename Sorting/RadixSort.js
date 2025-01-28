@@ -71,3 +71,32 @@ function countingSort(array, digit) {
     array[idx] = sortedArray[idx];
   }
 }
+
+// Solution 2:
+
+function radixSort(array) {
+  if (array.length < 2) {
+    return array;
+  }
+
+  let maxVal = array[0];
+
+  for (let i = 1; i < array.length; i++) {
+    if (array[i] > maxVal) {
+      maxVal = array[i];
+    }
+  }
+
+  let iterationCount = maxVal.toString().length;
+
+  for (let digit = 0; digit < iterationCount; digit++) {
+    let bucketArray = Array.from({length: 10}, ()=> [])
+
+    for (let i = 0; i < array.length; i++) {
+      let digitVal = Math.floor(array[i] / 10 ** digit) % 10;
+      bucketArray[digitVal].push(array[i]);
+    }
+    array = [].concat(...bucketArray);
+  }
+  return array;
+}
