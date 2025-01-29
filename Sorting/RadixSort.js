@@ -74,29 +74,45 @@ function countingSort(array, digit) {
 
 // Solution 2:
 
+// simplified short solution
+
+// O(n log(m)) time, where n is the number of elements and m is the max number in the array
+// O(n) space due to the temporary bucket storage
+
+// Function to perform radix sort on an array
 function radixSort(array) {
+  // If the array has less than two elements, it's already sorted
   if (array.length < 2) {
     return array;
   }
 
+  // Find the maximum value in the array to determine the number of digits
   let maxVal = array[0];
 
+  // Iterate through the array to get the max value
   for (let i = 1; i < array.length; i++) {
     if (array[i] > maxVal) {
       maxVal = array[i];
     }
   }
 
+  // Determine the number of iterations needed (based on the number of digits in maxVal)
   let iterationCount = maxVal.toString().length;
 
+  // Iterate through each digit position, from least to most significant
   for (let digit = 0; digit < iterationCount; digit++) {
-    let bucketArray = Array.from({length: 10}, ()=> [])
+    // Create an array of 10 empty buckets (for digits 0-9)
+    let bucketArray = Array.from({ length: 10 }, () => []);
 
+    // Place each number into the corresponding bucket based on the current digit
     for (let i = 0; i < array.length; i++) {
-      let digitVal = Math.floor(array[i] / 10 ** digit) % 10;
-      bucketArray[digitVal].push(array[i]);
+      let digitVal = Math.floor(array[i] / 10 ** digit) % 10; // Extract the digit
+      bucketArray[digitVal].push(array[i]); // Place number in the corresponding bucket
     }
+
+    // Flatten the bucketArray back into the original array
     array = [].concat(...bucketArray);
   }
-  return array;
+
+  return array; // Return the sorted array
 }
