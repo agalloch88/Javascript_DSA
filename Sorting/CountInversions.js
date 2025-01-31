@@ -18,3 +18,46 @@
 // [0, 3], [1, 3], [2, 3], [4, 5], [4, 6]
 
 // Solution 1:
+
+function countInversions(array) {
+    return countSubArrayInversions(array, 0, array.length);
+}
+
+function countSubArrayInversions(array, start, end) {
+    if (end - start <= 1) {
+        return 0;
+    }
+
+    let middle = start + Math.floor((end - start) / 2);
+    let leftInversions = countSubArrayInversions(array, start, middle);
+    let rightInversions = countSubArrayInversions(array, middle, end);
+    let mergeInversions = mergeSortAndCountInversions(array, start, middle, end);
+
+    return leftInversions + rightInversions + mergeInversions;
+}
+
+function mergeSortAndCountInversions(array, start, middle, end) {
+    let sortedArray = [];
+    let left = start;
+    let right = middle;
+    let inversions = 0;
+
+    while (left < middle && right < end) {
+        if (array[left] <= array[right]) {
+            sortedArray.push(array[left]);
+            left++;
+        } else {
+            inversions += middle - left;
+            sortedArray.push(array[right]);
+            right++;
+        }
+    }
+
+    sortedArray.push(...array.slice(left, middle), ...array.slice(right, end));
+    for (let idx = 0; idx < sortedArray.length; idx++) {
+        const num = sortedArray[idx];
+        array[start + idx] = num;
+    }
+
+    return inversions;
+}
