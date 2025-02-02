@@ -25,59 +25,59 @@
 // O(n) space due to storing sorted array
 
 function countInversions(array) {
-    // return call to helper function, passing in input array, start index of 0, and end index of array
-    return countSubArrayInversions(array, 0, array.length);
+  // return call to helper function, passing in input array, start index of 0, and end index of array
+  return countSubArrayInversions(array, 0, array.length);
 }
 
 // helper function which takes in the array, start index, and end index
 function countSubArrayInversions(array, start, end) {
-    // if end is less than or equal to start, return 0
-    if (end - start <= 1) {
-        return 0;
-    }
+  // if end is less than or equal to start, return 0
+  if (end - start <= 1) {
+    return 0;
+  }
 
-    // calculate middle index
-    let middle = start + Math.floor((end - start) / 2);
-    // recursive call to function, passing in array, start index, and middle index
-    let leftInversions = countSubArrayInversions(array, start, middle);
-    // recursive call to function, passing in array, middle index, and end index
-    let rightInversions = countSubArrayInversions(array, middle, end);
-    // call to helper function, passing in array, start index, middle index, and end index
-    let mergeInversions = mergeSortAndCountInversions(array, start, middle, end);
+  // calculate middle index
+  let middle = start + Math.floor((end - start) / 2);
+  // recursive call to function, passing in array, start index, and middle index
+  let leftInversions = countSubArrayInversions(array, start, middle);
+  // recursive call to function, passing in array, middle index, and end index
+  let rightInversions = countSubArrayInversions(array, middle, end);
+  // call to helper function, passing in array, start index, middle index, and end index
+  let mergeInversions = mergeSortAndCountInversions(array, start, middle, end);
 
-    // return sum of leftInversions, rightInversions, and mergeInversions
-    return leftInversions + rightInversions + mergeInversions;
+  // return sum of leftInversions, rightInversions, and mergeInversions
+  return leftInversions + rightInversions + mergeInversions;
 }
 
 // helper function which takes in the array, start index, middle index, and end index
 function mergeSortAndCountInversions(array, start, middle, end) {
-    // initialize variables
-    let sortedArray = [];
-    let left = start;
-    let right = middle;
-    let inversions = 0;
+  // initialize variables
+  let sortedArray = [];
+  let left = start;
+  let right = middle;
+  let inversions = 0;
 
-    // while left index is less than middle index and right index is less than end index, keep looping
-    while (left < middle && right < end) {
-        // if value at left index is less than or equal to value at right index, add value at left index to sorted array, and increment left index
-        if (array[left] <= array[right]) {
-            sortedArray.push(array[left]);
-            left++;
-        // if value at left index is greater than value at right index, add value at right index to sorted array, increment right index, and add middle - left to inversions
-        } else {
-            inversions += middle - left;
-            sortedArray.push(array[right]);
-            right++;
-        }
+  // while left index is less than middle index and right index is less than end index, keep looping
+  while (left < middle && right < end) {
+    // if value at left index is less than or equal to value at right index, add value at left index to sorted array, and increment left index
+    if (array[left] <= array[right]) {
+      sortedArray.push(array[left]);
+      left++;
+      // if value at left index is greater than value at right index, add value at right index to sorted array, increment right index, and add middle - left to inversions
+    } else {
+      inversions += middle - left;
+      sortedArray.push(array[right]);
+      right++;
     }
-    
-    // add remaining values to sorted array
-    sortedArray.push(...array.slice(left, middle), ...array.slice(right, end));
-    // copy values from sorted array back into input array
-    for (let idx = 0; idx < sortedArray.length; idx++) {
-        const num = sortedArray[idx];
-        array[start + idx] = num;
-    }
+  }
 
-    return inversions;
+  // add remaining values to sorted array
+  sortedArray.push(...array.slice(left, middle), ...array.slice(right, end));
+  // copy values from sorted array back into input array
+  for (let idx = 0; idx < sortedArray.length; idx++) {
+    const num = sortedArray[idx];
+    array[start + idx] = num;
+  }
+
+  return inversions;
 }
