@@ -89,3 +89,24 @@ class MinHeap {
         heap[i] = temp;
     }
 }
+
+function sortKSortedArray(array, k) {
+    let minHeapWithKElements = new MinHeap(array.slice(0, Math.min(k + 1, array.length)));
+
+    let nextIndexToInsertElement = 0;
+    for (let idx = k + 1; idx < array.length; idx++) {
+        let minElement = minHeapWithKElements.remove();
+        array[nextIndexToInsertElement] = minElement;
+        nextIndexToInsertElement++;
+        let currentElement = array[idx];
+        minHeapWithKElements.insert(currentElement);
+    }
+
+    while (!minHeapWithKElements.isEmpty()) {
+        let minElement = minHeapWithKElements.remove();
+        array[nextIndexToInsertElement] = minElement;
+        nextIndexToInsertElement++;
+    }
+
+    return array;
+}
