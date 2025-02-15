@@ -81,3 +81,47 @@ function mergeSortAndCountInversions(array, start, middle, end) {
 
   return inversions;
 }
+
+// Solution 2:
+
+function countInversions(array) {
+  let aux = array.slice();
+  let inversions = {val: 0};
+
+  mergeSortAndCountInversions(array, aux, 0, array.length - 1, inversions);
+
+  return inversions.val;
+}
+
+function mergeSort(array, aux, start, end, inversions) {
+  if (start >= end) {
+    return;
+  }
+
+  let mid = Math.floor((start + end) / 2);
+  mergeSort(aux, array, start, mid, inversions);
+  mergeSort(aux, array, mid + 1, end, inversions);
+
+  let left = start;
+  let right = mid + 1;
+  let idx = start;
+  let leftSize = mid - start + 1;
+
+  while (left <= mid && right <= end) {
+    if (aux[right] < aux[left]) {
+      array[idx++] = aux[right++];
+      inversions.val = inversions.val + leftSize;
+    } else {
+      array[idx++] = aux[left++];
+      leftSize--;
+    }
+  }
+
+  while (left <= mid) {
+    array[idx++] = aux[left++];
+  }
+
+  while (right <= end) {
+    array[idx++] = aux[right++];
+  }
+}
