@@ -84,6 +84,12 @@ function mergeSortAndCountInversions(array, start, middle, end) {
 
 // Solution 2:
 
+// iterative solution using merge sort
+// no need to create and loop through a new array each time. the aux array is passed by ref
+
+// O(n(log(n))) time due to recursive merge sort
+// O(n) space due to storing sorted array
+
 function countInversions(array) {
   let aux = array.slice();
   let inversions = {val: 0};
