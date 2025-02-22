@@ -92,7 +92,7 @@ function mergeSortAndCountInversions(array, start, middle, end) {
 
 function countInversions(array) {
   let aux = array.slice();
-  let inversions = {val: 0};
+  let inversions = { val: 0 };
 
   mergeSortAndCountInversions(array, aux, 0, array.length - 1, inversions);
 
