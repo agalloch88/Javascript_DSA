@@ -152,3 +152,26 @@ function sortKSortedArray(array, k) {
   // By the end, the array is fully sorted.
   return array;
 }
+
+// Solution 2:
+
+function swap(arr, to, from) {
+  let temp = arr[from];
+  arr[from] = arr[to];
+  arr[to] = temp;
+}
+
+function sortKSortedArray(array, k) {
+  for (let i = 0; i < array.length; i++) {
+    let smallest = i;
+    for (let j = i + 1; j <= i + k; j++) {
+      if (array[j] < array[smallest]) {
+        smallest = j;
+      }
+    }
+    for (let j = smallest; j > i; j--) {
+      swap(array, j - 1, j);
+    }
+  }
+  return array;
+}
