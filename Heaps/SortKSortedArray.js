@@ -155,23 +155,38 @@ function sortKSortedArray(array, k) {
 
 // Solution 2:
 
+// simple solution using loops
+
+// O(n^2) time due to nested for loops
+// O(1) space due to no additional data structures
+
+// construct swap function since no built-in JS way to do swap
 function swap(arr, to, from) {
   let temp = arr[from];
   arr[from] = arr[to];
   arr[to] = temp;
 }
 
+// main function
 function sortKSortedArray(array, k) {
+  // iterate through array
   for (let i = 0; i < array.length; i++) {
+    // find smallest element in the next k elements
     let smallest = i;
+    // iterate through next k elements
     for (let j = i + 1; j <= i + k; j++) {
+      // if current element is smaller than smallest
       if (array[j] < array[smallest]) {
+        // set smallest to current element
         smallest = j;
       }
     }
+    // swap smallest element with current element
     for (let j = smallest; j > i; j--) {
+      // swap
       swap(array, j - 1, j);
     }
   }
+  // return sorted array
   return array;
 }
