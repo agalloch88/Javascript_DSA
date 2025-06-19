@@ -90,43 +90,74 @@ function mergeSortAndCountInversions(array, start, middle, end) {
 // O(n(log(n))) time due to recursive merge sort
 // O(n) space due to storing sorted array
 
+/**
+ * Counts the number of inversions in an array using a modified merge sort.
+ * @param {number[]} array – The input array.
+ * @returns {number} Total number of inversions (pairs i<j with array[i]>array[j]).
+ */
 function countInversions(array) {
+  // Make a shallow copy of the array to use as the auxiliary buffer
   let aux = array.slice();
+  // Use an object to hold the inversion count so it can be mutated in recursion
   let inversions = { val: 0 };
 
+  // Recursively sort the array
   mergeSortAndCountInversions(array, aux, 0, array.length - 1, inversions);
 
+  // Return the total inversions counted
   return inversions.val;
 }
 
-function mergeSort(array, aux, start, end, inversions) {
+/**
+ * Recursively sorts the segment array[start..end] and counts inversions.
+ * 
+ * @param {number[]} array – The array to write merged results into.
+ * @param {number[]} aux – The auxiliary array to read from.
+ * @param {number} start – Left index of the current segment.
+ * @param {number} end – Right index of the current segment.
+ * @param {{ val: number }} inversions – Object tracking the inversion count.
+ */
+function mergeSortAndCountInversions(array, aux, start, end, inversions) {
+  // Base case: zero or one element is already “sorted”
   if (start >= end) {
     return;
   }
 
+  // Split point
   let mid = Math.floor((start + end) / 2);
-  mergeSort(aux, array, start, mid, inversions);
-  mergeSort(aux, array, mid + 1, end, inversions);
 
-  let left = start;
-  let right = mid + 1;
-  let idx = start;
+  // Recursively sort left half (note swap of array/aux so we alternate roles each level)
+  mergeSortAndCountInversions(aux, array, start, mid, inversions);
+  // Recursively sort right half
+  mergeSortAndCountInversions(aux, array, mid + 1, end, inversions);
+
+  // Pointers for merge
+  let left = start;       // current index in left half
+  let right = mid + 1;    // current index in right half
+  let idx = start;        // write index in the target array
+  // Number of elements remaining in the left half (used to count how many inversions each time right < left)
   let leftSize = mid - start + 1;
 
+  // Merge loop: pick the smaller of aux[left] and aux[right]
   while (left <= mid && right <= end) {
     if (aux[right] < aux[left]) {
+      // Every time an element from the right half goes before left, 
+      // it forms inversions with *all* remaining items in the left half.
       array[idx++] = aux[right++];
-      inversions.val = inversions.val + leftSize;
+      inversions.val += leftSize;
     } else {
+      // No inversion: place the left element, and reduce the count of remaining left items
       array[idx++] = aux[left++];
       leftSize--;
     }
   }
 
+  // Copy any leftovers from the left half (these incur no new inversions)
   while (left <= mid) {
     array[idx++] = aux[left++];
   }
 
+  // Copy any leftovers from the right half
   while (right <= end) {
     array[idx++] = aux[right++];
   }
