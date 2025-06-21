@@ -41,3 +41,21 @@ function saemordlinap(words) {
   // once every input word is checked, return all the found semordlinapPairs
   return semordlinapPairs;
 }
+
+// Solution 2:
+
+function semordnilap(words) {
+  let wordSet = new Set();
+  let pairs = [];
+  for (let word of words) {
+    let reversed = word.split('').reverse().join('');
+
+    if (wordSet.has(reversed)) {
+      pairs.push([word, reversed]);
+    } else {
+      wordSet.add(word);
+    }
+  }
+
+  return pairs;
+}
