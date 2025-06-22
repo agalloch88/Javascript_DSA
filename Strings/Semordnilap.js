@@ -43,19 +43,39 @@ function saemordlinap(words) {
 }
 
 // Solution 2:
-
+/**
+ * Finds all pairs of words that form semordnilaps (words that are the reverse of each other).
+ *
+ * Time Complexity: O(n * k) where n = number of words, k = average length of each word
+ *   - Reversing each word takes O(k)
+ *   - Set lookup and insertion are O(1) average
+ *   - Overall: O(n * k)
+ *
+ * Space Complexity: O(n * k)
+ *   - The Set stores up to n words of length k: O(n * k)
+ *   - The output array `pairs` in worst case could store up to n/2 pairs, each of size O(k): O(n * k)
+ */
 function semordnilap(words) {
+  // Use a Set for O(1) lookups of previously seen words
   let wordSet = new Set();
+  // Array to collect all matching semordnilap pairs
   let pairs = [];
+
+  // Iterate through each word in the input list
   for (let word of words) {
+    // Compute the reversed string of the current word in O(k) time
     let reversed = word.split('').reverse().join('');
 
+    // If we've already seen the reversed form, we've found a pair
     if (wordSet.has(reversed)) {
+      // Add the current word and its reverse as a semordnilap pair
       pairs.push([word, reversed]);
     } else {
+      // Otherwise, remember this word for future reverse-lookups
       wordSet.add(word);
     }
   }
 
+  // Return all found semordnilap pairs
   return pairs;
 }
