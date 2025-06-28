@@ -159,3 +159,40 @@ function minRewards(scores) {
   // return the reduced rewards array, which should sum up to the necessary rewards
   return rewards.reduce((a, b) => a + b);
 }
+
+// Solution 4:
+function minRewwards(scores) {
+  let totalRewards = 1;
+  let rewardsAfterLastPeak = 0;
+  let lastPeak = 0;
+  let rewardsForLastPeak = 1;
+  let lastRewardsGiven = 1;
+
+  for (let i = 1; i < scores.length; i++) {
+    if (scores[i] < scores[i - 1]) {
+      totalRewards++;
+      
+      if (i - 1 == lastPeak) {
+        rewardsAfterLastPeak = 1;
+      }
+  
+      lastRewardsGiven = 1;
+  
+      let distanceFromPeak = i - lastPeak;
+  
+      if (rewardsAfterLastPeak >= rewardsForLastPeak) {
+        totalRewards += distanceFromPeak - 1;
+      } else {
+        totalRewards += distanceFromPeak - 1;
+        rewardsAfterLastPeak++;
+      }
+    } else if (scores[i] > scores[i - 1]) {
+      totalRewards += lastRewardsGiven + 1;
+      lastRewardsGiven++;
+      lastPeak = i;
+      rewardsForLastPeak = lastRewardsGiven;
+    }
+  }
+  return totalRewards;
+} 
+      
