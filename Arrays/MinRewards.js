@@ -161,38 +161,71 @@ function minRewards(scores) {
 }
 
 // Solution 4:
+/**
+ * Calculates the minimum total rewards to distribute to students based on their scores.
+ *
+ * Each student must get at least one reward. Any student with a strictly higher score
+ * than an adjacent student must receive strictly more rewards than that neighbor.
+ *
+ * Time Complexity: O(n) — we make a single pass through the `scores` array.
+ * Space Complexity: O(1) — only a fixed number of variables are used, regardless of input size.
+ *
+ * @param {number[]} scores – Array of integer scores for each student.
+ * @returns {number} The minimum total number of rewards required.
+ */
 function minRewwards(scores) {
+  // Start by giving the first student 1 reward
   let totalRewards = 1;
+  // Counts how many students we've given 1 reward to since the last "peak"
   let rewardsAfterLastPeak = 0;
+  // Index of the last student who was part of an ascending sequence (a "peak")
   let lastPeak = 0;
+  // Number of rewards that were given at that last peak
   let rewardsForLastPeak = 1;
+  // Number of rewards given to the student immediately before the current one
   let lastRewardsGiven = 1;
 
+  // Walk through each student from the second one onward
   for (let i = 1; i < scores.length; i++) {
     if (scores[i] < scores[i - 1]) {
+      // Current score is lower than the previous ⇒ descending slope
+      // Give this student the minimum (1) for now
       totalRewards++;
       
-      if (i - 1 == lastPeak) {
+      // If the descent just started right after the last peak, reset our descent counter
+      if (i - 1 === lastPeak) {
         rewardsAfterLastPeak = 1;
       }
-  
+
+      // We're at the bottom of a descending run, so this student has 1 reward
       lastRewardsGiven = 1;
-  
+
+      // How far down we've come since the last peak
       let distanceFromPeak = i - lastPeak;
-  
-      if (rewardsAfterLastPeak >= rewardsForLastPeak) {
-        totalRewards += distanceFromPeak - 1;
-      } else {
-        totalRewards += distanceFromPeak - 1;
+
+      // If the descent is at least as long as the reward at the peak,
+      // we need to bump the peak's reward by 1 for each extra step beyond it.
+      // We add (distanceFromPeak - 1) extra rewards to account for this.
+      totalRewards += distanceFromPeak - 1;
+
+      // Track that we've given out another "1-reward" student in this descent
+      if (rewardsAfterLastPeak < rewardsForLastPeak) {
         rewardsAfterLastPeak++;
       }
+      
     } else if (scores[i] > scores[i - 1]) {
+      // Current score is higher ⇒ ascending slope
+      // Give one more reward than the previous student
       totalRewards += lastRewardsGiven + 1;
       lastRewardsGiven++;
+      // Mark this position as the new peak
       lastPeak = i;
+      // Record how many rewards we gave at this new peak
       rewardsForLastPeak = lastRewardsGiven;
     }
+    // If scores[i] === scores[i - 1], no special rule forces extra reward beyond the default,
+    // so this code would just skip both branches (giving no additional reward beyond the loop logic).
   }
+
   return totalRewards;
-} 
-      
+}
