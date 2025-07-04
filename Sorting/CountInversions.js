@@ -110,7 +110,7 @@ function countInversions(array) {
 
 /**
  * Recursively sorts the segment array[start..end] and counts inversions.
- * 
+ *
  * @param {number[]} array – The array to write merged results into.
  * @param {number[]} aux – The auxiliary array to read from.
  * @param {number} start – Left index of the current segment.
@@ -132,16 +132,16 @@ function mergeSortAndCountInversions(array, aux, start, end, inversions) {
   mergeSortAndCountInversions(aux, array, mid + 1, end, inversions);
 
   // Pointers for merge
-  let left = start;       // current index in left half
-  let right = mid + 1;    // current index in right half
-  let idx = start;        // write index in the target array
+  let left = start; // current index in left half
+  let right = mid + 1; // current index in right half
+  let idx = start; // write index in the target array
   // Number of elements remaining in the left half (used to count how many inversions each time right < left)
   let leftSize = mid - start + 1;
 
   // Merge loop: pick the smaller of aux[left] and aux[right]
   while (left <= mid && right <= end) {
     if (aux[right] < aux[left]) {
-      // Every time an element from the right half goes before left, 
+      // Every time an element from the right half goes before left,
       // it forms inversions with *all* remaining items in the left half.
       array[idx++] = aux[right++];
       inversions.val += leftSize;

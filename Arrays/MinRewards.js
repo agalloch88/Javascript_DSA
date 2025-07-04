@@ -191,7 +191,7 @@ function minRewwards(scores) {
       // Current score is lower than the previous ⇒ descending slope
       // Give this student the minimum (1) for now
       totalRewards++;
-      
+
       // If the descent just started right after the last peak, reset our descent counter
       if (i - 1 === lastPeak) {
         rewardsAfterLastPeak = 1;
@@ -212,7 +212,6 @@ function minRewwards(scores) {
       if (rewardsAfterLastPeak < rewardsForLastPeak) {
         rewardsAfterLastPeak++;
       }
-      
     } else if (scores[i] > scores[i - 1]) {
       // Current score is higher ⇒ ascending slope
       // Give one more reward than the previous student
