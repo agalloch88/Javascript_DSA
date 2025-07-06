@@ -77,3 +77,35 @@ function swap(i, j, array) {
   array[j] = array[i];
   array[i] = temp;
 }
+
+// Solution 2:
+
+function quickselect(array, k) {
+  let position = k - 1;
+  return quickselectHelper(array, 0, array.length - 1, position);
+}
+
+function quickselectHelper(array, startIdx, endIdx, k) {
+  let pivot = array[endIdx];
+  let leftArr = [];
+  let rightArr = [];
+
+  for (let i = startIdx; i < endIdx; i++) {
+    if (array[i] < pivot) {
+      leftArr.push(array[i]);
+    } else {
+      rightArr.push(array[i]);
+    }
+  }
+
+  let pi  = leftArr.length;
+  array = [...leftArr, pivot, ...rightArr];
+
+  if (k < pi) {
+    return quickselectHelper(array, startIdx, leftArr.length - 1, k);
+  } else if (k > pi) {
+    return quickselectHelper(array, startIdx, endIdx, k);
+  } else {
+    return pivot;
+  }
+}
