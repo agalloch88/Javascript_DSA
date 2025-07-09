@@ -98,7 +98,7 @@ function quickselectHelper(array, startIdx, endIdx, k) {
     }
   }
 
-  let pi  = leftArr.length;
+  let pi = leftArr.length;
   array = [...leftArr, pivot, ...rightArr];
 
   if (k < pi) {
