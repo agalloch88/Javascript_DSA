@@ -142,15 +142,15 @@ function distanceBetween(a, b) {
 // O(br) space due to storing precomputed req distances
 
 // main function which takes in array of block objects, and an array of requirements
-function apartmentHunting(blocks, reqs) {
+function apartmentHunting2(blocks, reqs) {
   // initialize variable minDistancesFromBlocks and set equal to a map over the reqs where, for each req, the value is a call to helper getMinDistances
-  let minDistancesFromBlocks = reqs.map((req) => getMinDistances(blocks, req));
+  let minDistancesFromBlocks = reqs.map((req) => getMinDistances2(blocks, req));
   // initialize variable maxDistancesAtBlocks, and set equal to trhe return of helper function getMaxDistancesAtBlocks, passing in the blocks input and the result stored in minDistancesFromBlocks variable above
-  let maxDistancesAtBlocks = getMaxDistancesAtBlocks(
+  let maxDistancesAtBlocks = getMaxDistancesAtBlocks2(
     blocks,
     minDistancesFromBlocks,
   );
-  return getIdxAtMinValue(maxDistancesAtBlocks);
+  return getIdxAtMinValue2(maxDistancesAtBlocks);
 }
 
 // helper function to find the mininmum distance to aa given requirement, taking in the blocks array of block objects and the req array
@@ -168,7 +168,7 @@ function getMinDistances(blocks, req) {
       closestReqIdx = i;
     }
     // set the value at i in minDistances equal to a call to helper distanceBetween, passing in the values of i and closestReqIdx to calculate distance from
-    minDistances[i] = distanceBetween(i, closestReqIdx);
+    minDistances[i] = distanceBetween2(i, closestReqIdx);
   }
 
   // iterate over the blocks input array, doing the second right to left pass
@@ -181,7 +181,7 @@ function getMinDistances(blocks, req) {
     // set the value at i in minDistances equal to the minimum between the current value at i in minDistances (found through the first pass), or the calculated distanceBetween value from i and current closestReqIdx value
     minDistances[i] = Math.min(
       minDistances[i],
-      distanceBetween(i, closestReqIdx),
+      distanceBetween2(i, closestReqIdx),
     );
   }
 
@@ -208,7 +208,7 @@ function getMaxDistancesAtBlocks(blocks, minDistancesFromBlocks) {
   return maxDistancesAtBlocks;
 }
 
-function getIdxAtMinValue(array) {
+function getIdxAtMinValue2(array) {
   let idxAtMinValue = 0;
   let minValue = Infinity;
 
@@ -225,7 +225,7 @@ function getIdxAtMinValue(array) {
 }
 
 // helper function to calculate the distance between to iinput indices
-function distanceBetween(a, b) {
+function distanceBetween2(a, b) {
   // returns the absolute value difference between a and b indices
   return Math.abs(a - b);
 }
