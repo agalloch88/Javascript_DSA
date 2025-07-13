@@ -50,7 +50,7 @@ function arrayOfProducts(array) {
 // O(n) time due to single pass over n inputs, finding n values in each array, so 3n simplifies to n
 // O(n) space due to storing n products in products, leftProducts, and rightProducts, so 3n simplifies to n
 
-function arrayOfProducts(array) {
+function arrayOfProducts2(array) {
   // set up products, left, and rightProducts holder arrays with length set to input length, filled with 1's
   let products = new Array(array.length).fill(1);
   let leftProducts = new Array(array.length).fill(1);
@@ -88,7 +88,7 @@ function arrayOfProducts(array) {
 // O(n) time due to going over n values 2 times, 2n simplifies to n
 // O(n) space due to only storing products array
 
-function arrayOfProducts(array) {
+function arrayOfProducts3(array) {
   // set products holder array to input length and fill with 1's
   let products = new Array(array.length).fill(1);
   // set leftRunningProduct to 1
