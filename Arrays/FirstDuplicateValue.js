@@ -56,7 +56,7 @@ function firstDuplicateValue(array) {
 // O(n) time due to going over potentially n values in array
 // O(n) space due to storing potentially n value from array in set
 
-function firstDuplicateValue(array) {
+function firstDuplicateValue2(array) {
   // create empty set
   let seen = new Set();
   // start looping over array values
@@ -79,7 +79,7 @@ function firstDuplicateValue(array) {
 // O(n) time due to potentially going over every value in input array
 // O(1) space because only storing variable
 
-function firstDuplicateValue(array) {
+function firstDuplicateValue3(array) {
   // iterate over values in input array
   for (let value of array) {
     // set up variable for current position
