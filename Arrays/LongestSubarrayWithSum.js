@@ -60,7 +60,7 @@ function longestSubarrayWithSum(array, targetSum) {
 // O(n) time due to moving the window of possible subarrays and doing one pass over entire input
 // O(1) space due to only storing indices and a few variables
 
-function longestSubarrayWithSum(array, targetSum) {
+function longestSubarrayWithSum2(array, targetSum) {
   // initialize variable indices and set equal to an empty array
   // can simply return this variable if no suitable longest subarray is found in the one pass over input
   let indices = [];
