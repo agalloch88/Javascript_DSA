@@ -58,7 +58,7 @@ function majorityElement(array) {
 // O(n) time due to checking n values in input array
 // O(1) space to comply with requirement of problem, only storing a couple variables
 
-function majorityElement(array) {
+function majorityElement2(array) {
   let answer = 0;
 
   for (let currentBit = 0; currentBit < 32; currentBit++) {
