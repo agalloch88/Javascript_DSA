@@ -120,9 +120,9 @@ function calculateArea(p1, p2, p3, p4) {
 // O(n) space due to storing a subset of pointsa couple different times
 
 // main function which takes in the array of point/coordinate pairs
-function minimumAreaRectangle(points) {
+function minimumAreaRectangle2(points) {
   // initialize variable columns and set equal to the return value of helper function initializeColumns, which will build out the columns using the passed-in points array
-  let columns = initializeColumns(points);
+  let columns = initializeColumns2(points);
   // initialize variable minimumAreaFound to store the answer, and set equal to Infinity at the outset such that any value is smaller
   let minimumAreaFound = Infinity;
   // initialize variable edgesParallelToYAxis, and set equal to an empty JS object
@@ -171,7 +171,7 @@ function minimumAreaRectangle(points) {
 }
 
 // helper function to create columns/x values from the points input
-function initializeColumns(points) {
+function initializeColumns2(points) {
   // initialize variable columns and set equal to an empty JS object
   let columns = {};
 
@@ -201,7 +201,7 @@ function initializeColumns(points) {
 // O(n) space due to storing subsets of points
 
 // main function which takes in the array of points/coordinate pairs
-function minimumAreaRectangle(points) {
+function minimumAreaRectangle3(points) {
   // initialize variable pointSet and set equal to return value of createPointSet helper function which takes in the point array and adds them to a set
   let pointSet = createPointSet(points);
   // intialize variable minimumAreaFound to hold solution, and set equal to Infinity such that any value is lower on first comparison
