@@ -65,7 +65,7 @@ function minRewards(scores) {
 // O(n) time due to iterating over all values in scores input
 // O(n) space due to storing new rewards array
 
-function minRewards(scores) {
+function minRewards2(scores) {
   // create copy of scores array and map over, inserting 1 for each value as this is the minimum reward any student receives, store in variable rewards
   let rewards = scores.map((_) => 1);
   // call helper function and pass in scores array, store return value in variable localMinIdxs
@@ -137,7 +137,7 @@ function expandFromLocalMinIdx(localMinIdx, scores, rewards) {
 // O(n) time due to iterating over all n values in input, 2n converges to n
 // O(n) space due to storing extra rewards array
 
-function minRewards(scores) {
+function minRewards3(scores) {
   // create copy of scores array and map over, inserting 1 for each value as this is the minimum reward any student receives, store in variable rewards
   let rewards = scores.map((_) => 1);
   // iterate over the scores input array, starting at index 1 as will compare to item directly behind i, and moving from left to right
@@ -173,7 +173,7 @@ function minRewards(scores) {
  * @param {number[]} scores – Array of integer scores for each student.
  * @returns {number} The minimum total number of rewards required.
  */
-function minRewwards(scores) {
+function minRewwards4(scores) {
   // Start by giving the first student 1 reward
   let totalRewards = 1;
   // Counts how many students we've given 1 reward to since the last "peak"
