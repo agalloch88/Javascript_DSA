@@ -46,7 +46,7 @@ function missingNumbers(nums) {
 // O(1) space due to only storing a few variables
 
 // main function which takes in nums input
-function missingNumbers(nums) {
+function missingNumbers2(nums) {
   // initialize variable total, and set equal to the return of two helper functions, sum and arrayFromAToB
   // should now have a numerical "total" from the input values, less the two missing numbers which need to be found
   let total = sum(arrayFromAToB(1, nums.length + 3));
@@ -105,7 +105,7 @@ let sum = (array) => array.reduce((a, b) => a + b);
 // O(n) time
 // O(1) space
 
-function missingNumbers(nums) {
+function missingNumbers3(nums) {
   // initialize variable solutionXOR equal to 0
   let solutionXOR = 0;
   // iterate through the expected range to cancel out any duplicates
