@@ -54,7 +54,7 @@ function swap(i, j, array) {
 // O(n) time due to two pointers and one loop over every array element
 // O(1) space due to only two variables stored
 
-function moveElementToEnd(array, toMove) {
+function moveElementToEnd2(array, toMove) {
   // set up variable for value at first index
   let left = 0;
   // set up variable for value at last index
@@ -79,7 +79,7 @@ function moveElementToEnd(array, toMove) {
   return array;
 }
 // helper function to perform swap in place, necessary in JS
-function swap(left, right, array) {
+function swap2(left, right, array) {
   let temp = array[left];
   array[left] = array[right];
   array[right] = temp;
