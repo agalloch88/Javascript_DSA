@@ -51,7 +51,7 @@ function breaksDirection(direction, previousInt, currentInt) {
 
 // Solution 2:
 
-function isMonotonic(array) {
+function isMonotonic2(array) {
   // set initial values, of which only one can be true
   let isNonDecreasing = true;
   let isNonIncreasing = true;
