@@ -43,7 +43,7 @@ function nonConstructibleChange(coins) {
 // O(n log(n)) time due to sorting coins array
 // O(1) space due to only storing the one variable regardless of contents of coins array
 
-function nonConstructibleChange(coins) {
+function nonConstructibleChange2(coins) {
   // set up currentChange variable and initialize to 1
   let currentChange = 1;
   // sort the coins array from smallest to largest, then check using forEach on each item
