@@ -32,7 +32,7 @@ function sortedSquaredArray(array) {
 // O(n) time due to single for loop pass over input array
 // O(n) space due to creating new holder array for n values
 
-function sortedSquaredArray(array) {
+function sortedSquaredArray2(array) {
   // create holder array filled with zeroes for length of input array
   const sortedSquares = new Array(array.length).fill(0);
   // initialize two pointers at beginning and end of input array
