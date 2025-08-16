@@ -76,7 +76,7 @@ function spiralTraverse(array) {
 // O(n) time due to traversing n elements in two-dimensional arrays
 // O(n) space due to storing n elements in new array
 
-function spiralTraverse(array) {
+function spiralTraverse2(array) {
   // create empty results array
   const results = [];
   // call helper, passining input array, startRow position, endRow position, startCol position,
