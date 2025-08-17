@@ -71,7 +71,7 @@ function updateScores(team, points, scores) {
 // O(n) time where n is the number of competitions
 // O(k) space where k is the number of teams
 
-function tournamentWinner(competitions, results) {
+function tournamentWinner2(competitions, results) {
   // set up JS object to holder the leader's score and team name, and store in variable leader
   let leader = { score: -Infinity, name: '' };
   // set up empty JS object to serve as the scoreboard, and store in variable scoreboard
