@@ -82,7 +82,7 @@ function transposedMatrix(matrix) {
 
 // one-loop solution using dimensions of matrix and count to figure out when done transposing
 
-function transposedMatrix(matrix) {
+function transposedMatrix2(matrix) {
   // initialize variable transposedMatrix and set equal to empty array
   let transposedMatrix = [];
   // initialize variable total and set equal to the dimensions of the matrix
