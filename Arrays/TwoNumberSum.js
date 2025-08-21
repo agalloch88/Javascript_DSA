@@ -47,7 +47,7 @@ function twoNumberSum(array, targetSum) {
 // O(n) time due to single pass over input array
 // O(n) space due to creating hashmap/JS object to store nums
 
-function twoNumberSum(array, targetSum) {
+function twoNumberSum2(array, targetSum) {
   // set up empty JS object and store in variable nums
   const nums = {};
   // iterate over every num in array
@@ -74,7 +74,7 @@ function twoNumberSum(array, targetSum) {
 // O(n log(n)) time due to using sort on input array
 // O(1) space due to only storing pointer values and currentSum
 
-function twoNumberSum(array, targetSum) {
+function twoNumberSum3(array, targetSum) {
   // use in-built JS sort method on array, so best possible time complexity is automatically n log(n)
   array.sort((a, b) => a - b);
   // set left pointer equal to index 0
