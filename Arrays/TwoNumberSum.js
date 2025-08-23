@@ -99,3 +99,19 @@ function twoNumberSum3(array, targetSum) {
   // if pointers overlap, while loop will break, which means no matches for targetSum, so return empty array
   return [];
 }
+
+// Solution 4:
+
+function twoNumberSum4(array, targetSum) {
+  let seen = new Set();
+
+  for (let num of array) {
+    let complement = targetSum - num;
+
+    if (seen.has(complement)) {
+      return [num, complement];
+    }
+    seen.add(num);
+  }
+  return [];
+}
