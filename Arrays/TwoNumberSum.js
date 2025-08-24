@@ -102,16 +102,28 @@ function twoNumberSum3(array, targetSum) {
 
 // Solution 4:
 
+// iterative solution using set to keep track of seen numbers
+
+// O(n) time due to iterating over n items in Set
+// O(n) space due to creating new Set with input array
+
 function twoNumberSum4(array, targetSum) {
+  // create new Set and store in variable seen
   let seen = new Set();
 
+  // iterate over every num in array
   for (let num of array) {
     let complement = targetSum - num;
 
+    // if complement is in seen Set, return array of num and complement
     if (seen.has(complement)) {
       return [num, complement];
     }
+
+    // if complement not in seen Set, add num to seen
     seen.add(num);
   }
+
+  // if no correct answer for problem, return empty array
   return [];
 }
