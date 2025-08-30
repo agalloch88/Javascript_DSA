@@ -44,7 +44,7 @@ function isValidSubsequence(array, sequence) {
 // O(n) time due to single pass over input array
 // O(1) space due to storing single value for sequence position
 
-function isValidSubsequence(array, sequence) {
+function isValidSubsequence2(array, sequence) {
   // initialize variable seqIdx to track sequence index, and set to 0
   let seqIdx = 0;
   // loop over every value in the input array
@@ -69,7 +69,7 @@ function isValidSubsequence(array, sequence) {
 // O(n) time due to iterating over every item in array
 // O(1) space due to only storing counter variable
 
-function isValidSubsequence(array, sequence) {
+function isValidSubsequence3(array, sequence) {
   // set up variable counter to track how many matches found, and initialize to 0
   let counter = 0;
   // loop over array using the forEach array method, and for every num encountered, check whether that num is equal to the same index position in the sequence
