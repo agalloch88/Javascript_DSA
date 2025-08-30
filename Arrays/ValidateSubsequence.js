@@ -78,3 +78,18 @@ function isValidSubsequence3(array, sequence) {
   // return the evaluation value of checking whether the value for counter now matches the sequence length
   return counter === sequence.length;
 }
+
+// Solution 4:
+
+function validateSubsequence4(array, sequence) {
+  let idx = 0;
+  for (let i = 0; i < array.length; i++) {
+    if (idx === sequence.length) {
+      break;
+    }
+    if (array[i] === sequence[idx] && idx < sequence.length) {
+      idx++;
+    }
+  }
+  return idx === sequence.length;
+}
