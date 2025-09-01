@@ -81,6 +81,11 @@ function isValidSubsequence3(array, sequence) {
 
 // Solution 4:
 
+// riff on Solution 2
+
+// O(n) time due to single pass over input array
+// O(1) space due to storing single value for sequence position
+
 function validateSubsequence4(array, sequence) {
   let idx = 0;
   for (let i = 0; i < array.length; i++) {
