@@ -25,7 +25,7 @@ function isValidSubsequence(array, sequence) {
   let seqIdx = 0;
   // while arrIdx is less than the length of the array AND seqIdx is less than the length of the sequence, keep looping
   while (arrIdx < array.length && seqIdx < sequence.length) {
-    //if the value at arrIdx in the array is equal to the value at seqIdx in the sequence, execute the below
+    // if the value at arrIdx in the array is equal to the value at seqIdx in the sequence, execute the below
     if (array[arrIdx] === sequence[seqIdx]) {
       // if the above if statement is true, increment the seqIdx by 1 to then check the next value between the array and sequence
       seqIdx++;
