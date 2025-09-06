@@ -71,12 +71,12 @@ class BST {
 // O(1) space due to iterative solution and no extra data stored
 
 // main function whcich takes in the BST and the target
-function findClosestValueInBST(tree, target) {
+function findClosestValueInBST2(tree, target) {
   // return a call to the helper function below
   return findClosestValueInBSTHelper(tree, target, tree.value);
 }
 
-function findClosestValueInBSTHelper(tree, target, closest) {
+function findClosestValueInBSTHelper2(tree, target, closest) {
   // grab the tree and store in variable currentNode
   let currentNode = tree;
   // keep looping so long as not at a leaf node/null
@@ -106,7 +106,7 @@ function findClosestValueInBSTHelper(tree, target, closest) {
 
 // class of the input tree
 
-class BST {
+class BST2 {
   constructor(value) {
     this.value = value;
     this.right = null;
