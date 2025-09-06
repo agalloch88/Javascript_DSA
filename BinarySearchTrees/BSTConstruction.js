@@ -136,7 +136,7 @@ class BST {
 
 // iterative solution with better space complexity as no frames on call stack
 
-class BST {
+class BST2 {
   constructor(value) {
     this.value = value;
     this.left = null;
