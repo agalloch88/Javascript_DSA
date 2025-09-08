@@ -101,7 +101,7 @@ function constructMinHeightBst(array, bst, startIdx, endIdx) {
 // O(n) time due to manual insert of n nodes
 // O(n) space due to constructing new BST of n nodes, at most n calls on call stack at a time
 
-class BST {
+class BST2 {
   constructor(value) {
     this.value = value;
     this.left = null;
@@ -132,12 +132,12 @@ class BST {
   }
 }
 
-function minHeightBst(array) {
+function minHeightBs2(array) {
   // return result of helper function which takes in the input array, value for the bst, the startIdx, and endIdx as params
   return constructMinHeightBst(array, null, 0, array.length - 1);
 }
 
-function constructMinHeightBst(array, bst, startIdx, endIdx) {
+function constructMinHeightBst2(array, bst, startIdx, endIdx) {
   // base case
   // when endIdx and startIdx cross, all done so return
   if (endIdx < startIdx) {
@@ -163,8 +163,8 @@ function constructMinHeightBst(array, bst, startIdx, endIdx) {
     }
   }
   // recursively call for left and right subtrees, then return final BST
-  constructMinHeightBst(array, bst, startIdx, midIdx - 1);
-  constructMinHeightBst(array, bst, midIdx + 1, endIdx);
+  constructMinHeightBst2(array, bst, startIdx, midIdx - 1);
+  constructMinHeightBst2(array, bst, midIdx + 1, endIdx);
   return bst;
 }
 
@@ -175,7 +175,7 @@ function constructMinHeightBst(array, bst, startIdx, endIdx) {
 // O(n) time due to manual insert of n nodes
 // O(n) space due to constructing new BST of n nodes, at most n calls on call stack at a time
 
-class BST {
+class BST3 {
   constructor(value) {
     this.value = value;
     this.left = null;
@@ -206,12 +206,12 @@ class BST {
   }
 }
 
-function minHeightBst(array) {
+function minHeightBst3(array) {
   // return result of helper function which takes in the input array, the startIdx, and endIdx as params
   return constructMinHeightBst(array, 0, array.length - 1);
 }
 
-function constructMinHeightBst(array, startIdx, endIdx) {
+function constructMinHeightBst3(array, startIdx, endIdx) {
   // base case
   // when start and end overlap, return null
   if (endIdx < startIdx) {
@@ -222,7 +222,7 @@ function constructMinHeightBst(array, startIdx, endIdx) {
   // set BST to the middle value in input as root
   let bst = new BST(array[midIdx]);
   // recursively set the left and right subtrees, then return the final BST
-  bst.left = constructMinHeightBst(array, startIdx, midIdx - 1);
-  bst.right = constructMinHeightBst(array, midIdx + 1, endIdx);
+  bst.left = constructMinHeightBst3(array, startIdx, midIdx - 1);
+  bst.right = constructMinHeightBst3(array, midIdx + 1, endIdx);
   return bst;
 }
