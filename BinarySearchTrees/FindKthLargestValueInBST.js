@@ -65,7 +65,7 @@ function inOrderTraverse(node, sortedNodeValues) {
 // O(h + k) time, where h is the height of the longest branch traversed to reach kth value
 // O(h) space due to recursively moving down up to the longest branch, and that h number of calls on call stack
 
-class BST {
+class BST2 {
   constructor(value) {
     this.value = value;
     this.left = null;
@@ -81,7 +81,7 @@ class TreeInfo {
   }
 }
 
-function findKthLargestValueInBST(tree, k) {
+function findKthLargestValueInBST2(tree, k) {
   // set up new TreeInfo with base values
   let treeInfo = new TreeInfo(0, -1);
   // recursively reverse In Order Traverse over tree to look for k
