@@ -85,7 +85,7 @@ function reconstructBST(preOrderTraversalValues) {
 // must factor in
 
 // class for BST nodes
-class BST {
+class BST2 {
   constructor(value) {
     this.value = value;
     this.left = left;
@@ -101,7 +101,7 @@ class TreeInfo {
 }
 
 // main function, which hands off to recursive helper
-function reconstructBST(preOrderTraversalValues) {
+function reconstructBST2(preOrderTraversalValues) {
   // set the main root node as the start point/rootIdx
   let treeInfo = new TreeInfo(0);
   // call to helper setting lower bound to -Infinity, upper bound to Infinity, so whatever values come next are valid
