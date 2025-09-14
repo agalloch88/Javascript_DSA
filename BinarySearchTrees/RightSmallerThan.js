@@ -52,7 +52,7 @@ function rightSmallerThan(array) {
 // O(n^2) time due to nested for loops
 // O(n) space due to returning new array of length n
 
-function rightSmallerThan(array) {
+function rightSmallerThan2(array) {
   // initialize variable rightSmallerCounts which will hold the answers for each index, and set equal to an empty array
   let rightSmallerCounts = [];
 
@@ -128,7 +128,7 @@ class SpecialBST {
 }
 
 // main function which takes in the input array of values
-function rightSmallerThan(array) {
+function rightSmallerThan3(array) {
   // edge case
   // handle if the input array is empty, and if so, simply return an empty array
   if (array.length === 0) {
@@ -177,7 +177,7 @@ function getRightSmallerCounts(bst, rightSmallerCounts) {
 // O(n) space due to returning rightSmallerCounts array of length n
 
 // modified BST class with additional leftSubtreeSize attribute
-class SpecialBST {
+class SpecialBST2 {
   constructor(value) {
     this.value = value;
     this.leftSubtreeSize = 0;
@@ -240,7 +240,7 @@ class SpecialBST {
 }
 
 // main function which takes in an array of values
-function rightSmallerThan(array) {
+function rightSmallerThan4(array) {
   // handle edge case
   // if the input array is empty, then simply return an empty array
   if (array.length === 0) {
