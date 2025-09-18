@@ -59,3 +59,25 @@ function validateBSTHelper(tree, minValue, maxValue) {
   // if left is true, then recursively check the right value
   return isLeftValid && validateBSTHelper(tree.right, tree.value, maxValue);
 }
+
+// Solution 2:
+
+class BST2 {
+  constructor(value) {
+    this.value = value;
+    this.left = null;
+    this.right = null;
+  }
+}
+
+function validateBST2(tree, min = -Infinity, max = Infinity) {
+  if (tree === null) {
+    return true;
+  }
+
+  if (tree.value < min || tree.value >= max) {
+    return false;
+  }
+
+  return validateBST(tree.left, min, tree.value) && validateBST2(tree.right, tree.value, max)
+}
