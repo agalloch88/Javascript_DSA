@@ -79,5 +79,8 @@ function validateBST2(tree, min = -Infinity, max = Infinity) {
     return false;
   }
 
-  return validateBST(tree.left, min, tree.value) && validateBST2(tree.right, tree.value, max)
+  return (
+    validateBST(tree.left, min, tree.value) &&
+    validateBST2(tree.right, tree.value, max)
+  );
 }
