@@ -92,7 +92,7 @@ function isDescendant(node, target) {
 // O(1) space due to simplified logic in helper
 
 // BST class, where every node has a value, and potentially a left/right pointer, or None/null
-class BST {
+class BST2 {
   constructor(value) {
     this.value = value;
     this.left = null;
@@ -101,17 +101,17 @@ class BST {
 }
 
 // main function taking in the three nodes to validate
-function validateThreeNodes(nodeOne, nodeTwo, nodeThree) {
+function validateThreeNodes2(nodeOne, nodeTwo, nodeThree) {
   // check via call to helper whether nodeOne is a descendant of nodeTwo, and if so, execute below
-  if (isDescendant(nodeTwo, nodeOne)) {
+  if (isDescendant2(nodeTwo, nodeOne)) {
     // return another call to helper to check whether nodeTwo is a descendant of nodeThree
-    return isDescendant(nodeThree, nodeTwo);
+    return isDescendant2(nodeThree, nodeTwo);
   }
 
   // check via call to helper whether nodeThree is a descendant of nodeTwo, and if so, execute below
-  if (isDescendant(nodeTwo, nodeThree)) {
+  if (isDescendant2(nodeTwo, nodeThree)) {
     // return another call to helper to check whether nodeTwo is a descendant of nodeOne
-    return isDescendant(nodeOne, nodeTwo);
+    return isDescendant2(nodeOne, nodeTwo);
   }
 
   // if neither blocks above return, then return false as cannot validate the three nodes
@@ -119,7 +119,7 @@ function validateThreeNodes(nodeOne, nodeTwo, nodeThree) {
 }
 
 // helper function taking in two inputs: a given node, and a target node based on the given node
-function isDescendant(node, target) {
+function isDescendant2(node, target) {
   // so long as node is not null AND the node is not equal to the target, keep looping
   while (node !== null && node !== target) {
     // set node equal to result from ternary checking whether value of target is less than value of node
@@ -140,7 +140,7 @@ function isDescendant(node, target) {
 // O(1) space since not using any recursive calls on the call stack
 
 // BST class, where every node has a value, and potentially a left/right pointer, or None/null
-class BST {
+class BST3 {
   constructor(value) {
     this.value = value;
     this.left = null;
@@ -149,7 +149,7 @@ class BST {
 }
 
 // main function taking in the three nodes to validate
-function validateThreeNodes(nodeOne, nodeTwo, nodeThree) {
+function validateThreeNodes3(nodeOne, nodeTwo, nodeThree) {
   // initialize two variables, searchOne and searchTwo, and set them equal to nodeOne and nodeThree, respectively
   // these variables will keep track of where in the BST the searches are individually
   let searchOne = nodeOne;
