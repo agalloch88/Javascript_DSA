@@ -95,7 +95,7 @@ function nodeDepths(node, depth = 0) {
 // O(h) space, where h is the height of the tree, due to that maximum number of calls on call stack
 
 // main BinaryTree class, where each node has a value, and potentially a left/right child node pointer
-class BinaryTree {
+class BinaryTree2 {
   construtor(value) {
     this.value = value;
     this.left = null;
@@ -104,7 +104,7 @@ class BinaryTree {
 }
 
 // main function which takes in a root node
-function allKindsOfNodeDepths(root) {
+function allKindsOfNodeDepths2(root) {
   // base case
   // check whether the root input is null, meaning tree is empty or beyond leaf nodes
   // if so, simply return 0
@@ -116,14 +116,14 @@ function allKindsOfNodeDepths(root) {
   // return recursive calls on left pointer of root PLUS right pointer of root, PLUS call
   // to nodeDepths helper function on root node
   return (
-    allKindsOfNodeDepths(root.left) +
-    allKindsOfNodeDepths(root.right) +
-    nodeDepths(root)
+    allKindsOfNodeDepths2(root.left) +
+    allKindsOfNodeDepths2(root.right) +
+    nodeDepths2(root)
   );
 }
 
 // helper function which calculates the depth on a given BinaryTree
-function nodeDepths(node, depth = 0) {
+function nodeDepths2(node, depth = 0) {
   // base case
   // check whether node is null, and if so, simply return 0
   if (node === null) {
@@ -134,7 +134,7 @@ function nodeDepths(node, depth = 0) {
   // return the current value of depth argument PLUS a recursive call on node's left pointer plus
   // depth + 1 and a recursive call on node's right pointer plus depth + 1
   return (
-    depth + nodeDepths(node.left, depth + 1) + nodeDepths(node.right, depth + 1)
+    depth + nodeDepths2(node.left, depth + 1) + nodeDepths2(node.right, depth + 1)
   );
 }
 
@@ -147,7 +147,7 @@ function nodeDepths(node, depth = 0) {
 // O(n) space due to storing extra attributes on each node
 
 // main BinaryTree class, where every node has a value, and potentially a left/right child pointer
-class BinaryTree {
+class BinaryTree3 {
   constructor(value) {
     this.value = value;
     this.left = null;
@@ -156,7 +156,7 @@ class BinaryTree {
 }
 
 // main function taking in root node of a Binary Tree
-function allKindsOfNodeDepths(root) {
+function allKindsOfNodeDepths3(root) {
   // first count the nodes, passing in root
   // next add the depths, passing in root
   // finally, return a call to sumAllNodeDepths to sum all the depths, passing in root, which will
@@ -241,7 +241,7 @@ function addNodeCounts(node) {
 // O(h) space due to not storing additional info, and at most h calls on call stack at a time
 
 // main BinaryTree class, where every node has a value and potential left/right child node pointer
-class BinaryTree {
+class BinaryTree4 {
   constructor(value) {
     this.value = value;
     this.left = null;
@@ -250,7 +250,7 @@ class BinaryTree {
 }
 
 // main function which takes in the root of a Binary Tree
-function allKindsOfNodeDepths(root) {
+function allKindsOfNodeDepths4(root) {
   // simply return a call to helper function, passing in root node, and accessing the
   // sumOfAllDepths property to access final answer
   return getTreeInfo(root).sumOfAllDepths;
@@ -313,7 +313,7 @@ function getTreeInfo(tree) {
 // O(h) space due to at max h calls on call stack when recursing down subtree
 
 // main BinaryTree class, where every node has a value, and potentially a left/right child node pointer
-class BinaryTree {
+class BinaryTree5 {
   constructor(value) {
     this.value = value;
     this.left = left;
@@ -322,7 +322,7 @@ class BinaryTree {
 }
 
 // main function which takes in a root node of a BinaryTree, plus adding a depthSum and depth tracker argument
-function allKindsOfNodeDepths(root, depthSum = 0, depth = 0) {
+function allKindsOfNodeDepths5(root, depthSum = 0, depth = 0) {
   // base case
   // if there is no root node, or the tree is empty, then simply return 0
   if (!root) {
@@ -337,8 +337,8 @@ function allKindsOfNodeDepths(root, depthSum = 0, depth = 0) {
   // PLUS a recursive call to root.right, incrementing the depth by 1
   return (
     depthSum +
-    allKindsOfNodeDepths(root.left, depthSum, depth + 1) +
-    allKindsOfNodeDepths(root.right, depthSum, depth + 1)
+    allKindsOfNodeDepths5(root.left, depthSum, depth + 1) +
+    allKindsOfNodeDepths5(root.right, depthSum, depth + 1)
   );
 }
 
@@ -350,7 +350,7 @@ function allKindsOfNodeDepths(root, depthSum = 0, depth = 0) {
 // O(h) space due to at most h calls on call stack during trace down subtree
 
 // main BinaryTree class, where every node has a value, and potentially a left/right child node pointer
-class BinaryTree {
+class BinaryTree6 {
   constructor(value) {
     this.value = value;
     this.left = null;
@@ -359,7 +359,7 @@ class BinaryTree {
 }
 
 // main function which takes in the root node of a BinaryTree, with an added argument of depth initialized to 0
-function allKindsOfNodeDepths(root, depth = 0) {
+function allKindsOfNodeDepths6(root, depth = 0) {
   // base case
   // if no root node because tree is empty or beyond a leaf node, simply return 0
   if (!root) {
@@ -372,7 +372,7 @@ function allKindsOfNodeDepths(root, depth = 0) {
   // return the current value for depthSum, PLUS a recursive call to root.left with depth incremented by 1 PLUS a recursive call to root.right with depth incremented by 1
   return (
     depthSum +
-    allKindsOfNodeDepths(root.left, depth + 1) +
-    allKindsOfNodeDepths(root.right, root + 1)
+    allKindsOfNodeDepths6(root.left, depth + 1) +
+    allKindsOfNodeDepths6(root.right, root + 1)
   );
 }
