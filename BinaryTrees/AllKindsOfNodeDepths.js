@@ -134,7 +134,9 @@ function nodeDepths2(node, depth = 0) {
   // return the current value of depth argument PLUS a recursive call on node's left pointer plus
   // depth + 1 and a recursive call on node's right pointer plus depth + 1
   return (
-    depth + nodeDepths2(node.left, depth + 1) + nodeDepths2(node.right, depth + 1)
+    depth +
+    nodeDepths2(node.left, depth + 1) +
+    nodeDepths2(node.right, depth + 1)
   );
 }
 
