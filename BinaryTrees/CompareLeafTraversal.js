@@ -107,7 +107,7 @@ function leafTraversal(root, leaves) {
 // O(h1 + h2) space since at most will have amount of nodes equal to each tree's height on stack at a time
 
 // main BinaryTree class, where every node has a value and potentially a left/right child node pointer
-class BinaryTree {
+class BinaryTree2 {
   constructor(value) {
     this.value = value;
     this.left = null;
@@ -116,7 +116,7 @@ class BinaryTree {
 }
 
 // main function which takes in two binary trees
-function compareLeafTraversal(tree1, tree2) {
+function compareLeafTraversal2(tree1, tree2) {
   // initialize tree1TraversalStack and tree2TraversalStack variables to store the respective stacks, starting with the root node of each tree
   let tree1TraversalStack = [tree1];
   let tree2TraversalStack = [tree2];
@@ -176,7 +176,7 @@ function isLeafNode(node) {
 // O(max(h1, h2)) space due to having at most h1 or h2 calls on call stack at any given point, depending on height of tallest binary tree
 
 // main BinaryTree class, where every node has a value and potentially a left/right child node pointer
-class BinaryTree {
+class BinaryTree3 {
   constructor(value) {
     this.value = value;
     this.left = null;
@@ -185,7 +185,7 @@ class BinaryTree {
 }
 
 // main function which takes in the two binary trees
-function compareLeafTraversal(tree1, tree2) {
+function compareLeafTraversal3(tree1, tree2) {
   // destructure the return from call to connectLeadNodes for tree1 into tree1LeafNodesLinkedList and throwaway _1 value
   let [tree1LeafNodesLinkedList, _1] = connectLeafNodes(tree1);
   // destructure the return from call to connectLeadNodes for tree2 into tree2LeafNodesLinkedList and throwaway _2 value
@@ -244,6 +244,6 @@ function connectLeafNodes(currentNode, head = null, previousNode = null) {
 }
 
 // helper function to determine whether a given node is a leaf based on whether the node has no left AND no right pointer
-function isLeafNode(node) {
+function isLeafNode3(node) {
   return node.left === null && node.right === null;
 }
