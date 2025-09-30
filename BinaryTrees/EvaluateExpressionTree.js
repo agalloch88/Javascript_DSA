@@ -8,7 +8,7 @@
 // * -1: Addition operator, adding the left and right subtrees.
 // * -2: Subtraction operator, subtracting the right subtree from the left subtree.
 // * -3: Division operator, dividing the left subtree by the right subtree. If the result
-//       is a decimal, it should be rounded toward zero.
+// *     is a decimal, it should be rounded toward zero.
 // * -4: Multiplication operator, multiplying the left and right subtrees.
 
 // For the purposes of the problem, assume the tree will always be a valid expression tree.
