@@ -152,7 +152,7 @@ function breadthFirstSearchForNodesDistanceK(targetNode, nodesToParents, k) {
 // O(n) space due to at most n calls on call stack at once in worst-case linear binary tree
 
 // main Binary Tree class, with every node having a value, and potentially a left and/or right pointer to child nodes
-class BinaryTree {
+class BinaryTree2 {
   constructor(value) {
     this.value = value;
     this.right = null;
@@ -161,7 +161,7 @@ class BinaryTree {
 }
 
 // main function taking in the input tree, target, and k
-function findNodesDistanceK(tree, target, k) {
+function findNodesDistanceK2(tree, target, k) {
   // initialize variable nodesDistanceK to hold answer, and set equal to empty array at the outset
   let nodesDistanceK = [];
   // call helper function findDistanceFromNodeToTarget, and pass in the tree, target, k, and nodesDistanceK answer array
