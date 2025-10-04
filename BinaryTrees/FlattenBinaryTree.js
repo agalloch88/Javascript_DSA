@@ -90,7 +90,7 @@ function getNodesInOrder(tree, array) {
 // O(d) time due to at most d nodes on call stack at once, where d is the depth of the tree
 
 // main BinaryTree class, where every node has a value, and potentially a left/right pointer
-class BinaryTree {
+class BinaryTree2 {
   constructor(value) {
     this.value = value;
     this.left = null;
@@ -99,7 +99,7 @@ class BinaryTree {
 }
 
 // main function which takes in the root of the BinaryTree to flatten
-function flattenBinaryTree(root) {
+function flattenBinaryTree2(root) {
   // destructure leftMost, and empty variable, and set equal to the return value of flattenTree helper passing in the root node
   let [leftMost, _] = flattenTree(root);
   // return the leftMost value as the problem requires
