@@ -68,7 +68,7 @@ function swapLeftAndRight(tree) {
 // O(n) time due to visiting n nodes.
 // O(d) space since storing at most d frames on call stack, where d is depth of longest branch in tree.
 
-class BinaryTree {
+class BinaryTree2 {
   constructor(value) {
     this.value = value;
     this.left = null;
@@ -76,7 +76,7 @@ class BinaryTree {
   }
 }
 
-function invertBinaryTree(tree) {
+function invertBinaryTree2(tree) {
   // base case
   if (tree === null) {
     return;
@@ -88,7 +88,7 @@ function invertBinaryTree(tree) {
   invertBinaryTree(tree.right);
 }
 
-function swapLeftAndRight(tree) {
+function swapLeftAndRight2(tree) {
   let left = tree.left;
   tree.left = tree.right;
   tree.right = left;
