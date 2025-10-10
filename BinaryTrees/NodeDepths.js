@@ -62,7 +62,7 @@ function nodeDepths(root) {
 // O(h) space, where h is the height of the Binary Tree, due to having at most h calls on call stack at once
 
 // main BinaryTree class, where every node has a value, and potentially a left/right pointer
-class BinaryTree {
+class BinaryTree2 {
   constructor(value) {
     this.value = value;
     this.right = null;
@@ -72,7 +72,7 @@ class BinaryTree {
 
 // main function which takes in a BinaryTree root node, and adding another argument depth
 // to track how deep a given call goes
-function nodeDepths(root, depth = 0) {
+function nodeDepths2(root, depth = 0) {
   // base case
   // check whether root is null, meaning the tree is empty OR hit a leaf node, and if so, return 0
   if (root === null) {
