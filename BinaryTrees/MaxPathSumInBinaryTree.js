@@ -71,7 +71,7 @@ function findMaxSum(tree) {
 // O(n) time due to checking n nodes in tree
 // O(log (n)) space due to recursive calls on call stack
 
-function maxPathSum(tree) {
+function maxPathSum2(tree) {
   // set variable max equal to -Infinity to handle any possible value, including negatives
   let max = -Infinity;
   // set up call to dfs function, passing in tree
