@@ -68,7 +68,7 @@ function mergeBinaryTrees(tree1, tree2) {
 // O(h) space, where h is the height of the smaller tree, as there will be at most h items in each stack at a given time
 
 // base BinaryTree class, where every node has a value, and potentially a left/right pointer
-class BinaryTree {
+class BinaryTree2 {
   constructor(value) {
     this.value = value;
     this.left = null;
@@ -76,7 +76,7 @@ class BinaryTree {
   }
 }
 // main function which takes in the two binary trees
-function mergeBinaryTrees(tree1, tree2) {
+function mergeBinaryTrees2(tree1, tree2) {
   // edge case check to see if tree1 is null, and in that case, return tree2
   if (tree1 === null) {
     return tree2;
