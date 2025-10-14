@@ -54,7 +54,7 @@ function treesAreMirrored(left, right) {
 
 // Solution 2:
 
-class BinaryTree {
+class BinaryTree2 {
   constructor(value) {
     this.value = value;
     this.left = null;
@@ -62,7 +62,7 @@ class BinaryTree {
   }
 }
 
-function symmetricalTree(tree) {
+function symmetricalTree2(tree) {
   let stackLeft = [tree.left];
   let stackRight = [tree.right];
 
