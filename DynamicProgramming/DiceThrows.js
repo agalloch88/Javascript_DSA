@@ -89,7 +89,7 @@ function diceThrowsHelper(numDice, numSides, target, storedResults) {
 // and for each combination, we iterate over the number of sides on the dice (numSides).
 // Thus, the time complexity is O(numDice * target * numSides).
 
-function diceThrows(numDice, numSides, target) {
+function diceThrows2(numDice, numSides, target) {
   // Create a 2D array to store the results of subproblems
   // storedResults[d][t] will be the number of ways to achieve target 't' using 'd' dice
   let storedResults = new Array(numDice + 1)
@@ -133,7 +133,7 @@ function diceThrows(numDice, numSides, target) {
 // and for each combination, we iterate over the number of sides on the dice (numSides).
 // Thus, the time complexity is O(numDice * target * numSides).
 
-function diceThrows(numDice, numSides, target) {
+function diceThrows3(numDice, numSides, target) {
   // Initialize two arrays to store the results of subproblems for two consecutive numbers of dice
   // Each array has dimensions (target + 1)
   let storedResults = [
