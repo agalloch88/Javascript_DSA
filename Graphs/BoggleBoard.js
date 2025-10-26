@@ -30,5 +30,3 @@
 // note that words may be ordered differently
 
 // Solution 1:
-
-

@@ -67,7 +67,7 @@ function juiceBottling(prices) {
 // optimized solution which relies on the dividingPoints rather than building out the whole solutions array
 // and concatenating at every iteration of internal for loop
 
-function juiceBottling(prices) {
+function juiceBottling2(prices) {
   // initialize variable numSizes to set how many possible
   // sizes there may be, and set equal to the length of the prices input
   let numSizes = prices.length;
