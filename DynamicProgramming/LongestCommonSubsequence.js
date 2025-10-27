@@ -69,7 +69,7 @@ function longestCommonSubsequence(str1, str2) {
 // comparing to potentially N or M values, depending on what is smaller
 // O((min(N, M)) ^2) space due to storing additional arrays
 
-function longestCommonSubsequence(str1, str2) {
+function longestCommonSubsequence2(str1, str2) {
   // initialize variable small and set equal to ternary result of whether str1 is smaller than str2
   let small = str1.length < str2.length ? str1 : str2;
   // initialize variable big and set equal to ternary result of whether str1 is greater than or equal to str2
@@ -119,7 +119,7 @@ function longestCommonSubsequence(str1, str2) {
 // O(NM) time due to only going over the two strings
 // O(NM) space due to reducing storage to lcs, row, and the entry array
 
-function longestCommonSubsequence(str1, str2) {
+function longestCommonSubsequence3(str1, str2) {
   // initialize variable lcs and set equal to empty array
   let lcs = [];
   // iterate over str2 values plus 1 for empty string
@@ -198,7 +198,7 @@ function buildSequence(lcs) {
 // O(nm) space due to spot a 2D array for n * m values
 
 // main function which takes in str1 and str2 as inputs
-function longestCommonSubsequence(str1, str2) {
+function longestCommonSubsequence4(str1, str2) {
   // initialize variable lengths and set equal to empty array
   let lengths = [];
   // iterate over values in str2 plus 1
@@ -221,11 +221,11 @@ function longestCommonSubsequence(str1, str2) {
     }
   }
   // return the result from a call to helper function build sequence, passing in the lengths array and str1 values
-  return buildSequence(lengths, str1);
+  return buildSequence2(lengths, str1);
 }
 
 // helper function which takes in the lengths array, and another string
-function buildSequence(lengths, string) {
+function buildSequence2(lengths, string) {
   // initialize variable sequence, and set equal to an empty array
   let sequence = [];
   // initialize variable i, and set equal to the last value in lengths array
