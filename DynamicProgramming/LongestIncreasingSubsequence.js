@@ -82,7 +82,7 @@ function buildSequence(array, sequences, currentIdx) {
 // O(n log(n)) time due to binary search running on each value in the input array
 // O(n) space due to storing the sequences, indices, and buildSequence values
 
-function longestIncreasingSubsequence(array) {
+function longestIncreasingSubsequence2(array) {
   // `sequences` tracks the previous indices to rebuild the subsequence
   let sequences = new Array(array.length);
 
@@ -131,7 +131,7 @@ function binarySearch(startIdx, endIdx, indices, array, num) {
   return binarySearch(startIdx, endIdx, indices, array, num);
 }
 
-function buildSequence(array, sequences, currentIdx) {
+function buildSequence2(array, sequences, currentIdx) {
   let sequence = [];
 
   // Follow `sequences` array to build the actual subsequence from the end to the start
