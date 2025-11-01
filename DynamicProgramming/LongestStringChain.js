@@ -117,14 +117,14 @@ function buildLongestStringChain(strings, stringChains) {
 // O(n * m^2) time due to checking n words for m characters, then rebuilding the longest chain
 // O(n + m) space accounting for the memoization of n words and set of n strings, plus recursive calls
 
-function longestStringChain(strings) {
+function longestStringChain2(strings) {
   // Memoization map to store the maximum chain length for each string
   let memo = {};
   let stringSet = new Set(strings); // Use a set for O(1) lookups
   let longestChain = []; // To store the final chain
 
   // Helper function to find the maximum chain length starting from a word
-  function findLongestStringChain(word) {
+  function findLongestStringChain2(word) {
     if (memo[word]) return memo[word]; // Return memoized result if available
 
     let maxLength = 1; // Minimum chain length is 1 (the word itself)
@@ -149,7 +149,7 @@ function longestStringChain(strings) {
   let chainStart = null;
 
   for (let word of strings) {
-    let chainLength = findLongestStringChain(word); // Find chain length for the word
+    let chainLength = findLongestStringChain2(word); // Find chain length for the word
     if (chainLength > globalMax) {
       globalMax = chainLength; // Update global maximum chain length
       chainStart = word; // Update starting word for the longest chain
