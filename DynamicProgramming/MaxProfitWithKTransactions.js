@@ -75,7 +75,7 @@ function maxProfitWithKTransactions(prices, k) {
 // O(nk) time for running each transaction k times and each day n times
 // O(n) space due to only storing two arrays of n, so 2n reduces to n
 
-function maxProfitWithKTransactions(prices, k) {
+function maxProfitWithKTransactions2(prices, k) {
   // If there are no prices, we can't make any profit.
   if (!prices.length) {
     return 0;
