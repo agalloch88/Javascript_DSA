@@ -45,7 +45,7 @@ function maxSubsetSumNoAdjacent(array) {
 // O(n) time due to iterating over all values in input array once
 // O(1) space due to only storing a few variables
 
-function maxSubsetSumNoAdjacent(array) {
+function maxSubsetSumNoAdjacent2(array) {
   // handle edge case of an empty input array, which instructions say should result in return of 0
   if (!array.length) {
     return 0;
