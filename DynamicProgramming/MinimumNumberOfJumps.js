@@ -45,7 +45,7 @@ function minNumberOfJumps(array) {
 // O(n) time due to iterating over n values once
 // O(1) space due to only storing a few values
 
-function minNumberOfJumps(array) {
+function minNumberOfJumps2(array) {
   // handle edge case of a single-value input array, which should return 0 min jumps
   if (array.length === 1) {
     return 0;
