@@ -71,7 +71,7 @@ function evaluateExpression(a, b, c, d) {
 // O(n) time due to looping over all n inputs
 // O(n) space due to storing n values from input
 
-function maximizeExpression(array) {
+function maximizeExpression2(array) {
   // handle edge case of less than 4 values in input, in which case return 0
   if (array.length < 4) {
     return 0;
@@ -132,7 +132,7 @@ function maximizeExpression(array) {
 // O(n) time due to looping over all n inputs once
 // O(1) space due to only storing a few variables and not using additional data structures
 
-function maximizeExpression(array) {
+function maximizeExpression3(array) {
   // handle edge case of less than 4 values in input, in which case return 0
   if (array.length < 4) {
     return 0;
