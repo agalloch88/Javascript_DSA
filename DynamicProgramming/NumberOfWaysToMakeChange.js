@@ -43,7 +43,7 @@ function numberOfWaysToMakeChange(n, denoms) {
 // O(n * c) time, where c is the number of coins given and have to iterate over n items in amount from 0 to amount
 // O(n) space due to new array, plus call stack space, 2n coverges to n
 
-function numberOfWaysToMakeChange(amount, coins) {
+function numberOfWaysToMakeChange2(amount, coins) {
   // top-down approach
   function recursion(index, amount, coins, memo) {
     // base cases
