@@ -50,7 +50,7 @@ function numberOfWaysToTraverseGraph(width, height) {
 // O(w * h) time due to looking at every node, where w is the width and h is the height of the graph
 // O(w * h) space due to constructing new 2D array with numberOfWays
 
-function numberOfWaysToTraverseGraph(width, height) {
+function numberOfWaysToTraverseGraph2(width, height) {
   // create new 2D array, fill with 0's initially
   let numberOfWays = [];
   for (let i = 0; i < height + 1; i++) {
@@ -85,7 +85,7 @@ function numberOfWaysToTraverseGraph(width, height) {
 // O(w + h) time due to calculating value for bottom right corner
 // O(1) space due to only calculating, storing a few variables
 
-function numberOfWaysToTraverseGraph(width, height) {
+function numberOfWaysToTraverseGraph3(width, height) {
   // find the x and y for bottom right corner
   let xDistanceToCorner = width - 1;
   let yDistanceToCorner = height - 1;
@@ -116,7 +116,7 @@ function factorial(num) {
 // O(w * h) space due to potentially up to w * h items in stack at a given time
 
 // add two new parameters to func, x and y, to keep track of coordinates and replace need for 2D matrix
-function numberOfWaysToTraverseGraph(width, height, x = 0, y = 0) {
+function numberOfWaysToTraverseGraph4(width, height, x = 0, y = 0) {
   // initialize empty stack as solution uses DFS
   let stack = [];
   // push coordinates for starting position, top left, into stack
