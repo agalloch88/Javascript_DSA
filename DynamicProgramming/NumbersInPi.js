@@ -83,7 +83,7 @@ function getMinSpaces(pi, numbersTable, cache, idx) {
 // O(n + m) space due to storing the JS object cache etc
 
 // main function, taking in the input string pi and array of number strings
-function numbersInPi(pi, numbers) {
+function numbersInPi2(pi, numbers) {
   // initialize variable numbersTable and set equal to an empty JS object
   let numbersTable = {};
 
@@ -99,14 +99,14 @@ function numbersInPi(pi, numbers) {
   // start iterative over pi string, starting at the end and working toward the start
   for (let i = pi.length - 1; i >= 0; i--) {
     // at every iteration, call getMinStapces helper function, passing in the pi input, the current numbersTable JS object, the cache, and the current value for i
-    getMinSpaces(pi, numbersTable, cache, i);
+    getMinSpaces2(pi, numbersTable, cache, i);
   }
   // return the result of a ternary checking whether the value at index 0 in the cache is Infinity, which should return -1 if so, and otherwise returning the value at index 0 in cache as the answer
   return cache[0] === Infinity ? -1 : cache[0];
 }
 
 // helper function to find the minimum spaces, taking in the pi input string, numbersTable JS object, the cache JS object, and a given idx value
-function getMinSpaces(pi, numbersTable, cache, idx) {
+function getMinSpaces2(pi, numbersTable, cache, idx) {
   // base case
   // check whether the current value for idx is equal to the length of pi, which would indicate done checking, and if so, return -1
   if (idx === pi.length) {
@@ -130,7 +130,7 @@ function getMinSpaces(pi, numbersTable, cache, idx) {
     // check whether the current prefix exists in the numbersTable as one of the "favorite numbers" to isolate, and if so, execute below
     if (prefix in numbersTable) {
       // intialize variable minSpacesInSuffix and set equal to recursive return value from getMinSpaces helper
-      let minSpacesInSuffix = getMinSpaces(pi, numbersTable, cache, i + 1);
+      let minSpacesInSuffix = getMinSpaces2(pi, numbersTable, cache, i + 1);
       // set minSpaces equal to the minimum between existing value of minSpaces, OR minSpacesInSuffix plus 1
       minSpaces = Math.min(minSpaces, minSpacesInSuffix + 1);
     }
@@ -148,7 +148,7 @@ function getMinSpaces(pi, numbersTable, cache, idx) {
 // O(n^2 * m) time due to running n x m loops, plus the startsWith() method which is at worst O(n), so simplifies to n^2 * m
 // O(n) space due to storing result array
 
-function numbersInPi(pi, numbers) {
+function numbersInPi3(pi, numbers) {
   // initialize variable result, and set equal to a new Array object the same length as the pi input plus one, to account for segmenting the entire string, and filled will null values at each position
   let result = new Array(pi.length + 1).fill(null);
 
