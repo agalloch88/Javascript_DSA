@@ -81,7 +81,7 @@ function isPalindrome(string) {
 // O(n^2) time due to filling 2D array with nested for loops and calculating minimum cuts
 // O(n^2) space due to storing 2D array of string possibilities
 
-function palindromePartitioningMinCuts(string) {
+function palindromePartitioningMinCuts2(string) {
   // Initialize a 2D array `palindromes` where palindromes[i][j] is true if substring(i, j) is a palindrome
   let palindromes = [];
 
