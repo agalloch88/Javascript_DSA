@@ -101,7 +101,7 @@ function isSquareOfZeroes(matrix, r1, c1, r2, c2) {
 // O(n^4) time due to nested for loops and all n^2 potential squares
 // O(1) space since not storing anything other than a few variables
 
-function squareOfZeroes(matrix) {
+function squareOfZeroes2(matrix) {
   let n = matrix.length; // Dimension of the matrix
 
   // Iterate through all possible top-left corners of squares
@@ -115,7 +115,7 @@ function squareOfZeroes(matrix) {
         let rightCol = leftCol + squareLength - 1; // Right boundary of the square
 
         // Check if the current square is made entirely of zeroes
-        if (isSquareOfZeroes(matrix, topRow, leftCol, bottomRow, rightCol)) {
+        if (isSquareOfZeroes2(matrix, topRow, leftCol, bottomRow, rightCol)) {
           return true; // Return true if a square of zeroes is found
         }
 
@@ -126,7 +126,7 @@ function squareOfZeroes(matrix) {
   return false; // Return false if no square of zeroes is found
 }
 
-function isSquareOfZeroes(matrix, r1, c1, r2, c2) {
+function isSquareOfZeroes2(matrix, r1, c1, r2, c2) {
   // Check all rows on the left and right borders of the square
   for (let row = r1; row < r2 + 1; row++) {
     if (matrix[row][c1] !== 0 || matrix[row][c2] !== 0) {
@@ -151,16 +151,16 @@ function isSquareOfZeroes(matrix, r1, c1, r2, c2) {
 // O(n^3) time due to iterating over all n^2 cells of matrix and recurisve decomposition
 // O(n^3) space due to storing the infoMatrix, caching, and the recursive call stack
 
-function squareOfZeroes(matrix) {
+function squareOfZeroes3(matrix) {
   // Precompute information about contiguous zero counts in the matrix
   let infoMatrix = preComputeNumOfZeroes(matrix);
   let lastIdx = matrix.length - 1;
 
   // Check if any square of zeroes exists using the precomputed information
-  return hasSquareOfZeroes(infoMatrix, 0, 0, lastIdx, lastIdx, {});
+  return hasSquareOfZeroes2(infoMatrix, 0, 0, lastIdx, lastIdx, {});
 }
 
-function hasSquareOfZeroes(infoMatrix, r1, c1, r2, c2, cache) {
+function hasSquareOfZeroes2(infoMatrix, r1, c1, r2, c2, cache) {
   // Base case: If the square becomes invalid (non-square), return false
   if (r1 >= r2 || c1 >= c2) {
     return false;
@@ -183,17 +183,17 @@ function hasSquareOfZeroes(infoMatrix, r1, c1, r2, c2, cache) {
 
   // Check if the current region is a square of zeroes or recursively check smaller squares
   cache[key] =
-    isSquareOfZeroes(infoMatrix, r1, c1, r2, c2) ||
-    hasSquareOfZeroes(infoMatrix, r1 + 1, c1 + 1, r2 - 1, c2 - 1, cache) || // Inner square
-    hasSquareOfZeroes(infoMatrix, r1, c1 + 1, r2 - 1, c2, cache) || // Top-left to bottom-right diagonal reduction
-    hasSquareOfZeroes(infoMatrix, r1 + 1, c1, r2, c2 - 1, cache) || // Bottom-left to top-right diagonal reduction
-    hasSquareOfZeroes(infoMatrix, r1 + 1, c1 + 1, r2, c2, cache) || // Trim top-left
-    hasSquareOfZeroes(infoMatrix, r1, c1, r2 - 1, c2 - 1, cache); // Trim bottom-right
+    isSquareOfZeroes3(infoMatrix, r1, c1, r2, c2) ||
+    hasSquareOfZeroes2(infoMatrix, r1 + 1, c1 + 1, r2 - 1, c2 - 1, cache) || // Inner square
+    hasSquareOfZeroes2(infoMatrix, r1, c1 + 1, r2 - 1, c2, cache) || // Top-left to bottom-right diagonal reduction
+    hasSquareOfZeroes2(infoMatrix, r1 + 1, c1, r2, c2 - 1, cache) || // Bottom-left to top-right diagonal reduction
+    hasSquareOfZeroes2(infoMatrix, r1 + 1, c1 + 1, r2, c2, cache) || // Trim top-left
+    hasSquareOfZeroes2(infoMatrix, r1, c1, r2 - 1, c2 - 1, cache); // Trim bottom-right
 
   return cache[key];
 }
 
-function isSquareOfZeroes(infoMatrix, r1, c1, r2, c2) {
+function isSquareOfZeroes3(infoMatrix, r1, c1, r2, c2) {
   let squareLength = c2 - c1 + 1; // Length of the square's side
 
   // Check if all borders of the square have enough contiguous zeroes
@@ -245,9 +245,9 @@ function preComputeNumOfZeroes(matrix) {
 // O(n^3) time due to preprocessing and iteratively searching for the square, if it exists
 // O(n^2) space due to storing the infoMatrix, but improved space complexity due to no recursion
 
-function squareOfZeroes(matrix) {
+function squareOfZeroes4(matrix) {
   // Precompute information about contiguous zero counts in the matrix
-  let infoMatrix = preComputeNumOfZeroes(matrix);
+  let infoMatrix = preComputeNumOfZeroes2(matrix);
   let n = matrix.length; // Size of the matrix
 
   // Iterate through all possible top-left corners of squares
@@ -262,7 +262,7 @@ function squareOfZeroes(matrix) {
 
         // Check if the current square is made entirely of zeroes
         if (
-          isSquareOfZeroes(infoMatrix, topRow, leftCol, bottomRow, rightCol)
+          isSquareOfZeroes4(infoMatrix, topRow, leftCol, bottomRow, rightCol)
         ) {
           return true; // Return true if a square of zeroes is found
         }
@@ -274,7 +274,7 @@ function squareOfZeroes(matrix) {
   return false; // Return false if no square of zeroes is found
 }
 
-function isSquareOfZeroes(infoMatrix, r1, c1, r2, c2) {
+function isSquareOfZeroes4(infoMatrix, r1, c1, r2, c2) {
   let squareLength = c2 - c1 + 1; // Length of the square's side
 
   // Check if all borders of the square have enough contiguous zeroes
@@ -286,7 +286,7 @@ function isSquareOfZeroes(infoMatrix, r1, c1, r2, c2) {
   return hasTopBorder && hasLeftBorder && hasBottomBorder && hasRightBorder;
 }
 
-function preComputeNumOfZeroes(matrix) {
+function preComputeNumOfZeroes2(matrix) {
   // Create a matrix to store the number of contiguous zeroes below and to the right of each cell
   let infoMatrix = matrix.map((row) =>
     row.map((value) => {
