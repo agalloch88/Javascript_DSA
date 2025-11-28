@@ -71,7 +71,7 @@ function waterArea(heights) {
 // O(n) time due to making one pass over all inputs, starting from start and end of input and working inward
 // O(1) space due to only storing 5 variables rather than array of n inputs from heights
 
-function waterArea(heights) {
+function waterArea2(heights) {
   // handle edge case of empty input, in which case should return 0
   if (heights.length === 0) {
     return 0;
