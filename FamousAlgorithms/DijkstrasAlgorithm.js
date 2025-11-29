@@ -239,7 +239,7 @@ class MinHeap {
 }
 
 // main function which takes in the start and edges array
-function dijkstrasAlgorithm(start, edges) {
+function dijkstrasAlgorithm2(start, edges) {
   // initialize variable numberOfVertices, and set equal to the length of edges
   let numberOfVertices = edges.length;
   // initialize variable minDistances, and set equal to empty array
