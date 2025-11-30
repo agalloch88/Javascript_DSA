@@ -89,7 +89,7 @@ class UnionFind {
 // solution utilizing two objects to keep track of node parents and relative ranks, or heights, of nodes in a given tree
 
 // main UnionFind class, with required createSet, find, and union methods, along with two objects in constructor
-class UnionFind {
+class UnionFind2 {
   constructor(value) {
     this.parents = {};
     this.ranks = {};
@@ -159,7 +159,7 @@ class UnionFind {
 // solution utilizing two objects to keep track of node parents and relative ranks, or heights, of nodes in a given tree, slightly optimized via the find method
 
 // main UnionFind class, with required createSet, find, and union methods, along with two objects in constructor
-class UnionFind {
+class UnionFind3 {
   constructor(value) {
     this.parents = {};
     this.ranks = {};
