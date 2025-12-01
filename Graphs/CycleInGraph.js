@@ -100,7 +100,7 @@ function isNodeInCycle(node, edges, visited, currentlyInStack) {
 // set up variables for coloring nodes: White = unvisited, grey = currently traversing, black = traversed
 let [WHITE, GREY, BLACK] = [0, 1, 2];
 
-function cycleInGraph(edges) {
+function cycleInGraph2(edges) {
   // grab total number of nodes
   let numberOfNodes = edges.length;
   // set up new colors array for length of numberOfNodes, color all nodes white at start
