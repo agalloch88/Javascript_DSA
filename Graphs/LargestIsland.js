@@ -115,7 +115,7 @@ function getLandNeighbors(row, col, matrix) {
 // O(w * h) space due to storing arrays, set of values
 
 // main function which takes in the input matrix
-function largestIsland(matrix) {
+function largestIsland2(matrix) {
   // initialize variable islandSizes and set equal to empty array
   let islandSizes = [];
   // initialize variable to islandNumber, and set equal to 2 at outset
@@ -168,7 +168,7 @@ function largestIsland(matrix) {
 }
 
 // helper function which determines total connected size of an island from one initial node
-function getSizeFromNode(row, col, matrix, islandNumber) {
+function getSizeFromNode2(row, col, matrix, islandNumber) {
   // initialize variable size, and set equal to 0 at outset
   let size = 0;
   // initialize variable nodesToExplore, which will contain all the nodes to check left, and set equal to an array populated with the passed in row and col
@@ -195,7 +195,7 @@ function getSizeFromNode(row, col, matrix, islandNumber) {
 }
 
 // helper function which finds neighboring land nodes from a specific coordinate pair
-function getLandNeighbors(row, col, matrix) {
+function getLandNeighbors2(row, col, matrix) {
   // initialize variable landNeighbors, and set equal to an empty array to hold coordinate row/col pairs
   let landNeighbors = [];
   // LOOK UP
