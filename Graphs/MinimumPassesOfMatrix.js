@@ -190,16 +190,16 @@ function containsNegative(matrix) {
 // O(w * h) time complexity where w is width and h is height of matrix, plus O(n) shift operations, where 2n converges to O(n)
 // O(w * h) space due to using queue, etc
 
-function minimumPassesOfMatrix(matrix) {
+function minimumPassesOfMatrix2(matrix) {
   // set variable to result of passes of helper function, which converts negatives at each pass
-  let passes = convertNegatives(matrix);
+  let passes = convertNegatives2(matrix);
   // return result of check to see if any negatives remain
-  return !containsNegative(matrix) ? passes - 1 : -1;
+  return !containsNegative2(matrix) ? passes - 1 : -1;
 }
 
-function convertNegatives(matrix) {
+function convertNegatives2(matrix) {
   // create queue for results of all positive positions
-  let queue = getAllPositivePositions(matrix);
+  let queue = getAllPositivePositions2(matrix);
   // create variable for how many passes/iterations through matrix occur
   let passes = 0;
   // while there are items in the queue, do stuff
@@ -211,7 +211,7 @@ function convertNegatives(matrix) {
       // shift front item out of queue and deconstruct to grab row/col position
       let [currentRow, currentCol] = queue.shift();
       // store adjacent positions in variable coming back from helper
-      let adjacentPositions = getAdjacentPositions(
+      let adjacentPositions = getAdjacentPositions2(
         currentRow,
         currentCol,
         matrix,
@@ -238,7 +238,7 @@ function convertNegatives(matrix) {
   return passes;
 }
 
-function getAllPositivePositions(matrix) {
+function getAllPositivePositions2(matrix) {
   // set up holder array to find all positive integer positions
   let positivePositions = [];
   // for every item in the matrix, will check to see if positive
@@ -256,7 +256,7 @@ function getAllPositivePositions(matrix) {
   return positivePositions;
 }
 
-function getAdjacentPositions(row, col, matrix) {
+function getAdjacentPositions2(row, col, matrix) {
   // create holder array for valid adjacent items
   let adjacentPositions = [];
   // check for valid adjacent position above current item, and if there, push to array
@@ -279,7 +279,7 @@ function getAdjacentPositions(row, col, matrix) {
   return adjacentPositions;
 }
 
-function containsNegative(matrix) {
+function containsNegative2(matrix) {
   // in every row of matrix, check every value
   for (let row of matrix) {
     for (let value of row) {
