@@ -160,7 +160,7 @@ function getNeighbors(matrix, row, col) {
 // O(w * h) time due to going over w columns and h rows of values, which essentially converges to n total nodes (technically 3n which converges to n)
 // O(w * h) space due to returning w columns * h rows matrix, plus stack and neighbors, slightly better time complexity overall than solution 1
 
-function removeIslands(matrix) {
+function removeIslands2(matrix) {
   // start at [0, 0] and establish the row and column borders as in previous solution
   for (let row = 0; row < matrix.length; row++) {
     for (let col = 0; col < matrix[row].length; col++) {
@@ -177,7 +177,7 @@ function removeIslands(matrix) {
         continue;
       }
       // call helper function to convert border 1's and connected-to-border 1's to 2's
-      changeOnesConnectedToBorderToTwos(matrix, row, col);
+      changeOnesConnectedToBorderToTwos2(matrix, row, col);
     }
   }
   // go through the matrix again, starting at [0, 0]
@@ -198,7 +198,7 @@ function removeIslands(matrix) {
   return matrix;
 }
 
-function changeOnesConnectedToBorderToTwos(matrix, startRow, startCol) {
+function changeOnesConnectedToBorderToTwos2(matrix, startRow, startCol) {
   // set up stack and initialize to starting border and column position
   let stack = [[startRow, startCol]];
   // while stack has items, do stuff
@@ -210,7 +210,7 @@ function changeOnesConnectedToBorderToTwos(matrix, startRow, startCol) {
     // set this position in the input matrix to equal 2 rather than 1
     matrix[currentRow][currentCol] = 2;
     // find all neighbors using helper function getNeighbors
-    let neighbors = getNeighbors(matrix, currentRow, currentCol);
+    let neighbors = getNeighbors2(matrix, currentRow, currentCol);
     // for each neighbor, grab the row and column position
     for (let neighbor of neighbors) {
       let [row, col] = neighbor;
@@ -224,7 +224,7 @@ function changeOnesConnectedToBorderToTwos(matrix, startRow, startCol) {
   }
 }
 
-function getNeighbors(matrix, row, col) {
+function getNeighbors2(matrix, row, col) {
   // set up holder array for neighbors
   let neighbors = [];
   // establish num of rows and columns as parameters for which direction neighbors may be
