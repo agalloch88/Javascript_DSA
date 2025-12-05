@@ -51,7 +51,7 @@ function getNextIdx(currentIdx, array) {
 // O(n) time due to single pass over all array items
 // O(1) space due to only storing a few variables
 
-function hasSingleCycle(array) {
+function hasSingleCycle2(array) {
   // set current position to beginning of array
   let position = 0;
   // while within the bounds of the array, keep going
