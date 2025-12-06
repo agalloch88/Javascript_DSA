@@ -64,7 +64,7 @@ function optimalFreelancing(jobs) {
 // O(1) space due to storing at max 7n jobs which converges to n
 
 // main function which takes in the jobs input array of objects
-function optimalFreelancing(jobs) {
+function optimalFreelancing2(jobs) {
   // initialize variable earnings to track total for the week, and set to 0
   let earnings = 0;
   // initialize variable dayOfWork to track the limit of days, and set equal to 7
