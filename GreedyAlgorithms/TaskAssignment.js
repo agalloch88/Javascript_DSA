@@ -82,7 +82,7 @@ function getTaskDurationToIndices(tasks) {
 // O(nlog(n)) time due to sort, map is O(n) so simplifies to nlog(n)
 // O(n) space due to map and new results array, 2n simplifies to n
 
-function taskAssignment(k, tasks) {
+function taskAssignment2(k, tasks) {
   let formattedTasks = tasks.map((value, index) => ({ value, index }));
   formattedTasks.sort((a, b) => a.value - b.value);
 
