@@ -70,7 +70,7 @@ function validStartingCity(distances, fuel, mpg) {
 // O(n) time due to single pass over cities
 // O(1) space duue to only storing a few variables
 
-function validStartingCity(distances, fuel, mpg) {
+function validStartingCity2(distances, fuel, mpg) {
   // grab how many cities from distances
   let numberOfCities = distances.length;
   // car always starts with empty tank
@@ -104,7 +104,7 @@ function validStartingCity(distances, fuel, mpg) {
 // O(n) time due to single pass over cities in distances
 // O(1) space due to only storing variables
 
-function validStartingCity(distances, fuel, mpg) {
+function validStartingCity3(distances, fuel, mpg) {
   let milesRemaining = 0;
   let candidateStartingCity = 0;
 
