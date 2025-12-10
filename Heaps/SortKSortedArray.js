@@ -168,7 +168,7 @@ function swap(arr, to, from) {
 }
 
 // main function
-function sortKSortedArray(array, k) {
+function sortKSortedArray2(array, k) {
   // iterate through array
   for (let i = 0; i < array.length; i++) {
     // find smallest element in the next k elements
