@@ -62,14 +62,14 @@ function findLoop(head) {
 
 // main LinkedList class, showing properties of value and next on each node
 
-class LinkedList {
+class LinkedList2 {
   constructor(value) {
     this.value = value;
     this.next = null;
   }
 }
 // main function, which takes in a parameter labeled head which is the start of the Linked list
-function findLoop(head) {
+function findLoop2(head) {
   // create variable node and set equal to the head value passed in to the function
   let node = head;
   // while loop to iterate over the input so long as there is a node
