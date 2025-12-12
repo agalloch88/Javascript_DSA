@@ -79,7 +79,7 @@ function isPalindrome(leftNode, rightNode) {
 // O(1) space due to only using a couple pointers and variables, and reversing the list in place
 
 // Definition of the LinkedList node
-class LinkedList {
+class LinkedList2 {
   constructor(value) {
     this.value = value;
     this.next = null;
@@ -87,7 +87,7 @@ class LinkedList {
 }
 
 // Function to check if the linked list is a palindrome
-function linkedListPalindrome(head) {
+function linkedListPalindrome2(head) {
   // Initialize two pointers: slowNode and fastNode
   let slowNode = head;
   let fastNode = head;
