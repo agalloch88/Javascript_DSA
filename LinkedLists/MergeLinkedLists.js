@@ -83,7 +83,7 @@ function mergeLinkedLists(headOne, headTwo) {
 // O(n + m) space due to potentially having as many as n + m calls on call stack at a given time
 
 // LinkedList class, where every entry has a value and potentially a next pointer
-class LinkedList {
+class LinkedList2 {
   constructor(value) {
     this.value = value;
     this.next = null;
@@ -91,7 +91,7 @@ class LinkedList {
 }
 
 // main function, which takes in heads of two linked lists
-function mergeLinkedLists(headOne, headTwo) {
+function mergeLinkedLists2(headOne, headTwo) {
   // call helper function, passing in the two nodes and null for the p1Prev value, since at the beginning of the list currently
   recursiveMerge(headOne, headTwo, null);
   //   return the result of a ternary checking whether the headOne or headTwo node is smaller, and returning it as the answer
