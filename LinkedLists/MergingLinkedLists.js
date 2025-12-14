@@ -29,7 +29,7 @@ class LinkedList {
 }
 
 // main function which takes in the two linked lists to compare
-function mergeLinkedLists(linkedListOne, linkedListTwo) {
+function mergingLinkedLists(linkedListOne, linkedListTwo) {
   // create a new Set data structure, and store in variable listOneNodes
   let listOneNodes = new Set();
   // grab head value in linkedListOne and store in variable currentNodeOne
@@ -65,7 +65,7 @@ function mergeLinkedLists(linkedListOne, linkedListTwo) {
 // O(1) space due to only storing a few variables
 
 // base LinkedList class, with every node having a numeric value and next pointer
-class LinkedList {
+class LinkedList2 {
   constructor(value) {
     this.value = value;
     this.next = null;
@@ -73,7 +73,7 @@ class LinkedList {
 }
 
 // main function taking in the two linked lists
-function mergingLinkedLists(linkedListOne, linkedListTwo) {
+function mergingLinkedLists2(linkedListOne, linkedListTwo) {
   // grab head of linkedListOne and store in variable currentNodeOne
   let currentNodeOne = linkedListOne;
   // set variable countOne equal to 0
@@ -123,14 +123,14 @@ function mergingLinkedLists(linkedListOne, linkedListTwo) {
 // O(1) space due to only storing a few variables
 
 // base LinkedList class, with every node having a numeric value and next pointer
-class LinkedList {
+class LinkedList3 {
   constructor(value) {
     this.value = value;
     this.next = null;
   }
 }
 // main function taking in the two linked lists
-function mergeLinkedLists(linkedListOne, linkedListTwo) {
+function mergingLinkedLists3(linkedListOne, linkedListTwo) {
   // grab head of linkedListOne and store in variable currentNodeOne
   let currentNodeOne = linkedListOne;
   // grab head of linkedListTwo and store in variable currentNodeTwo
