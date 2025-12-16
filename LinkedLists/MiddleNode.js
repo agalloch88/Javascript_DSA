@@ -60,7 +60,7 @@ function middleNode(linkedList) {
 // O(1) space since only storing two pointers
 
 // LinkedList class, where each node has a value and next pointer, potentially
-class LinkedList {
+class LinkedList2 {
   constructor(value) {
     this.value = value;
     this.next = null;
@@ -68,7 +68,7 @@ class LinkedList {
 }
 
 // main function which takes in the linked list input
-function middleNode(linkedList) {
+function middleNode2(linkedList) {
   // initialize two pointers and set them equal to the linkedList input
   let slowNode = linkedList;
   let fastNode = linkedList;
