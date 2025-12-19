@@ -74,14 +74,14 @@ function getOrgInfo(manager, reportOne, reportTwo) {
 // O(d) space, where d is the depth of the org chart, due to at most d calls on the call stack at any given time
 
 // class for the OrgChart, where every node has a name and an array of direct reports underneath itself
-class OrgChart {
+class OrgChart2 {
   constructor(name) {
     this.name = name;
     this.directReports = [];
   }
 }
 
-function lowestCommonManager(topManager, reportOne, reportTwo) {
+function lowestCommonManager2(topManager, reportOne, reportTwo) {
   // set variable to equal null for now, will update once the LCM is found
   let lowestCommonManager = null;
   // set up closure here, which takes in the manager in question and the two reports
