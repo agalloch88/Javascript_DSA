@@ -101,14 +101,14 @@ function isNonAttackingPlacement(row, col, columnPlacements) {
 // O(n!) time, at worst, helped by efficient Set lookups and backtracking
 // O(n) space due to three Set objects of n, where 3n reduces to n
 
-function nonAttackingQueens(n) {
+function nonAttackingQueens2(n) {
   // Initialize three sets to track blocked columns and diagonals.
   let blockedColumns = new Set(); // Tracks which columns are blocked by existing queens.
   let blockedUpDiagonals = new Set(); // Tracks upward diagonals blocked by queens. Calculated as row + col.
   let blockedDownDiagonals = new Set(); // Tracks downward diagonals blocked by queens. Calculated as row - col.
 
   // Start the recursive function to find valid queen placements.
-  return getNumberOfNonAttackingQueenPlacements(
+  return getNumberOfNonAttackingQueenPlacements2(
     0,
     blockedColumns,
     blockedUpDiagonals,
@@ -117,7 +117,7 @@ function nonAttackingQueens(n) {
   );
 }
 
-function getNumberOfNonAttackingQueenPlacements(
+function getNumberOfNonAttackingQueenPlacements2(
   row,
   blockedColumns,
   blockedUpDiagonals,
@@ -136,7 +136,7 @@ function getNumberOfNonAttackingQueenPlacements(
   for (let col = 0; col < boardSize; col++) {
     // Check if placing a queen in this column is valid (i.e., it does not conflict with other queens).
     if (
-      isNonAttackingPlacement(
+      isNonAttackingPlacement2(
         row,
         col,
         blockedColumns,
@@ -145,7 +145,7 @@ function getNumberOfNonAttackingQueenPlacements(
       )
     ) {
       // Place the queen and mark the column and diagonals as blocked.
-      placeQueen(
+      placeQueen2(
         row,
         col,
         blockedColumns,
@@ -154,7 +154,7 @@ function getNumberOfNonAttackingQueenPlacements(
       );
 
       // Recur to place queens in the next rows.
-      validPlacements += getNumberOfNonAttackingQueenPlacements(
+      validPlacements += getNumberOfNonAttackingQueenPlacements2(
         row + 1,
         blockedColumns,
         blockedUpDiagonals,
@@ -163,7 +163,7 @@ function getNumberOfNonAttackingQueenPlacements(
       );
 
       // Backtrack by removing the queen and unblocking the column and diagonals.
-      removeQueen(
+      removeQueen2(
         row,
         col,
         blockedColumns,
@@ -177,7 +177,7 @@ function getNumberOfNonAttackingQueenPlacements(
   return validPlacements;
 }
 
-function isNonAttackingPlacement(
+function isNonAttackingPlacement2(
   row,
   col,
   blockedColumns,
@@ -203,7 +203,7 @@ function isNonAttackingPlacement(
   return true;
 }
 
-function placeQueen(
+function placeQueen2(
   row,
   col,
   blockedColumns,
@@ -216,7 +216,7 @@ function placeQueen(
   blockedDownDiagonals.add(row - col);
 }
 
-function removeQueen(
+function removeQueen2(
   row,
   col,
   blockedColumns,
