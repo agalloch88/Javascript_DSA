@@ -35,11 +35,11 @@ function getNthFib(n) {
 // O(n) time due to n recursive calls
 // O(n) space due to storing n memoized values in cache
 
-function getNthFib(n, memoize = { 1: 0, 2: 1 }) {
+function getNthFib2(n, memoize = { 1: 0, 2: 1 }) {
   if (n in memoize) {
     return memoize[n];
   } else {
-    memoize[n] = getNthFib(n - 1, memoize) + getNthFib(n - 2, memoize);
+    memoize[n] = getNthFib2(n - 1, memoize) + getNthFib2(n - 2, memoize);
     return memoize[n];
   }
 }
@@ -51,7 +51,7 @@ function getNthFib(n, memoize = { 1: 0, 2: 1 }) {
 // O(n) time due to checking n values
 // O(1) space due to only storing three variables
 
-function getNthFib(n) {
+function getNthFib3(n) {
   // we know what the first two values are, and can use a tuple to replace and track position in Fibonacci sequence
   const lastTwo = [0, 1];
   // already know first two values, about to calculate value # 3
