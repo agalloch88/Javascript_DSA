@@ -54,7 +54,7 @@ function numberOfBinaryTreeTopologies(n) {
 // O(n^2) time due to caching so that each value of n is calculated only once
 // O(n) space due to storing the cache and recursive calls on the call stack
 
-function numberOfBinaryTreeTopologies(n, cache = { 0: 1 }) {
+function numberOfBinaryTreeTopologies2(n, cache = { 0: 1 }) {
   // Check if the number of binary tree topologies for n nodes is already cached.
   if (n in cache) {
     return cache[n]; // Return the cached value to avoid recomputation.
@@ -69,8 +69,8 @@ function numberOfBinaryTreeTopologies(n, cache = { 0: 1 }) {
 
     // Recursively calculate the number of topologies for left and right subtrees,
     // leveraging the cache to avoid redundant calculations.
-    let numberOfLeftTrees = numberOfBinaryTreeTopologies(leftTreeSize, cache);
-    let numberOfRightTrees = numberOfBinaryTreeTopologies(rightTreeSize, cache);
+    let numberOfLeftTrees = numberOfBinaryTreeTopologies2(leftTreeSize, cache);
+    let numberOfRightTrees = numberOfBinaryTreeTopologies2(rightTreeSize, cache);
 
     // Multiply the number of possible left and right subtree combinations to get
     // the total number of topologies for this specific combination.
@@ -91,7 +91,7 @@ function numberOfBinaryTreeTopologies(n, cache = { 0: 1 }) {
 // O(n^2) time due to nested for loops
 // O(n) space due to cache array, but slightly improved as no recursive call stack storage
 
-function numberOfBinaryTreeTopologies(n) {
+function numberOfBinaryTreeTopologies3(n) {
   // Initialize a cache array where cache[m] will store the number of topologies for m nodes.
   // We know there is exactly 1 topology for 0 nodes (the empty tree).
   let cache = [1];
