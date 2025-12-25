@@ -70,7 +70,10 @@ function numberOfBinaryTreeTopologies2(n, cache = { 0: 1 }) {
     // Recursively calculate the number of topologies for left and right subtrees,
     // leveraging the cache to avoid redundant calculations.
     let numberOfLeftTrees = numberOfBinaryTreeTopologies2(leftTreeSize, cache);
-    let numberOfRightTrees = numberOfBinaryTreeTopologies2(rightTreeSize, cache);
+    let numberOfRightTrees = numberOfBinaryTreeTopologies2(
+      rightTreeSize,
+      cache,
+    );
 
     // Multiply the number of possible left and right subtree combinations to get
     // the total number of topologies for this specific combination.
