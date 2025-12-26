@@ -44,7 +44,7 @@ function getPermutationsHelper(array, currentPermutation, permutations) {
 // O(n*n!) time due to generating n! permutations and pushing
 // O(n*n!) space due to storing n! permutations in new array
 
-function getPermutations(array) {
+function getPermutations2(array) {
   // initialize empty holder array for permutations
   let permutations = [];
   // recursively populate permutations array
@@ -53,7 +53,7 @@ function getPermutations(array) {
   return permutations;
 }
 
-function getPermutationsHelper(i, array, permutations) {
+function getPermutationsHelper2(i, array, permutations) {
   // iterate until at end of input length, then push new permutation
   if (i === array.length - 1) {
     permutations.push(array.slice());
@@ -61,7 +61,7 @@ function getPermutationsHelper(i, array, permutations) {
     for (let j = i; j < array.length; j++) {
       // recursively swap and get new permutation
       swap(i, j, array);
-      getPermutationsHelper(i + 1, array, permutations);
+      getPermutationsHelper2(i + 1, array, permutations);
       swap(i, j, array);
     }
   }
