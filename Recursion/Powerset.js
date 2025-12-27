@@ -42,7 +42,7 @@ function powerset(array) {
 // O(n * 2^n) due to recursing over n items and mathematical 2^n possibilities for subsets of n
 // O(n * 2^n) space due to storing all 2^n subsets inside new array
 
-function powerset(array, idx = null) {
+function powerset2(array, idx = null) {
   // base case
   if (idx === null) {
     idx = array.length;
@@ -54,7 +54,7 @@ function powerset(array, idx = null) {
   // grab element at current index in array
   let element = array[idx];
   // recursively build subsets
-  let subsets = powerset(array, idx - 1);
+  let subsets = powerset2(array, idx - 1);
   let length = subsets.length;
 
   for (let i = 0; i < length; i++) {
