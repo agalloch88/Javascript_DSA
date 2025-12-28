@@ -36,10 +36,10 @@ function productSum(array, multiplier = 1) {
 // O(n) time where n is the total number of elements in the array, including sub-elements
 // O(d) space where d is the greatest depth of "special" arrays in the input array
 
-function productSum(array, depth = 1) {
+function productSum2(array, depth = 1) {
   const sum = array.reduce((array, element) => {
     if (Array.isArray(element)) {
-      return array + productSum(element, depth + 1);
+      return array + productSum2(element, depth + 1);
     } else {
       return array + element;
     }
