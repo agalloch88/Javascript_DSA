@@ -149,7 +149,7 @@ function getNeighbors(board, row, column) {
 // O(w * h) time due to potentially checking all items in board input
 // O(w * h) space at max due to potentially having all input items on call stack
 
-function revealMinesweeper(board, row, column) {
+function revealMinesweeper2(board, row, column) {
   if (board[row][column] === 'M') {
     board[row][column] = 'X';
     return board;
@@ -173,7 +173,7 @@ function revealMinesweeper(board, row, column) {
     for (let i = rowStart; i <= rowEnd; i++) {
       for (let j = columnStart; j <= columnEnd; j++) {
         if (board[i][j] === 'H') {
-          revealMinesweeper(board, i, j);
+          revealMinesweeper2(board, i, j);
         }
       }
     }
