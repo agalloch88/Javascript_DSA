@@ -26,7 +26,7 @@
 // O(k^n) time due to k number of allowed steps per n height of staircase
 // O(n) space due to storing at most n calls on call stack at a time
 
-function staicaseTraversal(height, maxSteps) {
+function staircaseTraversal(height, maxSteps) {
   // pass off to better-named start function
   return numberOfWaysToTop(height, maxSteps);
 }
@@ -57,12 +57,12 @@ function numberOfWaysToTop(height, maxSteps) {
 // O(n * k) time due to traversing n steps with k max steps
 // O(n) space due to at most n calls on call stack due to recursion
 
-function staicaseTraversal(height, maxSteps) {
+function staircaseTraversal2(height, maxSteps) {
   // pass off to better-named start function, initialize memoize values to base cases of 0 and 1 to start
-  return numberOfWaysToTop(height, maxSteps, { 0: 1, 1: 1 });
+  return numberOfWaysToTop2(height, maxSteps, { 0: 1, 1: 1 });
 }
 
-function numberOfWaysToTop(height, maxSteps, memoize) {
+function numberOfWaysToTop2(height, maxSteps, memoize) {
   // base case
   // if encountering 0 or 1, return 1 for both using memoized values
   if (height in memoize) {
@@ -74,7 +74,7 @@ function numberOfWaysToTop(height, maxSteps, memoize) {
   // start at 1, where the step is less than maxSteps or the height, whichever is lower, and increment accordingly
   for (let step = 1; step < Math.min(maxSteps, height) + 1; step++) {
     // add to variable
-    numberOfWays += numberOfWaysToTop(height - step, maxSteps, memoize);
+    numberOfWays += numberOfWaysToTop2(height - step, maxSteps, memoize);
   }
   // update memoize with current value
   memoize[height] = numberOfWays;
@@ -89,7 +89,7 @@ function numberOfWaysToTop(height, maxSteps, memoize) {
 // O(n * k) time due to traversing n steps with k max steps
 // O(n) space due to storing n waysToTop in new holder array
 
-function staircaseTraversal(height, maxSteps) {
+function staircaseTraversal3(height, maxSteps) {
   // set up holder array for tracking # of ways to get to top, initially filled with zero
   let waysToTop = new Array(height + 1).fill(0);
   // take care of base cases, initialize them to 1
@@ -117,7 +117,7 @@ function staircaseTraversal(height, maxSteps) {
 // O(n) time due to using efficient sliding window approach
 // O(n) space due to storing n values in waysToTop array
 
-function staircaseTraversal(height, maxSteps) {
+function staircaseTraversal4(height, maxSteps) {
   let currentNumberOfWays = 0;
   let waysToTop = [1];
 
