@@ -45,12 +45,12 @@ function binarySearchHelper(array, target, left, right) {
 // O(log(n)) time due to efficient binary search method
 // O(1) space due to iterative reassigning of right/left rather than recursive
 
-function binarySearch(array, target) {
+function binarySearch2(array, target) {
   // use helper function to abstract logic
-  return binarySearchHelper(array, target, 0, array.length - 1);
+  return binarySearchHelper2(array, target, 0, array.length - 1);
 }
 
-function binarySearchHelper(array, target, left, right) {
+function binarySearchHelper2(array, target, left, right) {
   // continue searching until left and right overlap, then return base case of -1
   while (left <= right) {
     // grab our array middle
