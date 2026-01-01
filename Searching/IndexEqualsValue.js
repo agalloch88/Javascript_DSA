@@ -40,7 +40,7 @@ function indexEqualsValue(array) {
 // O(log(n)) space due to recursive calls on the call stack
 
 // main function which takes in array of distinct integers
-function indexEqualsValue(array) {
+function indexEqualsValue2(array) {
   // return a call to the helper function, passing in the input array, a value for leftIndex, and a value for rightIndex
   return indexEqualsValueHelper(array, 0, array.length - 1);
 }
@@ -87,7 +87,7 @@ function indexEqualsValueHelper(array, leftIndex, rightIndex) {
 // O(log(n)) time due to modified Binary Search-style implementation
 // O(1) space due to only storing a few variables
 
-function indexEqualsValue(array) {
+function indexEqualsValue3(array) {
   // set leftIndex pointer equal to index 0
   let leftIndex = 0;
   // set rightIndex pointer equal to last index in the input array
