@@ -79,7 +79,7 @@ function medianOfTwoSortedArrays(arrayOne, arrayTwo) {
 // O(log(min(n, m))) time due to determining then searching within the smaller array
 // O(1) space due to only storing a few variables and no other data structures
 
-function medianOfTwoSortedArrays(arrayOne, arrayTwo) {
+function medianOfTwoSortedArrays2(arrayOne, arrayTwo) {
   // initialize variable smallArray and set equal to result of ternary determining the smaller array
   let smallArray = arrayOne.length <= arrayTwo.length ? arrayOne : arrayTwo;
   // initialize variable bigArray and set equal to result of ternary determining the larger array
