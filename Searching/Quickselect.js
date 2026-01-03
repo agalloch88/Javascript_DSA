@@ -80,12 +80,12 @@ function swap(i, j, array) {
 
 // Solution 2:
 
-function quickselect(array, k) {
+function quickselect2(array, k) {
   let position = k - 1;
-  return quickselectHelper(array, 0, array.length - 1, position);
+  return quickselectHelper2(array, 0, array.length - 1, position);
 }
 
-function quickselectHelper(array, startIdx, endIdx, k) {
+function quickselectHelper2(array, startIdx, endIdx, k) {
   let pivot = array[endIdx];
   let leftArr = [];
   let rightArr = [];
@@ -102,9 +102,9 @@ function quickselectHelper(array, startIdx, endIdx, k) {
   array = [...leftArr, pivot, ...rightArr];
 
   if (k < pi) {
-    return quickselectHelper(array, startIdx, leftArr.length - 1, k);
+    return quickselectHelper2(array, startIdx, leftArr.length - 1, k);
   } else if (k > pi) {
-    return quickselectHelper(array, startIdx, endIdx, k);
+    return quickselectHelper2(array, startIdx, endIdx, k);
   } else {
     return pivot;
   }
