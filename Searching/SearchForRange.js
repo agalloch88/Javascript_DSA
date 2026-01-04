@@ -78,18 +78,18 @@ function alteredBinarySearch(array, target, left, right, finalRange, goLeft) {
 // O(log(n)) time due to executing modified binary search
 // O(1) space since only storing a few variables, iterative rather than recursive implementation
 
-function searchForRange(array, target) {
+function searchForRange2(array, target) {
   // set up holder array for final values, initialize to contain -1's right now in case no instances of target exist in input array
   let finalRange = [-1, -1];
   // recursive call for helper function with goLeft set to true to indicate looking left in input array
-  alteredBinarySearch(array, target, 0, array.length - 1, finalRange, true);
+  alteredBinarySearch2(array, target, 0, array.length - 1, finalRange, true);
   // recursive call for helper function with goLeft set to false to indicate looking right in input array
-  alteredBinarySearch(array, target, 0, array.length - 1, finalRange, false);
+  alteredBinarySearch2(array, target, 0, array.length - 1, finalRange, false);
   // once both recursive calls return, should have the finalRange to return, if target exists in input array, otherwise same initialized values satisfy requirements
   return finalRange;
 }
 // helper function taking in input array, target value, values for left and right points to calculate mid from, the finalRange holder array, and value for goLeft to determine direction
-function alteredBinarySearch(array, target, left, right, finalRange, goLeft) {
+function alteredBinarySearch2(array, target, left, right, finalRange, goLeft) {
   // since iterative rather than recursive, can ensure left pointer does not go past value of right, but when it does, loop breaks and should have proper finalRange to return
   while (left <= right) {
     // floor the result of left plus right divided by 2 to find middle point of range, set equal to variable mid
