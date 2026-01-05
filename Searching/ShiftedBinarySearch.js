@@ -76,13 +76,13 @@ function shiftedBinarySearchHelper(array, target, left, right) {
 // O(1) space due to iteratively searching for target and no call stack buildup
 
 // main function taking in input array and target value to look for
-function shiftedBinarySearch(array, target) {
+function shiftedBinarySearch2(array, target) {
   // return a call to the helper function, which takes in array, target, 0 for left value and last element of input array for right value
-  return shiftedBinarySearchHelper(array, target, 0, array.length - 1);
+  return shiftedBinarySearchHelper2(array, target, 0, array.length - 1);
 }
 
 // helper function which takes in input array, target to look for, and values for left and right pointers
-function shiftedBinarySearchHelper(array, target, left, right) {
+function shiftedBinarySearchHelper2(array, target, left, right) {
   // set up while loop to run so long as left pointer does not pass the right pointer
   while (left <= right) {
     // calculate the exact middle of the input array and store in variable middle
