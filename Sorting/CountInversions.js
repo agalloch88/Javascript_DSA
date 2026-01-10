@@ -95,14 +95,14 @@ function mergeSortAndCountInversions(array, start, middle, end) {
  * @param {number[]} array – The input array.
  * @returns {number} Total number of inversions (pairs i<j with array[i]>array[j]).
  */
-function countInversions(array) {
+function countInversions2(array) {
   // Make a shallow copy of the array to use as the auxiliary buffer
   let aux = array.slice();
   // Use an object to hold the inversion count so it can be mutated in recursion
   let inversions = { val: 0 };
 
   // Recursively sort the array
-  mergeSortAndCountInversions(array, aux, 0, array.length - 1, inversions);
+  mergeSortAndCountInversions2(array, aux, 0, array.length - 1, inversions);
 
   // Return the total inversions counted
   return inversions.val;
@@ -117,7 +117,7 @@ function countInversions(array) {
  * @param {number} end – Right index of the current segment.
  * @param {{ val: number }} inversions – Object tracking the inversion count.
  */
-function mergeSortAndCountInversions(array, aux, start, end, inversions) {
+function mergeSortAndCountInversions2(array, aux, start, end, inversions) {
   // Base case: zero or one element is already “sorted”
   if (start >= end) {
     return;
@@ -127,9 +127,9 @@ function mergeSortAndCountInversions(array, aux, start, end, inversions) {
   let mid = Math.floor((start + end) / 2);
 
   // Recursively sort left half (note swap of array/aux so we alternate roles each level)
-  mergeSortAndCountInversions(aux, array, start, mid, inversions);
+  mergeSortAndCountInversions2(aux, array, start, mid, inversions);
   // Recursively sort right half
-  mergeSortAndCountInversions(aux, array, mid + 1, end, inversions);
+  mergeSortAndCountInversions2(aux, array, mid + 1, end, inversions);
 
   // Pointers for merge
   let left = start; // current index in left half
