@@ -80,7 +80,7 @@ function countingSort(array, digit) {
 // O(n) space due to the temporary bucket storage
 
 // Function to perform radix sort on an array
-function radixSort(array) {
+function radixSort2(array) {
   // If the array has less than two elements, it's already sorted
   if (array.length < 2) {
     return array;
