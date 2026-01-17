@@ -56,14 +56,14 @@ function threeNumberSort(array, order) {
 // This solution employs a forward and backward pass to bring all first-position instances to front,
 // and push all last-position instances to end of array.
 
-function threeNumberSort(array, order) {
+function threeNumberSort2(array, order) {
   const firstValue = order[0];
   const thirdValue = order[2];
 
   let firstIdx = 0;
   for (let idx = 0; idx < array.length; idx++) {
     if (array[idx] === firstValue) {
-      swap(firstIdx, idx, array);
+      swap2(firstIdx, idx, array);
       firstIdx++;
     }
   }
@@ -71,7 +71,7 @@ function threeNumberSort(array, order) {
   let thirdIdx = array.length - 1;
   for (let idx = array.length - 1; idx > -1; idx--) {
     if (array[idx] === thirdValue) {
-      swap(thirdIdx, idx, array);
+      swap2(thirdIdx, idx, array);
       thirdIdx--;
     }
   }
@@ -79,7 +79,7 @@ function threeNumberSort(array, order) {
   return array;
 }
 
-function swap(i, j, array) {
+function swap2(i, j, array) {
   const temp = array[j];
   array[j] = array[i];
   array[i] = temp;
@@ -89,7 +89,7 @@ function swap(i, j, array) {
 // This option does a single pass of the array, and uses three pointers to determine where
 // array items should be positioned
 
-function threeNumberSort(array, order) {
+function threeNumberSort3(array, order) {
   const firstValue = order[0];
   const secondValue = order[1];
 
@@ -100,13 +100,13 @@ function threeNumberSort(array, order) {
   while (secondIdx <= thirdIdx) {
     const value = array[secondIdx];
     if (value === firstValue) {
-      swap(firstIdx, secondIdx, array);
+      swap3(firstIdx, secondIdx, array);
       firstIdx++;
       secondIdx++;
     } else if (value === secondValue) {
       secondIdx++;
     } else {
-      swap(secondIdx, thirdIdx, array);
+      swap3(secondIdx, thirdIdx, array);
       thirdIdx--;
     }
   }
@@ -114,7 +114,7 @@ function threeNumberSort(array, order) {
   return array;
 }
 
-function swap(i, j, array) {
+function swap3(i, j, array) {
   const temp = array[j];
   array[j] = array[i];
   array[i] = temp;
