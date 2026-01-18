@@ -57,7 +57,7 @@ function balancedBrackets(string) {
 // O(n) time due to iterating over n items in input string
 // O(n) space due to storing at most n items in stack; balanced solutions will not reach full O(n), but n/2 still converges to O(n)
 
-function balancedBrackets(string) {
+function balancedBrackets2(string) {
   // set up reference JS object
   let matchingBrackets = {
     ')': '(',
