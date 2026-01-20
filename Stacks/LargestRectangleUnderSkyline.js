@@ -72,7 +72,7 @@ function largestRectangleUnderSkyline(buildings) {
 // O(n) time due to only making a single pass over the array
 // O(n) space due to storing indices as well as a concatenated array of the input
 
-function largestRectangleUnderSkyline(buildings) {
+function largestRectangleUnderSkyline2(buildings) {
   // set up variable maxArea to hold answer, and initialize to 0
   let maxArea = 0;
   // set up empty array to hold indices for the largest rectangle, and store in variable pillarIndices
