@@ -55,7 +55,7 @@ function nextGreaterElement(array) {
 // O(n) time due to looping over n items twice with additional n checks, so 3n converges to n
 // O(n) space due to storing n additional items in new result array and new stack, so 2n converges to n
 
-function nextGreaterElement(array) {
+function nextGreaterElement2(array) {
   // initialize new array of input length, fill with -1's to start
   let result = new Array(array.length).fill(-1);
   // will keep track of largest value and values which need to be replaced with said value via a stack
