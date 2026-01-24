@@ -82,7 +82,7 @@ function isImportantToken(token) {
 // O(n) time due to single loop over inputs
 // O(n) space due to storing result and splitPath
 
-function shortenPath(path) {
+function shortenPath2(path) {
   // check whether first element in path input is a / which determines absolute vs relative path, and store boolean in variable isAbsolutePath
   let isAbsolutePath = path[0] === '/';
   // split the input path into segments based on /'s, and store result in variable splitPath
