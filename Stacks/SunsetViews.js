@@ -69,7 +69,7 @@ function sunsetViews(buildings, direction) {
 // O(n) time due to single pass over buildings input
 // O(n) space due to storing at max n items from input in stack
 
-function sunsetViews(buildings, direction) {
+function sunsetViews2(buildings, direction) {
   // create empty stack
   let candidateBuildings = [];
   // determine where to start iterating depending on direction provided, and how iterating will proceed
@@ -97,7 +97,7 @@ function sunsetViews(buildings, direction) {
   }
   // if direction was WEST, started from end so items in backwards order, so need to use reverse which is O(n) operation
   if (direction === 'WEST') {
-    candidateBuildings.reversse();
+    candidateBuildings.reverse();
   }
   // return the stack
   return candidateBuildings;
