@@ -46,7 +46,7 @@ function getNewLetter(letter, key) {
 // O(n) time due to looping over n values in input string
 // O(n) space due to storing values in new array
 
-function caesarCypherEncryptor(string, key) {
+function caesarCypherEncryptor2(string, key) {
   // set up holder array
   let newLetters = [];
   // set up modulo'd key value in case it is greater than 26
@@ -56,13 +56,13 @@ function caesarCypherEncryptor(string, key) {
   // iterate over every letter of the input string
   for (let letter of string) {
     // push into newLetters holder array the result of helper function taking in the given letter, the newKey, and the alphabet string
-    newLetters.push(getNewLetter(letter, newKey, alphabet));
+    newLetters.push(getNewLetter2(letter, newKey, alphabet));
   }
   // return the joined newLetters result for the shifted/encoded message
   return newLetters.join('');
 }
 // helper function which shifts an individual letter
-function getNewLetter(letter, key, alphabet) {
+function getNewLetter2(letter, key, alphabet) {
   // set variable newLetterCode equal to the result in the alphabet at the given letter index plus the key value, which tells how many positions to shift for encoding
   let newLetterCode = alphabet.indexOf(letter) + key;
   // return result in alphabet at index newLetterCode modulo'd by 26
