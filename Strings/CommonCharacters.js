@@ -56,9 +56,9 @@ function commonCharacters(strings) {
 // O(m) space
 
 // main function which takes in strings input
-function commonCharacters(strings) {
+function commonCharacters2(strings) {
   // initialize variable smallestString and set equal to return value from a call to helper function
-  let smallestString = getSmallestString(strings);
+  let smallestString = getSmallestString2(strings);
   // initialize variable potentialCommonCharacters as a new Set object composed by the value in
   // smallestString
   let potentialCommonCharacters = new Set(smallestString);
@@ -73,7 +73,7 @@ function commonCharacters(strings) {
 }
 
 // helper function to determine which is the shortest string in strings input
-function getSmallestString(strings) {
+function getSmallestString2(strings) {
   // initialize variable smallestString and set equal to string at first index of strings input array
   let smallestString = strings[0];
   // iterate over every string in strings input
