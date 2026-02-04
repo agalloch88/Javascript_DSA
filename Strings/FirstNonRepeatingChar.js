@@ -50,7 +50,7 @@ function firstNonRepeatingCharacter(string) {
 // O(1) space, even though we are using JS object, it will hold max of 26 values
 // since this is constant, regardless of string length, this equates to O(1)
 
-function firstNonRepeatingCharacter(string) {
+function firstNonRepeatingCharacter2(string) {
   // set up empty JS object and store in variable characterFrequencies
   const characterFrequencies = {};
   // iterate over every character in the string
