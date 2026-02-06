@@ -60,7 +60,7 @@ function countCharacterFrequency(character, target) {
 // O(c * (n + m)) time due to iterating on c unique characters n number of characters times for a document of m length
 // O(c) space due to storing c number of unique character records in the JS Set
 
-function generateDocument(characters, document) {
+function generateDocument2(characters, document) {
   // create variable to store a new Set, which will contain the already-counted characters
   let alreadyCounted = new Set();
   // for every character in the document, do some checks
@@ -70,9 +70,9 @@ function generateDocument(characters, document) {
       continue;
     }
     // store results of countCharacterFreqeuncy in variable for documentFrequency of this character
-    let documentFrequency = countCharacterFrequency(character, document);
+    let documentFrequency = countCharacterFrequency2(character, document);
     // store results of countCharacterFreqeuncy in variable for charactersFrequency of this character
-    let charactersFrequency = countCharacterFrequency(character, characters);
+    let charactersFrequency = countCharacterFrequency2(character, characters);
     // if higher count for the character in document than the characters input, cannot generate the document so return false
     if (documentFrequency > charactersFrequency) {
       return false;
@@ -84,7 +84,7 @@ function generateDocument(characters, document) {
   return true;
 }
 // helper function solely responsible for targeting a specific character and counting the frequency of the specific character
-function countCharacterFrequency(character, target) {
+function countCharacterFrequency2(character, target) {
   // set variable frequency to 0
   let frequency = 0;
   // for every char in the target, check to see if the char matches the character, and if so, increment the frequency
@@ -104,7 +104,7 @@ function countCharacterFrequency(character, target) {
 // O(n + m) time due to iterating over n items in characters and m items in document
 // O(c) space due to storing c unique characters from the characters string
 
-function generateDocument(characters, document) {
+function generateDocument3(characters, document) {
   // set up empty JS object to hold key/value pairs for character and the respective counts
   let characterCounts = {};
   // check each character in characters input string first
