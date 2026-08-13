@@ -1,0 +1,11 @@
+{
+  "name": "openwiki-ci",
+  "private": true,
+  "dependencies": {
+    "openwiki": "0.3.2"
+  },
+  "overrides": {
+    "langchain": "1.5.5",
+    "@langchain/core": "1.2.5"
+  }
+}
