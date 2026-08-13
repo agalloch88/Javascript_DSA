@@ -1,3 +1,10 @@
+---
+type: "Reference"
+title: "Architecture and solution contract"
+description: "The decentralized exercise-file model: per-file contract, naming conventions, local data shapes, multi-approach design, and change boundaries for the JavaScript DSA corpus."
+tags: [architecture, file-contract, naming-conventions]
+---
+
 # Architecture and solution contract
 
 ## What “architecture” means here
@@ -34,7 +41,7 @@ Examples:
 - Main functions/methods use camelCase; data structures/classes use PascalCase.
 - Alternative implementations are differentiated with numeric suffixes: `generateDocument`, `generateDocument2`, `generateDocument3`; helpers are likewise suffixed when alternatives require their own helpers.
 
-The numeric suffixes matter. Recent Git history is a sustained cleanup of duplicate declarations across `Searching/`, `Sorting/`, `Stacks/`, and `Strings/`. For example, commit `7bc4275` renamed later alternatives and helper functions in [`Strings/GenerateDocument.js`](../Strings/GenerateDocument.js) so all three approaches can coexist. Preserve that uniqueness when adding or editing variants.
+The numeric suffixes matter. The corpus has a sustained pattern of numbering later alternatives and helper functions so multiple approaches can coexist without duplicate declarations. For example, [`Strings/GenerateDocument.js`](../Strings/GenerateDocument.js) numbers all three approaches (`generateDocument`, `generateDocument2`, `generateDocument3`) and their helpers for that reason. Preserve that uniqueness when adding or editing variants.
 
 ### Data-shape conventions are local
 

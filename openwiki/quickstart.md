@@ -1,3 +1,10 @@
+---
+type: "Reference"
+title: "JavaScript DSA — Quickstart"
+description: "Entrypoint to the JavaScript DSA repository wiki: overview, navigation map, repository facts, and guardrails for editing self-contained algorithm exercise files."
+tags: [quickstart, overview, navigation]
+---
+
 # JavaScript DSA — Quickstart
 
 This repository is an educational collection of standalone JavaScript solutions to data-structure-and-algorithm problems. It is **not** an application or published library: there is no runtime entry point, shared package API, persistence layer, or service integration. The meaningful unit is one problem file in one topic directory.
@@ -24,8 +31,9 @@ Each exercise generally co-locates its prose prompt, sample input/output, comple
 - **Content:** 179 JavaScript exercise files organized by algorithmic technique or data structure, from `Arrays/` through `Tries/`.
 - **Tooling:** npm, Prettier, ESLint, and Babel parser support are declared in [`package.json`](../package.json). The only substantive npm script is a write/autofix formatter.
 - **Interface model:** source files use top-level functions or classes and generally have no imports or exports. Treat them as independent study snippets, not composable modules.
-- **Variants:** a primary declaration is commonly followed by alternatives such as `functionName2` and `functionName3`. Recent history focuses on fixing duplicate alternative declarations by numbering them.
-- **Automation:** [`.github/workflows/openwiki-update.yml`](../.github/workflows/openwiki-update.yml) schedules a daily OpenWiki documentation update and supports manual dispatch. It is not a test or deployment pipeline.
+- **Variants:** a primary declaration is commonly followed by alternatives such as `functionName2` and `functionName3`. Multi-variant files number later alternatives and helpers so every approach can coexist without duplicate declarations.
+<!-- openwiki: broken internal link [../tools/openwiki] file "../tools/openwiki" does not exist. Fix the href or restore the target, then delete this comment. -->
+- **Automation:** [`.github/workflows/openwiki-update.yml`](../.github/workflows/openwiki-update.yml) refreshes the OpenWiki wiki on push to `main` (ignoring `openwiki/**` and `tools/openwiki/**`) and on manual dispatch. It installs the pinned OpenWiki CLI from [`tools/openwiki/`](../tools/openwiki) and opens an `openwiki`-scoped documentation PR. It is not a test or deployment pipeline.
 
 ## Guardrails
 
