@@ -1,0 +1,39 @@
+name: OpenWiki Update
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'openwiki/**'        # don't re-fire on the doc commits it makes
+  workflow_dispatch:          # also lets you run it by hand from the Actions tab
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install --global openwiki
+      - name: Run OpenWiki
+        run: openwiki --update --print
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          OPENWIKI_MODEL_ID: z-ai/glm-5.2
+          LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
+          LANGCHAIN_PROJECT: openwiki
+          LANGCHAIN_TRACING_V2: "true"
+      - uses: peter-evans/create-pull-request@v7
+        with:
+          add-paths: openwiki
+          branch: openwiki/update
+          commit-message: "docs: update OpenWiki"
+          title: "docs: update OpenWiki"
+          body: "Automated OpenWiki documentation update."
